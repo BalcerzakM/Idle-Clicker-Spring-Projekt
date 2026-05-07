@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>SpringSFG</title>
+</head>
+<body>
+<h2>Zaloguj się</h2>
+
+<div th:if="${param.error}" style="color: red;">
+    Błędny login lub hasło!
+</div>
+
+<div th:if="${param.logout}" style="color: green;">
+    Zostałeś wylogowany.
+</div>
+
+<form th:action="@{/mvc/login}" method="post">
+    <div>
+        <label>Użytkownik:</label>
+        <input type="text" name="username" required />
+    </div>
+    <div>
+        <label>Hasło:</label>
+        <input type="password" name="password" required />
+    </div>
+    <button type="submit">Zaloguj</button>
+</form>
+
+<br>
+
+</body>
+</html>
