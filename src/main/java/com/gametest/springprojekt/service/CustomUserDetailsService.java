@@ -1,7 +1,7 @@
-package com.gametest.sfgspringprojekt.service;
+package com.gametest.springprojekt.service;
 
-import com.gametest.sfgspringprojekt.model.Player;
-import com.gametest.sfgspringprojekt.repository.UserRepository;
+import com.gametest.springprojekt.model.UserEntity;
+import com.gametest.springprojekt.repository.UserRepository;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,7 +20,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Player player = userRepository.getByUsername(username);
+        UserEntity player = userRepository.getByUsername(username);
         if (player == null) throw new UsernameNotFoundException("Nie ma takiego użytkownika!");
 
         return User.withUsername(player.getUsername())
