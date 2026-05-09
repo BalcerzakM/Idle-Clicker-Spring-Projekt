@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.gametest</groupId>
-    <artifactId>SFGSpringProjekt</artifactId>
+    <artifactId>SpringProjekt</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>SFGSpringProjekt</name>
-    <description>SFGSpringProjekt</description>
+    <name>SpringProjekt</name>
+    <description>SpringProjekt</description>
     <url/>
     <licenses>
         <license/>
