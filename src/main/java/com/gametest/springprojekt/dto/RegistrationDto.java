@@ -10,7 +10,7 @@ import lombok.Data;
 public class RegistrationDto {
 
     @NotBlank(message = "To pole nie może być puste")
-    @Size(min=5, max=20)
+    @Size(min=5, max=20, message = "Login musi zawierać od 5 do 20 znaków")
     private String username;
 
     @NotBlank(message = "To pole nie może być puste")
@@ -18,6 +18,6 @@ public class RegistrationDto {
     private String email;
 
     @NotBlank(message = "To pole nie może być puste")
-    @Size(min=8, message = "Hasło musi mieć co najmniej 8 znakó")
+    @Size(min=8, message = "Hasło musi mieć co najmniej 8 znaków")
     private String password;
 }

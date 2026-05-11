@@ -48,6 +48,7 @@ public class RegistrationController {
             return "registration";
         }catch (EmailAlreadyExistsException e) {
             bindingResult.rejectValue("email", "error.email", e.getMessage());
+            return "registration";
         }
 
 

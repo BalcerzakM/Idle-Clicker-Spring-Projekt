@@ -6,6 +6,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(value = HttpStatus.CONFLICT)
 public class UsernameAlreadyExistsException extends Throwable {
     public UsernameAlreadyExistsException(String s) {
-        super("Użytkownik o nazwie: "+s+ "już istnieje");
+        super("Użytkownik o tej nazwie już istnieje");
     }
 }
