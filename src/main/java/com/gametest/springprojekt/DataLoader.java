@@ -1,10 +1,13 @@
 package com.gametest.springprojekt;
 
+import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -18,7 +21,7 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"));
+        UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"), List.of(new CharacterEntity()));
         userRepository.save(player);
     }
 }

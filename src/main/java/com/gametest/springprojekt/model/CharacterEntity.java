@@ -1,7 +1,6 @@
 package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.model.enums.CharacterClass;
-import com.gametest.springprojekt.model.enums.SlotType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,8 @@ public class CharacterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
     private String name;
     private CharacterClass characterClass;
@@ -32,9 +32,11 @@ public class CharacterEntity {
     private int luck;
     private int money;
     private int cristals;
-//    @OneToMany
-//    private Set<SlotType> equipment = new HashSet<>();
-//    @OneToMany
-//    private List<ItemEntity> items = new ArrayList<>();
+
+    @OneToMany(mappedBy = "player")
+    private Set<EquipmentItem> equipment = new HashSet<>();
+
+    @OneToMany(mappedBy = "player")
+    private List<BackpackItem> backpack = new ArrayList<>();
 
 }
