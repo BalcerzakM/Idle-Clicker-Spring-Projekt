@@ -15,8 +15,9 @@ public class QuestController {
         this.questService = questService;
     }
 
-//    @GetMapping
-//    public String showQuests(Model model) {
-//
-//    }
+    @GetMapping
+    public String showQuests(Model model) {
+
+        return "quests";
+    }
 }

@@ -1,5 +1,8 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.QuestDto;
+import com.gametest.springprojekt.model.CharacterEntity;
+import com.gametest.springprojekt.model.ItemEntity;
 import com.gametest.springprojekt.model.QuestEntity;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.repository.QuestRepository;
@@ -32,5 +35,35 @@ public class QuestService {
         randomQuestList.add(questList.get(random.nextInt(questList.size())));
 
         return randomQuestList;
+    }
+
+    public QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
+        //NIE MA JESZCZE AURY WIEC TYMCZASOWO NA SZTYWNO
+        int aura = 1; //character.getAura;
+
+        Random random = new Random();
+
+        int questTierVariable = quest.getQuestTier().getMultiplier();
+
+        //tutaj jakies algorytmy sie wykmini
+        //questTime raczej w sekundach
+        int questTime = questTierVariable*aura;
+
+        int moneyReward = questTierVariable*aura + random.nextInt(aura%character.getLuck());
+
+        int auraReward = questTierVariable*aura;
+        //ItemEntity itemReward = null;
+
+
+        QuestDto questDto = new QuestDto(
+                quest.getTitle(),
+                quest.getDescription(),
+                quest.getQuestTier(),
+                quest.getQuestType(),
+                quest.getOpponent().getName(),
+                questTime, moneyReward, auraReward//, itemReward
+            );
+
+        return questDto;
     }
 }
