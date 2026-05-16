@@ -33,7 +33,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"), List.of(new CharacterEntity()));
-        OpponentEntity opponent = new OpponentEntity(null, 1, 1, 1, 1, 1);
+        OpponentEntity opponent = new OpponentEntity(null, "test", 1, 1, 1, 1, 1);
         opponentRepository.save(opponent);
         QuestEntity quest1 = new QuestEntity(null, "test1", "desc1", QuestTier.EASY, QuestType.RIZZ_FIGHT, opponent);
         QuestEntity quest2 = new QuestEntity(null, "test2", "desc1", QuestTier.MEDIUM, QuestType.STRENGTH_FIGHT, opponent);

@@ -21,7 +21,8 @@ public class QuestService {
         this.questRepository = questRepository;
     }
 
-    public List<QuestEntity> getRandomQuestList() { //pobiera losowe 3 questy po jednym z kazdego tieru
+    //pobiera losowe 3 questy po jednym z kazdego tieru
+    public List<QuestEntity> getRandomQuestList() {
         Random random = new Random();
         List<QuestEntity> randomQuestList = new ArrayList<>();
 
@@ -37,7 +38,8 @@ public class QuestService {
         return randomQuestList;
     }
 
-    public QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
+    //generuje dto z parametrami questa na podstawie expa postaci
+    private QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
         //NIE MA JESZCZE AURY WIEC TYMCZASOWO NA SZTYWNO
         int aura = 1; //character.getAura;
 
@@ -65,5 +67,16 @@ public class QuestService {
             );
 
         return questDto;
+    }
+
+    //generuje dto i robi liste dto do controllera
+    public List<QuestDto> generateQuestDtoList(List<QuestEntity> questList, CharacterEntity character) {
+        List<QuestDto> questDtoList = new ArrayList<>();
+
+        for (QuestEntity quest : questList) {
+            questDtoList.add(generateQuestDto(quest, character));
+        }
+
+        return questDtoList;
     }
 }
