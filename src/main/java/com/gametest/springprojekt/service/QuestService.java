@@ -16,6 +16,7 @@ import java.util.Random;
 public class QuestService {
 
     private QuestRepository questRepository;
+    private Random random = new Random();
 
     public QuestService(QuestRepository questRepository) {
         this.questRepository = questRepository;
@@ -23,7 +24,6 @@ public class QuestService {
 
     //pobiera losowe 3 questy po jednym z kazdego tieru
     public List<QuestEntity> getRandomQuestList() {
-        Random random = new Random();
         List<QuestEntity> randomQuestList = new ArrayList<>();
 
         List<QuestEntity> questList = questRepository.findByQuestTier(QuestTier.EASY);
@@ -43,8 +43,6 @@ public class QuestService {
         //NIE MA JESZCZE AURY WIEC TYMCZASOWO NA SZTYWNO
         int aura = 1; //character.getAura;
 
-        Random random = new Random();
-
         int questTierVariable = quest.getQuestTier().getMultiplier();
 
         //tutaj jakies algorytmy sie wykmini
@@ -56,17 +54,15 @@ public class QuestService {
         int auraReward = questTierVariable*aura;
         //ItemEntity itemReward = null;
 
-
-        QuestDto questDto = new QuestDto(
+        return new QuestDto(
+                quest.getId(),
                 quest.getTitle(),
                 quest.getDescription(),
                 quest.getQuestTier(),
                 quest.getQuestType(),
                 quest.getOpponent().getName(),
                 questTime, moneyReward, auraReward//, itemReward
-            );
-
-        return questDto;
+        );
     }
 
     //generuje dto i robi liste dto do controllera

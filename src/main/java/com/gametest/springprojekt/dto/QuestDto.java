@@ -9,6 +9,8 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class QuestDto {
+    private long questId;
+
     private String questTitle;
 
     private String questDescription;
