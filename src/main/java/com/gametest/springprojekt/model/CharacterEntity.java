@@ -40,4 +40,8 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player")
     private List<BackpackItem> backpack = new ArrayList<>();
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "active_quest_id")
+    private QuestEntity activeQuest;
+
 }
