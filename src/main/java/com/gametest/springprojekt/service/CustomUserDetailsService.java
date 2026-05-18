@@ -20,8 +20,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserEntity player = userRepository.getByUsername(username);
-        if (player == null) throw new UsernameNotFoundException("Nie ma takiego użytkownika!");
+        UserEntity player = userRepository.getByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
 
         return User.withUsername(player.getUsername())
                 .password(player.getPassword())

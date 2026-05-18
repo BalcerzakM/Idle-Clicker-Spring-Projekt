@@ -10,6 +10,7 @@ import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.QuestRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
@@ -86,14 +87,13 @@ public class QuestService {
         return questDtoList;
     }
 
-    public ActiveQuestDto getActiveQuestDto(CharacterEntity character) throws NoActiveQuest {
 
+    public ActiveQuestDto getActiveQuestDto(CharacterEntity character) throws NoActiveQuest {
 
         if (character.getActiveQuest() == null){
             throw new NoActiveQuest("Gracz nie wybrał żadnego questa");
         }
         QuestEntity aq = character.getActiveQuest();
-
 
         Instant qEndTime = calculateQuestEndTime(this.calculateQuestDuration(character,aq));
 
@@ -114,4 +114,11 @@ public class QuestService {
         return questDuration;
     }
 
+    @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo
+    public QuestEntity setActiveQuest(CharacterEntity character, Long questId) {
+        QuestEntity quest = questRepository.findById(questId)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono questa"));
+        character.setActiveQuest(quest);
+        return quest;
+    }
 }
