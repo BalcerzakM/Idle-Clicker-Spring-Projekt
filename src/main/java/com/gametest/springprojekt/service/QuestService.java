@@ -4,7 +4,6 @@ import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.NoActiveQuest;
 import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.ItemEntity;
 import com.gametest.springprojekt.model.QuestEntity;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.repository.CharacterRepository;
@@ -13,18 +12,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
 @Service
 public class QuestService {
 
-    private QuestRepository questRepository;
-    private Random random = new Random();
-    private CharacterRepository characterRepository;
+    private final QuestRepository questRepository;
+    private final Random random = new Random();
+    private final CharacterRepository characterRepository; // Intelij nie wie, że metoda setActiveQuest modyfikuje też repo
 
     public QuestService(QuestRepository questRepository, CharacterRepository characterRepository) {
         this.questRepository = questRepository;
@@ -49,19 +46,18 @@ public class QuestService {
 
     //generuje dto z parametrami questa na podstawie expa postaci
     private QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
-        //NIE MA JESZCZE AURY WIEC TYMCZASOWO NA SZTYWNO
-        int aura = 1; //character.getAura;
+
+        int aura = character.getAura();
 
         int questTierVariable = quest.getQuestTier().getMultiplier(); //multiplayer z enuma
 
-        //tutaj jakies algorytmy sie wykmini
-        //questTime raczej w sekundach
-        //liczenie questTimu fajnie aby było jako osobna metoda bo to często będzie się przewijało
-        int questTime = questTierVariable*aura;
 
-        int moneyReward = questTierVariable*aura + random.nextInt(aura%character.getLuck());
+        long questDuration = calculateQuestDuration(character, quest);
 
-        int auraReward = questTierVariable*aura;
+        int moneyReward = quest.calculateMoneyReward(character);
+
+        int auraReward = quest.calculateAuraReward(character);
+
         //ItemEntity itemReward = null;
 
         return new QuestDto(
@@ -71,7 +67,7 @@ public class QuestService {
                 quest.getQuestTier(),
                 quest.getQuestType(),
                 quest.getOpponent().getName(),
-                questTime, moneyReward, auraReward
+                questDuration, moneyReward, auraReward
 
         );
     }
@@ -95,7 +91,7 @@ public class QuestService {
         }
         QuestEntity aq = character.getActiveQuest();
 
-        Instant qEndTime = calculateQuestEndTime(this.calculateQuestDuration(character,aq));
+        Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,aq));
 
         ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(), qEndTime , aq.getImagePath() );
 
@@ -107,7 +103,7 @@ public class QuestService {
 
     }
 
-    private long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
+    private static long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
         int aura = character.getAura();
         int questTierVariable = quest.getQuestTier().getMultiplier();
         long questDuration = questTierVariable*aura;

@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.model.enums.CharacterClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -25,6 +26,7 @@ public class CharacterEntity {
     private UserEntity user;
     private String name;
     private CharacterClass characterClass;
+    private int auraLvl;
     private int aura;
     private int rizz;
     private int strength;
@@ -43,5 +45,15 @@ public class CharacterEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "active_quest_id")
     private QuestEntity activeQuest;
+
+    /**
+     * metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
+     * @param quest z jakiego questa przyznać nagrody
+     */
+    public void grantQuestReward(QuestEntity quest) {// do ewentualnej generalizacji(nagrody z innych źródeł)
+        this.aura += quest.calculateAuraReward(this);
+        this.money += quest.calculateMoneyReward(this);
+        this.activeQuest = null;
+    }
 
 }

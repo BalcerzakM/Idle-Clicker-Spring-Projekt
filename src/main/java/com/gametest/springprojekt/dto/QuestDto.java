@@ -21,7 +21,7 @@ public class QuestDto {
 
     private String opponentName;
 
-    private int questTime;
+    private long questTime;
 
     private int moneyReward;
 
