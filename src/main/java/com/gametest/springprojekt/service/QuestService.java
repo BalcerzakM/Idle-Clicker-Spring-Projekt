@@ -61,7 +61,8 @@ public class QuestService {
                 quest.getQuestTier(),
                 quest.getQuestType(),
                 quest.getOpponent().getName(),
-                questTime, moneyReward, auraReward//, itemReward
+                questTime, moneyReward, auraReward, ""
+
         );
     }
 
