@@ -1,5 +1,6 @@
-package com.gametest.springprojekt.controller.mvc;
+package com.gametest.springprojekt.controller.api;
 
+import com.gametest.springprojekt.model.enums.CharacterClass;
 import org.springframework.ui.Model;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
@@ -12,24 +13,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Controller
-@RequestMapping("/mvc/quest")
+@RestController
+@RequestMapping("/api/quest")
 public class QuestController {
     private final QuestService questService;
     private final UserRepository userRepository;
+
 
     public QuestController(QuestService questService,  UserRepository userRepository) {
         this.questService = questService;
         this.userRepository = userRepository;
     }
 
-    @GetMapping
-    public String showQuests(Model model, Authentication authentication) {
+
+    @GetMapping()
+    public List<QuestDto> showQuests(Authentication authentication) {
         String username = authentication.getName();
 
         UserEntity user = userRepository.getByUsername(username);
@@ -41,8 +45,6 @@ public class QuestController {
 
         List<QuestDto> quests = questService.generateQuestDtoList(questlist, character);
 
-        model.addAttribute("quests", quests);
-
-        return "quests";
+        return quests;
     }
 }
