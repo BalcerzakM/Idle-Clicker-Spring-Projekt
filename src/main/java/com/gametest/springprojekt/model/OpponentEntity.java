@@ -25,4 +25,6 @@ public class OpponentEntity {
     private int baseAgility;
     private int baseEndurance;
     private int baseLuck;
+
+    private String imagePath;
 }

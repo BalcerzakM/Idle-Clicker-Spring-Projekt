@@ -27,6 +27,8 @@ public class QuestDto {
 
     private int auraReward;
 
+    private String imagePath;
+
 //    /* mozliwosc dropniecia itemu, bedzie moglo byc nullem */
 //    private ItemEntity itemReward;
 }

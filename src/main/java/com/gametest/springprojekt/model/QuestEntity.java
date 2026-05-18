@@ -30,4 +30,6 @@ public class QuestEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "opponent_id")
     private OpponentEntity opponent;
+
+    private String imagePath;
 }
