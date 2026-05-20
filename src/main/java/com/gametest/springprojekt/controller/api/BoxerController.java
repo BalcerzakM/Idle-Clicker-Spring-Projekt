@@ -24,14 +24,20 @@ public class BoxerController {
         this.boxerService = boxerService;
     }
 
+    //to jeszcze WIP, narazie tylko do sprawdzenia czy dziala
     @GetMapping("/play")
     public BoxerResultDto playBoxer() {
+        return boxerService.playBoxer(getCurrentCharacter());
+    }
+
+    private CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
+
         UserEntity user = userRepository.getByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
-        CharacterEntity character = user.getCharacters().getFirst();
 
-        return boxerService.playBoxer(character);
+        // na razie na sztywno, z listy pierwsza postać po prostu
+        return user.getCharacters().getFirst();
     }
 }
