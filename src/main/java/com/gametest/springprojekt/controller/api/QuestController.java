@@ -1,13 +1,12 @@
 package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.ActiveQuestDto;
+import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.exception.NoActiveQuest;
-import com.gametest.springprojekt.model.enums.CharacterClass;
-import org.springframework.http.HttpStatus;
+import com.gametest.springprojekt.service.CombatService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.ui.Model;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.QuestEntity;
@@ -15,10 +14,10 @@ import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.repository.UserRepository;
 import com.gametest.springprojekt.service.QuestService;
 import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -26,11 +25,13 @@ import java.util.List;
 public class QuestController {
     private final QuestService questService;
     private final UserRepository userRepository;
+    private final CombatService combatService;
 
 
-    public QuestController(QuestService questService,  UserRepository userRepository) {
+    public QuestController(QuestService questService,  UserRepository userRepository, CombatService combatService) {
         this.questService = questService;
         this.userRepository = userRepository;
+        this.combatService = combatService;
     }
 
 
@@ -41,9 +42,7 @@ public class QuestController {
 
         List<QuestEntity> questlist = questService.getRandomQuestList();
 
-        List<QuestDto> quests = questService.generateQuestDtoList(questlist, character);
-
-        return quests;
+        return questService.generateQuestDtoList(questlist, character);
     }
 
     @GetMapping("/active")
@@ -79,6 +78,13 @@ public class QuestController {
                 .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
 
         // na razie na sztywno, z listy pierwsza postać po prostu
-        return user.getCharacters().get(0);
+        return user.getCharacters().getFirst();
+    }
+
+    @PostMapping("/combat") //
+    public ResponseEntity<CombatDto> getCombatSequence() {
+        CharacterEntity character = this.getCurrentCharacter();
+        CombatDto combatDto =combatService.startFistBattle(character);
+        return ResponseEntity.ok(combatDto);
     }
 }

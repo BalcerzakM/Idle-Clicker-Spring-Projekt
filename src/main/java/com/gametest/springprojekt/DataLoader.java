@@ -12,7 +12,6 @@ import com.gametest.springprojekt.repository.OpponentRepository;
 import com.gametest.springprojekt.repository.QuestRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -45,7 +44,7 @@ public class DataLoader implements CommandLineRunner {
         questRepository.saveAll(List.of(quest1,quest2,quest3));
         UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"),List.of() );
         userRepository.save(player);
-        CharacterEntity character1 = new CharacterEntity(null,player, "test", CharacterClass.NERD,4,67,67,67,67,67,67,67, Set.of(),List.of(), quest1);
+        CharacterEntity character1 = new CharacterEntity(null,player, "test", CharacterClass.NERD,4,3,67,67,67,67,67,67,67, Set.of(),List.of(), quest1);
         player.setCharacters(List.of(character1));
         characterRepository.save(character1);
     }

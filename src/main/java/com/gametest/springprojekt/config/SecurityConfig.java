@@ -28,6 +28,7 @@ public class SecurityConfig {
                         .loginProcessingUrl("/mvc/login") //musi być bo inny endpoint niż domyślny
                         .defaultSuccessUrl("/mvc/main") //bez true bo nie chcemy wymuszać przekierowania
                         .permitAll())
+                .csrf(csrf -> csrf.disable()) // USUNĄĆ NA KONICEC, TO JEST TYLKO NA POTRZEBY TESTOWANIA Z POSTMANEM!!!!!!!!!!!!!!!!!!!!!!!!
                 .httpBasic(basic -> basic.authenticationEntryPoint((request, response, authException) -> {
                     if (request.getRequestURI().startsWith("/api/")) {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

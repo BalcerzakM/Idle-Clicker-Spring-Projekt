@@ -83,6 +83,12 @@ public class QuestService {
         return questDtoList;
     }
 
+    /**
+     * zwraca aktualnego questa wraz z policzonym czasem zakończenia
+     * @param character
+     * @return
+     * @throws NoActiveQuest
+     */
 
     public ActiveQuestDto getActiveQuestDto(CharacterEntity character) throws NoActiveQuest {
 
@@ -106,8 +112,7 @@ public class QuestService {
     private static long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
         int aura = character.getAura();
         int questTierVariable = quest.getQuestTier().getMultiplier();
-        long questDuration = questTierVariable*aura;
-        return questDuration;
+        return (long) questTierVariable*aura;
     }
 
     @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo

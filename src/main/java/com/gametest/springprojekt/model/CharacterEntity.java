@@ -48,11 +48,12 @@ public class CharacterEntity {
 
     /**
      * metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
-     * @param quest z jakiego questa przyznać nagrody
+     * @param bonusAura
+     * @param bonusMoney
      */
-    public void grantQuestReward(QuestEntity quest) {// do ewentualnej generalizacji(nagrody z innych źródeł)
-        this.aura += quest.calculateAuraReward(this);
-        this.money += quest.calculateMoneyReward(this);
+    public void grantQuestReward(int bonusAura, int bonusMoney) {// do ewentualnej generalizacji(nagrody z innych źródeł)
+        this.aura += bonusAura;
+        this.money += bonusMoney;
         this.activeQuest = null;
     }
 
