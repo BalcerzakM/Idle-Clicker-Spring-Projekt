@@ -25,6 +25,7 @@ public class CharacterEntity {
     private UserEntity user;
     private String name;
     private CharacterClass characterClass;
+    private int auraLvl;
     private int aura;
     private int rizz;
     private int strength;
@@ -40,8 +41,19 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player")
     private List<BackpackItem> backpack = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
-    private QuestEntity activeQuest;
+    private ActiveQuestEntity activeQuest;
+
+    /**
+     * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
+     * @param bonusAura
+     * @param bonusMoney
+     */
+    public void grantQuestReward(int bonusAura, int bonusMoney) {// do ewentualnej generalizacji (nagrody z innych źródeł)
+        this.aura += bonusAura;
+        this.money += bonusMoney;
+        this.activeQuest = null;
+    }
 
 }
