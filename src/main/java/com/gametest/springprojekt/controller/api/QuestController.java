@@ -61,10 +61,10 @@ public class QuestController {
     }
 
     @PostMapping("/active")
-    public ResponseEntity<QuestEntity> setActiveQuest(@RequestBody Long id) {
+    public ResponseEntity<ActiveQuestDto> setActiveQuest(@RequestBody Long id) {
         CharacterEntity character = this.getCurrentCharacter();
 
-        QuestEntity quest = questService.setActiveQuest(character, id);
+        ActiveQuestDto quest = questService.setActiveQuest(character, id);
 
         return ResponseEntity.ok(quest);
     }

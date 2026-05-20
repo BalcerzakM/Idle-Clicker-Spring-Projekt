@@ -1,6 +1,5 @@
 package com.gametest.springprojekt.model;
 
-import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.model.enums.CharacterClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -42,16 +41,16 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player")
     private List<BackpackItem> backpack = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
-    private QuestEntity activeQuest;
+    private ActiveQuestEntity activeQuest;
 
     /**
-     * metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
+     * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
      * @param bonusAura
      * @param bonusMoney
      */
-    public void grantQuestReward(int bonusAura, int bonusMoney) {// do ewentualnej generalizacji(nagrody z innych źródeł)
+    public void grantQuestReward(int bonusAura, int bonusMoney) {// do ewentualnej generalizacji (nagrody z innych źródeł)
         this.aura += bonusAura;
         this.money += bonusMoney;
         this.activeQuest = null;

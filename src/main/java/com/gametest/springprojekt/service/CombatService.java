@@ -2,14 +2,12 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.CombatDto;
-import com.gametest.springprojekt.exception.NoActiveQuest;
 import com.gametest.springprojekt.exception.QuestStillActiveException;
+import com.gametest.springprojekt.model.ActiveQuestEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.OpponentEntity;
-import com.gametest.springprojekt.model.QuestEntity;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.QuestRepository;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,7 +36,7 @@ public class CombatService {
             throw new QuestStillActiveException();
         }
 
-        QuestEntity quest = character.getActiveQuest();
+        ActiveQuestEntity quest = character.getActiveQuest();
 
         List<String> combatSequence = new ArrayList<>();
         int charStr = character.getStrength();
@@ -48,8 +46,8 @@ public class CombatService {
          int oppStr = opponent.getBaseStrength(); //tutaj mnożniki do obrażeń przeciwnika, chyba że zrobić dziedziczenie i wtedy jedena metoda do walk Pvp i pve
          int oppHp = opponent.getBaseEndurance(); // tu do HP
 
-        int bonusAura = quest.calculateAuraReward(character); //liczenie nagród lvla
-        int bonusMoney = quest.calculateMoneyReward(character); // liczenie nagród siana nie wiem czy nie lepiej tego przekazywać jakoś pbo to często liczone będzie
+        int bonusAura = quest.getBonusAura(); //liczenie nagród lvla
+        int bonusMoney = quest.getBonusMoney(); // liczenie nagród siana nie wiem czy nie lepiej tego przekazywać jakoś pbo to często liczone będzie
 
         combatSequence.add("Zaczęto walkę z "+ opponent.getName());
          while (charHp > 0 && oppHp > 0) {

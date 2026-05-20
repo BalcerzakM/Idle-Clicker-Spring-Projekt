@@ -3,6 +3,7 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.NoActiveQuest;
+import com.gametest.springprojekt.model.ActiveQuestEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.QuestEntity;
 import com.gametest.springprojekt.model.enums.QuestTier;
@@ -95,18 +96,15 @@ public class QuestService {
         if (character.getActiveQuest() == null){
             throw new NoActiveQuest("Gracz nie wybrał żadnego questa");
         }
-        QuestEntity aq = character.getActiveQuest();
+        ActiveQuestEntity aq = character.getActiveQuest();
 
-        Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,aq));
-
-        ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(), qEndTime , aq.getImagePath() );
+        ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(), aq.getEndTime() , aq.getImagePath() );
 
         return activeQuest;
     }
 
     private Instant calculateQuestEndTime(long questDuration) {
         return Instant.now().plusSeconds(questDuration);
-
     }
 
     private static long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
@@ -116,10 +114,17 @@ public class QuestService {
     }
 
     @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo
-    public QuestEntity setActiveQuest(CharacterEntity character, Long questId) {
+    public ActiveQuestDto setActiveQuest(CharacterEntity character, Long questId) {
         QuestEntity quest = questRepository.findById(questId)
                 .orElseThrow(() -> new RuntimeException("Nie znaleziono questa"));
-        character.setActiveQuest(quest);
-        return quest;
+
+        Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,quest));
+
+        int bonusMoney = quest.calculateMoneyReward(character);
+        int bonusAura = quest.calculateAuraReward(character);
+
+        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),quest.getOpponent(),qEndTime, quest.getImagePath(),bonusMoney,bonusAura));
+
+        return new ActiveQuestDto(quest.getTitle(), qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
     }
 }
