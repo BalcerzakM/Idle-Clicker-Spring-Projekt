@@ -18,7 +18,6 @@ function NavBar() {
                 <button type="button">Szatnia</button>
                 <button type="button">Palarnia</button>  
             </div>
-
         </div>
     )
 }
