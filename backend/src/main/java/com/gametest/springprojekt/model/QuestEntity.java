@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Random;
+
 @Data
 @Entity
 @AllArgsConstructor
@@ -32,4 +34,14 @@ public class QuestEntity {
     private OpponentEntity opponent;
 
     private String imagePath;
+
+    public int calculateMoneyReward(CharacterEntity character) {
+        Random random = new Random();
+        int aura = character.getAuraLvl();
+        return this.getQuestTier().getMultiplier() * aura + random.nextInt(aura%character.getLuck()); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
+    }
+    public int calculateAuraReward(CharacterEntity character) {
+        return this.getQuestTier().getMultiplier()* character.getAuraLvl();
+    }
+
 }
