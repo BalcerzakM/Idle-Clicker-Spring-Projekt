@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +26,9 @@ public class BoxerController {
     }
 
     //to jeszcze WIP, narazie tylko do sprawdzenia czy dziala
-    @GetMapping("/play")
-    public BoxerResultDto playBoxer() {
-        return boxerService.playBoxer(getCurrentCharacter());
+    @PostMapping("/play")
+    public ResponseEntity<BoxerResultDto> playBoxer() {
+        return ResponseEntity.ok(boxerService.playBoxer(getCurrentCharacter()));
     }
 
     private CharacterEntity getCurrentCharacter() {
