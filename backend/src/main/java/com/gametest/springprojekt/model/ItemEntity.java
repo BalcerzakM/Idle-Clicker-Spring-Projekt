@@ -19,6 +19,7 @@ public class ItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    private String description;
     private SlotType slotType;
     private int bonusRizz;
     private int bonusStrength;
