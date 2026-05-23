@@ -1,4 +1,5 @@
 import barmanHover from "../assets/scenes/hover/barman_hover.png";
+import szatniarzHover from "../assets/scenes/hover/szatniarz_hover.png";
 
 function ClubMain() {
 	return (
@@ -14,6 +15,18 @@ function ClubMain() {
 			</div>
 
 			<p className="clubMain-barmanTextBox">Barman</p>
+
+			<div className="clubMain-szatniarz">
+				<img
+					src={szatniarzHover}
+					alt="szatniarz_hover"
+					width={140}
+					height={256}
+					className="hover-image"
+				/>
+			</div>
+
+			<p className="clubMain-szatniarzTextBox">Szatniarz</p>
 		</div>
 	);
 }

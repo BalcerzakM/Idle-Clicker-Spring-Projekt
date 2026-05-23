@@ -295,11 +295,6 @@ body::before {
 	z-index: 2;
 }
 
-.hover-image {
-	display: none;
-	cursor: pointer;
-}
-
 .clubMain-barman:hover .hover-image {
 	display: block;
 }
@@ -307,4 +302,58 @@ body::before {
 .clubMain-barman:hover + .clubMain-barmanTextBox {
 	display: block;
 	opacity: 0.95;
+}
+
+.clubMain-szatniarzTextBox {
+	display: none;
+
+	font-size: 16px;
+
+	position: absolute;
+	top: 220px;
+	left: 200px;
+
+	width: 82px;
+
+	padding: 1px 6px;
+
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
+
+	background: rgba(10, 12, 18, 0.92);
+
+	color: #d2c1af;
+
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+	backdrop-filter: blur(2px);
+
+	z-index: 2;
+}
+
+.clubMain-szatniarz {
+	position: absolute;
+	top: 253px;
+	left: 165px;
+
+	width: 100px;
+	height: 210px;
+
+	z-index: 2;
+}
+
+.clubMain-szatniarz:hover + .clubMain-szatniarzTextBox {
+	display: block;
+	opacity: 0.95;
+}
+
+.clubMain-szatniarz:hover .hover-image {
+	display: block;
+}
+
+.hover-image {
+	display: none;
+	cursor: pointer;
 }
