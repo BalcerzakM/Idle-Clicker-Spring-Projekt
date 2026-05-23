@@ -31,7 +31,7 @@ public class ItemShopController {
     //do debugu
     @PostMapping("/refresh")
     public void refreshOffer() {
-        itemShopService.refreshShopOffer();
+        itemShopService.refreshShopOffers();
     }
 
 

@@ -53,6 +53,6 @@ public class DataLoader implements CommandLineRunner {
         itemRepository.save(new ItemEntity(null, "item3", "opis", SlotType.EMBLEM, 1, 1, 1, 1, 67, 1, ""));
         itemRepository.save(new ItemEntity(null, "item4", "opis", SlotType.LOWER_BODY, 1, 1, 1, 1, 1, 1, ""));
 
-        itemShopService.refreshShopOffer();
+        itemShopService.refreshShopOffers();
     }
 }

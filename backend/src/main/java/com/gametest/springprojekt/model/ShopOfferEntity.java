@@ -19,6 +19,11 @@ public class ShopOfferEntity {
 
     private LocalDate offerDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id")
     private ItemEntity item;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id")
+    private CharacterEntity character;
 }
