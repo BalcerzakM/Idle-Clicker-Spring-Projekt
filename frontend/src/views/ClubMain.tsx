@@ -7,8 +7,8 @@ function ClubMain() {
 				<img
 					src={barmanHover}
 					alt="barman_hover"
-					width={126}
-					height={141}
+					width={131}
+					height={144}
 					className="hover-image"
 				/>
 			</div>
