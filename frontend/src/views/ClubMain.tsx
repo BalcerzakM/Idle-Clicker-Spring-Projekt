@@ -1,7 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import barmanHover from "../assets/scenes/hover/barman_hover.png";
 import szatniarzHover from "../assets/scenes/hover/szatniarz_hover.png";
 
 function ClubMain() {
+	const navigate = useNavigate();
 	return (
 		<div className="clubMain">
 			<div className="clubMain-barman">
@@ -11,6 +13,7 @@ function ClubMain() {
 					width={131}
 					height={144}
 					className="hover-image"
+					onClick={() => navigate("/barman")}
 				/>
 			</div>
 
@@ -23,6 +26,8 @@ function ClubMain() {
 					width={140}
 					height={256}
 					className="hover-image"
+					onClick={() => navigate("/shop")}
+
 				/>
 			</div>
 

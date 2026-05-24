@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react";
+import {Routes, Route} from "react-router-dom"
 import NavBar from "./components/NavBar";
 import ClubMain from "./views/ClubMain";
+import Shop from "./views/Shop";
+import Barman from "./views/Barman";
+import Player from "./views/Player";
+import Outside from "./views/Outside";
 // import "./App.css";
 
 function App() {
@@ -28,7 +33,13 @@ function App() {
 			<div id="root" className="app-root">
 				<div ref={gameRef} className="game-content">
 					<NavBar />
-					<ClubMain />
+					<Routes>
+						<Route index element={<ClubMain/>}/>
+						<Route path="/shop" element={<Shop/>}/>
+						<Route path="/barman" element={<Barman/>}/>
+						<Route path="/player" element={<Player/>}/>
+						<Route path="/outside" element={<Outside/>}/>
+					</Routes>
 				</div>
 			</div>
 		</div>
