@@ -1,6 +1,8 @@
 package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ShopItemDto;
+import com.gametest.springprojekt.exception.ItemNotFoundException;
+import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
 import com.gametest.springprojekt.model.BaseItemEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.ItemEntity;
@@ -15,10 +17,8 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemShopService {
@@ -37,10 +37,10 @@ public class ItemShopService {
     }
 
     //sciaga dzisiejsza oferte z bazy danych
-    public List<ShopItemDto> getTodayShopItemDto() {
+    public List<ShopItemDto> getTodayShopItemDto(CharacterEntity character) {
         LocalDate today = LocalDate.now();
 
-        List<ShopOfferEntity> offers = shopOfferRepository.findByOfferDate(today);
+        List<ShopOfferEntity> offers = shopOfferRepository.findByCharacterAndOfferDate(character, today);
 
         List<ShopItemDto> shopItemDtos = new ArrayList<>();
 
@@ -51,21 +51,32 @@ public class ItemShopService {
         return shopItemDtos;
     }
 
+    //WIP narazie do testow
+    public ShopItemDto buyItemFromOffer(CharacterEntity character, Long shopOfferId) {
+        ShopOfferEntity shopOffer = shopOfferRepository.findById(shopOfferId)
+                .orElseThrow(() -> new ItemNotFoundException("Nie znaleziono przedmiotu o podanym ID"));
+
+        shopOfferRepository.delete(shopOffer);
+        shopOfferRepository.save(generateRandomShopOffer(character));
+
+        return generateShopItemDto(shopOffer);
+    }
+
     //generuje dto na podstawie oferty sciagnietej z bazy
     private ShopItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
         ItemEntity item = shopOfferEntity.getItem();
         return new ShopItemDto(
-                item.getId(),
-                item.getName(),
-                item.getDescription(),
-                item.getSlotType(),
+                shopOfferEntity.getId(),
+                item.getBaseItem().getName(),
+                item.getBaseItem().getDescription(),
+                item.getBaseItem().getSlotType(),
                 item.getBonusRizz(),
                 item.getBonusStrength(),
                 item.getBonusAgility(),
                 item.getBonusEndurance(),
                 item.getBonusLuck(),
                 item.getPrice(),
-                item.getImagePath()
+                item.getBaseItem().getImagePath()
         );
     }
 
@@ -79,41 +90,78 @@ public class ItemShopService {
             //nad tym trzeba bedzie sie zastanowic
             shopOfferRepository.deleteByCharacter(character);
 
-            List<ShopOfferEntity> offers = new ArrayList<>();
-
-            for (int i = 0; i < NUMBER_OF_SHOP_ITEMS; i++) {
-                offers.add(generateRandomShopOffer(character));
-            }
-
-            shopOfferRepository.saveAll(offers);
+            shopOfferRepository.saveAll(generateRandomShopOffers(character));
         }
     }
 
-    //tworzy jeden item do oferty
+    //generuje jeden item do oferty bez powtarzajacych sie baseItem, uzywana po np. kupieniu itema do uzupelnienia oferty
     private ShopOfferEntity generateRandomShopOffer(CharacterEntity character) {
         List<ShopOfferEntity> presentOffers = shopOfferRepository.findByCharacterAndOfferDate(character, LocalDate.now());
 
+        Set<Long> usedBaseItemIds = presentOffers.stream().map(offer -> offer
+                .getItem()
+                .getBaseItem()
+                .getId()).collect(Collectors.toSet());
+
         List<BaseItemEntity> baseItems = baseItemRepository.findAll();
 
-        BaseItemEntity basicItem = baseItems.get(random.nextInt(baseItems.size()));
+        List<BaseItemEntity> availableBaseItems = baseItems.stream()
+                .filter(item -> !usedBaseItemIds
+                        .contains(item.getId())).toList();
 
-        return new ShopOfferEntity(null, LocalDate.now(), generateItemEntity(basicItem, character), character);
+        if (availableBaseItems.isEmpty()) {
+            throw new NotEnoughAvailableBaseItemsException("Brak dostepnych base itemow do wygenerowania oferty!");
+        }
+
+        BaseItemEntity basicItem = availableBaseItems.get(random.nextInt(availableBaseItems.size()));
+
+        ItemEntity item = generateItemEntity(basicItem, character);
+
+        return new ShopOfferEntity(null, LocalDate.now(), item, character);
+    }
+
+    //tworzy full zestaw oferty, oddzielna metoda by zapobiec duplikatom, ta jest uzywana do pelnego refresha ofert
+    private List<ShopOfferEntity> generateRandomShopOffers(CharacterEntity character) {
+        List<BaseItemEntity> baseItems = baseItemRepository.findAll();
+
+        if (baseItems.size() < NUMBER_OF_SHOP_ITEMS) {
+            throw new NotEnoughAvailableBaseItemsException("Za malo dostepnych base itemow do wygenerowania oferty!");
+        }
+
+        Collections.shuffle(baseItems, random);
+
+        List<ShopOfferEntity> offers = new ArrayList<>();
+
+        for (int i = 0; i < NUMBER_OF_SHOP_ITEMS; i++) {
+            BaseItemEntity baseItem = baseItems.get(i);
+
+            ShopOfferEntity offer = new ShopOfferEntity(
+                    null,
+                    LocalDate.now(),
+                    generateItemEntity(baseItem, character),
+                    character
+            );
+            offers.add(offer);
+        }
+
+        return offers;
     }
 
     //tworzy item na podstawie basicItema z dynamicznymi statystykami, na podstawie aury itp, tutaj da sie algorytmy do liczenia tego
     private ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character) {
         return new ItemEntity(
                 null,
-                baseItemEntity.getName(),
-                baseItemEntity.getDescription(),
-                baseItemEntity.getSlotType(),
+                //baseItemEntity.getName(),
+                //baseItemEntity.getDescription(),
+                //baseItemEntity.getSlotType(),
                 baseItemEntity.getBaseRizz() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseStrength() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseAgility() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseEndurance() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseLuck() + random.nextInt(character.getAura()),
                 baseItemEntity.getBasePrice() + random.nextInt(character.getAura()),
-                baseItemEntity.getImagePath()
+                //baseItemEntity.getImagePath(),
+                baseItemEntity
         );
     }
 

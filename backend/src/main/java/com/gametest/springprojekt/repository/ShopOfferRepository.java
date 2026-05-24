@@ -14,4 +14,5 @@ public interface ShopOfferRepository extends JpaRepository<ShopOfferEntity, Long
     void deleteByCharacter(CharacterEntity character);
 
     List<ShopOfferEntity> findByCharacterAndOfferDate(CharacterEntity character, LocalDate date);
+
 }

@@ -21,16 +21,16 @@ public class DataLoader implements CommandLineRunner {
     private final QuestRepository questRepository;
     private final OpponentRepository opponentRepository;
     private final CharacterRepository characterRepository;
-    private final ItemRepository itemRepository;
+    private final BaseItemRepository baseItemRepository;
     private final ItemShopService itemShopService;
 
-    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder,  QuestRepository questRepository,  OpponentRepository opponentRepository, CharacterRepository characterRepository,  ItemRepository itemRepository,  ItemShopService itemShopService) {
+    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder,  QuestRepository questRepository,  OpponentRepository opponentRepository, CharacterRepository characterRepository,  BaseItemRepository baseItemRepository,  ItemShopService itemShopService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.questRepository = questRepository;
         this.opponentRepository = opponentRepository;
         this.characterRepository = characterRepository;
-        this.itemRepository = itemRepository;
+        this.baseItemRepository = baseItemRepository;
         this.itemShopService = itemShopService;
     }
 
@@ -48,10 +48,10 @@ public class DataLoader implements CommandLineRunner {
         player.setCharacters(List.of(character1));
         characterRepository.save(character1);
 
-        itemRepository.save(new ItemEntity(null, "item1", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, ""));
-        itemRepository.save(new ItemEntity(null, "item2", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, ""));
-        itemRepository.save(new ItemEntity(null, "item3", "opis", SlotType.EMBLEM, 1, 1, 1, 1, 67, 1, ""));
-        itemRepository.save(new ItemEntity(null, "item4", "opis", SlotType.LOWER_BODY, 1, 1, 1, 1, 1, 1, ""));
+        baseItemRepository.save(new BaseItemEntity(null, "item1", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, ""));
+        baseItemRepository.save(new BaseItemEntity(null, "item2", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, ""));
+        baseItemRepository.save(new BaseItemEntity(null, "item3", "opis", SlotType.EMBLEM, 1, 1, 1, 1, 67, 1, ""));
+        baseItemRepository.save(new BaseItemEntity(null, "item4", "opis", SlotType.LOWER_BODY, 1, 1, 1, 1, 1, 1, ""));
 
         itemShopService.refreshShopOffers();
     }

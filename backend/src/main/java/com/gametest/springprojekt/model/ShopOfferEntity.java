@@ -19,7 +19,7 @@ public class ShopOfferEntity {
 
     private LocalDate offerDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "item_id")
     private ItemEntity item;
 
