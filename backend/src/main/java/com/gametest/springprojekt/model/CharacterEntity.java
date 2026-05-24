@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import com.gametest.springprojekt.model.enums.CharacterClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -16,6 +17,9 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CharacterEntity {
+    @Transient
+    private final int MAX_BACKPACK_SLOTS = 5;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -38,7 +42,7 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player")
     private Set<EquipmentItem> equipment = new HashSet<>();
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<BackpackItem> backpack = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -56,4 +60,17 @@ public class CharacterEntity {
         this.activeQuest = null;
     }
 
+    //dodanie itema do plecaka
+    public void addItemToBackpack(ItemEntity item) {
+        if (backpack.size() >= MAX_BACKPACK_SLOTS) {
+            throw new BackpackIsAlreadyFullException("Plecak jest pelny!");
+        }
+
+        backpack.add(new BackpackItem(null, this, item));
+    }
+
+    //to juz wstepnie na przyszlosc
+    public void removeItemFromBackpack(BackpackItem backpackItem) {
+        backpack.remove(backpackItem);
+    }
 }

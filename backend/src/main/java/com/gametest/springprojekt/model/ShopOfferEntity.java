@@ -19,7 +19,7 @@ public class ShopOfferEntity {
 
     private LocalDate offerDate;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "item_id")
     private ItemEntity item;
 

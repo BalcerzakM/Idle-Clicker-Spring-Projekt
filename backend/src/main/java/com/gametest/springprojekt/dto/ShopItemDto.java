@@ -13,11 +13,11 @@ public class ShopItemDto {
     private String itemDescription;
     private SlotType slotType;
 
-    private int bonusRizz;
-    private int bonusStrength;
-    private int bonusAgility;
-    private int bonusEndurance;
-    private int bonusLuck;
+    private int totalRizz;
+    private int totalStrength;
+    private int totalAgility;
+    private int totalEndurance;
+    private int totalLuck;
 
     private int price;
 

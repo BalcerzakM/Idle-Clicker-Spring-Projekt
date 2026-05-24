@@ -15,16 +15,12 @@ public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    //private String name;
-    //private String description;
-    //private SlotType slotType;
-    private int bonusRizz;
-    private int bonusStrength;
-    private int bonusAgility;
-    private int bonusEndurance;
-    private int bonusLuck;
+    private int totalRizz;
+    private int totalStrength;
+    private int totalAgility;
+    private int totalEndurance;
+    private int totalLuck;
     private int price;
-    //private String imagePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "base_item_id")

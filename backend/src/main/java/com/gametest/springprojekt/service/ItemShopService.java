@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ShopItemDto;
+import com.gametest.springprojekt.exception.InsufficientMoneyException;
 import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
 import com.gametest.springprojekt.model.BaseItemEntity;
@@ -51,15 +52,30 @@ public class ItemShopService {
         return shopItemDtos;
     }
 
-    //WIP narazie do testow
+    //kupowanie itemow, odejmuje pieniadze, usuwa oferte, generuje nowa i dodaje item do plecaka
+    @Transactional
     public ShopItemDto buyItemFromOffer(CharacterEntity character, Long shopOfferId) {
         ShopOfferEntity shopOffer = shopOfferRepository.findById(shopOfferId)
                 .orElseThrow(() -> new ItemNotFoundException("Nie znaleziono przedmiotu o podanym ID"));
 
+        ItemEntity boughtItem = shopOffer.getItem();
+
+        if (character.getMoney() < boughtItem.getPrice()) {
+            throw new InsufficientMoneyException("Gracz ma za malo pieniedzy!");
+        }
+
+        ShopItemDto shopItemDto = generateShopItemDto(shopOffer);
+
+        character.setMoney(character.getMoney() - shopOffer.getItem().getPrice());
+
+        shopOffer.setItem(null);
         shopOfferRepository.delete(shopOffer);
+
+        character.addItemToBackpack(boughtItem);
+
         shopOfferRepository.save(generateRandomShopOffer(character));
 
-        return generateShopItemDto(shopOffer);
+        return shopItemDto;
     }
 
     //generuje dto na podstawie oferty sciagnietej z bazy
@@ -70,18 +86,18 @@ public class ItemShopService {
                 item.getBaseItem().getName(),
                 item.getBaseItem().getDescription(),
                 item.getBaseItem().getSlotType(),
-                item.getBonusRizz(),
-                item.getBonusStrength(),
-                item.getBonusAgility(),
-                item.getBonusEndurance(),
-                item.getBonusLuck(),
+                item.getTotalRizz(),
+                item.getTotalStrength(),
+                item.getTotalAgility(),
+                item.getTotalEndurance(),
+                item.getTotalLuck(),
                 item.getPrice(),
                 item.getBaseItem().getImagePath()
         );
     }
 
     //o podanej godzinie (6 rano) odswieza oferte dla kazdego charactera w bazie
-    @Scheduled(cron = "0 0 6 * * *")
+    @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void refreshShopOffers() {
         List<CharacterEntity> characters = characterRepository.findAll();
@@ -151,16 +167,12 @@ public class ItemShopService {
     private ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character) {
         return new ItemEntity(
                 null,
-                //baseItemEntity.getName(),
-                //baseItemEntity.getDescription(),
-                //baseItemEntity.getSlotType(),
                 baseItemEntity.getBaseRizz() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseStrength() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseAgility() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseEndurance() + random.nextInt(character.getAura()),
                 baseItemEntity.getBaseLuck() + random.nextInt(character.getAura()),
                 baseItemEntity.getBasePrice() + random.nextInt(character.getAura()),
-                //baseItemEntity.getImagePath(),
                 baseItemEntity
         );
     }

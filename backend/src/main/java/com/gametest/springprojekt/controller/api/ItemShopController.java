@@ -26,6 +26,8 @@ public class ItemShopController {
         this.itemShopService = itemShopService;
     }
 
+    //traj kacze porobic trzeba
+
     @GetMapping
     public List<ShopItemDto> showItems() {
         return itemShopService.getTodayShopItemDto(getCurrentCharacter());
@@ -37,13 +39,15 @@ public class ItemShopController {
         itemShopService.refreshShopOffers();
     }
 
-    //WIP do testu
+
     @PostMapping("buy")
     public ResponseEntity<ShopItemDto> buyItemFromOffer(@RequestBody Long shopOfferId) {
             ShopItemDto shopItemDto = itemShopService.buyItemFromOffer(getCurrentCharacter(), shopOfferId);
 
             return ResponseEntity.ok(shopItemDto);
     }
+
+
 
 
 
