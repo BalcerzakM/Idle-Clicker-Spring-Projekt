@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.controller.api;
 
+import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.dto.MoneyDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.UserEntity;
@@ -35,6 +36,17 @@ public class CharacterController {
         CharacterEntity character = getCurrentCharacter();
         MoneyDto moneyDto = characterService.getMoney(character);
         return ResponseEntity.ok(moneyDto);
+    }
+
+    /**
+     * metoda do pobrania informacji do widoku profil i sklep (przedmioty plus statystki)
+     * @return
+     */
+    @GetMapping("/statsItems")
+    public ResponseEntity<ItemsAndStatsDto> getCharacterInfo(){
+        CharacterEntity character = getCurrentCharacter();
+        ItemsAndStatsDto result = characterService.getItemsAndStats(character);
+        return ResponseEntity.ok(result);
     }
 
 
