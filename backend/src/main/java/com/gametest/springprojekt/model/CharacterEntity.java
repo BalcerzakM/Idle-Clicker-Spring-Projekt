@@ -7,10 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+
 
 @Data
 @Entity
@@ -39,7 +37,7 @@ public class CharacterEntity {
     private int money;
     private int cristals;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
     private Set<EquipmentItem> equipment = new HashSet<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
@@ -73,4 +71,31 @@ public class CharacterEntity {
     public void removeItemFromBackpack(BackpackItem backpackItem) {
         backpack.remove(backpackItem);
     }
+
+    //tutaj trzeba jeszcze walidacje dodać
+    public void equipItem(ItemEntity item) {
+        equipment.add(new EquipmentItem(null, item.getBaseItem().getSlotType(), item, this));
+    }
+
+
+    public Map<String, Integer> getEquipmentStatsSum() {
+        Map<String, Integer> totals = new HashMap<>();
+        totals.put("rizz", this.rizz);
+        totals.put("strength", this.strength);
+        totals.put("agility", this.agility);
+        totals.put("endurance", this.endurance);
+        totals.put("luck", this.luck);
+
+        for (EquipmentItem eq : equipment) {
+            ItemEntity item = eq.getItem();
+            if (item != null) {
+                totals.merge("rizz", item.getTotalRizz(), Integer::sum);
+                totals.merge("strength", item.getTotalStrength(), Integer::sum);
+                totals.merge("agility", item.getTotalAgility(), Integer::sum);
+                totals.merge("endurance", item.getTotalEndurance(), Integer::sum);
+                totals.merge("luck", item.getTotalLuck(), Integer::sum);
+            }
+        }
+        return totals;
+    }// trzeba dodać te stąd
 }
