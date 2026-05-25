@@ -37,7 +37,7 @@ public class CharacterEntity {
     private int money;
     private int cristals;
 
-    @OneToMany(mappedBy = "player")
+    @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
     private Set<EquipmentItem> equipment = new HashSet<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)

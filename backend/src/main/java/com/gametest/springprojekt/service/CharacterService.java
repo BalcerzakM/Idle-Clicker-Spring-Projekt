@@ -5,6 +5,7 @@ import com.gametest.springprojekt.dto.MoneyDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
 import com.gametest.springprojekt.exception.InvalidSlotException;
+import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
 import com.gametest.springprojekt.model.BackpackItem;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.EquipmentItem;
@@ -49,12 +50,6 @@ public class CharacterService {
     }
 
     public void equip(CharacterEntity character, Long equipmentItemId, Long backpackItemId) {
-        //szukanie itemu w eq
-        EquipmentItem equipmentItem = character.getEquipment().stream()
-                .filter(e -> e.getId().equals(equipmentItemId))
-                .findFirst()
-                .orElseThrow(() -> new EquipmentItemNotFoundException(
-                        "Przedmiot ekwipunku o id " + equipmentItemId + " nie istnieje"));
         //szukanie itemu w plecaku
         BackpackItem backpackItem = character.getBackpack().stream()
                 .filter(b -> b.getId().equals(backpackItemId))
@@ -62,24 +57,51 @@ public class CharacterService {
                 .orElseThrow(() -> new BackpackItemNotFoundException(
                         "Przedmiot plecaka o id " + backpackItemId + " nie istnieje"));
 
-
-        ItemEntity itemFromEquipment = equipmentItem.getItem();
         ItemEntity itemFromBackpack = backpackItem.getItem();
 
-        //czy item z plecaka pasuje do slota
-        SlotType slot = equipmentItem.getSlot();
-        if (!itemFromBackpack.getBaseItem().getSlotType().equals(slot)) {
-            throw new InvalidSlotException("Przedmiot nie może zostać założony w slocie " + slot);
+        if(equipmentItemId == null){
+            SlotType targetSlot = itemFromBackpack.getBaseItem().getSlotType();
+            boolean slotOccupied = character.getEquipment().stream()
+                    .anyMatch(e -> e.getSlot() == targetSlot);
+            if (slotOccupied) {
+                throw new SlotAlreadyOccupiedException(
+                        "Slot " + targetSlot + " jest już zajęty. Użyj zamiany (swap).");
+            }
+            character.getBackpack().remove(backpackItem);
+
+            EquipmentItem newEq = new EquipmentItem();
+            newEq.setSlot(targetSlot);
+            newEq.setItem(itemFromBackpack);
+            newEq.setPlayer(character);
+
+            character.getEquipment().add(newEq);
         }
+        else {
+            //szukanie itemu w eq
+            EquipmentItem equipmentItem = character.getEquipment().stream()
+                    .filter(e -> e.getId().equals(equipmentItemId))
+                    .findFirst()
+                    .orElseThrow(() -> new EquipmentItemNotFoundException(
+                            "Przedmiot ekwipunku o id " + equipmentItemId + " nie istnieje"));
 
-        //Zamiana przedmiotu w istniejącym EquipmentItem (bez usuwania encji)
-        equipmentItem.setItem(itemFromBackpack);
 
-        //Usuwamy BackpackItem z plecaka (orphanRemoval automatycznie go usunie z bazy)
-        character.getBackpack().remove(backpackItem);
+            ItemEntity itemFromEquipment = equipmentItem.getItem();
 
-        //Dodajemy nowy BackpackItem ze zdjętym przedmiotem
-        BackpackItem newBackpackItem = new BackpackItem(null, character, itemFromEquipment);
-        character.getBackpack().add(newBackpackItem);
+            //czy item z plecaka pasuje do slota
+            SlotType slot = equipmentItem.getSlot();
+            if (!itemFromBackpack.getBaseItem().getSlotType().equals(slot)) {
+                throw new InvalidSlotException("Przedmiot nie może zostać założony w slocie " + slot);
+            }
+
+            //Zamiana przedmiotu w istniejącym EquipmentItem (bez usuwania encji)
+            equipmentItem.setItem(itemFromBackpack);
+
+            //Usuwamy BackpackItem z plecaka (orphanRemoval automatycznie go usunie z bazy)
+            character.getBackpack().remove(backpackItem);
+
+            //Dodajemy nowy BackpackItem (zdjęty przedmiot)
+            BackpackItem newBackpackItem = new BackpackItem(null, character, itemFromEquipment);
+            character.getBackpack().add(newBackpackItem);
+        }
     }
 }
