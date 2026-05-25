@@ -1,28 +1,29 @@
 package com.gametest.springprojekt.model;
 
-import com.gametest.springprojekt.model.enums.SlotType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class ItemEntity {
+public class ShopOfferEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int totalRizz;
-    private int totalStrength;
-    private int totalAgility;
-    private int totalEndurance;
-    private int totalLuck;
-    private int price;
+
+    private LocalDate offerDate;
+
+    @OneToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "item_id")
+    private ItemEntity item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "base_item_id")
-    private BaseItemEntity baseItem;
+    @JoinColumn(name = "character_id")
+    private CharacterEntity character;
 }
