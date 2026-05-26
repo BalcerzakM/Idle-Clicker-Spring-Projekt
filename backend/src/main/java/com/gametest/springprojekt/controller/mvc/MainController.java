@@ -13,8 +13,8 @@ public class MainController {
         return "login";
     }
 
-    @GetMapping("/main")
-    public String mainPage(){
-        return "main";
-    }
+//    @GetMapping("/main")
+//    public String mainPage(){
+//        return "main";
+//    }
 }
