@@ -38,7 +38,7 @@ public class CharacterEntity {
     private int cristals;
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
-    private Set<EquipmentItem> equipment = new HashSet<>();
+    private List<EquipmentItem> equipment = new ArrayList<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<BackpackItem> backpack = new ArrayList<>();
@@ -65,11 +65,6 @@ public class CharacterEntity {
         }
 
         backpack.add(new BackpackItem(null, this, item));
-    }
-
-    //to juz wstepnie na przyszlosc
-    public void removeItemFromBackpack(BackpackItem backpackItem) {
-        backpack.remove(backpackItem);
     }
 
     //tutaj trzeba jeszcze walidacje dodać

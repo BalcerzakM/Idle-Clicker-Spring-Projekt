@@ -1,21 +1,19 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.dto.MoneyDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
 import com.gametest.springprojekt.exception.InvalidSlotException;
 import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
-import com.gametest.springprojekt.model.BackpackItem;
-import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.EquipmentItem;
-import com.gametest.springprojekt.model.ItemEntity;
+import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CharacterService {
@@ -42,13 +40,15 @@ public class CharacterService {
                 stats.get("agility"),
                 stats.get("endurance"),
                 stats.get("luck"),
-                character.getEquipment(),
-                character.getBackpack()
+                equipmentItemToItemDtos(character.getEquipment()),
+                backpackItemToItemDtos(character.getBackpack())
                 );
         return result;
 
     }
 
+    //dodane transactional bo nie zapisywalo wczesniej i nie dodawalo do eq
+    @Transactional
     public void equip(CharacterEntity character, Long equipmentItemId, Long backpackItemId) {
         //szukanie itemu w plecaku
         BackpackItem backpackItem = character.getBackpack().stream()
@@ -103,5 +103,47 @@ public class CharacterService {
             BackpackItem newBackpackItem = new BackpackItem(null, character, itemFromEquipment);
             character.getBackpack().add(newBackpackItem);
         }
+    }
+
+    private List<ItemDto> backpackItemToItemDtos(List<BackpackItem> backpackItems) {
+        List<ItemDto> itemDtos = new ArrayList<>();
+
+        for(BackpackItem backpackItem : backpackItems) {
+            itemDtos.add(new ItemDto(
+                    backpackItem.getId(),
+                    backpackItem.getItem().getBaseItem().getName(),
+                    backpackItem.getItem().getBaseItem().getDescription(),
+                    backpackItem.getItem().getBaseItem().getSlotType(),
+                    backpackItem.getItem().getTotalRizz(),
+                    backpackItem.getItem().getTotalStrength(),
+                    backpackItem.getItem().getTotalAgility(),
+                    backpackItem.getItem().getTotalEndurance(),
+                    backpackItem.getItem().getTotalLuck(),
+                    backpackItem.getItem().getPrice(),
+                    backpackItem.getItem().getBaseItem().getImagePath()
+            ));
+        }
+        return itemDtos;
+    }
+
+    private List<ItemDto> equipmentItemToItemDtos(List<EquipmentItem> equipmentItems) {
+        List<ItemDto> itemDtos = new ArrayList<>();
+
+        for(EquipmentItem equipmentItem : equipmentItems) {
+            itemDtos.add(new ItemDto(
+                    equipmentItem.getId(),
+                    equipmentItem.getItem().getBaseItem().getName(),
+                    equipmentItem.getItem().getBaseItem().getDescription(),
+                    equipmentItem.getItem().getBaseItem().getSlotType(),
+                    equipmentItem.getItem().getTotalRizz(),
+                    equipmentItem.getItem().getTotalStrength(),
+                    equipmentItem.getItem().getTotalAgility(),
+                    equipmentItem.getItem().getTotalEndurance(),
+                    equipmentItem.getItem().getTotalLuck(),
+                    equipmentItem.getItem().getPrice(),
+                    equipmentItem.getItem().getBaseItem().getImagePath()
+            ));
+        }
+        return itemDtos;
     }
 }

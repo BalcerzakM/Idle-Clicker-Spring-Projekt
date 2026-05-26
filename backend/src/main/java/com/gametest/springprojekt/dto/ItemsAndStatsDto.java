@@ -23,8 +23,8 @@ public class ItemsAndStatsDto {
     private int totalEndurance;
     private int totalLuck;
 
-    private Set<EquipmentItem> equipment;
+    private List<ItemDto> equipment;
 
-    private List<BackpackItem> backpack;
+    private List<ItemDto> backpack;
 
 }
