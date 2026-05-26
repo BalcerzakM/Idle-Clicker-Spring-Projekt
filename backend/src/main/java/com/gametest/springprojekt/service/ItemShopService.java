@@ -1,6 +1,6 @@
 package com.gametest.springprojekt.service;
 
-import com.gametest.springprojekt.dto.ShopItemDto;
+import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.exception.InsufficientMoneyException;
 import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
@@ -38,23 +38,23 @@ public class ItemShopService {
     }
 
     //sciaga dzisiejsza oferte z bazy danych
-    public List<ShopItemDto> getTodayShopItemDto(CharacterEntity character) {
+    public List<ItemDto> getTodayShopItemDto(CharacterEntity character) {
         LocalDate today = LocalDate.now();
 
         List<ShopOfferEntity> offers = shopOfferRepository.findByCharacterAndOfferDate(character, today);
 
-        List<ShopItemDto> shopItemDtos = new ArrayList<>();
+        List<ItemDto> itemDtos = new ArrayList<>();
 
         for (ShopOfferEntity offerEntity : offers) {
-            shopItemDtos.add(generateShopItemDto(offerEntity));
+            itemDtos.add(generateShopItemDto(offerEntity));
         }
 
-        return shopItemDtos;
+        return itemDtos;
     }
 
     //kupowanie itemow, odejmuje pieniadze, usuwa oferte, generuje nowa i dodaje item do plecaka
     @Transactional
-    public ShopItemDto buyItemFromOffer(CharacterEntity character, Long shopOfferId) {
+    public ItemDto buyItemFromOffer(CharacterEntity character, Long shopOfferId) {
         ShopOfferEntity shopOffer = shopOfferRepository.findById(shopOfferId)
                 .orElseThrow(() -> new ItemNotFoundException("Nie znaleziono przedmiotu o podanym ID"));
 
@@ -64,7 +64,7 @@ public class ItemShopService {
             throw new InsufficientMoneyException("Gracz ma za malo pieniedzy!");
         }
 
-        ShopItemDto shopItemDto = generateShopItemDto(shopOffer);
+        ItemDto itemDto = generateShopItemDto(shopOffer);
 
         character.setMoney(character.getMoney() - shopOffer.getItem().getPrice());
 
@@ -75,13 +75,13 @@ public class ItemShopService {
 
         shopOfferRepository.save(generateRandomShopOffer(character));
 
-        return shopItemDto;
+        return itemDto;
     }
 
     //generuje dto na podstawie oferty sciagnietej z bazy
-    private ShopItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
+    private ItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
         ItemEntity item = shopOfferEntity.getItem();
-        return new ShopItemDto(
+        return new ItemDto(
                 shopOfferEntity.getId(),
                 item.getBaseItem().getName(),
                 item.getBaseItem().getDescription(),

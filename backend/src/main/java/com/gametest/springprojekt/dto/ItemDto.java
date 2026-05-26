@@ -6,8 +6,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class ShopItemDto {
-    private Long shopOfferId;
+public class ItemDto {
+
+    //w roznych kontekstach jest czyms troche innym, np w sklepie jest ID oferty, w plecaku jest ID itemu w plecaku itd.
+    private Long id;
 
     private String itemName;
     private String itemDescription;

@@ -1,11 +1,9 @@
 package com.gametest.springprojekt.controller.api;
 
-import com.gametest.springprojekt.dto.ShopItemDto;
+import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.UserEntity;
-import com.gametest.springprojekt.repository.ItemRepository;
 import com.gametest.springprojekt.repository.UserRepository;
-import com.gametest.springprojekt.service.BoxerService;
 import com.gametest.springprojekt.service.ItemShopService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -29,7 +27,7 @@ public class ItemShopController {
     //traj kacze porobic trzeba
 
     @GetMapping
-    public List<ShopItemDto> showItems() {
+    public List<ItemDto> showItems() {
         return itemShopService.getTodayShopItemDto(getCurrentCharacter());
     }
 
@@ -41,10 +39,10 @@ public class ItemShopController {
 
 
     @PostMapping("buy")
-    public ResponseEntity<ShopItemDto> buyItemFromOffer(@RequestBody Long shopOfferId) {
-            ShopItemDto shopItemDto = itemShopService.buyItemFromOffer(getCurrentCharacter(), shopOfferId);
+    public ResponseEntity<ItemDto> buyItemFromOffer(@RequestBody Long shopOfferId) {
+            ItemDto itemDto = itemShopService.buyItemFromOffer(getCurrentCharacter(), shopOfferId);
 
-            return ResponseEntity.ok(shopItemDto);
+            return ResponseEntity.ok(itemDto);
     }
 
 
