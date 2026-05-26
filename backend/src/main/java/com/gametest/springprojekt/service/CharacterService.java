@@ -47,6 +47,8 @@ public class CharacterService {
 
     }
 
+    //dodane transactional bo nie zapisywalo wczesniej i nie dodawalo do eq
+    @Transactional
     public void equip(CharacterEntity character, Long equipmentItemId, Long backpackItemId) {
         //szukanie itemu w plecaku
         BackpackItem backpackItem = character.getBackpack().stream()
@@ -124,7 +126,7 @@ public class CharacterService {
         return itemDtos;
     }
 
-    private List<ItemDto> equipmentItemToItemDtos(Set<EquipmentItem> equipmentItems) {
+    private List<ItemDto> equipmentItemToItemDtos(List<EquipmentItem> equipmentItems) {
         List<ItemDto> itemDtos = new ArrayList<>();
 
         for(EquipmentItem equipmentItem : equipmentItems) {

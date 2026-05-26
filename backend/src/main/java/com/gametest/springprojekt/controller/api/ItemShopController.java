@@ -45,6 +45,11 @@ public class ItemShopController {
             return ResponseEntity.ok(itemDto);
     }
 
+    @PostMapping("sell")
+    public void sellItemToShop(@RequestBody Long backpackItemId) {
+        itemShopService.sellItem(getCurrentCharacter(), backpackItemId);
+    }
+
 
 
 

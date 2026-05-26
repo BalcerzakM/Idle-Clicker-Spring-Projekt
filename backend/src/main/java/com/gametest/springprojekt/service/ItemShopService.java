@@ -4,10 +4,7 @@ import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.exception.InsufficientMoneyException;
 import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
-import com.gametest.springprojekt.model.BaseItemEntity;
-import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.ItemEntity;
-import com.gametest.springprojekt.model.ShopOfferEntity;
+import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
@@ -29,6 +26,7 @@ public class ItemShopService {
     private final BaseItemRepository baseItemRepository;
     private final CharacterRepository characterRepository;
     private final int NUMBER_OF_SHOP_ITEMS = 3; //narazie 3 zeby w dataloaderze nie dodawac za duzo
+    private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
 
     public ItemShopService(ItemRepository itemRepository, ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {
         this.itemRepository = itemRepository;
@@ -71,11 +69,29 @@ public class ItemShopService {
         shopOffer.setItem(null);
         shopOfferRepository.delete(shopOffer);
 
+        boughtItem.setPrice((int) Math.round(boughtItem.getPrice()*BOUGHT_ITEM_PRICE_DECREASE));
+
         character.addItemToBackpack(boughtItem);
 
         shopOfferRepository.save(generateRandomShopOffer(character));
 
         return itemDto;
+    }
+
+    @Transactional
+    public void sellItem(CharacterEntity character, Long backpackItemId) {
+        BackpackItem backpackItem = character.getBackpack()
+                .stream()
+                .filter(item -> item.getId().equals(backpackItemId))
+                .findFirst()
+                .orElseThrow(() -> new ItemNotFoundException("Nie znaleziono przedmiotu w plecaku!"
+                ));
+
+        ItemEntity item = backpackItem.getItem();
+
+        character.setMoney(character.getMoney() + item.getPrice());
+
+        character.getBackpack().remove(backpackItem);
     }
 
     //generuje dto na podstawie oferty sciagnietej z bazy
