@@ -15,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 public class ItemsAndStatsDto {
     private String name;
+    private String avatarPicture;
     private int auraLvl;
     private int aura;
     private int totalRizz;

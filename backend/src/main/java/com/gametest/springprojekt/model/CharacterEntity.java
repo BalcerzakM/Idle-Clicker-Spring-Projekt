@@ -27,6 +27,7 @@ public class CharacterEntity {
     private UserEntity user;
     private String name;
     private CharacterClass characterClass;
+    private String avatarPicture;
     private int auraLvl;
     private int aura;
     private int rizz;

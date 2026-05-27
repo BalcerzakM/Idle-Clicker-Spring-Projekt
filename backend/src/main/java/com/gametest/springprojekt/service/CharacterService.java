@@ -33,6 +33,7 @@ public class CharacterService {
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         ItemsAndStatsDto result = new ItemsAndStatsDto(
                 character.getName(),
+                character.getAvatarPicture(),
                 character.getAuraLvl(),
                 character.getAura(),
                 stats.get("rizz"),
