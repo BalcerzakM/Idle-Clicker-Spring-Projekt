@@ -1,7 +1,7 @@
 package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.dto.MoneyDto;
+import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
 import com.gametest.springprojekt.dto.SwapRequestDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
@@ -35,10 +35,10 @@ public class CharacterController {
 
 
     @GetMapping("/money")
-    public ResponseEntity<MoneyDto> getMoney() {
+    public ResponseEntity<MoneyAndAvatarDto> getMoney() {
         CharacterEntity character = getCurrentCharacter();
-        MoneyDto moneyDto = characterService.getMoney(character);
-        return ResponseEntity.ok(moneyDto);
+        MoneyAndAvatarDto moneyAndAvatarDto = characterService.getMoneyAndAvatar(character);
+        return ResponseEntity.ok(moneyAndAvatarDto);
     }
 
     /**

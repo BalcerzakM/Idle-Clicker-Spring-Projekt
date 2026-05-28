@@ -5,7 +5,8 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class MoneyDto {
+public class MoneyAndAvatarDto {
     private int money;
     private int cristals;
+    private String avatarPicture;
 }
