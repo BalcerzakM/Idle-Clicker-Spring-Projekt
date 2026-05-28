@@ -25,7 +25,7 @@ public class ItemShopService {
     private final ShopOfferRepository shopOfferRepository;
     private final BaseItemRepository baseItemRepository;
     private final CharacterRepository characterRepository;
-    private final int NUMBER_OF_SHOP_ITEMS = 3; //narazie 3 zeby w dataloaderze nie dodawac za duzo
+    private final int NUMBER_OF_SHOP_ITEMS = 4; //narazie 3 zeby w dataloaderze nie dodawac za duzo
     private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
 
     public ItemShopService(ItemRepository itemRepository, ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {

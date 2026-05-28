@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import {  useEffect, useRef } from "react";
 import {Routes, Route} from "react-router-dom"
 import NavBar from "./components/NavBar";
 import ClubMain from "./views/ClubMain";
@@ -9,7 +9,7 @@ import Outside from "./views/Outside";
 // import "./App.css";
 
 function App() {
-	// const [count, setCount] = useState(0);
+
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
 
 	useEffect(() => {
