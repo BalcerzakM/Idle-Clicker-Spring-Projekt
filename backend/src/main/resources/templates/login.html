@@ -6,45 +6,10 @@
     <link rel="shortcut icon" th:href="@{/thymeleaf/favicon.png}">
     <link rel="stylesheet" th:href="@{/thymeleaf/style.css}">
     <title>Logowanie</title>
-
-
-    <style>
-
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.7);
-        }
-
-
-
-        .alert {
-            padding: 12px;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            text-align: center;
-            font-size: 14px;
-        }
-
-        .alert-error {
-            background: rgba(239,68,68,0.2);
-            border: 1px solid rgba(239,68,68,0.4);
-        }
-
-        .alert-success {
-            background: rgba(34,197,94,0.2);
-            border: 1px solid rgba(34,197,94,0.4);
-        }
-
-        @media (max-width: 480px) {
-            .form-container {
-                margin: 20px;
-                padding: 30px 24px;
-            }
-        }
-    </style>
 </head>
 <body>
     <header>
-        <img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo">
+        <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
     </header>
     <hr class="content-divider"/>
     <main>
