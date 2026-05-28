@@ -19,18 +19,24 @@
 	--hover-light: #24161f;
 }
 
-/* ===== kontener główny ===== */
+/*kontener główny*/
 .shop-hero-container {
+	position: relative;
+	width: 1310px;
+	height: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
-	padding: 20px;
-	min-height: 100vh;
-	background-color: var(--bg-body);
 	color: var(--text-light);
+
+	background-color: #0b0b0f;
+	border: 2px solid #1f1a24;
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
-/* ===== lewa kolumna – bohater ===== */
+/*lewa kolumna – bohater*/
 .hero-panel {
 	display: flex;
 	flex-direction: column;
@@ -65,6 +71,7 @@
 	gap: 8px;
 	max-width: 460px;
 	margin: 0 auto;
+	font-size: 16px;
 }
 
 /* przypisanie slotów do obszarów */
@@ -177,6 +184,7 @@
 .portrait:hover .tooltip {
 	visibility: visible;
 	opacity: 1;
+	font-size: 14px;
 }
 
 /* ===== plecak ===== */
@@ -205,6 +213,7 @@
 /* ===== prawa kolumna – sklep ===== */
 .shop-panel {
 	background: url("../assets/scenes/dressing_room.png") center/cover no-repeat;
+	height: 850px;
 	border: 2px solid var(--border-color);
 	border-radius: 12px;
 	padding: 16px;
@@ -272,6 +281,8 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	gap: 16px;
+	margin-top: auto;
+	margin-bottom: 4px;
 }
 
 .shop-item-card {
