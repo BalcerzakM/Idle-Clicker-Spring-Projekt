@@ -21,12 +21,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/mvc/login", "/mvc/register").permitAll()
+                        .requestMatchers("/mvc/login", "/mvc/register").permitAll() //zezwolenie do logowania i rejestracji
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/mvc/login")
                         .loginProcessingUrl("/mvc/login") //musi być bo inny endpoint niż domyślny
-                        .defaultSuccessUrl("/mvc/main") //bez true bo nie chcemy wymuszać przekierowania
+                        .defaultSuccessUrl("/") //bez true bo nie chcemy wymuszać przekierowania
                         .permitAll())
                 .csrf(csrf -> csrf.disable()) // USUNĄĆ NA KONICEC, TO JEST TYLKO NA POTRZEBY TESTOWANIA Z POSTMANEM!!!!!!!!!!!!!!!!!!!!!!!!
                 .httpBasic(basic -> basic.authenticationEntryPoint((request, response, authException) -> {
