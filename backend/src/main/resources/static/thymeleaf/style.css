@@ -1,0 +1,217 @@
+:root {
+    /* Tła */
+    --bg-body: #070709;
+    --bg-main: #111116;
+    --bg-dark: #0b0b0f;
+    --bg-panel: #16131a;
+
+    /* Obramowania */
+    --border-color: #1e1a22;
+    --border-glow: #2b2233;
+
+    /* Neony */
+    --neon-blue: #4da3ff;
+    --neon-blue-glow: #82c4ff;
+
+    --neon-orange: #ff9a3c;
+    --neon-gold: #d89b52;
+
+    --neon-pink: #b04cff;
+    --neon-red: #7a1d2d;
+
+    /* Tekst */
+    --text-light: #b7a38f;
+    --text-muted: #7b6d62;
+    --text-hover: #e0c7ae;
+
+    /* Hover */
+    --hover-dark: #1c1117;
+    --hover-light: #24161f;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    background: var(--bg-body);
+    width: 100%;
+    height: 98%;
+
+    color: var(--text-light);
+
+    font-size: 30px;
+    font-family: "Rajdhani", sans-serif;
+
+    position: relative;
+}
+
+/* Ambient neon glow */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background:
+            radial-gradient(
+                    circle at 70% 20%,
+                    rgba(77, 163, 255, 0.08),
+                    transparent 30%
+            ),
+            radial-gradient(
+                    circle at 85% 30%,
+                    rgba(176, 76, 255, 0.06),
+                    transparent 25%
+            ),
+            radial-gradient(
+                    circle at 60% 70%,
+                    rgba(255, 154, 60, 0.05),
+                    transparent 30%
+            );
+
+    pointer-events: none;
+    z-index: 0;
+}
+
+#root {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(
+            180deg,
+            rgba(20, 18, 25, 0.98) 0%,
+            rgba(10, 10, 14, 0.98) 100%
+    );
+    box-shadow:
+            0 0 20px rgba(0, 0, 0, 0.8),
+            0 0 40px rgba(122, 29, 45, 0.15);
+    position: relative;
+    z-index: 1;
+    margin: 0;
+}
+header {
+    width: 100%;
+    height: 150px;
+    padding: 10px;
+    text-align: center;
+}
+
+#logo {
+    height: 130px;
+    width: auto;
+}
+
+main {
+    background-image: url("images/background.png");
+    background-position: center;
+    background-size: cover;
+    height: min-content;
+    padding: 30px;
+    justify-items: center;
+}
+
+.content-divider {
+    background-image: url("images/content_divider.png");
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 7px;
+    border: none;
+}
+
+.form-container {
+    max-width: 470px;
+    padding: 40px;
+    border-radius: 24px;
+    background:
+            color-mix(in srgb, var(--bg-panel) 25%, transparent);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 1.0);
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 10px;
+    font-size: 32px;
+}
+
+.form-container p {
+    text-align: center;
+    margin-bottom: 30px;
+    opacity: 0.85;
+}
+
+.form-group{
+    margin-bottom:20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 14px 16px;
+    border: none;
+    border-radius: 14px;
+    font-size: 15px;
+    outline: none;
+    background:
+            color-mix(in srgb, var(--bg-dark) 80%, transparent);
+    color: white;
+    transition: 0.3s ease;
+}
+
+.form-group input:focus {
+    background: var(--bg-main);
+    box-shadow: 0 0 0 3px var(--border-glow);
+}
+
+.form-btn {
+    width: 100%;
+    padding: 14px;
+    border: 1px solid var(--border-glow);
+    border-radius: 14px;
+    background: var(--bg-panel);
+    color: var(--text-muted);
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px var(--neon-gold);
+}
+
+.extra-links {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 14px;
+}
+
+.extra-links a {
+    color: var(--text-hover);
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.extra-links a:hover {
+    text-decoration: underline;
+}
+
+footer {
+    font-size: 15px;
+    padding: 15px;
+    text-align: center;
+    background-color: var(--bg-main);
+}
