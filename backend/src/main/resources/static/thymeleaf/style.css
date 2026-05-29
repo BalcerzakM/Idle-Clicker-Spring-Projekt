@@ -151,7 +151,7 @@ main {
     margin-bottom:20px;
 }
 
-.form-group label {
+.form-group label, fieldset legend {
     display: block;
     margin-bottom: 8px;
     font-size: 14px;
@@ -229,6 +229,83 @@ main {
 .alert-success {
     background: rgba(34,197,94,0.2);
     border: 1px solid rgba(34,197,94,0.4);
+}
+
+fieldset {
+    border: none;
+    margin: 10px 0;
+}
+
+.image-option input[type="radio"] {
+    display: none;
+}
+
+.avatar-selector {
+    display: flex;
+    gap: 5px;
+    margin: 5px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.image-option {
+    position: relative;
+    cursor: pointer;
+    border: 3px solid transparent;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: 0.2s ease;
+    display: block;
+    width: 80px;
+}
+
+.image-option img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.image-option:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.image-option input[type="radio"]:checked + img {
+    filter: brightness(0.5);
+    border: 2px solid var(--text-hover);
+    border-radius: inherit;
+}
+
+.class-selector {
+    text-align: center;
+    margin: 5px 0;
+}
+
+.class-option input[type="radio"] {
+    display: none;
+}
+
+.class-option {
+    cursor: pointer;
+}
+
+.class-option {
+    font-size: 25px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 2px 4px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    transition: all 0.2s ease-in-out;
+}
+
+.class-option:hover {
+    transform: scale(1.1);
+}
+
+.class-option:has(input[type="radio"]:checked) {
+    border-color: var(--text-muted);
+    font-weight: bold;
 }
 
 footer {
