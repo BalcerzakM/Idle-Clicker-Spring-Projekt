@@ -183,12 +183,12 @@ public class ItemShopService {
     private ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character) {
         return new ItemEntity(
                 null,
-                baseItemEntity.getBaseRizz() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseStrength() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseAgility() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseEndurance() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseLuck() + random.nextInt(character.getAura()),
-                baseItemEntity.getBasePrice() + random.nextInt(character.getAura()),
+                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBasePrice() * (random.nextInt(character.getAura()) + 1),
                 baseItemEntity
         );
     }
