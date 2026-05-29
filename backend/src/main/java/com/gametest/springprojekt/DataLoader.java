@@ -21,16 +21,14 @@ public class DataLoader implements CommandLineRunner {
     private final QuestRepository questRepository;
     private final OpponentRepository opponentRepository;
     private final CharacterRepository characterRepository;
-    private final BaseItemRepository baseItemRepository;
     private final ItemShopService itemShopService;
 
-    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder,  QuestRepository questRepository,  OpponentRepository opponentRepository, CharacterRepository characterRepository,  BaseItemRepository baseItemRepository,  ItemShopService itemShopService) {
+    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder,  QuestRepository questRepository,  OpponentRepository opponentRepository, CharacterRepository characterRepository, ItemShopService itemShopService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.questRepository = questRepository;
         this.opponentRepository = opponentRepository;
         this.characterRepository = characterRepository;
-        this.baseItemRepository = baseItemRepository;
         this.itemShopService = itemShopService;
     }
 
@@ -48,11 +46,6 @@ public class DataLoader implements CommandLineRunner {
         CharacterEntity character1 = new CharacterEntity(null,player, "test", CharacterClass.NERD,"avatar3.png",4,3,420,67,67,67,67,10000,67, List.of(),List.of(), null);
         player.setCharacters(List.of(character1));
         characterRepository.save(character1);
-
-        baseItemRepository.save(new BaseItemEntity(null, "item1", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, "item1.png"));
-        baseItemRepository.save(new BaseItemEntity(null, "item2", "opis", SlotType.HEAD, 1, 1, 1, 1, 1, 1, "item2.png"));
-        baseItemRepository.save(new BaseItemEntity(null, "item3", "opis", SlotType.EMBLEM, 1, 1, 1, 1, 67, 1, "item3.png"));
-        baseItemRepository.save(new BaseItemEntity(null, "item4", "opis", SlotType.LOWER_BODY, 1, 1, 1, 1, 1, 1, "item4.png"));
 
         itemShopService.refreshShopOffers();
     }
