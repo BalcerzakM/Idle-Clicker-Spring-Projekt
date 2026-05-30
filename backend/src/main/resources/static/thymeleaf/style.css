@@ -179,6 +179,57 @@ main {
     color: var(--text-muted);
 }
 
+#rememberMe-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+#rememberMe-container input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    background-color: var(--bg-dark);
+    border: 2px solid var(--border-color);
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#rememberMe-container input[type="checkbox"]:hover {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 8px var(--neon-blue-glow);
+}
+
+#rememberMe-container input[type="checkbox"]:checked {
+    background-color: var(--bg-main);
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 12px var(--neon-blue-glow);
+}
+
+#rememberMe-container input[type="checkbox"]:checked::after {
+    content: "";
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid var(--neon-blue);
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+}
+
+#rememberMe-container label {
+    cursor: pointer;
+    color: var(--text-light);
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
 .form-btn {
     width: 100%;
     padding: 14px;
@@ -306,6 +357,27 @@ fieldset {
 .class-option:has(input[type="radio"]:checked) {
     border-color: var(--text-muted);
     font-weight: bold;
+}
+
+.logout-container {
+    margin: 10px 0;
+    width: 100%;
+    height: 80px;
+    padding: 10px 0;
+    justify-items: center;
+    align-content: center;
+}
+
+.logout-btn {
+    padding: 14px 50px;
+    border: 1px solid var(--border-glow);
+    border-radius: 14px;
+    background: var(--neon-red);
+    color: var(--text-muted);
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 footer {

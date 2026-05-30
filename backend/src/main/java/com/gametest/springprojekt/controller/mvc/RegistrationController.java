@@ -50,7 +50,7 @@
             }
 
 
-            return "redirect:/mvc/login";
+            return "redirect:/mvc/login?registered";
         }
 
     }
