@@ -60,6 +60,10 @@ public class CharacterService {
 
         ItemEntity itemFromBackpack = backpackItem.getItem();
 
+        if (itemFromBackpack.getBaseItem().getSlotType().equals(SlotType.ITEM_TOKEN)) {
+            throw new InvalidSlotException("Nie mozna zalozyc tego przedmiotu!");
+        }
+
         if(equipmentItemId == null){
             SlotType targetSlot = itemFromBackpack.getBaseItem().getSlotType();
             boolean slotOccupied = character.getEquipment().stream()

@@ -5,9 +5,9 @@ import com.gametest.springprojekt.exception.InsufficientMoneyException;
 import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
 import com.gametest.springprojekt.model.*;
+import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
-import com.gametest.springprojekt.repository.ItemRepository;
 import com.gametest.springprojekt.repository.ShopOfferRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -20,7 +20,6 @@ import java.util.stream.Collectors;
 
 @Service
 public class ItemShopService {
-    private final ItemRepository itemRepository;
     private final SecureRandom random = new SecureRandom();
     private final ShopOfferRepository shopOfferRepository;
     private final BaseItemRepository baseItemRepository;
@@ -28,8 +27,7 @@ public class ItemShopService {
     private final int NUMBER_OF_SHOP_ITEMS = 4; //narazie 3 zeby w dataloaderze nie dodawac za duzo
     private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
 
-    public ItemShopService(ItemRepository itemRepository, ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {
-        this.itemRepository = itemRepository;
+    public ItemShopService(ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {
         this.shopOfferRepository = shopOfferRepository;
         this.baseItemRepository = baseItemRepository;
         this.characterRepository = characterRepository;
@@ -95,7 +93,7 @@ public class ItemShopService {
     }
 
     //generuje dto na podstawie oferty sciagnietej z bazy
-    private ItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
+    public ItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
         ItemEntity item = shopOfferEntity.getItem();
         return new ItemDto(
                 shopOfferEntity.getId(),
@@ -135,7 +133,7 @@ public class ItemShopService {
                 .getBaseItem()
                 .getId()).collect(Collectors.toSet());
 
-        List<BaseItemEntity> baseItems = baseItemRepository.findAll();
+        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.ITEM_TOKEN);
 
         List<BaseItemEntity> availableBaseItems = baseItems.stream()
                 .filter(item -> !usedBaseItemIds
@@ -147,14 +145,14 @@ public class ItemShopService {
 
         BaseItemEntity basicItem = availableBaseItems.get(random.nextInt(availableBaseItems.size()));
 
-        ItemEntity item = generateItemEntity(basicItem, character);
+        ItemEntity item = generateItemEntity(basicItem, character, 0);
 
         return new ShopOfferEntity(null, LocalDate.now(), item, character);
     }
 
     //tworzy full zestaw oferty, oddzielna metoda by zapobiec duplikatom, ta jest uzywana do pelnego refresha ofert
     private List<ShopOfferEntity> generateRandomShopOffers(CharacterEntity character) {
-        List<BaseItemEntity> baseItems = baseItemRepository.findAll();
+        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.ITEM_TOKEN);
 
         if (baseItems.size() < NUMBER_OF_SHOP_ITEMS) {
             throw new NotEnoughAvailableBaseItemsException("Za malo dostepnych base itemow do wygenerowania oferty!");
@@ -170,7 +168,7 @@ public class ItemShopService {
             ShopOfferEntity offer = new ShopOfferEntity(
                     null,
                     LocalDate.now(),
-                    generateItemEntity(baseItem, character),
+                    generateItemEntity(baseItem, character, 0),
                     character
             );
             offers.add(offer);
@@ -180,28 +178,15 @@ public class ItemShopService {
     }
 
     //tworzy item na podstawie basicItema z dynamicznymi statystykami, na podstawie aury itp, tutaj da sie algorytmy do liczenia tego
-    private ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character) {
+    public ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character, int amplifier) {
         return new ItemEntity(
                 null,
-                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity.getBasePrice() * (random.nextInt(character.getAura()) + 1),
-                baseItemEntity
-        );
-    }
-
-    private ItemEntity generateItemTicket(BaseItemEntity baseItemEntity, CharacterEntity character) {
-        return new ItemEntity(
-                null,
-                0,
-                0,
-                0,
-                0,
-                0,
-                0,
+                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBasePrice() * (random.nextInt(character.getAura() + amplifier) + 1),
                 baseItemEntity
         );
     }

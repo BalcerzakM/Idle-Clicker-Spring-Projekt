@@ -53,10 +53,13 @@ public class CharacterEntity {
      * @param bonusAura
      * @param bonusMoney
      */
-    public void grantQuestReward(int bonusAura, int bonusMoney) {// do ewentualnej generalizacji (nagrody z innych źródeł)
+    public void grantQuestReward(int bonusAura, int bonusMoney, ItemEntity rewardItem) {// do ewentualnej generalizacji (nagrody z innych źródeł)
         this.aura += bonusAura;
         this.money += bonusMoney;
         this.activeQuest = null;
+        if (rewardItem != null) {
+            this.addItemToBackpack(rewardItem);
+        }
     }
 
     //dodanie itema do plecaka

@@ -47,15 +47,15 @@ VALUES
     ('Skorzana kurtka', 'opis', 'UPPER_BODY', 7, 5, 1, 5, 2, 22, 'item-leather-jacket.png'),
 
 
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png');
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-03.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-12.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-13.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-21.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-34.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-55.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-58.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-67.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-77.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 1, 0, 'item-token-89.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 10, 0, 'item-token-99.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 0, 0, 0, 0, 10, 0, 'item-token-420.png');
