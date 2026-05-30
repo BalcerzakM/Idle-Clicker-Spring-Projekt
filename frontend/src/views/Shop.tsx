@@ -162,8 +162,6 @@ function Shop() {
 			{/* ---------- PRAWA STRONA ---------- */}
 			<div className="shop-panel">
 				<div className="shop-header">
-					<h2>Sklep</h2>
-
 					<button onClick={handleRefresh} className="shop-refresh-btn">
 						Odśwież ofertę
 					</button>

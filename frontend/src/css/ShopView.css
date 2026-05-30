@@ -417,3 +417,14 @@
 	background: var(--neon-gold);
 	color: black;
 }
+
+/* podświetlenie slotu podczas najechania na pasujący przedmiot w plecaku, to beędzie trzeba przenieść do css heropanel(osobny trzeba zrobić) */
+.slot.highlight-slot {
+	border-color: var(--neon-orange);
+	box-shadow:
+		0 0 14px var(--neon-orange),
+		0 0 4px var(--neon-orange);
+	transition:
+		border-color 0.15s,
+		box-shadow 0.15s;
+}

@@ -1,3 +1,4 @@
+import { useState } from "react";
 export interface ItemDto {
 	id: number;
 	name: string;
@@ -33,6 +34,8 @@ interface HeroPanelProps {
 }
 
 function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
+	const [highlightedSlot, setHighlightedSlot] = useState<string | null>(null); //to te podświetlanie konkretnego slotu
+
 	const handleDragStart = (
 		e: React.DragEvent<HTMLDivElement>,
 		backpackItemId: number,
@@ -96,10 +99,12 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 					const item =
 						hero.equipment.find((item) => item.slotType === slotType) ?? null;
 
+					const isHighlighted = highlightedSlot === slotType; //sprawdzenie czy ma być podświetlony
+
 					return (
 						<div
 							key={slotType}
-							className="slot equip-slot"
+							className={`slot equip-slot ${isHighlighted ? "highlight-slot" : ""}`} //sprawdzenie czy podświetlać
 							data-slot={slotType}
 							onDragOver={handleDragOver}
 							onDrop={(e) => handleDropOnSlot(e, slotType)}
@@ -135,6 +140,8 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 							className="slot backpack-slot"
 							draggable
 							onDragStart={(e) => handleDragStart(e, item.id)}
+							onMouseEnter={() => setHighlightedSlot(item.slotType)}
+							onMouseLeave={() => setHighlightedSlot(null)}
 						>
 							<img
 								src={`/items/${item.imagePath}`}

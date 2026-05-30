@@ -21,7 +21,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/mvc/login", "/mvc/register").permitAll() //zezwolenie do logowania i rejestracji
+                        .requestMatchers("/mvc/login", "/mvc/register", "/mvc/character-creator", "/assets/**", "/thymeleaf/**").permitAll() //zezwolenie do logowania i plików statycznych
                         .anyRequest().authenticated())
                 .formLogin(form -> form
                         .loginPage("/mvc/login")
