@@ -1,36 +1,11 @@
 import StandardCurrencyImg from "../assets/other/currency_standard.png";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import { useNavigate } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
+import { useCharacter } from "../context/CharacterContext";
 
 function NavBar() {
 	const navigate = useNavigate();
-	const [character, setCharacter] = useState<CharacterShortInfo | null>(null);
-
-	interface CharacterShortInfo {
-		avatarPicture: string;
-		money: number;
-		cristals: number;
-	}
-
-	const fetchCharacterShortInfo = useCallback(async () => {
-		try {
-			const res = await fetch("http://localhost:8080/api/character/money");
-
-			if (!res.ok) {
-				throw new Error("Błąd pobierania danych postaci");
-			}
-
-			const heroData: CharacterShortInfo = await res.json();
-			setCharacter(heroData);
-		} catch (err: any) {
-			console.error(err);
-		}
-	}, []);
-
-	useEffect(() => {
-		fetchCharacterShortInfo();
-	}, [fetchCharacterShortInfo]);
+	const { character } = useCharacter();
 
 	return (
 		<div className="navBar">
@@ -48,13 +23,13 @@ function NavBar() {
 						alt="Standard currency"
 						className="currencyImg"
 					/>
-					<p>{`${character?.money}`}</p>
+					<p>{`${character?.money ?? "Error"}`}</p>
 					<img
 						src={PremiumCurrencyImg}
 						alt="Premium currency"
 						className="currencyImg"
 					/>
-					<p>{`${character?.cristals}`}</p>
+					<p>{`${character?.cristals ?? "Error"}`}</p>
 				</div>
 			</div>
 			<div className="navBar-navigation">

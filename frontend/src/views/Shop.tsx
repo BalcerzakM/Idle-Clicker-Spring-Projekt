@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { useCharacter } from "../context/CharacterContext";
 import HeroPanel from "../components/HeroPanel";
 import "../css/ShopView.css";
 import type { ItemDto } from "../components/HeroPanel";
@@ -13,7 +14,7 @@ function Shop() {
 
 	// stany bohatera
 	const [hero, setHero] = useState<ItemsAndStatsDto | null>(null);
-
+	const {refreshCharacter} = useCharacter();
 	// ---------- pobieranie danych ----------
 	const fetchShopItems = useCallback(async () => {
 		try {
@@ -77,6 +78,7 @@ function Shop() {
 
 			await fetchShopItems();
 			await fetchCharacterData();
+			await refreshCharacter();
 		} catch (err: any) {
 			setError(err.message || "Wystąpił błąd podczas zakupu");
 		} finally {
@@ -112,6 +114,7 @@ function Shop() {
 			}
 
 			await fetchCharacterData();
+			await refreshCharacter();
 		} catch (err: any) {
 			setError(err.message || "Błąd sprzedaży");
 		}

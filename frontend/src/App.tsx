@@ -6,7 +6,6 @@ import Shop from "./views/Shop";
 import Barman from "./views/Barman";
 import Player from "./views/Player";
 import Outside from "./views/Outside";
-// import "./App.css";
 
 function App() {
 
