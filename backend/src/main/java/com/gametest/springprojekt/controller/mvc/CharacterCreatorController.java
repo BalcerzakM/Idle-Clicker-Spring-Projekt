@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CharacterCreatorController {
 
     @GetMapping
-    public String characterCreator(
-            Model model
-    ) {
+    public String characterCreator(Model model) {
         model.addAttribute("characterCreatorDto", new CharacterCreatorDto());
         return "character-creator";
     }
+
+
 }

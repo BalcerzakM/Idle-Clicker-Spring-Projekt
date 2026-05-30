@@ -35,4 +35,11 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
+    @Transactional(readOnly = true)
+    public boolean hasCharacter(String username) {
+        return userRepository.getByUsername(username)
+                .map(user -> user.getCharacters() != null && !user.getCharacters().isEmpty())
+                .orElse(false);
+    }
+
 }

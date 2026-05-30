@@ -12,9 +12,4 @@ public class MainController {
     public String login() {
         return "login";
     }
-
-//    @GetMapping("/main")
-//    public String mainPage(){
-//        return "main";
-//    }
 }

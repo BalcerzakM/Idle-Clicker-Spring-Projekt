@@ -3,10 +3,8 @@
     import com.gametest.springprojekt.dto.RegistrationDto;
     import com.gametest.springprojekt.exception.EmailAlreadyExistsException;
     import com.gametest.springprojekt.exception.UsernameAlreadyExistsException;
-    import com.gametest.springprojekt.repository.UserRepository;
     import com.gametest.springprojekt.service.UserService;
     import jakarta.validation.Valid;
-    import org.springframework.security.crypto.password.PasswordEncoder;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.validation.BindingResult;
