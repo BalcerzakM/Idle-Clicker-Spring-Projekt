@@ -2,7 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.dto.MoneyDto;
+import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
 import com.gametest.springprojekt.exception.InvalidSlotException;
@@ -24,8 +24,8 @@ public class CharacterService {
     }
 
 
-    public MoneyDto getMoney(CharacterEntity character) {
-        return new MoneyDto(character.getMoney(), character.getCristals());
+    public MoneyAndAvatarDto getMoneyAndAvatar(CharacterEntity character) {
+        return new MoneyAndAvatarDto(character.getMoney(), character.getCristals(), character.getAvatarPicture());
     }
 
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
@@ -33,6 +33,7 @@ public class CharacterService {
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         ItemsAndStatsDto result = new ItemsAndStatsDto(
                 character.getName(),
+                character.getAvatarPicture(),
                 character.getAuraLvl(),
                 character.getAura(),
                 stats.get("rizz"),

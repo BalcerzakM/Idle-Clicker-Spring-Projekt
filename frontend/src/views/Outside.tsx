@@ -1,9 +1,9 @@
-
 function Outside() {
 	return (
-        <div>
-		<h1>Outside</h1>
-        </div>
+		<div>
+			<img src="/items/item1.png" alt="aa" />
+			<h1>Outside</h1>
+		</div>
 	);
 }
 

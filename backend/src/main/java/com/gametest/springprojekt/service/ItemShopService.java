@@ -25,7 +25,7 @@ public class ItemShopService {
     private final ShopOfferRepository shopOfferRepository;
     private final BaseItemRepository baseItemRepository;
     private final CharacterRepository characterRepository;
-    private final int NUMBER_OF_SHOP_ITEMS = 3; //narazie 3 zeby w dataloaderze nie dodawac za duzo
+    private final int NUMBER_OF_SHOP_ITEMS = 4; //narazie 3 zeby w dataloaderze nie dodawac za duzo
     private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
 
     public ItemShopService(ItemRepository itemRepository, ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {
@@ -183,12 +183,12 @@ public class ItemShopService {
     private ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character) {
         return new ItemEntity(
                 null,
-                baseItemEntity.getBaseRizz() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseStrength() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseAgility() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseEndurance() + random.nextInt(character.getAura()),
-                baseItemEntity.getBaseLuck() + random.nextInt(character.getAura()),
-                baseItemEntity.getBasePrice() + random.nextInt(character.getAura()),
+                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAura()) + 1),
+                baseItemEntity.getBasePrice() * (random.nextInt(character.getAura()) + 1),
                 baseItemEntity
         );
     }
