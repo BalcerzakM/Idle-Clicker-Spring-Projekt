@@ -44,4 +44,18 @@ VALUES
     ('Slomiany kapelusz', 'opis', 'HEAD', 4, 4, 9, 4, 5, 20, 'item-straw-hat.png'),
     ('Karty tarota', 'opis', 'EMBLEM', 4, 4, 4, 4, 14, 40, 'item-tarot.png'),
     ('Biala bluzka', 'opis', 'UPPER_BODY', 5, 6, 8, 5, 2, 25, 'item-white-blouse.png'),
-    ('Skorzana kurtka', 'opis', 'UPPER_BODY', 7, 5, 1, 5, 2, 22, 'item-leather-jacket.png');
+    ('Skorzana kurtka', 'opis', 'UPPER_BODY', 7, 5, 1, 5, 2, 22, 'item-leather-jacket.png'),
+
+
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png'),
+    ('Numerek do szatni', 'opis', 'ITEM_TICKET', 0, 0, 0, 0, 0, 0, 'item-leather-jacket.png');

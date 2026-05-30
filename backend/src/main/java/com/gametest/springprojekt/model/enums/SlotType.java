@@ -7,5 +7,6 @@ public enum SlotType {
     LOWER_BODY,
     FEET,
     WRIST,
-    EMBLEM
+    EMBLEM,
+    ITEM_TICKET
 }

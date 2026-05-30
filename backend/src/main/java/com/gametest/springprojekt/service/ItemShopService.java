@@ -193,4 +193,17 @@ public class ItemShopService {
         );
     }
 
+    private ItemEntity generateItemTicket(BaseItemEntity baseItemEntity, CharacterEntity character) {
+        return new ItemEntity(
+                null,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                baseItemEntity
+        );
+    }
+
 }
