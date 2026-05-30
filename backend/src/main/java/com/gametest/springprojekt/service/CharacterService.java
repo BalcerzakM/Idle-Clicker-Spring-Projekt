@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.CharacterCreatorDto;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
@@ -10,6 +11,7 @@ import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.CharacterRepository;
+import com.gametest.springprojekt.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,12 +19,41 @@ import java.util.*;
 
 @Service
 public class CharacterService {
-    CharacterRepository characterRepository;
+    private final UserRepository userRepository;
+    private final CharacterRepository characterRepository;
 
-    public CharacterService(CharacterRepository characterRepository) {
+    public CharacterService(UserRepository userRepository, CharacterRepository characterRepository) {
+        this.userRepository = userRepository;
         this.characterRepository = characterRepository;
     }
 
+    @Transactional
+    public void createAndAssignCharacter(CharacterCreatorDto dto, String username) {
+        UserEntity user = userRepository.getByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Nie znaleziono użytkownika"));
+
+        if (characterRepository.existsByName(dto.getName())) {
+            throw new RuntimeException("Ta nazwa postaci jest już zajęta!");
+        }
+
+        CharacterEntity newCharacter = new CharacterEntity();
+        newCharacter.setUser(user);
+        newCharacter.setName(dto.getName());
+        newCharacter.setCharacterClass(dto.getCharacterClass());
+        newCharacter.setAvatarPicture(dto.getAvatarPicture());
+
+        newCharacter.setMoney(100);
+        newCharacter.setCristals(0);
+        newCharacter.setAuraLvl(1);
+        newCharacter.setAura(0);
+        newCharacter.setRizz(5);
+        newCharacter.setStrength(5);
+        newCharacter.setAgility(5);
+        newCharacter.setEndurance(5);
+        newCharacter.setLuck(5);
+
+        characterRepository.save(newCharacter);
+    }
 
     public MoneyAndAvatarDto getMoneyAndAvatar(CharacterEntity character) {
         return new MoneyAndAvatarDto(character.getMoney(), character.getCristals(), character.getAvatarPicture());
@@ -31,7 +62,7 @@ public class CharacterService {
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
     public ItemsAndStatsDto getItemsAndStats(CharacterEntity character) {
         Map<String, Integer> stats = character.getEquipmentStatsSum();
-        ItemsAndStatsDto result = new ItemsAndStatsDto(
+        return new ItemsAndStatsDto(
                 character.getName(),
                 character.getAvatarPicture(),
                 character.getAuraLvl(),
@@ -44,7 +75,6 @@ public class CharacterService {
                 equipmentItemToItemDtos(character.getEquipment()),
                 backpackItemToItemDtos(character.getBackpack())
                 );
-        return result;
 
     }
 

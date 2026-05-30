@@ -35,7 +35,13 @@
         public String register(
                 @Valid @ModelAttribute("registrationDto") RegistrationDto request,
                 BindingResult bindingResult
-                ){
+        ){
+            if (request.getPassword() != null && request.getConfirmPassword() != null) {
+                if (!request.getPassword().equals(request.getConfirmPassword())) {
+                    bindingResult.rejectValue("confirmPassword", "error.confirmPassword", "Hasła nie są identyczne");
+                }
+            }
+
             if (bindingResult.hasErrors()) {
                 return "registration";
             }

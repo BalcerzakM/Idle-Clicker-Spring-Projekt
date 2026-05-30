@@ -77,11 +77,14 @@
                     <input
                             type="password"
                             id="confirmPassword"
-                            name="confirmPassword"
+                            th:field="*{confirmPassword}"
                             placeholder="Powtórz hasło"
                             required>
+                    <p class="alert alert-error"
+                       th:if="${#fields.hasErrors('confirmPassword')}"
+                       th:errors="*{confirmPassword}">
+                    </p>
                 </div>
-        <!--         //tu nie ma jeszcze walidacji żadej (trzeba dodać aby hasła były takie same inaczej wgl nie wysyła forularza-->
 
                 <button type="submit" class="form-btn">
                     Zarejestruj się
