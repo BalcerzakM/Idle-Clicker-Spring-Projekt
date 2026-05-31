@@ -99,6 +99,7 @@ public class ItemShopService {
                 shopOfferEntity.getId(),
                 item.getBaseItem().getName(),
                 item.getBaseItem().getDescription(),
+                item.getBaseItem().getItemType(),
                 item.getBaseItem().getSlotType(),
                 item.getTotalRizz(),
                 item.getTotalStrength(),
@@ -133,7 +134,7 @@ public class ItemShopService {
                 .getBaseItem()
                 .getId()).collect(Collectors.toSet());
 
-        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.ITEM_TOKEN);
+        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.NONE);
 
         List<BaseItemEntity> availableBaseItems = baseItems.stream()
                 .filter(item -> !usedBaseItemIds
@@ -152,7 +153,7 @@ public class ItemShopService {
 
     //tworzy full zestaw oferty, oddzielna metoda by zapobiec duplikatom, ta jest uzywana do pelnego refresha ofert
     private List<ShopOfferEntity> generateRandomShopOffers(CharacterEntity character) {
-        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.ITEM_TOKEN);
+        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.NONE);
 
         if (baseItems.size() < NUMBER_OF_SHOP_ITEMS) {
             throw new NotEnoughAvailableBaseItemsException("Za malo dostepnych base itemow do wygenerowania oferty!");

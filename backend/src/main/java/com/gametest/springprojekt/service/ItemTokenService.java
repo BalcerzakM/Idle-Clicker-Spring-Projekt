@@ -1,12 +1,14 @@
 package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ItemDto;
+import com.gametest.springprojekt.exception.InvalidItemTypeException;
 import com.gametest.springprojekt.exception.InvalidSlotException;
 import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.model.BackpackItem;
 import com.gametest.springprojekt.model.BaseItemEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.ItemEntity;
+import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
@@ -43,8 +45,8 @@ public class ItemTokenService {
 
         BaseItemEntity token = backpackToken.getItem().getBaseItem();
 
-        if (!token.getSlotType().equals(SlotType.ITEM_TOKEN)) {
-            throw new InvalidSlotException("Nie mozna wymienic tego przedmiotu!");
+        if (!token.getItemType().equals(ItemType.ITEM_TOKEN)) {
+            throw new InvalidItemTypeException("Nie mozna wymienic tego przedmiotu!");
         }
 
         int tokenLuck = token.getBaseLuck();
@@ -59,7 +61,7 @@ public class ItemTokenService {
     }
 
     public ItemEntity handleRewardToken() {
-        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotType(SlotType.ITEM_TOKEN);
+        List<BaseItemEntity> baseItems = baseItemRepository.findByItemType(ItemType.ITEM_TOKEN);
 
         if (baseItems.isEmpty()) {
             throw new ItemNotFoundException("Nie znaleziono przedmiotu!");
@@ -76,7 +78,7 @@ public class ItemTokenService {
     }
 
     private ItemEntity generateItemFromToken(CharacterEntity character, int tokenLuck) {
-        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.ITEM_TOKEN);
+        List<BaseItemEntity> baseItems = baseItemRepository.findBySlotTypeNot(SlotType.NONE);
 
         Collections.shuffle(baseItems, random);
 

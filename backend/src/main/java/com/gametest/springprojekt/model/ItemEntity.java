@@ -33,6 +33,7 @@ public class ItemEntity {
                 id,
                 this.getBaseItem().getName(),
                 this.getBaseItem().getDescription(),
+                this.getBaseItem().getItemType(),
                 this.getBaseItem().getSlotType(),
                 totalRizz,
                 totalStrength,

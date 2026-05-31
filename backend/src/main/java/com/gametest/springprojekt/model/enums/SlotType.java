@@ -8,5 +8,5 @@ public enum SlotType {
     FEET,
     WRIST,
     EMBLEM,
-    ITEM_TOKEN
+    NONE
 }
