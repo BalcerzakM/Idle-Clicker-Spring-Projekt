@@ -60,3 +60,29 @@ VALUES
     ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-89.png'),
     ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-99.png'),
     ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-420.png');
+
+INSERT INTO opponent_entity (name,
+                             base_rizz,
+                             base_strength,
+                             base_agility,
+                             base_endurance,
+                             base_luck,
+                             image_path)
+VALUES
+    ('Gruba',       1, 5, 1, 5, 1, ''),
+    ('Dresiarz',    4, 6, 4, 4, 2, ''),
+    ('Ochroniarz',  5, 7, 3, 8, 2, '');
+
+
+
+INSERT INTO quest_entity (title,
+                          description,
+                          quest_tier,
+                          quest_type,
+                          opponent_id,
+                          image_path)
+VALUES
+    ('Rizzowanie grubej', 'opis', 'EASY', 'RIZZ_FIGHT', 1, ''),
+    ('Gruba ma problem', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 1, ''),
+    ('Dresiarz', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, ''),
+    ('Ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 3, '');

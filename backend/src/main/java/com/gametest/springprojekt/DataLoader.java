@@ -35,12 +35,6 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        OpponentEntity opponent = new OpponentEntity(null, "test", 1, 1, 1, 1, 1, "");
-        opponentRepository.save(opponent);
-        QuestEntity quest1 = new QuestEntity(null, "test1", "desc1", QuestTier.EASY, QuestType.RIZZ_FIGHT, opponent, "");
-        QuestEntity quest2 = new QuestEntity(null, "test2", "desc1", QuestTier.MEDIUM, QuestType.STRENGTH_FIGHT, opponent, "");
-        QuestEntity quest3 = new QuestEntity(null, "test3", "desc3", QuestTier.HARD,  QuestType.STRENGTH_FIGHT, opponent, "");
-        questRepository.saveAll(List.of(quest1,quest2,quest3));
         UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"),List.of() );
         userRepository.save(player);
         CharacterEntity character1 = new CharacterEntity(null,player, "test", CharacterClass.NERD,"avatar3.png",4,3,420,67,67,67,67,10000,67, List.of(),List.of(), null);
