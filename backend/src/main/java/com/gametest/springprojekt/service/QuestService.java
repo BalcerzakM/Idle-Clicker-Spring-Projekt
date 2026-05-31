@@ -48,7 +48,7 @@ public class QuestService {
     //generuje dto z parametrami questa na podstawie expa postaci
     private QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
 
-        int aura = character.getAura();
+        int aura = character.getAuraLvl();
 
         int questTierVariable = quest.getQuestTier().getMultiplier(); //multiplayer z enuma
 
@@ -108,7 +108,7 @@ public class QuestService {
     }
 
     private static long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
-        int aura = character.getAura();
+        int aura = character.getAuraLvl();
         int questTierVariable = quest.getQuestTier().getMultiplier();
         return (long) questTierVariable*aura;
     }

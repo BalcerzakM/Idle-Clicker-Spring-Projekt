@@ -34,10 +34,15 @@ public class ItemShopService {
     }
 
     //sciaga dzisiejsza oferte z bazy danych
+    @Transactional
     public List<ItemDto> getTodayShopItemDto(CharacterEntity character) {
         LocalDate today = LocalDate.now();
 
         List<ShopOfferEntity> offers = shopOfferRepository.findByCharacterAndOfferDate(character, today);
+
+        if(offers.isEmpty()) {
+            offers = shopOfferRepository.saveAll(generateRandomShopOffers(character));
+        }
 
         List<ItemDto> itemDtos = new ArrayList<>();
 
@@ -182,12 +187,12 @@ public class ItemShopService {
     public ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character, int amplifier) {
         return new ItemEntity(
                 null,
-                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAura() + amplifier) + 1),
-                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAura() + amplifier) + 1),
-                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAura() + amplifier) + 1),
-                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAura() + amplifier) + 1),
-                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAura() + amplifier) + 1),
-                baseItemEntity.getBasePrice() * (random.nextInt(character.getAura() + amplifier) + 1),
+                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBasePrice() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
                 baseItemEntity
         );
     }

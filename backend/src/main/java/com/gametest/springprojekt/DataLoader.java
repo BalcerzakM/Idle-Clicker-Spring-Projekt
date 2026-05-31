@@ -18,16 +18,12 @@ import java.util.Set;
 public class DataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final QuestRepository questRepository;
-    private final OpponentRepository opponentRepository;
     private final CharacterRepository characterRepository;
     private final ItemShopService itemShopService;
 
-    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder,  QuestRepository questRepository,  OpponentRepository opponentRepository, CharacterRepository characterRepository, ItemShopService itemShopService) {
+    public DataLoader(UserRepository userRepository, PasswordEncoder passwordEncoder, CharacterRepository characterRepository, ItemShopService itemShopService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.questRepository = questRepository;
-        this.opponentRepository = opponentRepository;
         this.characterRepository = characterRepository;
         this.itemShopService = itemShopService;
     }
