@@ -13,4 +13,6 @@ public class CombatDto {
     private int moneyReward;
 
     private int auraReward;
+
+    private ItemDto itemReward;
 }

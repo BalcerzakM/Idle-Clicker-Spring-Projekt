@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.dto;
 
+import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,6 +14,8 @@ public class ItemDto {
 
     private String itemName;
     private String itemDescription;
+    
+    private ItemType itemType;
     private SlotType slotType;
 
     private int totalRizz;

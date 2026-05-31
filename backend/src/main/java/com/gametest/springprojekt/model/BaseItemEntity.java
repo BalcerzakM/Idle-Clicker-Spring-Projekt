@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,8 +19,13 @@ public class BaseItemEntity {
     private Long id;
     private String name;
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private ItemType itemType;
+
     @Enumerated(EnumType.STRING)
     private SlotType slotType;
+
     private int baseRizz;
     private int baseStrength;
     private int baseAgility;

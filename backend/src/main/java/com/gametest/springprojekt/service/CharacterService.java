@@ -90,6 +90,10 @@ public class CharacterService {
 
         ItemEntity itemFromBackpack = backpackItem.getItem();
 
+        if (itemFromBackpack.getBaseItem().getSlotType().equals(SlotType.NONE)) {
+            throw new InvalidSlotException("Nie mozna zalozyc tego przedmiotu!");
+        }
+
         if(equipmentItemId == null){
             SlotType targetSlot = itemFromBackpack.getBaseItem().getSlotType();
             boolean slotOccupied = character.getEquipment().stream()
@@ -144,6 +148,7 @@ public class CharacterService {
                     backpackItem.getId(),
                     backpackItem.getItem().getBaseItem().getName(),
                     backpackItem.getItem().getBaseItem().getDescription(),
+                    backpackItem.getItem().getBaseItem().getItemType(),
                     backpackItem.getItem().getBaseItem().getSlotType(),
                     backpackItem.getItem().getTotalRizz(),
                     backpackItem.getItem().getTotalStrength(),
@@ -165,6 +170,7 @@ public class CharacterService {
                     equipmentItem.getId(),
                     equipmentItem.getItem().getBaseItem().getName(),
                     equipmentItem.getItem().getBaseItem().getDescription(),
+                    equipmentItem.getItem().getBaseItem().getItemType(),
                     equipmentItem.getItem().getBaseItem().getSlotType(),
                     equipmentItem.getItem().getTotalRizz(),
                     equipmentItem.getItem().getTotalStrength(),
