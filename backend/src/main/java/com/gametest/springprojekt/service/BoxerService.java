@@ -3,7 +3,6 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.BoxerResultDto;
 import com.gametest.springprojekt.exception.InsufficientMoneyException;
 import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.repository.CharacterRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -14,69 +13,67 @@ import java.util.TreeMap;
 @Service
 public class BoxerService {
     private final SecureRandom random = new SecureRandom();
-    private final int BOXER_PRICE = 10;
+    //private final int BOXER_PRICE = 10;
 
-    private static final TreeMap<Integer, Integer> PAYOUT_TABLE = new TreeMap<>();
+    private static final TreeMap<Integer, Double> PAYOUT_TABLE = new TreeMap<>();
     static {
-        PAYOUT_TABLE.put(0, -10);
-        PAYOUT_TABLE.put(100, -7);
-        PAYOUT_TABLE.put(200, -5);
-        PAYOUT_TABLE.put(300, -3);
-        PAYOUT_TABLE.put(400, -2);
-        PAYOUT_TABLE.put(500, -1);
-        PAYOUT_TABLE.put(600, 0);
-        PAYOUT_TABLE.put(700, 1);
-        PAYOUT_TABLE.put(750, 2);
-        PAYOUT_TABLE.put(800, 3);
-        PAYOUT_TABLE.put(850, 5);
-        PAYOUT_TABLE.put(900, 7);
-        PAYOUT_TABLE.put(950, 10);
-        PAYOUT_TABLE.put(970, 15);
-        PAYOUT_TABLE.put(990, 25);
-        PAYOUT_TABLE.put(999, 50);
+        PAYOUT_TABLE.put(0, 0.0);
+        PAYOUT_TABLE.put(100, 0.0);
+        PAYOUT_TABLE.put(200, 0.1);
+        PAYOUT_TABLE.put(300, 0.25);
+        PAYOUT_TABLE.put(400, 0.4);
+        PAYOUT_TABLE.put(500, 0.75);
+        PAYOUT_TABLE.put(600, 1.0);
+        PAYOUT_TABLE.put(700, 1.25);
+        PAYOUT_TABLE.put(750, 1.5);
+        PAYOUT_TABLE.put(800, 2.0);
+        PAYOUT_TABLE.put(850, 2.5);
+        PAYOUT_TABLE.put(900, 3.0);
+        PAYOUT_TABLE.put(950, 4.0);
+        PAYOUT_TABLE.put(970, 5.0);
+        PAYOUT_TABLE.put(990, 7.0);
+        PAYOUT_TABLE.put(999, 10.0);
     }
 
 
 
     @Transactional
-    public BoxerResultDto playBoxer(CharacterEntity character) {
-        if (character.getMoney() < BOXER_PRICE) {
+    public BoxerResultDto playBoxer(CharacterEntity character, int bet) {
+        if (bet <= 0) {
+            throw new IllegalArgumentException("Zaklad musi byc wiekszy od 0!");
+        }
+
+        if (character.getMoney() < bet) {
             throw new InsufficientMoneyException("Gracz ma za malo pieniedzy!");
         }
 
-        character.setMoney(character.getMoney() - BOXER_PRICE);
+        character.setMoney(character.getMoney() - bet);
 
-        BoxerResultDto result = calculateResult(character.getLuck());
+        BoxerResultDto result = calculateResult(character.getLuck(), bet);
 
-        result.setNewMoney(character.getMoney());
-
-        if (result.getRizzChange() != 0) {
-            int newRizz = character.getRizz() + result.getRizzChange();
-            result.setNewRizz(newRizz);
-            character.setRizz(Math.max(0, newRizz));
-        } else {
-            result.setNewRizz(character.getRizz());
-        }
+        int winAmount = result.getWinAmount();
+        character.setMoney(character.getMoney() + winAmount);
 
         return result;
     }
 
 
-    private BoxerResultDto calculateResult(int luck) {
-        int result;
+    private BoxerResultDto calculateResult(int luck, int bet) {
+        int score;
         boolean isLucky = isLuckyStrike(luck);
 
         if (isLucky) {
-            result = luckyStrike();
+            score = luckyStrike();
         }
         else {
-            result = normalStrike();
+            score = normalStrike();
         }
 
-        int rizzChange = calculateRizzChange(result);
+        double multiplier = getPayoutMultiplier(score);
 
+        int winAmount = (int) (bet * multiplier);
 
-        return new BoxerResultDto(result, rizzChange,0, 0, isLucky);
+        return new BoxerResultDto(score, winAmount, bet, isLucky);
     }
 
     private int normalStrike() {
@@ -103,9 +100,9 @@ public class BoxerService {
         return 850 + random.nextInt(150);
     }
 
-    private int calculateRizzChange(int result) {
-        Map.Entry<Integer, Integer> entry = PAYOUT_TABLE.floorEntry(result);
-        return entry != null ? entry.getValue() : 0;
+    private double getPayoutMultiplier(int score) {
+        Map.Entry<Integer, Double> entry = PAYOUT_TABLE.floorEntry(score);
+        return entry != null ? entry.getValue() : 0.0;
     }
 
     private boolean isLuckyStrike(int luck) {
