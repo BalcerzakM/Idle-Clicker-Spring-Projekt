@@ -6,6 +6,7 @@ import Shop from "./views/Shop";
 import Barman from "./views/Barman";
 import Player from "./views/Player";
 import Outside from "./views/Outside";
+import Boxer from "./views/Boxer";
 
 function App() {
 
@@ -38,6 +39,7 @@ function App() {
 						<Route path="/barman" element={<Barman/>}/>
 						<Route path="/player" element={<Player/>}/>
 						<Route path="/outside" element={<Outside/>}/>
+						<Route path="/boxer" element={<Boxer/>}/>
 					</Routes>
 				</div>
 			</div>
