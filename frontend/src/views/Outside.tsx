@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import entranceHover from "../assets/scenes/hover/entrance_hover.png";
+import boxerHover from "../assets/scenes/hover/boxer_hover.png";
 
 function Outside() {
 	const navigate = useNavigate();
@@ -16,19 +17,19 @@ function Outside() {
 					onClick={() => navigate("/")}
 				/>
 			</div>
-			<p className="outsideMain-entranceTextBox">Wejdź do klubu</p>
+			<p className="outsideMain-entranceTextBox">Klub</p>
 
-			{/*<div className="outsideMain-boxer">*/}
-			{/*	<img*/}
-			{/*		src={boxerHover}*/}
-			{/*		alt="boxer_hover"*/}
-			{/*		width={131}*/}
-			{/*		height={144}*/}
-			{/*		className="hover-image"*/}
-			{/*		onClick={() => navigate("/boxer")}*/}
-			{/*	/>*/}
-			{/*</div>*/}
-			<p className="clubMain-boxerTextBox">Boxer</p>
+			<div className="outsideMain-boxer">
+				<img
+					src={boxerHover}
+					alt="boxer_hover"
+					width={184}
+					height={205}
+					className="hover-image"
+					onClick={() => navigate("/boxer")}
+				/>
+			</div>
+			<p className="outsideMain-boxerTextBox">Boxer</p>
 		</div>
 	);
 }

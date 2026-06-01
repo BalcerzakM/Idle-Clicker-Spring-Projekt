@@ -356,6 +356,7 @@ body::before {
 	cursor: pointer;
 }
 
+/*PALARNIA*/
 .outsideMain {
 	position: relative;
 	width: 1310px;
@@ -368,16 +369,17 @@ body::before {
 			inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
+/*WEJSCIE DO KLUBU*/
 .outsideMain-entranceTextBox {
 	display: none;
 
 	font-size: 16px;
 
 	position: absolute;
-	top: 200px;
-	left: 500px;
+	top: 190px;
+	left: 635px;
 
-	width: 70px;
+	width: auto;
 
 	padding: 1px 6px;
 
@@ -416,3 +418,133 @@ body::before {
 	display: block;
 	opacity: 0.95;
 }
+
+/*OUTSIDE BOXER*/
+.outsideMain-boxerTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 205px;
+    left: 1140px;
+
+    width: auto;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 2;
+}
+
+.outsideMain-boxer {
+    position: absolute;
+    top: 240px;
+    left: 1087px;
+
+    width: 184px;
+    height: 205px;
+
+    z-index: 2;
+}
+
+.outsideMain-boxer:hover .hover-image {
+    display: block;
+}
+
+.outsideMain-boxer:hover + .outsideMain-boxerTextBox {
+    display: block;
+    opacity: 0.95;
+}
+
+/*BOXER*/
+.outsideBoxer {
+    position: relative;
+    width: 1310px;
+    height: 100%;
+    background: url("assets/scenes/boxer.png") center / contain no-repeat;
+    background-color: #0b0b0f;
+    border: 2px solid #1f1a24;
+    box-shadow:
+            inset 0 0 40px rgba(0, 0, 0, 0.6),
+            inset 0 0 80px rgba(122, 29, 45, 0.08);
+}
+
+@font-face {
+    font-family: "SevenSegment";
+    src: url("/fonts/DSEG7Modern-Bold.woff2") format("woff2");
+}
+
+.boxer-score-display {
+    position: absolute;
+    left: 455px;
+    top: 355px;
+    width: 285px;
+    height: 100px;
+
+    font-family: "SevenSegment", monospace;
+    font-size: 72px;
+    color: #ff2a00;
+    text-shadow: 0 0 12px #ff2a00;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.boxer-credit-display {
+    position: absolute;
+    left: 535px;
+    top: 650px;
+    width: 130px;
+    height: 60px;
+}
+
+.boxer-credit-display input {
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+    border: none;
+    outline: none;
+
+    font-family: "SevenSegment", monospace;
+    font-size: 36px;
+    color: #ff2a00;
+    text-align: center;
+    text-shadow: 0 0 8px #ff2a00;
+}
+
+.boxer-hit-button {
+    position: absolute;
+    left: 925px;
+    top: 250px;
+    width: 250px;
+    height: 300px;
+
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
+
+.boxer-result-text {
+    position: absolute;
+    left: 480px;
+    top: 740px;
+
+    font-size: 28px;
+    color: #ff9a3c;
+}
+
