@@ -8,6 +8,7 @@ import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
+import com.gametest.springprojekt.repository.ItemRepository;
 import com.gametest.springprojekt.repository.ShopOfferRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -26,11 +27,13 @@ public class ItemShopService {
     private final CharacterRepository characterRepository;
     private final int NUMBER_OF_SHOP_ITEMS = 4; //narazie 3 zeby w dataloaderze nie dodawac za duzo
     private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
+    private final ItemRepository itemRepository;
 
-    public ItemShopService(ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository) {
+    public ItemShopService(ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository, ItemRepository itemRepository) {
         this.shopOfferRepository = shopOfferRepository;
         this.baseItemRepository = baseItemRepository;
         this.characterRepository = characterRepository;
+        this.itemRepository = itemRepository;
     }
 
     //sciaga dzisiejsza oferte z bazy danych
@@ -116,18 +119,42 @@ public class ItemShopService {
         );
     }
 
-    //o podanej godzinie (6 rano) odswieza oferte dla kazdego charactera w bazie
+    //o podanej godzinie odswieza oferte dla kazdego charactera w bazie
     @Scheduled(cron = "0 0 0 * * *")
     @Transactional
     public void refreshShopOffers() {
         List<CharacterEntity> characters = characterRepository.findAll();
 
         for (CharacterEntity character : characters) {
-            //nad tym trzeba bedzie sie zastanowic
-            shopOfferRepository.deleteByCharacter(character);
-
-            shopOfferRepository.saveAll(generateRandomShopOffers(character));
+            refreshCharacterShopOffer(character);
         }
+    }
+
+    //to do odswiezanai dla uzytkownika za krysztaly
+    @Transactional
+    public void refreshShopOfferForCrystals(CharacterEntity character) {
+        if (character.getCristals() <= 0) {
+            throw new InsufficientMoneyException("Gracz ma za malo krysztalow!");
+        }
+
+        character.setCristals(character.getCristals() - 1);
+
+        refreshCharacterShopOffer(character);
+    }
+
+    private void refreshCharacterShopOffer(CharacterEntity character) {
+        List<ShopOfferEntity> oldOffers = shopOfferRepository.findByCharacter(character);
+
+        List<ItemEntity> oldItems = oldOffers.stream()
+                .map(ShopOfferEntity::getItem)
+                .toList();
+
+        shopOfferRepository.deleteAll(oldOffers);
+        shopOfferRepository.flush();
+
+        itemRepository.deleteAll(oldItems);
+
+        shopOfferRepository.saveAll(generateRandomShopOffers(character));
     }
 
     //generuje jeden item do oferty bez powtarzajacych sie baseItem, uzywana po np. kupieniu itema do uzupelnienia oferty

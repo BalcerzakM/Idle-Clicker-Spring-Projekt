@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ShopOfferRepository extends JpaRepository<ShopOfferEntity, Long> {
 
-    List<ShopOfferEntity> findByOfferDate(LocalDate date);
+    List<ShopOfferEntity> findByCharacter(CharacterEntity character);
 
     void deleteByCharacter(CharacterEntity character);
 

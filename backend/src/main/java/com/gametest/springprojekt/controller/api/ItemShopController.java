@@ -3,7 +3,6 @@ package com.gametest.springprojekt.controller.api;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.UserEntity;
-import com.gametest.springprojekt.repository.ItemRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import com.gametest.springprojekt.service.ItemShopService;
 import com.gametest.springprojekt.service.ItemTokenService;
@@ -37,8 +36,8 @@ public class ItemShopController {
 
     //do debugu
     @PostMapping("/refresh")
-    public void refreshOffers() {
-        itemShopService.refreshShopOffers();
+    public void refreshCharacterOffers() {
+        itemShopService.refreshShopOfferForCrystals(getCurrentCharacter());
     }
 
 

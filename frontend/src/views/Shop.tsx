@@ -4,6 +4,7 @@ import HeroPanel from "../components/HeroPanel";
 import "../css/ShopView.css";
 import type { ItemDto } from "../components/HeroPanel";
 import type { ItemsAndStatsDto } from "../components/HeroPanel";
+import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 
 function Shop() {
 	// stany sklepu
@@ -93,6 +94,7 @@ function Shop() {
 			});
 
 			await fetchShopItems();
+            await refreshCharacter();
 		} catch (err: any) {
 			setError("Nie udało się odświeżyć ofert");
 		}
@@ -166,7 +168,14 @@ function Shop() {
 			<div className="shop-panel">
 				<div className="shop-header">
 					<button onClick={handleRefresh} className="shop-refresh-btn">
-						Odśwież ofertę
+						Odśwież ofertę za 1
+                        <img
+                            src={PremiumCurrencyImg}
+                            alt="Premium currency"
+                            className="currencyImg"
+                            width={15}
+                            height={15}
+                        />
 					</button>
 				</div>
 

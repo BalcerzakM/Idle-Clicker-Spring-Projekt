@@ -21,7 +21,7 @@ public class BoxerService {
         PAYOUT_TABLE.put(100, 0.0);
         PAYOUT_TABLE.put(200, 0.1);
         PAYOUT_TABLE.put(300, 0.25);
-        PAYOUT_TABLE.put(400, 0.4);
+        PAYOUT_TABLE.put(400, 0.5);
         PAYOUT_TABLE.put(500, 0.75);
         PAYOUT_TABLE.put(600, 1.0);
         PAYOUT_TABLE.put(700, 1.25);
@@ -49,7 +49,7 @@ public class BoxerService {
 
         character.setMoney(character.getMoney() - bet);
 
-        BoxerResultDto result = calculateResult(character.getLuck(), bet);
+        BoxerResultDto result = calculateResult(character.getLuck(), bet, character.getStrength());
 
         int winAmount = result.getWinAmount();
         character.setMoney(character.getMoney() + winAmount);
@@ -58,46 +58,47 @@ public class BoxerService {
     }
 
 
-    private BoxerResultDto calculateResult(int luck, int bet) {
+    private BoxerResultDto calculateResult(int luck, int bet, int strength) {
         int score;
         boolean isLucky = isLuckyStrike(luck);
+        int strengthBonus = (int) Math.sqrt(strength);
 
         if (isLucky) {
-            score = luckyStrike();
+            score = luckyStrike(strengthBonus);
         }
         else {
-            score = normalStrike();
+            score = normalStrike(strengthBonus);
         }
 
         double multiplier = getPayoutMultiplier(score);
 
         int winAmount = (int) (bet * multiplier);
 
-        return new BoxerResultDto(score, winAmount, bet, isLucky);
+        return new BoxerResultDto(Math.min(score, 999), winAmount, bet, isLucky);
     }
 
-    private int normalStrike() {
+    private int normalStrike(int strengthBonus) {
         double roll = random.nextDouble();
 
         if (roll < 0.30) {
-            return random.nextInt(200);
+            return random.nextInt(200) + strengthBonus;
         } else if (roll < 0.55) {
-            return 200 + random.nextInt(200);
+            return 200 + random.nextInt(200) + strengthBonus;
         } else if (roll < 0.75) {
-            return 400 + random.nextInt(200);
+            return 400 + random.nextInt(200) + strengthBonus;
         } else if (roll < 0.88) {
-            return 600 + random.nextInt(150);
+            return 600 + random.nextInt(150) + strengthBonus;
         } else if (roll < 0.95) {
-            return 750 + random.nextInt(150);
+            return 750 + random.nextInt(150) + strengthBonus;
         } else if (roll < 0.99) {
-            return 900 + random.nextInt(70);
+            return 900 + random.nextInt(70) + strengthBonus;
         } else {
-            return 970 + random.nextInt(30);
+            return 970 + random.nextInt(30) + strengthBonus;
         }
     }
 
-    private int luckyStrike() {
-        return 850 + random.nextInt(150);
+    private int luckyStrike(int strengthBonus) {
+        return 850 + random.nextInt(150) +  strengthBonus;
     }
 
     private double getPayoutMultiplier(int score) {
