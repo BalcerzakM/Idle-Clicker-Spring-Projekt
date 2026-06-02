@@ -69,9 +69,11 @@ INSERT INTO opponent_entity (name,
                              base_luck,
                              image_path)
 VALUES
-    ('Gruba',       1, 5, 1, 5, 1, ''),
-    ('Dresiarz',    4, 6, 4, 4, 2, ''),
-    ('Ochroniarz',  5, 7, 3, 8, 2, '');
+    ('Gruba',       1, 5, 1, 5, 1, 'opponent_gruba.png'),
+    ('Dresiarz',    4, 6, 4, 4, 2, 'opponent_dresiarz.png'),
+    ('Hiszpan',    8, 4, 5, 3, 2, 'opponent_hiszpan.png'),
+    ('Ochroniarz',  5, 7, 3, 8, 2, 'opponent_ochroniarz.png');
+
 
 
 
@@ -82,7 +84,9 @@ INSERT INTO quest_entity (title,
                           opponent_id,
                           image_path)
 VALUES
-    ('Rizzowanie grubej', 'opis', 'EASY', 'RIZZ_FIGHT', 1, ''),
-    ('Gruba ma problem', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 1, ''),
-    ('Dresiarz', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, ''),
-    ('Ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 3, '');
+    ('Rizzowanie grubej', 'opis', 'EASY', 'RIZZ_FIGHT', 1, 'rizz_quest1.png'),
+    ('Erazmus z Hiszpanii', 'opis', 'MEDIUM', 'RIZZ_FIGHT', 3, 'rizz_quest2.png'),
+    ('Gruba ma problem', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 1, 'fight_quest5.png'),
+    ('Dresiarz', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, 'fight_quest2.png'),
+    ('Wyjaśnij Hiszpana', 'opis', 'EASY', 'STRENGTH_FIGHT', 3, 'fight_quest6.png'),
+    ('Pijany ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest1.png');
