@@ -1,0 +1,111 @@
+import { useState } from "react";
+import { useCharacter } from "../context/CharacterContext";
+import "../css/BoxerView.css";
+
+interface BoxerResultDto {
+    result: number;
+    winAmount: number;
+    bet: number;
+    lucky: boolean;
+}
+
+function Boxer() {
+    const [bet, setBet] = useState(10);
+    const [displayScore, setDisplayScore] = useState<number>(0);
+    const [finalResult, setFinalResult] = useState<BoxerResultDto | null>(null);
+    const [playing, setPlaying] = useState(false);
+    const {refreshCharacter} = useCharacter();
+
+    const animateScore = (target: number, onFinish?: () => void) => {
+        const duration = 5000;
+        const start = performance.now();
+
+        const tick = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+
+            const eased = 1 - Math.pow(1 - progress, 6);
+            //const eased = Math.sin((progress * Math.PI)/2);
+
+            const value = Math.round(eased * target);
+            setDisplayScore(value);
+
+            if (progress < 1) {
+                requestAnimationFrame(tick);
+            } else {
+                setDisplayScore(target);
+                setPlaying(false);
+
+                if (onFinish) {
+                    onFinish();
+                }
+            }
+        }
+        requestAnimationFrame(tick);
+    }
+
+    const playBoxer = async () => {
+        try {
+            setPlaying(true);
+            setFinalResult(null);
+            setDisplayScore(0);
+
+            const res = await fetch("http://localhost:8080/api/boxer/play", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bet),
+                }
+            );
+
+            if(!res.ok) {
+                throw new Error("Nie udalo sie zagrac w boxera");
+            }
+            const data: BoxerResultDto = await res.json();
+            setFinalResult(data);
+
+            animateScore(data.result, () => {
+                refreshCharacter();
+            });
+        } catch (e) {
+            console.error(e);
+            setPlaying(false);
+        }
+    }
+
+    return (
+        <div className="outsideBoxer">
+            <div className="boxer-score-display">
+                {displayScore.toString().padStart(3, "0")}
+            </div>
+
+            <div className="boxer-credit-display">
+                <input
+                    value={bet.toString().padStart(4, "0")}
+                    onChange={(e) => {
+                        const onlyDigits = e.target.value.replace(/\D/g,"");
+                        const value = Number(onlyDigits || 0);
+                        setBet(Math.min(value, 9999));
+                    }}
+                    type="text"
+                    inputMode={"numeric"}
+                    disabled={playing}
+                />
+            </div>
+
+            <button
+                className="boxer-hit-button"
+                onClick={playBoxer}
+                disabled={playing}
+            />
+
+            {finalResult && !playing && (
+                <div className="boxer-info-display">
+                    Wygrana: {finalResult.winAmount}
+                </div>
+            )}
+        </div>
+    );
+}
+
+export default Boxer;

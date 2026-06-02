@@ -22,7 +22,6 @@ public class BoxerController {
         this.boxerService = boxerService;
     }
 
-    //to jeszcze WIP, narazie tylko do sprawdzenia czy dziala
     @PostMapping("/play")
     public ResponseEntity<BoxerResultDto> playBoxer(@RequestBody int bet) {
         return ResponseEntity.ok(boxerService.playBoxer(getCurrentCharacter(), bet));
