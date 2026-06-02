@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useCharacter } from "../context/CharacterContext";
+import "../css/BoxerView.css";
 
 interface BoxerResultDto {
     result: number;
@@ -8,21 +10,23 @@ interface BoxerResultDto {
 }
 
 function Boxer() {
-    const [bet, setBet] = useState<number>(10);
+    const [bet, setBet] = useState(10);
     const [displayScore, setDisplayScore] = useState<number>(0);
     const [finalResult, setFinalResult] = useState<BoxerResultDto | null>(null);
     const [playing, setPlaying] = useState(false);
+    const {refreshCharacter} = useCharacter();
 
-    const animateScore = (target: number) => {
-        const duration = 2500;
+    const animateScore = (target: number, onFinish?: () => void) => {
+        const duration = 5000;
         const start = performance.now();
 
         const tick = (now: number) => {
             const progress = Math.min((now - start) / duration, 1);
 
-            const eased = 1 - Math.pow(1 - progress, 3);
+            const eased = 1 - Math.pow(1 - progress, 6);
+            //const eased = Math.sin((progress * Math.PI)/2);
 
-            const value = Math.floor(eased * target);
+            const value = Math.round(eased * target);
             setDisplayScore(value);
 
             if (progress < 1) {
@@ -30,6 +34,10 @@ function Boxer() {
             } else {
                 setDisplayScore(target);
                 setPlaying(false);
+
+                if (onFinish) {
+                    onFinish();
+                }
             }
         }
         requestAnimationFrame(tick);
@@ -53,11 +61,12 @@ function Boxer() {
             if(!res.ok) {
                 throw new Error("Nie udalo sie zagrac w boxera");
             }
-
             const data: BoxerResultDto = await res.json();
             setFinalResult(data);
 
-            animateScore(data.result);
+            animateScore(data.result, () => {
+                refreshCharacter();
+            });
         } catch (e) {
             console.error(e);
             setPlaying(false);
@@ -67,15 +76,19 @@ function Boxer() {
     return (
         <div className="outsideBoxer">
             <div className="boxer-score-display">
-                {displayScore.toString().padStart(4, "0")}
+                {displayScore.toString().padStart(3, "0")}
             </div>
 
             <div className="boxer-credit-display">
                 <input
-                    value={bet}
-                    onChange={(e) => setBet(Number(e.target.value))}
-                    type="number"
-                    min={1}
+                    value={bet.toString().padStart(4, "0")}
+                    onChange={(e) => {
+                        const onlyDigits = e.target.value.replace(/\D/g,"");
+                        const value = Number(onlyDigits || 0);
+                        setBet(Math.min(value, 9999));
+                    }}
+                    type="text"
+                    inputMode={"numeric"}
                     disabled={playing}
                 />
             </div>
@@ -87,7 +100,7 @@ function Boxer() {
             />
 
             {finalResult && !playing && (
-                <div className="boxer-result-text">
+                <div className="boxer-info-display">
                     Wygrana: {finalResult.winAmount}
                 </div>
             )}
