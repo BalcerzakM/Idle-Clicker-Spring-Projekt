@@ -2,6 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.BoxerResultDto;
 import com.gametest.springprojekt.exception.InsufficientMoneyException;
+import com.gametest.springprojekt.exception.InvalidInputValueException;
 import com.gametest.springprojekt.model.CharacterEntity;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -18,20 +19,21 @@ public class BoxerService {
     private static final TreeMap<Integer, Double> PAYOUT_TABLE = new TreeMap<>();
     static {
         PAYOUT_TABLE.put(0, 0.0);
-        PAYOUT_TABLE.put(100, 0.0);
-        PAYOUT_TABLE.put(200, 0.1);
-        PAYOUT_TABLE.put(300, 0.25);
-        PAYOUT_TABLE.put(400, 0.5);
-        PAYOUT_TABLE.put(500, 0.75);
+        PAYOUT_TABLE.put(100, 0.1);
+        PAYOUT_TABLE.put(200, 0.2);
+        PAYOUT_TABLE.put(300, 0.4);
+        PAYOUT_TABLE.put(400, 0.6);
+        PAYOUT_TABLE.put(500, 0.8);
         PAYOUT_TABLE.put(600, 1.0);
-        PAYOUT_TABLE.put(700, 1.25);
-        PAYOUT_TABLE.put(750, 1.5);
-        PAYOUT_TABLE.put(800, 2.0);
-        PAYOUT_TABLE.put(850, 2.5);
-        PAYOUT_TABLE.put(900, 3.0);
-        PAYOUT_TABLE.put(950, 4.0);
-        PAYOUT_TABLE.put(970, 5.0);
-        PAYOUT_TABLE.put(990, 7.0);
+        PAYOUT_TABLE.put(700, 1.2);
+        PAYOUT_TABLE.put(750, 1.4);
+        PAYOUT_TABLE.put(800, 1.6);
+        PAYOUT_TABLE.put(850, 1.8);
+        PAYOUT_TABLE.put(900, 2.0);
+        PAYOUT_TABLE.put(925, 2.5);
+        PAYOUT_TABLE.put(950, 3.0);
+        PAYOUT_TABLE.put(970, 4.0);
+        PAYOUT_TABLE.put(990, 5.0);
         PAYOUT_TABLE.put(999, 10.0);
     }
 
@@ -40,7 +42,7 @@ public class BoxerService {
     @Transactional
     public BoxerResultDto playBoxer(CharacterEntity character, int bet) {
         if (bet <= 0) {
-            throw new IllegalArgumentException("Zaklad musi byc wiekszy od 0!");
+            throw new InvalidInputValueException("Zaklad musi byc wiekszy od 0!");
         }
 
         if (character.getMoney() < bet) {
@@ -80,15 +82,15 @@ public class BoxerService {
     private int normalStrike(int strengthBonus) {
         double roll = random.nextDouble();
 
-        if (roll < 0.30) {
+        if (roll < 0.25) {
             return random.nextInt(200) + strengthBonus;
-        } else if (roll < 0.55) {
+        } else if (roll < 0.50) {
             return 200 + random.nextInt(200) + strengthBonus;
         } else if (roll < 0.75) {
             return 400 + random.nextInt(200) + strengthBonus;
-        } else if (roll < 0.88) {
+        } else if (roll < 0.90) {
             return 600 + random.nextInt(150) + strengthBonus;
-        } else if (roll < 0.95) {
+        } else if (roll < 0.97) {
             return 750 + random.nextInt(150) + strengthBonus;
         } else if (roll < 0.99) {
             return 900 + random.nextInt(70) + strengthBonus;

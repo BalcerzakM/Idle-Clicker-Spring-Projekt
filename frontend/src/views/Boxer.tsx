@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useCharacter } from "../context/CharacterContext";
 import "../css/BoxerView.css";
+import { useAlert } from "../context/AlertContext.tsx";
 
 interface BoxerResultDto {
     result: number;
@@ -15,6 +16,7 @@ function Boxer() {
     const [finalResult, setFinalResult] = useState<BoxerResultDto | null>(null);
     const [playing, setPlaying] = useState(false);
     const {refreshCharacter} = useCharacter();
+    const {showError} = useAlert();
 
     const animateScore = (target: number, onFinish?: () => void) => {
         const duration = 5000;
@@ -59,16 +61,21 @@ function Boxer() {
             );
 
             if(!res.ok) {
-                throw new Error("Nie udalo sie zagrac w boxera");
+                const error = await res.json();
+                showError(error.message);
+                setPlaying(false);
+                return;
             }
             const data: BoxerResultDto = await res.json();
             setFinalResult(data);
 
             animateScore(data.result, () => {
+                setPlaying(false);
                 refreshCharacter();
             });
         } catch (e) {
             console.error(e);
+            showError("Brak połączenia z serwerem")
             setPlaying(false);
         }
     }
@@ -102,6 +109,11 @@ function Boxer() {
             {finalResult && !playing && (
                 <div className="boxer-info-display">
                     Wygrana: {finalResult.winAmount}
+                    {finalResult.lucky && (
+                        <div className="lucky-hit">
+                            LUCKY PUNCH!
+                        </div>
+                    )}
                 </div>
             )}
         </div>

@@ -89,6 +89,8 @@
     width: auto;
     opacity: 90%;
 
+    text-align: center;
+
     font-family: "Teko", sans-serif;
     font-size: 35px;
     color: var(--neon-gold, #d89b52);
@@ -103,3 +105,8 @@
     opacity: 95%;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
 }
+
+.boxer-info-display .lucky-hit {
+    font-weight: bold;
+}
+

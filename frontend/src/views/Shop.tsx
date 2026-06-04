@@ -5,12 +5,14 @@ import "../css/ShopView.css";
 import type { ItemDto } from "../components/HeroPanel";
 import type { ItemsAndStatsDto } from "../components/HeroPanel";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
+import { useAlert } from "../context/AlertContext.tsx";
 
 function Shop() {
+	const {showError} = useAlert();
 	// stany sklepu
 	const [items, setItems] = useState<ItemDto[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
+	//const [error, setError] = useState<string | null>(null);
 	const [buyingId, setBuyingId] = useState<number | null>(null);
 
 	// stany bohatera
@@ -20,18 +22,21 @@ function Shop() {
 	const fetchShopItems = useCallback(async () => {
 		try {
 			setLoading(true);
-			setError(null);
+			//setError(null);
 
 			const res = await fetch("http://localhost:8080/api/shop");
 
 			if (!res.ok) {
-				throw new Error("Błąd pobierania ofert");
+				const error = await res.json();
+				showError(error.message || "Nie udało się wczytać ofert");
+				return;
 			}
 
 			const data: ItemDto[] = await res.json();
 			setItems(data);
 		} catch (err: any) {
-			setError(err.message || "Nie udało się załadować sklepu");
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		} finally {
 			setLoading(false);
 		}
@@ -42,14 +47,16 @@ function Shop() {
 			const res = await fetch("http://localhost:8080/api/character/statsItems");
 
 			if (!res.ok) {
-				throw new Error("Błąd pobierania danych postaci");
+				const error = await res.json();
+				showError(error.message || "Nie udało się wczytać danych postaci");
+				return;
 			}
 
 			const heroData: ItemsAndStatsDto = await res.json();
 			setHero(heroData);
 		} catch (err: any) {
 			console.error(err);
-			setError(err.message);
+			showError("Brak połączenia z serwerem")
 		}
 	}, []);
 
@@ -62,7 +69,7 @@ function Shop() {
 	const handleBuy = async (offerId: number) => {
 		try {
 			setBuyingId(offerId);
-			setError(null);
+			//setError(null);
 
 			const res = await fetch("http://localhost:8080/api/shop/buy", {
 				method: "POST",
@@ -73,15 +80,19 @@ function Shop() {
 			});
 
 			if (!res.ok) {
-				const errText = await res.text();
-				throw new Error(errText || "Nie udało się kupić przedmiotu");
+				// const errText = await res.text();
+				// throw new Error(errText || "Nie udało się kupić przedmiotu");
+				const error = await res.json();
+				showError(error.message);
+				return;
 			}
 
 			await fetchShopItems();
 			await fetchCharacterData();
 			await refreshCharacter();
 		} catch (err: any) {
-			setError(err.message || "Wystąpił błąd podczas zakupu");
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		} finally {
 			setBuyingId(null);
 		}
@@ -89,14 +100,21 @@ function Shop() {
 
 	const handleRefresh = async () => {
 		try {
-			await fetch("http://localhost:8080/api/shop/refresh", {
+			const res = await fetch("http://localhost:8080/api/shop/refresh", {
 				method: "POST",
 			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się odświeżyć ofert");
+				return;
+			}
 
 			await fetchShopItems();
             await refreshCharacter();
 		} catch (err: any) {
-			setError("Nie udało się odświeżyć ofert");
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		}
 	};
 
@@ -112,13 +130,16 @@ function Shop() {
 			});
 
 			if (!res.ok) {
-				throw new Error("Sprzedaż nieudana");
+				const error = await res.json();
+				showError(error.message || "Nie udało się sprzedać przedmiotu");
+				return;
 			}
 
 			await fetchCharacterData();
 			await refreshCharacter();
 		} catch (err: any) {
-			setError(err.message || "Błąd sprzedaży");
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		}
 	};
 
@@ -142,14 +163,15 @@ function Shop() {
 			});
 
 			if (!res.ok) {
-				const errText = await res.text();
-				throw new Error(errText);
+				const error = await res.json();
+				showError(error.message || "Nie udało się założyć przedmiotu");
+				return;
 			}
 
 			await fetchCharacterData();
 		} catch (err: any) {
 			console.error(err);
-			alert(err.message || "Nie udało się założyć przedmiotu");
+			showError("Brak połączenia z serwerem");
 		}
 	};
 
@@ -179,7 +201,7 @@ function Shop() {
 					</button>
 				</div>
 
-				{error && <div className="shop-error">{error}</div>}
+				{/*{error && <div className="shop-error">{error}</div>}*/}
 
 				{items.length === 0 ? (
 					<p className="shop-empty">Brak dostępnych ofert.</p>

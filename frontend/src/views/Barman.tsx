@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "../css/QuestView.css";
+import { useAlert } from "../context/AlertContext.tsx";
 
 // ----- typy -----
 interface QuestDto {
@@ -24,10 +25,11 @@ function Barman() {
 	const [quests, setQuests] = useState<QuestDto[]>([]);
 	const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
+	//const [error, setError] = useState<string | null>(null);
 	const [timeLeft, setTimeLeft] = useState<string>("");
 	const [progress, setProgress] = useState<number>(100);
 	const [totalDuration, setTotalDuration] = useState<number>(0);
+	const {showError} = useAlert();
 
 	const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -35,32 +37,47 @@ function Barman() {
 		try {
 			setLoading(true);
 			const res = await fetch("http://localhost:8080/api/quest");
-			if (!res.ok) throw new Error("Nie udało się pobrać questów");
+
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się pobrać questów");
+				return;
+			}
+
 			const data: QuestDto[] = await res.json();
 			setQuests(data);
 		} catch (err: any) {
-			setError(err.message);
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		} finally {
 			setLoading(false);
 		}
-	}, []);
+	}, [showError]);
 
 	const checkActiveQuest = useCallback(async () => {
 		try {
 			const res = await fetch("http://localhost:8080/api/quest/active");
+
 			if (res.status === 404) {
 				await fetchQuests();
 				return;
 			}
-			if (!res.ok) throw new Error("Błąd podczas sprawdzania aktywnego questa");
+
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się sprawdzić aktywnego questa");
+				return;
+			}
+
 			const data: ActiveQuestDto = await res.json();
 			setActiveQuest(data);
 		} catch (err: any) {
-			setError(err.message);
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		} finally {
 			setLoading(false);
 		}
-	}, [fetchQuests]);
+	}, [fetchQuests, showError]);
 
 	useEffect(() => {
 		checkActiveQuest();
@@ -68,13 +85,17 @@ function Barman() {
 
 	const handleSelectQuest = async (questId: number) => {
 		try {
-			setError(null);
+			//setError(null);
 			const res = await fetch("http://localhost:8080/api/quest/active", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(questId),
 			});
-			if (!res.ok) throw new Error("Nie udało się wybrać questa");
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się wybrać questa");
+				return;
+			}
 			const data: ActiveQuestDto = await res.json();
 
 			// zapamiętaj całkowity czas trwania na podstawie wybranego questa
@@ -85,7 +106,8 @@ function Barman() {
 
 			setActiveQuest(data);
 		} catch (err: any) {
-			setError(err.message || "Wystąpił błąd");
+			console.error(err);
+			showError("Brak połączenia z serwerem")
 		}
 	};
 
@@ -134,7 +156,7 @@ function Barman() {
 	}, []);
 
 	if (loading) return <div className="quest-loading">Ładowanie...</div>;
-	if (error) return <div className="quest-error">{error}</div>;
+	// if (error) return <div className="quest-error">{error}</div>;
 
 	// EKRAN AKTYWNEGO QUESTA (odliczanie)
 	if (activeQuest) {

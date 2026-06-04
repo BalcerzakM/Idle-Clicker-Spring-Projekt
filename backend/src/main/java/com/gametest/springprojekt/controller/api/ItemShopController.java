@@ -35,8 +35,9 @@ public class ItemShopController {
 
     //do debugu
     @PostMapping("/refresh")
-    public void refreshCharacterOffers() {
+    public ResponseEntity<?> refreshCharacterOffers() {
         itemShopService.refreshShopOfferForCrystals(characterService.getCurrentCharacter());
+        return ResponseEntity.ok().build();
     }
 
 

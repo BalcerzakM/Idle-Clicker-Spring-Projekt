@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "BACKPACK_ALREADY_FULL",
-                        e.getMessage()
+                        "Twój plecak jest już pełny!"
                 ));
     }
 
@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "BACKPACK_ITEM_NOT_FOUND",
-                        e.getMessage()
+                        "Błąd wewnętrzny serwera"
                 ));
     }
 
@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "EQUIPMENT_ITEM_NOT_FOUND",
-                        e.getMessage()
+                        "Błąd wewnętrzny serwera"
                 ));
     }
 
@@ -45,7 +45,17 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "INSUFFICIENT_MONEY",
-                        e.getMessage()
+                        "Masz za mało pieniędzy!"
+                ));
+    }
+
+    @ExceptionHandler(InvalidInputValueException.class)
+    public ResponseEntity<ErrorDto> handleInvalidInputValue(InvalidInputValueException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "INVALID_INPUT_VALUE",
+                        "Nieprawidłowa wartość: " + e.getMessage()
                 ));
     }
 
@@ -55,7 +65,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "INVALID_ITEM_TYPE",
-                        e.getMessage()
+                        "Przedmiot ma nieprawidłowy typ!"
                 ));
     }
 
@@ -65,7 +75,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "INVALID_SLOT",
-                        e.getMessage()
+                        "Nieprawidłowe miejsce na przedmiot"
                 ));
     }
 
@@ -75,19 +85,19 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "ITEM_NOT_FOUND",
-                        e.getMessage()
+                        "Błąd wewnętrzny serwera"
                 ));
     }
 
-    @ExceptionHandler(NoActiveQuestException.class)
-    public ResponseEntity<ErrorDto> handleNoActiveQuest(NoActiveQuestException e) {
-        return ResponseEntity
-                .status(HttpStatus.CONFLICT)
-                .body(new ErrorDto(
-                        "NO_ACTIVE_QUEST",
-                        e.getMessage()
-                ));
-    }
+//    @ExceptionHandler(NoActiveQuestException.class)
+//    public ResponseEntity<ErrorDto> handleNoActiveQuest(NoActiveQuestException e) {
+//        return ResponseEntity
+//                .status(HttpStatus.CONFLICT)
+//                .body(new ErrorDto(
+//                        "NO_ACTIVE_QUEST",
+//                        "Nie masz aktywnego questa!"
+//                ));
+//    }
 
     @ExceptionHandler(NotEnoughAvailableBaseItemsException.class)
     public ResponseEntity<ErrorDto> handleNotEnoughAvailableBaseItems(NotEnoughAvailableBaseItemsException e) {
@@ -95,7 +105,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "NOT_ENOUGH_AVAILABLE_BASE_ITEMS",
-                        e.getMessage()
+                        "Błąd wewnętrzny serwera"
                 ));
     }
 
@@ -105,7 +115,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "QUEST_STILL_ACTIVE",
-                        e.getMessage()
+                        "Twój quest jest wciąż aktywny!"
                 ));
     }
 
@@ -115,7 +125,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "SLOT_ALREADY_OCCUPIED",
-                        e.getMessage()
+                        "To miejsce jest już zajęte!"
                 ));
     }
 
