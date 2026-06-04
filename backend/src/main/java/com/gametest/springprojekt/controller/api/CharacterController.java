@@ -23,20 +23,18 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/character")
 public class CharacterController {
     CharacterRepository characterRepository;
-    UserRepository userRepository;
     CharacterService characterService;
 
 
-    public CharacterController(CharacterRepository characterRepository, UserRepository userRepository, CharacterService characterService) {
+    public CharacterController(CharacterRepository characterRepository, CharacterService characterService) {
         this.characterRepository = characterRepository;
-        this.userRepository = userRepository;
         this.characterService = characterService;
     }
 
 
     @GetMapping("/money")
     public ResponseEntity<MoneyAndAvatarDto> getMoney() {
-        CharacterEntity character = getCurrentCharacter();
+        CharacterEntity character = characterService.getCurrentCharacter();
         MoneyAndAvatarDto moneyAndAvatarDto = characterService.getMoneyAndAvatar(character);
         return ResponseEntity.ok(moneyAndAvatarDto);
     }
@@ -48,7 +46,7 @@ public class CharacterController {
      */
     @GetMapping("/statsItems")
     public ResponseEntity<ItemsAndStatsDto> getCharacterInfo() {
-        CharacterEntity character = getCurrentCharacter();
+        CharacterEntity character = characterService.getCurrentCharacter();
         ItemsAndStatsDto result = characterService.getItemsAndStats(character);
         return ResponseEntity.ok(result);
     }
@@ -58,30 +56,15 @@ public class CharacterController {
     public ResponseEntity<?> equipItem(
             @Valid @RequestBody SwapRequestDto swapRequest
     ) {
-        CharacterEntity character = getCurrentCharacter();
-        try {
-            characterService.equip(character,
-                    swapRequest.getEquipmentItemId(),
-                    swapRequest.getBackpackItemId()
-            );
-        } catch (EquipmentItemNotFoundException | BackpackItemNotFoundException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (InvalidSlotException e) {
-            return ResponseEntity.unprocessableEntity().body(e.getMessage());
-        }
+        CharacterEntity character = characterService.getCurrentCharacter();
+        characterService.equip(character,
+                swapRequest.getEquipmentItemId(),
+                swapRequest.getBackpackItemId()
+        );
         return ResponseEntity.ok("Wyposażono przedmiot");
     }
 
 
 
-    private CharacterEntity getCurrentCharacter() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String username = auth.getName();
 
-        UserEntity user = userRepository.getByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
-
-        // na razie na sztywno, z listy pierwsza postać po prostu
-        return user.getCharacters().getFirst();
-    }
 }

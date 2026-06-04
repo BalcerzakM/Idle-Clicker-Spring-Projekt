@@ -12,6 +12,9 @@ import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +29,18 @@ public class CharacterService {
         this.userRepository = userRepository;
         this.characterRepository = characterRepository;
     }
+
+    public CharacterEntity getCurrentCharacter() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+
+        UserEntity user = userRepository.getByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
+
+        // na razie na sztywno, z listy pierwsza postać po prostu
+        return user.getCharacters().getFirst();
+    }
+
 
     @Transactional
     public void createAndAssignCharacter(CharacterCreatorDto dto, String username) {

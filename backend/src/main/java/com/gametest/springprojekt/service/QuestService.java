@@ -2,7 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
-import com.gametest.springprojekt.exception.NoActiveQuest;
+import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.model.ActiveQuestEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.QuestEntity;
@@ -88,13 +88,13 @@ public class QuestService {
      * zwraca aktualnego questa wraz z policzonym czasem zakończenia
      * @param character
      * @return
-     * @throws NoActiveQuest
+     * @throws NoActiveQuestException
      */
 
-    public ActiveQuestDto getActiveQuestDto(CharacterEntity character) throws NoActiveQuest {
+    public ActiveQuestDto getActiveQuestDto(CharacterEntity character) throws NoActiveQuestException {
 
         if (character.getActiveQuest() == null){
-            throw new NoActiveQuest("Gracz nie wybrał żadnego questa");
+            throw new NoActiveQuestException("Gracz nie wybrał żadnego questa");
         }
         ActiveQuestEntity aq = character.getActiveQuest();
 
