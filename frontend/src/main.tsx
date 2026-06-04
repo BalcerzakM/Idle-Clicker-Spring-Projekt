@@ -4,13 +4,16 @@ import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 import App from './App.tsx'
 import { CharacterProvider } from './context/CharacterContext.tsx'
+import {AlertProvider} from "./context/AlertContext.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <CharacterProvider>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+        <AlertProvider>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </AlertProvider>
     </CharacterProvider>
   </StrictMode>,
 )

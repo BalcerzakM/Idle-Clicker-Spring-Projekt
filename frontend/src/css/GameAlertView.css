@@ -1,0 +1,54 @@
+.game-alert-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.game-alert {
+    min-width: 360px;
+    max-width: 520px;
+    padding: 24px;
+    background: linear-gradient(180deg, #16131a 0%, #0b0b0f 100%);
+    border: 1px solid var(--border-color, #1e1a22);
+    border-radius: 10px;
+    font-family: "Teko", sans-serif;
+    font-size: 35px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+}
+
+.game-alert h3 {
+    color: var(--neon-red, #ff5577);
+    margin-bottom: 12px;
+}
+
+.game-alert button {
+    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+    border: 1px solid var(--neon-gold);
+    padding: 6px 0;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    color: var(--neon-gold, #d89b52);
+    text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+    transition: all 0.2s;
+    margin-top: auto;
+    width: 50px;
+}
+
+.game-alert p {
+    color: var(--neon-gold, #d89b52);
+    text-shadow: 0 0 4px var(--neon-gold);
+}
+
+.game-alert button:hover {
+    background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+    color: #ffd29c;
+    border-color: #ffc285;
+    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
+}
