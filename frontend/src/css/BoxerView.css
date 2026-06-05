@@ -17,8 +17,8 @@
 
 .boxer-score-display {
     position: absolute;
-    left: 444px;
-    top: 413px;
+    left: 437px;
+    top: 405px;
     width: 285px;
     height: 100px;
 
@@ -34,8 +34,8 @@
 
 .boxer-credit-display {
     position: absolute;
-    left: 516px;
-    top: 663px;
+    left: 508px;
+    top: 653px;
     width: 140px;
     height: 70px;
 }
@@ -57,19 +57,18 @@
 
 .boxer-hit-button {
     position: absolute;
-    left: 815px;
-    top: 280px;
-    width: 220px;
-    height: 270px;
+    left: 675px;
+    top: -30px;
+    width: 447px;
+    height: 708px;
 
-    background: transparent;
-    border: none;
+    z-index: 999;
     cursor: pointer;
 }
 
 .boxer-result-text {
     position: absolute;
-    left: 480px;
+    left: 460px;
     top: 740px;
 
     font-size: 28px;

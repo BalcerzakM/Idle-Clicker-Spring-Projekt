@@ -17,11 +17,23 @@ public class ItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private int totalRizz;
+
+    @Column(nullable = false)
     private int totalStrength;
+
+    @Column(nullable = false)
     private int totalAgility;
+
+    @Column(nullable = false)
     private int totalEndurance;
+
+    @Column(nullable = false)
     private int totalLuck;
+
+    @Column(nullable = false)
     private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)

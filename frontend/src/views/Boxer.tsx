@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useCharacter } from "../context/CharacterContext";
 import "../css/BoxerView.css";
 import { useAlert } from "../context/AlertContext.tsx";
+import boxerIdle from "../assets/scenes/boxer/boxer_idle.png";
+import boxerHit from "../assets/scenes/boxer/boxer_hit.png";
+import boxerIdleHover from "../assets/scenes/boxer/boxer_idle_hover.png";
 
 interface BoxerResultDto {
     result: number;
@@ -14,6 +17,7 @@ function Boxer() {
     const [bet, setBet] = useState(10);
     const [displayScore, setDisplayScore] = useState<number>(0);
     const [finalResult, setFinalResult] = useState<BoxerResultDto | null>(null);
+    const [hovered, setHovered] = useState(false);
     const [playing, setPlaying] = useState(false);
     const {refreshCharacter} = useCharacter();
     const {showError} = useAlert();
@@ -46,6 +50,10 @@ function Boxer() {
     }
 
     const playBoxer = async () => {
+        if(playing) {
+            return;
+        }
+
         try {
             setPlaying(true);
             setFinalResult(null);
@@ -80,6 +88,14 @@ function Boxer() {
         }
     }
 
+    let boxerImage = boxerIdle;
+
+    if (playing) {
+        boxerImage = boxerHit;
+    } else if (hovered) {
+        boxerImage = boxerIdleHover;
+    }
+
     return (
         <div className="outsideBoxer">
             <div className="boxer-score-display">
@@ -100,11 +116,18 @@ function Boxer() {
                 />
             </div>
 
-            <button
-                className="boxer-hit-button"
-                onClick={playBoxer}
-                disabled={playing}
-            />
+            <div className="boxer-hit-button">
+                <img
+                    src={playing ? boxerHit : boxerImage}
+                    alt="boxer_idle"
+                    width={447}
+                    height={708}
+                    className="boxer-hit-button-img"
+                    onClick={playBoxer}
+                    onMouseEnter={() => setHovered(true)}
+                    onMouseLeave={() => setHovered(false)}
+                />
+            </div>
 
             {finalResult && !playing && (
                 <div className="boxer-info-display">

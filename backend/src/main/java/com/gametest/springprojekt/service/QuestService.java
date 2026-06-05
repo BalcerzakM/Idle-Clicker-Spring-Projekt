@@ -3,11 +3,14 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
+import com.gametest.springprojekt.exception.QuestNotFoundException;
 import com.gametest.springprojekt.model.ActiveQuestEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.QuestEntity;
+import com.gametest.springprojekt.model.QuestOfferEntity;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.repository.CharacterRepository;
+import com.gametest.springprojekt.repository.QuestOfferRepository;
 import com.gametest.springprojekt.repository.QuestRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +19,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class QuestService {
@@ -23,14 +27,39 @@ public class QuestService {
     private final QuestRepository questRepository;
     private final Random random = new Random();
     private final CharacterRepository characterRepository; // Intelij nie wie, że metoda setActiveQuest modyfikuje też repo
+    private final QuestOfferRepository questOfferRepository;
+    private final int QUEST_OFFER_SIZE = 3;
 
-    public QuestService(QuestRepository questRepository, CharacterRepository characterRepository) {
+    public QuestService(QuestRepository questRepository, CharacterRepository characterRepository, QuestOfferRepository questOfferRepository) {
         this.questRepository = questRepository;
         this.characterRepository = characterRepository;
+        this.questOfferRepository = questOfferRepository;
+    }
+
+    @Transactional
+    public List<QuestDto> getQuests(CharacterEntity character) {
+        List<QuestOfferEntity> questOffers = questOfferRepository.findByCharacter(character);
+
+        List<QuestEntity> quests;
+
+        if (questOffers.size() != QUEST_OFFER_SIZE) {
+            questOfferRepository.deleteByCharacter(character);
+            questOffers.clear();
+
+            quests = getRandomQuestList();
+
+            for (QuestEntity newQuest : quests) {
+                questOffers.add(new QuestOfferEntity(null, newQuest, character));
+            }
+            questOfferRepository.saveAll(questOffers);
+        }
+
+        quests = questOffers.stream().map(QuestOfferEntity::getQuest).collect(Collectors.toList());
+        return generateQuestDtoList(quests, character);
     }
 
     //pobiera losowe 3 questy po jednym z kazdego tieru
-    public List<QuestEntity> getRandomQuestList() {
+    private List<QuestEntity> getRandomQuestList() {
         List<QuestEntity> randomQuestList = new ArrayList<>();
 
         List<QuestEntity> questList = questRepository.findByQuestTier(QuestTier.EASY);
@@ -47,12 +76,6 @@ public class QuestService {
 
     //generuje dto z parametrami questa na podstawie expa postaci
     private QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
-
-        int aura = character.getAuraLvl();
-
-        int questTierVariable = quest.getQuestTier().getMultiplier(); //multiplayer z enuma
-
-
         long questDuration = calculateQuestDuration(character, quest);
 
         int moneyReward = quest.calculateMoneyReward(character);
@@ -74,7 +97,7 @@ public class QuestService {
     }
 
     //generuje dto i robi liste dto do controllera
-    public List<QuestDto> generateQuestDtoList(List<QuestEntity> questList, CharacterEntity character) {
+    private List<QuestDto> generateQuestDtoList(List<QuestEntity> questList, CharacterEntity character) {
         List<QuestDto> questDtoList = new ArrayList<>();
 
         for (QuestEntity quest : questList) {
@@ -116,7 +139,13 @@ public class QuestService {
     @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo
     public ActiveQuestDto setActiveQuest(CharacterEntity character, Long questId) {
         QuestEntity quest = questRepository.findById(questId)
-                .orElseThrow(() -> new RuntimeException("Nie znaleziono questa"));
+                .orElseThrow(() -> new QuestNotFoundException("Nie znaleziono questa"));
+
+        QuestOfferEntity questOffer = questOfferRepository.findByQuestAndCharacter(quest, character);
+        if (questOffer == null) {
+            throw new QuestNotFoundException("Nie znaleziono questa");
+        }
+        questOfferRepository.delete(questOffer);
 
         Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,quest));
 

@@ -63,7 +63,7 @@ public class BoxerService {
     private BoxerResultDto calculateResult(int luck, int bet, int strength) {
         int score;
         boolean isLucky = isLuckyStrike(luck);
-        int strengthBonus = (int) Math.sqrt(strength);
+        int strengthBonus = (int) Math.sqrt(strength/2.0);
 
         if (isLucky) {
             score = luckyStrike(strengthBonus);
@@ -72,11 +72,13 @@ public class BoxerService {
             score = normalStrike(strengthBonus);
         }
 
+        score = Math.min(score, 999);
+
         double multiplier = getPayoutMultiplier(score);
 
         int winAmount = (int) (bet * multiplier);
 
-        return new BoxerResultDto(Math.min(score, 999), winAmount, bet, isLucky);
+        return new BoxerResultDto(score, winAmount, bet, isLucky);
     }
 
     private int normalStrike(int strengthBonus) {
@@ -100,7 +102,7 @@ public class BoxerService {
     }
 
     private int luckyStrike(int strengthBonus) {
-        return 850 + random.nextInt(150) +  strengthBonus;
+        return 750 + random.nextInt(250) +  strengthBonus;
     }
 
     private double getPayoutMultiplier(int score) {

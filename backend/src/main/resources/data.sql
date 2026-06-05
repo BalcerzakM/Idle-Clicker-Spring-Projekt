@@ -48,18 +48,18 @@ VALUES
     ('Skorzana kurtka',         'opis', 'EQUIPMENT','UPPER_BODY', 7, 5, 1, 5, 2, 22, 'item-leather-jacket.png'),
 
 
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-03.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-12.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-13.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-21.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-34.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-55.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-58.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-67.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-77.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-89.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-99.png'),
-    ('Numerek do szatni', 'opis', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-420.png');
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-03.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-12.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-13.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-21.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-34.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-55.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-58.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-67.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-77.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-89.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-99.png'),
+    ('Numerek do szatni', 'Wymień go szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-420.png');
 
 INSERT INTO opponent_entity (name,
                              base_rizz,

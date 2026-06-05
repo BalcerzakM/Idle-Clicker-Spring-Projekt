@@ -31,12 +31,9 @@ public class QuestController {
 
     @GetMapping()
     public List<QuestDto> showQuests() {
-
         CharacterEntity character = characterService.getCurrentCharacter();
 
-        List<QuestEntity> questlist = questService.getRandomQuestList();
-
-        return questService.generateQuestDtoList(questlist, character);
+        return questService.getQuests(character);
     }
 
     @GetMapping("/active")

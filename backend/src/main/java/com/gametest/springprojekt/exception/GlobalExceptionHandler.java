@@ -129,5 +129,15 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(QuestNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleQuestNotFound(QuestNotFoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDto(
+                        "QUEST_NOT_FOUND",
+                        "Błąd wewnętrzny serwera"
+                ));
+    }
+
 
 }
