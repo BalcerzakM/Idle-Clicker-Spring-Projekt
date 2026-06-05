@@ -42,11 +42,11 @@ public class BoxerService {
     @Transactional
     public BoxerResultDto playBoxer(CharacterEntity character, int bet) {
         if (bet <= 0) {
-            throw new InvalidInputValueException("Zaklad musi byc wiekszy od 0!");
+            throw new InvalidInputValueException("Zakład musi być większy od 0!");
         }
 
         if (character.getMoney() < bet) {
-            throw new InsufficientMoneyException("Gracz ma za malo pieniedzy!");
+            throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
         }
 
         character.setMoney(character.getMoney() - bet);

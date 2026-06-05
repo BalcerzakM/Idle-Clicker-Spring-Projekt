@@ -1,5 +1,6 @@
 import StandardCurrencyImg from "../assets/other/currency_standard.png";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
+import "../css/NavBarView.css";
 import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
 
@@ -30,6 +31,21 @@ function NavBar() {
 						className="currencyImg"
 					/>
 					<p>{`${character?.cristals ?? "Error"}`}</p>
+				</div>
+				<div className="navBar-character-aura">
+					<p>Aura level: <b>{character?.auraLevel ?? "-"}</b></p>
+
+					<div className="auraBar">
+						<div
+							className="auraBar-fill"
+							style={{
+								width: `${character?.levelProgressPercent ?? 0}%`,
+							}}
+						/>
+					</div>
+					<p className="navBar-character-aura-points">
+						Następny level: {character?.aura ?? 0}/{character?.nextLevelAuraRequirement ?? 0} pkt aury
+					</p>
 				</div>
 			</div>
 			<div className="navBar-navigation">
