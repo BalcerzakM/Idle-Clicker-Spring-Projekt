@@ -337,10 +337,7 @@ fieldset {
 }
 
 .class-option {
-    cursor: pointer;
-}
-
-.class-option {
+    position: relative;
     font-size: 25px;
     cursor: pointer;
     display: inline-block;
@@ -350,8 +347,67 @@ fieldset {
     transition: all 0.2s ease-in-out;
 }
 
+.class-tooltip {
+    visibility: hidden;
+    opacity: 0;
+    position: absolute;
+    bottom: 120%;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: var(--bg-panel);
+    border: 1px solid var(--neon-gold);
+    box-shadow: 0 0 20px rgba(216, 155, 82, 0.3);
+    border-radius: 12px;
+    padding: 15px;
+    width: 200px;
+    z-index: 100;
+    transition: all 0.3s ease;
+    pointer-events: none;
+    text-align: left;
+    font-size: 16px;
+    color: var(--text-hover);
+}
+
 .class-option:hover {
     transform: scale(1.1);
+}
+
+.class-option:hover .class-tooltip {
+    visibility: visible;
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.class-tooltip h4 {
+    color: var(--neon-gold);
+    font-size: 18px;
+    text-align: center;
+    padding: 5px;
+}
+
+.class-tooltip ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.class-tooltip ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+    font-family: monospace;
+    font-size: 15px;
+}
+
+.class-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -8px;
+    border-width: 8px;
+    border-style: solid;
+    border-color: var(--neon-gold) transparent transparent transparent;
 }
 
 .class-option:has(input[type="radio"]:checked) {
