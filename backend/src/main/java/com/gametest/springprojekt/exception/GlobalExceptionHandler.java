@@ -89,15 +89,15 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-//    @ExceptionHandler(NoActiveQuestException.class)
-//    public ResponseEntity<ErrorDto> handleNoActiveQuest(NoActiveQuestException e) {
-//        return ResponseEntity
-//                .status(HttpStatus.CONFLICT)
-//                .body(new ErrorDto(
-//                        "NO_ACTIVE_QUEST",
-//                        "Nie masz aktywnego questa!"
-//                ));
-//    }
+    @ExceptionHandler(NoActiveQuestException.class)
+    public ResponseEntity<ErrorDto> handleNoActiveQuest(NoActiveQuestException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "NO_ACTIVE_QUEST",
+                        "Nie masz aktywnego questa!"
+                ));
+    }
 
     @ExceptionHandler(NotEnoughAvailableBaseItemsException.class)
     public ResponseEntity<ErrorDto> handleNotEnoughAvailableBaseItems(NotEnoughAvailableBaseItemsException e) {

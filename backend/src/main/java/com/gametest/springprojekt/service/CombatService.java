@@ -1,83 +1,185 @@
 package com.gametest.springprojekt.service;
 
-import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.CombatDto;
-import com.gametest.springprojekt.dto.ItemDto;
+import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
+import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.exception.QuestStillActiveException;
 import com.gametest.springprojekt.model.ActiveQuestEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.ItemEntity;
 import com.gametest.springprojekt.model.OpponentEntity;
-import com.gametest.springprojekt.repository.CharacterRepository;
-import com.gametest.springprojekt.repository.QuestRepository;
+import com.gametest.springprojekt.model.enums.QuestType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class CombatService {
-    CharacterRepository characterRepository;
-    QuestRepository questRepository;
-    QuestService questService;
-    ItemTokenService itemTokenService;
 
-    public CombatService(CharacterRepository characterRepository, QuestRepository questRepository, QuestService questService, ItemTokenService itemTokenService) {
-        this.characterRepository = characterRepository;
-        this.questRepository = questRepository;
-        this.questService = questService;
-        this.itemTokenService = itemTokenService;
-    }
+    private final ItemTokenService itemTokenService;
+    private final Random random = new Random();
 
 
     @Transactional
-    public CombatDto startFistBattle(CharacterEntity character) {
+    public CombatDto startCombat(CharacterEntity character) {
 
-        ActiveQuestDto activeQuest = questService.getActiveQuestDto(character); // w tym jest sprawdzenie czy użytkownik ma aktywnegoQuesta
-        if (Instant.now().isBefore(activeQuest.getQuestEndTime())) { // tu sprawdzamy czy użytkownik go już skończył
+        ActiveQuestEntity activeQuest = character.getActiveQuest();
+
+        if (character.getActiveQuest() == null){
+            throw new NoActiveQuestException("Gracz nie wybrał żadnego questa");
+        }
+
+        if (character.getBackpack().size() >= character.getMAX_BACKPACK_SLOTS()) {
+            throw new BackpackIsAlreadyFullException("Twój plecak jest pełny! Zrób w nim miejsce, zanim ruszysz do walki.");
+        }
+
+        if (Instant.now().isBefore(activeQuest.getEndTime())) {
             throw new QuestStillActiveException();
         }
 
-        ActiveQuestEntity quest = character.getActiveQuest();
+        OpponentEntity opponent = activeQuest.getOpponent();
+        List<Integer> combatLog;
 
-        List<String> combatSequence = new ArrayList<>();
-        int charStr = character.getStrength();
-        int charHp = character.getEndurance();
-
-        OpponentEntity opponent = quest.getOpponent();
-         int oppStr = opponent.getBaseStrength(); //tutaj mnożniki do obrażeń przeciwnika, chyba że zrobić dziedziczenie i wtedy jedena metoda do walk Pvp i pve
-         int oppHp = opponent.getBaseEndurance(); // tu do HP
-
-        int bonusAura = quest.getBonusAura(); //liczenie nagród lvla
-        int bonusMoney = quest.getBonusMoney(); // liczenie nagród siana nie wiem czy nie lepiej tego przekazywać jakoś pbo to często liczone będzie
-
-        ItemEntity rewardItem = itemTokenService.handleRewardToken();
-        ItemDto rewardItemDto = null;
-        if (rewardItem != null) {
-            rewardItemDto = rewardItem.generateItemDto();
+        if (activeQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
+            combatLog =  simulateRizzCombat(character, opponent);
+        } else if (activeQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
+            combatLog = simulateStrengthCombat(character, opponent);
+        } else {
+            throw new IllegalArgumentException("Błędny typ questa!");
         }
 
-        combatSequence.add("Zaczęto walkę z "+ opponent.getName());
-         while (charHp > 0 && oppHp > 0) {
-             oppHp -= charStr;
-             combatSequence.add(character.getName() + "atakuje " + opponent.getName() + " za " + charStr + " dmg");
-             if (oppHp <= 0) {
-                 combatSequence.add("Pokonano " +opponent.getName());
-                 character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
-                 break;
-             }
-             charHp -= oppStr;
-             combatSequence.add(opponent.getName()+ "atakuje " + character.getName() + " za " + oppStr + " dmg");
-             if (charHp <= 0) {
-                 combatSequence.add("Pokonał cię " +opponent.getName());
-                 character.setActiveQuest(null);
-                 break;
-             }
-         }
-         characterRepository.save(character);
-         return new CombatDto(combatSequence,bonusMoney,bonusAura, rewardItemDto);
+        String enemyName = opponent.getName();
+        String enemyImagePath = opponent.getImagePath();
+        boolean playerWon = combatLog.size() % 2 != 0;
+
+        int bonusAura;
+        int bonusMoney;
+        ItemEntity rewardItem;
+        String rewardItemImagePath;
+
+        if(playerWon) {
+            bonusAura = activeQuest.getBonusAura();
+            bonusMoney = activeQuest.getBonusMoney();
+            rewardItem = itemTokenService.handleRewardToken();
+
+        } else {
+            bonusAura = 0;
+            bonusMoney = 0;
+            rewardItem = null;
+
+        }
+
+        if (rewardItem != null) {
+            rewardItemImagePath = rewardItem.getBaseItem().getImagePath();
+            character.addItemToBackpack(rewardItem);
+        } else {
+            rewardItemImagePath = null;
+        }
+
+        character.setAura(character.getAura() + bonusAura);
+        character.setMoney(character.getMoney() + bonusMoney);
+        character.setActiveQuest(null);
+
+        return new CombatDto(combatLog, playerWon, enemyName, enemyImagePath, bonusMoney, bonusAura, rewardItemImagePath);
+    }
+
+    private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent) {
+
+        int characterAuraLvl = character.getAuraLvl();
+
+        Map<String, Integer> characterStats = character.getEquipmentStatsSum();
+        int characterHp = characterStats.get("endurance");
+        int characterRizz = characterStats.get("rizz");
+        int characterAgility = characterStats.get("agility");
+        int characterLuck = characterStats.get("luck");
+
+        int baseCharacterDmg = (int) ((characterRizz + (0.5 * characterAgility)));
+
+
+        int opponentHp = opponent.getBaseEndurance() * characterAuraLvl;
+        int opponentRizz = opponent.getBaseRizz() * characterAuraLvl;
+        int opponentAgility = opponent.getBaseAgility() * characterAuraLvl;
+        int opponentLuck = opponent.getBaseLuck() * characterAuraLvl;
+
+        int baseOpponentDmg = (int) (opponentRizz + (0.5 * opponentAgility));
+
+
+        List<Integer> combatLog = new ArrayList<>();
+        boolean playersAtack = true;
+        while (characterHp > 0 && opponentHp > 0) {
+            if(playersAtack) {
+                int dmg = calculateDamage(baseCharacterDmg, characterLuck);
+                combatLog.add(dmg);
+                opponentHp -= dmg;
+                playersAtack = false;
+            } else {
+                int dmg = calculateDamage(baseOpponentDmg, opponentLuck);
+                combatLog.add(dmg);
+                characterHp -= dmg;
+                playersAtack = true;
+            }
+        }
+        return combatLog;
+    }
+
+    private List<Integer> simulateStrengthCombat(CharacterEntity character, OpponentEntity opponent) {
+        int characterAuraLvl = character.getAuraLvl();
+
+        Map<String, Integer> characterStats = character.getEquipmentStatsSum();
+        int characterHp = characterStats.get("endurance");
+        int characterStrength = characterStats.get("strength");
+        int characterAgility = characterStats.get("agility");
+        int characterLuck = characterStats.get("luck");
+
+        int opponentHp = opponent.getBaseEndurance() * characterAuraLvl;
+        int opponentStrength = opponent.getBaseStrength() * characterAuraLvl;
+        int opponentAgility = opponent.getBaseAgility() * characterAuraLvl;
+        int opponentLuck = opponent.getBaseLuck() * characterAuraLvl;
+
+        List<Integer> combatLog = new ArrayList<>();
+        boolean playersAtack = true;
+        while (characterHp > 0 && opponentHp > 0) {
+            if(playersAtack) {
+                if(random.nextInt(10000) + opponentAgility > 9000) {
+                    combatLog.add(0);
+                } else {
+                    int dmg = calculateDamage(characterStrength, characterLuck);
+                    combatLog.add(dmg);
+                    opponentHp -= dmg;
+                }
+                playersAtack = false;
+            } else {
+                if(random.nextInt(10000) + characterAgility > 9000) {
+                    combatLog.add(0);
+                } else {
+                    int dmg = calculateDamage(opponentStrength, opponentLuck);
+                    combatLog.add(dmg);
+                    characterHp -= dmg;
+                }
+                playersAtack = true;
+            }
+        }
+        return combatLog;
+    }
+
+    private int calculateDamage(int baseDamage, int luck) {
+        if (baseDamage <= 0) baseDamage = 1;
+
+        int minDmg = (int) (baseDamage * 0.8);
+        int maxDmg = (int) (baseDamage * 1.2);
+        int actualDamage = random.nextInt(maxDmg - minDmg + 1) + minDmg;
+
+        if(random.nextInt(10000) + luck > 9000) {
+            actualDamage *= 2;
+        }
+        return Math.max(actualDamage, 1);
     }
 
 

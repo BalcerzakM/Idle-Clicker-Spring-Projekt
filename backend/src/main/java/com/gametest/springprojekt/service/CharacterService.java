@@ -3,12 +3,8 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.CharacterCreatorDto;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
-import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
-import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
-import com.gametest.springprojekt.exception.InvalidSlotException;
-import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
+import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.model.enums.StatName;
@@ -87,7 +83,7 @@ public class CharacterService {
 
         int nextLevelAuraRequirement = character.getAuraLvl() * character.getAuraLvl() * 100;
 
-        int levelProgressPercent = (int) ((character.getAura() - currentLevelAuraRequirement) * 100) / (nextLevelAuraRequirement - currentLevelAuraRequirement);
+        int levelProgressPercent = (int) (((character.getAura() - currentLevelAuraRequirement) * 100) / (nextLevelAuraRequirement - currentLevelAuraRequirement));
 
         return new ShortCharacterInfoDto(
                 character.getMoney(),

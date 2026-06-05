@@ -1,6 +1,6 @@
 .navBar {
-    width: 360px;
-    height: 630px;
+    width: 20%;
+    height: 100%;
     flex-shrink: 0;
 }
 
@@ -8,7 +8,7 @@
     padding: 14px;
 
     width: 100%;
-    height: 300px;
+    height: 33%;
 
     display: grid;
     grid-template-columns: 180px 1fr;
@@ -131,7 +131,7 @@
 
 .navBar-navigation {
     width: 100%;
-    height: 100%;
+    height: 61%;
 
     padding: 20px;
 
@@ -189,4 +189,52 @@
             inset 0 0 10px rgba(255, 140, 70, 0.08);
 
     transform: translateX(2px);
+}
+
+.navBar-logout {
+    width: 100%;
+    height:6%;
+    background: linear-gradient(180deg, #0d0d12 0%, #15131a 100%, );
+    border-right: 1px solid #241b29;
+    border-top: 1px solid #241b29;;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5);
+    align-content: center;
+    justify-items: center;
+    padding: 1% 15%;
+}
+
+.navBar-logout form {
+    width: 100%;
+    height: 100%;
+    align-content: center;
+    text-align: center;
+}
+
+.navBar-logout form button {
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+    color: var(--neon-red);
+    font-size: 22px;
+    letter-spacing: 1px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    cursor: pointer;
+
+
+    box-shadow:
+            inset 0 0 8px rgba(255, 0, 0, 0.08),
+            0 0 4px rgba(0, 0, 0, 0.7);
+
+    transition:
+            background 0.5s,
+            text-shadow 0.3s,
+            transform 0.2s;
+}
+
+.navBar-logout form button:hover {
+    background: linear-gradient(180deg, #170d13 100%, #161019 100%);
+    transform: scale(1.05);
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.8);
+    border-color: #5c1d1d;
 }
