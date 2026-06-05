@@ -102,4 +102,11 @@ public class CharacterEntity {
         }
         return totals;
     }// trzeba dodać te stąd
+
+    public void updateAuraLevel() {
+        int aura = this.getAura();
+        int auraLevel = 1 + (int) Math.sqrt(aura / 100.0);
+
+        this.setAuraLvl(auraLevel);
+    }
 }

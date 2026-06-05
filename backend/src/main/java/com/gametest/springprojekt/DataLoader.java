@@ -32,7 +32,7 @@ public class DataLoader implements CommandLineRunner {
         userRepository.save(player);
         CharacterClassEntity characterClass= new CharacterClassEntity(null, "TEST", 10, 10, 10, 10, 10, 10);
         characterClassRepository.save(characterClass);
-        CharacterEntity character1 = new CharacterEntity(null,player, "test", characterClass,"avatar3.png",4,3,420,67,67,67,67,10000,67, List.of(),List.of(), null);
+        CharacterEntity character1 = new CharacterEntity(null,player, "test", characterClass,"avatar3.png",1,1000,420,67,67,67,67,10000,67, List.of(),List.of(), null);
         player.setCharacters(List.of(character1));
         characterRepository.save(character1);
 
