@@ -3,7 +3,7 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.CharacterCreatorDto;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
+import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
 import com.gametest.springprojekt.exception.InvalidSlotException;
@@ -70,8 +70,24 @@ public class CharacterService {
         characterRepository.save(newCharacter);
     }
 
-    public MoneyAndAvatarDto getMoneyAndAvatar(CharacterEntity character) {
-        return new MoneyAndAvatarDto(character.getMoney(), character.getCristals(), character.getAvatarPicture());
+    public ShortCharacterInfoDto getShortCharacterInfo(CharacterEntity character) {
+        character.updateAuraLevel();
+
+        int currentLevelAuraRequirement = (character.getAuraLvl() - 1) * (character.getAuraLvl() - 1) * 100;
+
+        int nextLevelAuraRequirement = character.getAuraLvl() * character.getAuraLvl() * 100;
+
+        int levelProgressPercent = (int) ((character.getAura() - currentLevelAuraRequirement) * 100) / (nextLevelAuraRequirement - currentLevelAuraRequirement);
+
+        return new ShortCharacterInfoDto(
+                character.getMoney(),
+                character.getCristals(),
+                character.getAvatarPicture(),
+                character.getAura(),
+                character.getAuraLvl(),
+                nextLevelAuraRequirement,
+                levelProgressPercent
+        );
     }
 
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha

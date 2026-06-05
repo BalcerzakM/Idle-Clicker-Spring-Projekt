@@ -5,6 +5,10 @@ interface CharacterShortInfo {
     avatarPicture: string;
     money: number;
     cristals: number;
+    aura: number;
+    auraLevel: number;
+    nextLevelAuraRequirement: number;
+    levelProgressPercent: number;
 }
 
 interface CharacterContextType {
@@ -22,13 +26,13 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
     // Funkcja do pobierania/odświeżania danych portfela
     const refreshCharacter = useCallback(async () => {
         try {
-            const res = await fetch("http://localhost:8080/api/character/money");
+            const res = await fetch("http://localhost:8080/api/character/shortInfo");
             if (res.ok) {
                 const data = await res.json();
                 setCharacter(data);
             }
         } catch (err) {
-            console.error("Błąd pobierania portfela:", err);
+            console.error("Błąd pobierania danych użytkownika:", err);
         }
     }, []);
 

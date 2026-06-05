@@ -1,21 +1,13 @@
 package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
+import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.dto.SwapRequestDto;
-import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
-import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
-import com.gametest.springprojekt.exception.InvalidSlotException;
 import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.repository.CharacterRepository;
-import com.gametest.springprojekt.repository.UserRepository;
 import com.gametest.springprojekt.service.CharacterService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -31,12 +23,12 @@ public class CharacterController {
         this.characterService = characterService;
     }
 
-
-    @GetMapping("/money")
-    public ResponseEntity<MoneyAndAvatarDto> getMoney() {
+    //pieniadze, krysztaly, awatar, aura i aura level
+    @GetMapping("/shortInfo")
+    public ResponseEntity<ShortCharacterInfoDto> getShortCharacterInfo() {
         CharacterEntity character = characterService.getCurrentCharacter();
-        MoneyAndAvatarDto moneyAndAvatarDto = characterService.getMoneyAndAvatar(character);
-        return ResponseEntity.ok(moneyAndAvatarDto);
+        ShortCharacterInfoDto shortCharacterInfoDto = characterService.getShortCharacterInfo(character);
+        return ResponseEntity.ok(shortCharacterInfoDto);
     }
 
     /**
