@@ -4,6 +4,7 @@ import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.dto.SwapRequestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
+import com.gametest.springprojekt.model.enums.StatName;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.service.CharacterService;
 import jakarta.validation.Valid;
@@ -56,7 +57,13 @@ public class CharacterController {
         return ResponseEntity.ok("Wyposażono przedmiot");
     }
 
-
+    @PatchMapping("/statIncrement")
+    public ResponseEntity<?> incrementStat(
+            @RequestParam StatName stat) {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        characterService.incrementStat(character, stat, 1);
+        return ResponseEntity.ok("Zwiększono statystykę");
+    }
 
 
 }
