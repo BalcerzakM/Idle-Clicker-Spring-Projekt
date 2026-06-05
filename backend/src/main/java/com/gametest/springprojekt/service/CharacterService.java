@@ -3,6 +3,8 @@ package com.gametest.springprojekt.service;
 import com.gametest.springprojekt.dto.CharacterCreatorDto;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
+import com.gametest.springprojekt.dto.MoneyAndAvatarDto;
+import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
 import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
@@ -10,8 +12,10 @@ import com.gametest.springprojekt.exception.InvalidSlotException;
 import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
+import com.gametest.springprojekt.repository.CharacterClassRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -21,14 +25,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.*;
 
 @Service
+@RequiredArgsConstructor
 public class CharacterService {
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
-
-    public CharacterService(UserRepository userRepository, CharacterRepository characterRepository) {
-        this.userRepository = userRepository;
-        this.characterRepository = characterRepository;
-    }
+    private final CharacterClassRepository characterClassRepository;
 
     public CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -37,6 +38,10 @@ public class CharacterService {
         UserEntity user = userRepository.getByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Nie ma takiego użytkownika!"));
 
+        List<CharacterEntity> characters = user.getCharacters();
+        if (characters.isEmpty()) {
+            throw new CharacterNotFoundException("Użytkownik nie posiada jeszcze żadnej postaci!");
+        }
         // na razie na sztywno, z listy pierwsza postać po prostu
         return user.getCharacters().getFirst();
     }
@@ -51,21 +56,26 @@ public class CharacterService {
             throw new RuntimeException("Ta nazwa postaci jest już zajęta!");
         }
 
+        CharacterClassEntity chosenClass = characterClassRepository.findByClassName(dto.getCharacterClass())
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "Błąd: Wybrana klasa postaci '" + dto.getCharacterClass() + "' nie istnieje!"
+                ));
+
         CharacterEntity newCharacter = new CharacterEntity();
         newCharacter.setUser(user);
         newCharacter.setName(dto.getName());
-        newCharacter.setCharacterClass(dto.getCharacterClass());
+        newCharacter.setCharacterClass(chosenClass);
         newCharacter.setAvatarPicture(dto.getAvatarPicture());
 
-        newCharacter.setMoney(100);
+        newCharacter.setMoney(chosenClass.getBaseMoney());
         newCharacter.setCristals(0);
         newCharacter.setAuraLvl(1);
         newCharacter.setAura(0);
-        newCharacter.setRizz(5);
-        newCharacter.setStrength(5);
-        newCharacter.setAgility(5);
-        newCharacter.setEndurance(5);
-        newCharacter.setLuck(5);
+        newCharacter.setRizz(chosenClass.getBaseRizz());
+        newCharacter.setStrength(chosenClass.getBaseStrength());
+        newCharacter.setAgility(chosenClass.getBaseAgility());
+        newCharacter.setEndurance(chosenClass.getBaseEndurance());
+        newCharacter.setLuck(chosenClass.getBaseLuck());
 
         characterRepository.save(newCharacter);
     }

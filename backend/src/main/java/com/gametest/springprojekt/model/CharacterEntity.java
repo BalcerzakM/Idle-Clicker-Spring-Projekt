@@ -1,7 +1,6 @@
 package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
-import com.gametest.springprojekt.model.enums.CharacterClass;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +22,16 @@ public class CharacterEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
+
+    @Column(nullable = false, unique = true)
     private String name;
-    private CharacterClass characterClass;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_class_id", nullable = false)
+    private CharacterClassEntity characterClass;
+
     private String avatarPicture;
     private int auraLvl;
     private int aura;

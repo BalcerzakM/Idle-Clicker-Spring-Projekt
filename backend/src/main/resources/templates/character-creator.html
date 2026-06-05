@@ -100,17 +100,20 @@
                 <fieldset>
                     <legend>Wybierz klasę swojej postaci:</legend>
                     <div class="class-selector">
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="DRES" required>
-                            Dres
-                        </label>
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="NERD">
-                            Nerd
-                        </label>
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="ERAZMUS">
-                            ERAZMUS
+                        <label class="class-option" th:each="charClass : ${availableClasses}">
+                            <input type="radio" th:field="*{characterClass}" th:value="${charClass.className}" required>
+                            <span th:text="${charClass.className}">Nazwa Klasy</span>
+                            <div class="class-tooltip">
+                                <h4 th:text="${charClass.className}">Statystyki</h4>
+                                <ul>
+                                    <li><span>Wytrzymałość:</span> <span th:text="${charClass.baseEndurance}"></span></li>
+                                    <li><span>Rizz:</span> <span th:text="${charClass.baseRizz}"></span></li>
+                                    <li><span>Siła:</span> <span th:text="${charClass.baseStrength}"></span></li>
+                                    <li><span>Zręczność:</span> <span th:text="${charClass.baseAgility}"></span></li>
+                                    <li><span>Szczęście:</span> <span th:text="${charClass.baseLuck}"></span></li>
+                                    <li><span>Monety:</span> <span th:text="${charClass.baseMoney}"></span></li>
+                                </ul>
+                            </div>
                         </label>
                     </div>
                 </fieldset>
