@@ -48,7 +48,7 @@ function NavBar() {
 					</p>
 				</div>
 			</div>
-			<div className="navBar-navigation">
+			<nav className="navBar-navigation">
 				<button type="button" onClick={() => navigate("/")}>
 					Klub
 				</button>
@@ -58,6 +58,14 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/outside")}>
 					Palarnia
 				</button>
+			</nav>
+			<div className="navBar-logout">
+				<form action="/logout" method="POST">
+					<button type="submit">
+						WYLOGUJ SIĘ
+					</button>
+				</form>
+			
 			</div>
 		</div>
 	);

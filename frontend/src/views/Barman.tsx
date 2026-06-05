@@ -56,15 +56,16 @@ function Barman() {
 
 	const checkActiveQuest = useCallback(async () => {
 		try {
+			setLoading(true);
 			const res = await fetch("http://localhost:8080/api/quest/active");
-
-			if (res.status === 404) {
-				await fetchQuests();
-				return;
-			}
 
 			if (!res.ok) {
 				const error = await res.json();
+				if (error.errorCode === "NO_ACTIVE_QUEST" || res.status === 404 || res.status === 409) {
+					await fetchQuests();
+					return;
+				}
+
 				showError(error.message || "Nie udało się sprawdzić aktywnego questa");
 				return;
 			}

@@ -5,12 +5,10 @@ import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
-import com.gametest.springprojekt.exception.BackpackItemNotFoundException;
-import com.gametest.springprojekt.exception.EquipmentItemNotFoundException;
-import com.gametest.springprojekt.exception.InvalidSlotException;
-import com.gametest.springprojekt.exception.SlotAlreadyOccupiedException;
+import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
+import com.gametest.springprojekt.model.enums.StatName;
 import com.gametest.springprojekt.repository.CharacterClassRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
@@ -86,7 +84,7 @@ public class CharacterService {
 
         int nextLevelAuraRequirement = character.getAuraLvl() * character.getAuraLvl() * 100;
 
-        int levelProgressPercent = (int) ((character.getAura() - currentLevelAuraRequirement) * 100) / (nextLevelAuraRequirement - currentLevelAuraRequirement);
+        int levelProgressPercent = (int) (((character.getAura() - currentLevelAuraRequirement) * 100) / (nextLevelAuraRequirement - currentLevelAuraRequirement));
 
         return new ShortCharacterInfoDto(
                 character.getMoney(),
@@ -223,4 +221,23 @@ public class CharacterService {
         }
         return itemDtos;
     }
+
+
+    @Transactional
+    public void incrementStat(CharacterEntity character, StatName stat, int amount) {
+        if (character.getCristals() <= 0) {
+            throw new InsufficientMoneyException("Gracz ma za malo krysztalow!");
+        }
+
+        character.setCristals(character.getCristals() - 1);
+
+        switch (stat) {
+            case RIZZ:      character.setRizz(character.getRizz() + amount); break;
+            case STRENGTH:  character.setStrength(character.getStrength() + amount); break;
+            case AGILITY:   character.setAgility(character.getAgility() + amount); break;
+            case ENDURANCE: character.setEndurance(character.getEndurance() + amount); break;
+            case LUCK:      character.setLuck(character.getLuck() + amount); break;
+        }
+    }
+
 }

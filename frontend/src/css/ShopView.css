@@ -1,4 +1,4 @@
-/* ===== zmienne globalne (dodaj je w razie potrzeby do głównego arkusza) ===== */
+/* ShopView.css */
 :root {
 	--bg-body: #070709;
 	--bg-main: #111116;
@@ -19,7 +19,7 @@
 	--hover-light: #24161f;
 }
 
-/*kontener główny*/
+/* Kontener główny */
 .shop-hero-container {
 	position: relative;
 	width: 1310px;
@@ -28,7 +28,6 @@
 	grid-template-columns: 1fr 1fr;
 	gap: 16px;
 	color: var(--text-light);
-
 	background-color: #0b0b0f;
 	border: 2px solid #1f1a24;
 	box-shadow:
@@ -36,181 +35,7 @@
 		inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
-/*lewa kolumna – bohater*/
-.hero-panel {
-	display: flex;
-	flex-direction: column;
-	gap: 16px;
-	background: url("../assets/scenes/pionowe.png") center/cover no-repeat;
-	border: 2px solid var(--border-color);
-	border-radius: 12px;
-	padding: 16px;
-	backdrop-filter: blur(2px);
-}
-
-.hero-stats {
-	display: flex;
-	justify-content: center;
-	gap: 12px;
-	background: rgba(20, 20, 20, 0.75);
-	padding: 8px 16px;
-	border-radius: 8px;
-	font-size: 18px;
-	font-weight: bold;
-}
-
-/* ===== ekwipunek ===== */
-.equipment {
-	display: grid;
-	grid-template-areas:
-		"head  portrait portrait upper"
-		"neck  portrait portrait lower"
-		"feet  wrist    wrist emblem";
-	justify-items: center;
-	align-items: center;
-	gap: 8px;
-	max-width: 460px;
-	margin: 0 auto;
-	font-size: 16px;
-}
-
-/* przypisanie slotów do obszarów */
-.equipment .equip-slot[data-slot="HEAD"] {
-	grid-area: head;
-}
-.equipment .equip-slot[data-slot="NECK"] {
-	grid-area: neck;
-}
-.equipment .equip-slot[data-slot="FEET"] {
-	grid-area: feet;
-}
-.equipment .equip-slot[data-slot="WRIST"] {
-	grid-area: wrist;
-}
-
-.equipment .equip-slot[data-slot="UPPERBODY"] {
-	grid-area: upper;
-}
-.equipment .equip-slot[data-slot="LOWERBODY"] {
-	grid-area: lower;
-}
-.equipment .equip-slot[data-slot="EMBLEM"] {
-	grid-area: emblem;
-}
-
-/* portret */
-.portrait {
-	grid-area: portrait;
-	width: 100%;
-	height: 100%;
-	background: rgba(0, 0, 0, 0.5);
-	border: 2px solid var(--border-glow);
-	border-radius: 6px;
-	display: flex;
-	align-items: flex-end;
-	justify-content: center;
-	position: relative;
-	overflow: hidden;
-}
-
-.portrait-img {
-	max-width: 100%;
-	max-height: 100%;
-	object-fit: contain;
-}
-
-/* ===== sloty ogólne ===== */
-.slot {
-	width: 100px;
-	height: 100px;
-	background: rgba(30, 30, 30, 0.8);
-	border: 2px solid var(--border-color);
-	border-radius: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: relative;
-	transition:
-		border-color 0.2s,
-		box-shadow 0.2s;
-	cursor: pointer;
-}
-
-.slot:hover {
-	border-color: var(--neon-blue);
-	box-shadow: 0 0 8px rgba(77, 163, 255, 0.3);
-}
-
-.empty-slot {
-	background: rgba(20, 20, 20, 0.5);
-	border-style: dashed;
-	cursor: default;
-}
-
-.slot-placeholder {
-	color: var(--text-muted);
-	font-size: 0.8em;
-	text-align: center;
-	text-transform: capitalize;
-}
-
-.item-icon {
-	width: 88px;
-	height: 88px;
-	object-fit: contain;
-}
-
-/* tooltip */
-.tooltip {
-	visibility: hidden;
-	opacity: 0;
-	background: black;
-	color: var(--text-light);
-	text-align: center;
-	padding: 4px 8px;
-	border-radius: 6px;
-	position: absolute;
-	bottom: 110%;
-	left: 50%;
-	transform: translateX(-50%);
-	transition: opacity 0.3s;
-	white-space: nowrap;
-	z-index: 20;
-	font-size: 0.85em;
-	pointer-events: none;
-}
-
-.slot:hover .tooltip,
-.portrait:hover .tooltip {
-	visibility: visible;
-	opacity: 1;
-	font-size: 14px;
-}
-
-/* ===== plecak ===== */
-.inventory {
-	background: rgba(20, 20, 20, 0.7);
-	border: 2px solid var(--border-color);
-	border-radius: 10px;
-	padding: 12px;
-}
-
-.inventory h3 {
-	margin: 0 0 8px;
-	color: var(--neon-gold);
-	font-family: "Teko", sans-serif;
-	font-size: 24px;
-	text-shadow: 0 0 5px var(--neon-gold);
-}
-
-#inventory-grid {
-	display: grid;
-	grid-template-columns: repeat(5, 100px);
-	gap: 10px;
-	justify-content: center;
-}
-
-/* ===== prawa kolumna – sklep ===== */
+/* Prawa kolumna – sklep */
 .shop-panel {
 	background: url("../assets/scenes/dressing_room.png") center/cover no-repeat;
 	height: 850px;
@@ -254,10 +79,10 @@
 }
 
 .shop-refresh-btn img {
-    width: 15px;
-    height: 15px;
-    vertical-align: middle;
-    margin-top: -2px;
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+	margin-top: -2px;
 }
 
 .shop-refresh-btn:hover {
@@ -283,16 +108,19 @@
 	padding: 40px;
 }
 
-/* siatka przedmiotów w sklepie – 4 kolumny */
+/* Siatka sklepu – 4 kolumny × 100px */
 .shop-grid {
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
+	grid-template-columns: repeat(4, 100px);
 	gap: 16px;
+	justify-content: center;
 	margin-top: auto;
 	margin-bottom: 4px;
 }
 
+/* Karta przedmiotu – szerokość 100px */
 .shop-item-card {
+	width: 100px;
 	background: linear-gradient(180deg, #16131a 0%, #0b0b0f 100%);
 	border: 1px solid var(--border-color);
 	border-radius: 8px;
@@ -300,7 +128,6 @@
 	flex-direction: column;
 	transition: all 0.2s;
 	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-	overflow: hidden;
 }
 
 .shop-item-card:hover {
@@ -309,64 +136,71 @@
 	transform: translateY(-2px);
 }
 
+/* Obrazek – kwadrat 100x100 */
 .shop-item-image-wrapper {
 	width: 100%;
-	height: 120px;
+	height: 100px;
 	background: #0a080a;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	border-bottom: 1px solid var(--border-color);
+	position: relative; /* dla tooltipa */
 }
 
 .shop-item-image {
-	max-width: 100%;
-	max-height: 100%;
+	max-width: 88px;
+	max-height: 88px;
 	object-fit: contain;
 }
 
+.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	background: black;
+	color: var(--text-light);
+	text-align: center;
+	padding: 4px 8px;
+	border-radius: 6px;
+	position: absolute;
+	bottom: 110%;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: opacity 0.3s;
+	white-space: pre-line;
+	z-index: 20;
+	font-size: 0.85em;
+	pointer-events: none;
+}
+
+.shop-item-image-wrapper:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+	font-size: 14px;
+}
+
+/* Informacje pod obrazkiem */
 .shop-item-info {
-	padding: 10px;
+	padding: 4px;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	flex: 1;
 }
 
 .shop-item-name {
-	font-size: 18px;
-	margin: 0 0 4px;
+	font-size: 12px;
+	margin: 0;
 	font-family: "Teko", sans-serif;
 	color: var(--neon-gold);
 	text-shadow: 0 0 3px var(--neon-gold);
-}
-
-.shop-item-desc {
-	font-size: 12px;
-	color: var(--text-muted);
-	margin-bottom: 6px;
-	line-height: 1.4;
-}
-
-.shop-item-stats {
-	display: flex;
-	gap: 6px;
-	font-size: 12px;
-	flex-wrap: wrap;
-	margin-bottom: 8px;
-}
-
-.shop-item-stats span {
-	background: rgba(26, 18, 26, 0.7);
-	border: 1px solid var(--border-color);
-	padding: 2px 6px;
-	border-radius: 4px;
-	color: var(--text-light);
+	text-align: center;
 }
 
 .shop-item-price {
-	font-size: 18px;
+	font-size: 14px;
 	font-weight: bold;
-	margin: 0 0 8px;
+	margin: 2px 0;
 	color: var(--neon-blue);
 	text-shadow: 0 0 6px var(--neon-blue);
 }
@@ -375,13 +209,14 @@
 	background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
 	border: 1px solid var(--neon-gold);
 	color: var(--neon-gold);
-	padding: 6px 0;
-	font-size: 16px;
+	padding: 2px 0;
+	font-size: 12px;
 	font-weight: 500;
 	cursor: pointer;
 	border-radius: 6px;
 	text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
 	transition: all 0.2s;
+	width: 100%;
 	margin-top: auto;
 }
 
@@ -395,43 +230,4 @@
 .shop-buy-btn:disabled {
 	opacity: 0.5;
 	cursor: not-allowed;
-}
-
-.backpack-slot {
-	position: relative;
-}
-
-.sell-btn {
-	position: absolute;
-	bottom: 2px;
-	right: 2px;
-	background: rgba(0, 0, 0, 0.7);
-	border: 1px solid var(--neon-gold);
-	color: var(--neon-gold);
-	font-size: 14px;
-	padding: 2px 4px;
-	border-radius: 4px;
-	cursor: pointer;
-	opacity: 0;
-	transition: opacity 0.2s;
-}
-
-.backpack-slot:hover .sell-btn {
-	opacity: 1;
-}
-
-.sell-btn:hover {
-	background: var(--neon-gold);
-	color: black;
-}
-
-/* podświetlenie slotu podczas najechania na pasujący przedmiot w plecaku, to beędzie trzeba przenieść do css heropanel(osobny trzeba zrobić) */
-.slot.highlight-slot {
-	border-color: var(--neon-orange);
-	box-shadow:
-		0 0 14px var(--neon-orange),
-		0 0 4px var(--neon-orange);
-	transition:
-		border-color 0.15s,
-		box-shadow 0.15s;
 }

@@ -152,7 +152,7 @@ public class QuestService {
         int bonusMoney = quest.calculateMoneyReward(character);
         int bonusAura = quest.calculateAuraReward(character);
 
-        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),quest.getOpponent(),qEndTime, quest.getImagePath(),bonusMoney,bonusAura));
+        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(), qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), bonusMoney, bonusAura));
 
         return new ActiveQuestDto(quest.getTitle(), qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
     }

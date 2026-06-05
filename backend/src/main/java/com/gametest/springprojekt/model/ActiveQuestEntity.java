@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.model.enums.QuestType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -19,12 +20,15 @@ public class ActiveQuestEntity {//osobna encja, bo potrzeba przechowywać nagrod
 
     private String title;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private OpponentEntity opponent;
-
     private Instant endTime;
 
     private String imagePath;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private OpponentEntity opponent;
+
+    @Enumerated(EnumType.STRING)
+    private QuestType questType;
 
     private int bonusMoney;
 
