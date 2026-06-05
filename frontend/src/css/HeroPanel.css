@@ -1,0 +1,207 @@
+/* HeroPanel.css */
+.hero-panel {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	background: url("../assets/scenes/pionowe.png") center/cover no-repeat;
+	border: 2px solid var(--border-color);
+	border-radius: 12px;
+	padding: 16px;
+	backdrop-filter: blur(2px);
+	color: var(--text-light);
+}
+
+.hero-stats {
+	display: flex;
+	justify-content: center;
+	gap: 12px;
+	background: rgba(20, 20, 20, 0.75);
+	padding: 8px 16px;
+	border-radius: 8px;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+/* Sprzęt */
+.equipment {
+	display: grid;
+	grid-template-areas:
+		"head  portrait portrait upper"
+		"neck  portrait portrait lower"
+		"wrist emblem   emblem   feet";
+	justify-items: center;
+	align-items: center;
+	gap: 8px;
+	max-width: 460px;
+	margin: 0 auto;
+	font-size: 16px;
+}
+
+.equipment .equip-slot[data-slot="HEAD"] {
+	grid-area: head;
+}
+.equipment .equip-slot[data-slot="NECK"] {
+	grid-area: neck;
+}
+.equipment .equip-slot[data-slot="FEET"] {
+	grid-area: feet;
+}
+.equipment .equip-slot[data-slot="WRIST"] {
+	grid-area: wrist;
+}
+.equipment .equip-slot[data-slot="UPPERBODY"] {
+	grid-area: upper;
+}
+.equipment .equip-slot[data-slot="LOWERBODY"] {
+	grid-area: lower;
+}
+.equipment .equip-slot[data-slot="EMBLEM"] {
+	grid-area: emblem;
+}
+
+/* Portret */
+.portrait {
+	grid-area: portrait;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.5);
+	border: 2px solid var(--border-glow);
+	border-radius: 6px;
+	display: flex;
+	align-items: flex-end;
+	justify-content: center;
+	position: relative;
+	overflow: hidden;
+}
+
+.portrait-img {
+	max-width: 100%;
+	max-height: 100%;
+	object-fit: contain;
+}
+
+/* Slot */
+.slot {
+	width: 100px;
+	height: 100px;
+	background: rgba(30, 30, 30, 0.8);
+	border: 2px solid var(--border-color);
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: relative;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+	cursor: pointer;
+}
+
+.slot:hover {
+	border-color: var(--neon-blue);
+	box-shadow: 0 0 8px rgba(77, 163, 255, 0.3);
+}
+
+.empty-slot {
+	background: rgba(20, 20, 20, 0.5);
+	border-style: dashed;
+	cursor: default;
+}
+
+.slot-placeholder {
+	color: var(--text-muted);
+	font-size: 0.8em;
+	text-align: center;
+	text-transform: capitalize;
+}
+
+.item-icon {
+	width: 88px;
+	height: 88px;
+	object-fit: contain;
+}
+
+/* Tooltip */
+.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	background: black;
+	color: var(--text-light);
+	text-align: center;
+	padding: 4px 8px;
+	border-radius: 6px;
+	position: absolute;
+	bottom: 110%;
+	left: 50%;
+	transform: translateX(-50%);
+	transition: opacity 0.3s;
+	white-space: pre-line;
+	z-index: 20;
+	font-size: 0.85em;
+	pointer-events: none;
+}
+
+.slot:hover .tooltip,
+.portrait:hover .tooltip {
+	visibility: visible;
+	opacity: 1;
+	font-size: 14px;
+}
+
+.highlight-slot {
+	border-color: var(--neon-orange);
+	box-shadow:
+		0 0 14px var(--neon-orange),
+		0 0 4px var(--neon-orange);
+}
+
+/* Plecak */
+.inventory {
+	background: rgba(20, 20, 20, 0.7);
+	border: 2px solid var(--border-color);
+	border-radius: 10px;
+	padding: 12px;
+}
+
+.inventory h3 {
+	margin: 0 0 8px;
+	color: var(--neon-gold);
+	font-family: "Teko", sans-serif;
+	font-size: 24px;
+	text-shadow: 0 0 5px var(--neon-gold);
+}
+
+#inventory-grid {
+	display: grid;
+	grid-template-columns: repeat(5, 100px);
+	gap: 10px;
+	justify-content: center;
+}
+
+.backpack-slot {
+	position: relative;
+}
+
+.sell-btn {
+	position: absolute;
+	bottom: 2px;
+	right: 2px;
+	background: rgba(0, 0, 0, 0.7);
+	border: 1px solid var(--neon-gold);
+	color: var(--neon-gold);
+	font-size: 14px;
+	padding: 2px 4px;
+	border-radius: 4px;
+	cursor: pointer;
+	opacity: 0;
+	transition: opacity 0.2s;
+}
+
+.backpack-slot:hover .sell-btn {
+	opacity: 1;
+}
+
+.sell-btn:hover {
+	background: var(--neon-gold);
+	color: black;
+}

@@ -15,7 +15,7 @@ import java.util.*;
 @NoArgsConstructor
 public class CharacterEntity {
     @Transient
-    private final int MAX_BACKPACK_SLOTS = 5;
+    private final int MAX_BACKPACK_SLOTS = 10;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

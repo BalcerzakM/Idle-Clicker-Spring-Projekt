@@ -1,8 +1,9 @@
-import { useState } from "react";
+import "../css/HeroPanel.css";
+
 export interface ItemDto {
 	id: number;
-	name: string;
-	description: string;
+	itemName: string;
+	itemDescription: string;
 	slotType: string;
 	totalRizz: number;
 	totalStrength: number;
@@ -30,12 +31,17 @@ export interface ItemsAndStatsDto {
 interface HeroPanelProps {
 	hero: ItemsAndStatsDto;
 	onSell: (backpackItemId: number) => void;
-	onEquip: (backpackItemId: number, slotType: string) => void;
+	onEquip: (backpackItemId: number) => void;
+	highlightedSlot: string | null;
+	onHoverSlot: (slotType: string | null) => void;
 }
 
-function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
-	const [highlightedSlot, setHighlightedSlot] = useState<string | null>(null); //to te podświetlanie konkretnego slotu
-
+function HeroPanel({
+	hero,
+	onEquip,
+	highlightedSlot,
+	onHoverSlot,
+}: HeroPanelProps) {
 	const handleDragStart = (
 		e: React.DragEvent<HTMLDivElement>,
 		backpackItemId: number,
@@ -49,20 +55,15 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 		e.dataTransfer.dropEffect = "move";
 	};
 
-	const handleDropOnSlot = (
-		e: React.DragEvent<HTMLDivElement>,
-		slotType: string,
-	) => {
+	const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
-
 		const backpackItemId = Number(e.dataTransfer.getData("text/plain"));
-
-		if (isNaN(backpackItemId)) {
-			return;
-		}
-
-		onEquip(backpackItemId, slotType);
+		if (isNaN(backpackItemId)) return;
+		onEquip(backpackItemId);
 	};
+
+	const itemTooltip = (item: ItemDto) =>
+		`${item.itemName} | ${item.slotType}\n💪 ${item.totalStrength} \n🏃 ${item.totalAgility} \n🛡️ ${item.totalEndurance}\n🍀 ${item.totalLuck} \n✨ ${item.totalRizz}`;
 
 	return (
 		<div className="hero-panel">
@@ -75,18 +76,20 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 			</div>
 
 			<div className="equipment">
-				{/* Portret */}
-				<div className="portrait" id="nameSlot">
+				<div
+					className="portrait"
+					id="nameSlot"
+					onDragOver={handleDragOver}
+					onDrop={handleDrop}
+				>
 					<img
 						src={`/avatars/${hero.avatarPicture}`}
 						alt={hero.name}
 						className="portrait-img"
 					/>
-
-					<span className="tooltip">{hero.name} |</span>
+					<span className="tooltip">{hero.name}</span>
 				</div>
 
-				{/* Sloty */}
 				{[
 					"HEAD",
 					"NECK",
@@ -97,29 +100,25 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 					"EMBLEM",
 				].map((slotType) => {
 					const item =
-						hero.equipment.find((item) => item.slotType === slotType) ?? null;
-
-					const isHighlighted = highlightedSlot === slotType; //sprawdzenie czy ma być podświetlony
+						hero.equipment.find((eq) => eq.slotType === slotType) ?? null;
+					const isHighlighted = highlightedSlot === slotType;
 
 					return (
 						<div
 							key={slotType}
-							className={`slot equip-slot ${isHighlighted ? "highlight-slot" : ""}`} //sprawdzenie czy podświetlać
+							className={`slot equip-slot ${isHighlighted ? "highlight-slot" : ""}`}
 							data-slot={slotType}
 							onDragOver={handleDragOver}
-							onDrop={(e) => handleDropOnSlot(e, slotType)}
+							onDrop={handleDrop}
 						>
 							{item ? (
 								<>
 									<img
 										src={`/items/${item.imagePath}`}
-										alt={item.name}
+										alt={item.itemName}
 										className="item-icon"
 									/>
-
-									<span className="tooltip">
-										{item.name} | {item.slotType}
-									</span>
+									<span className="tooltip">{itemTooltip(item)}</span>
 								</>
 							) : (
 								<span className="slot-placeholder">{slotType}</span>
@@ -129,10 +128,8 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 				})}
 			</div>
 
-			{/* Plecak */}
 			<div className="inventory">
 				<h3>Plecak</h3>
-
 				<div id="inventory-grid">
 					{hero.backpack.map((item) => (
 						<div
@@ -140,38 +137,22 @@ function HeroPanel({ hero, onSell, onEquip }: HeroPanelProps) {
 							className="slot backpack-slot"
 							draggable
 							onDragStart={(e) => handleDragStart(e, item.id)}
-							onMouseEnter={() => setHighlightedSlot(item.slotType)}
-							onMouseLeave={() => setHighlightedSlot(null)}
+							onMouseEnter={() => onHoverSlot(item.slotType)}
+							onMouseLeave={() => onHoverSlot(null)}
 						>
 							<img
 								src={`/items/${item.imagePath}`}
-								alt={item.name}
+								alt={item.itemName}
 								className="item-icon"
 							/>
-
-							<span className="tooltip">
-								{item.name} | {item.slotType}
-							</span>
-
-							<button
-								className="sell-btn"
-								onClick={(e) => {
-									e.stopPropagation();
-									onSell(item.id);
-								}}
-								title="Sprzedaj przedmiot"
-							>
-								💰
-							</button>
+							<div className="tooltip">{itemTooltip(item)}</div>
 						</div>
 					))}
-
-					{/* puste sloty */}
-					{Array.from({
-						length: Math.max(0, 5 - hero.backpack.length),
-					}).map((_, i) => (
-						<div key={`empty-${i}`} className="slot empty-slot" />
-					))}
+					{Array.from({ length: Math.max(0, 10 - hero.backpack.length) }).map(
+						(_, i) => (
+							<div key={`empty-${i}`} className="slot empty-slot" />
+						),
+					)}
 				</div>
 			</div>
 		</div>
