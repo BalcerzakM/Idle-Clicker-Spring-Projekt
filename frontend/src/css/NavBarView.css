@@ -1,6 +1,6 @@
 .navBar {
-    width: 360px;
-    height: 550px;
+    width: 20%;
+    height: 100%;
     flex-shrink: 0;
 }
 
