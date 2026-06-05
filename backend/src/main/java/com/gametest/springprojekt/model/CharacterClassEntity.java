@@ -21,9 +21,6 @@ public class CharacterClassEntity {
     private String className;
 
     @Column(nullable = false)
-    private int baseAura;
-
-    @Column(nullable = false)
     private int baseRizz;
 
     @Column(nullable = false)
@@ -40,7 +37,4 @@ public class CharacterClassEntity {
 
     @Column(nullable = false)
     private int baseMoney;
-
-    @Column(nullable = false)
-    private int baseCristals;
 }

@@ -100,17 +100,9 @@
                 <fieldset>
                     <legend>Wybierz klasę swojej postaci:</legend>
                     <div class="class-selector">
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="DRES" required>
-                            Dres
-                        </label>
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="NERD">
-                            Nerd
-                        </label>
-                        <label class="class-option">
-                            <input type="radio" th:field="*{characterClass}" value="ERAZMUS">
-                            ERAZMUS
+                        <label class="class-option" th:each="charClass : ${availableClasses}">
+                            <input type="radio" th:field="*{characterClass}" th:value="${charClass.className}" required>
+                            <span th:text="${charClass.className}">Nazwa Klasy</span>
                         </label>
                     </div>
                 </fieldset>

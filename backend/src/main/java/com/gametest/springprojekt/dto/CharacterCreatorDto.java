@@ -1,6 +1,5 @@
 package com.gametest.springprojekt.dto;
 
-import com.gametest.springprojekt.model.enums.CharacterClass;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -14,7 +13,7 @@ public class CharacterCreatorDto {
     private String name;
 
     @NotNull(message = "Musisz wybrać klasę postaci")
-    private CharacterClass characterClass;
+    private String characterClass;
 
     @NotBlank(message = "To pole nie może być puste")
     private String avatarPicture;

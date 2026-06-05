@@ -90,3 +90,15 @@ VALUES
     ('Dresiarz', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, 'fight_quest2.png'),
     ('Wyjaśnij Hiszpana', 'opis', 'EASY', 'STRENGTH_FIGHT', 3, 'fight_quest6.png'),
     ('Pijany ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest1.png');
+
+INSERT INTO character_class_entity (class_name,
+                                    base_endurance,
+                                    base_rizz,
+                                    base_strength,
+                                    base_agility,
+                                    base_luck,
+                                    base_money)
+VALUES
+    ('Nerd', 20, 1, 1, 5, 30, 100),
+    ('Erasmus', 30, 10, 5, 5, 5, 200),
+    ('Dres', 40, 5, 10, 1, 1, 50);
