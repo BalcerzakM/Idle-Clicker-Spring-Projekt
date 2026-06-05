@@ -225,6 +225,8 @@ public class CharacterService {
         return itemDtos;
     }
 
+
+    @Transactional
     public void incrementStat(CharacterEntity character, StatName stat, int amount) {
         if (character.getCristals() <= 0) {
             throw new InsufficientMoneyException("Gracz ma za malo krysztalow!");
