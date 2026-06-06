@@ -1,62 +1,54 @@
-.arena-wrapper {
+
+.arena-container {
+    background: url("../assets/scenes/club_arena.png") center / contain no-repeat;
+    width: 100%;
+    height:100%;
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6), inset 0 0 80px rgba(122, 29, 45, 0.08);
+    padding: 5% 5%;
 }
 
-.arena-title {
-    color: #e0c7ae;
-    margin-bottom: 20px;
-    font-size: 24px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-.arena-container {
-    display: flex;
+.combat-container {
     justify-content: space-between;
     align-items: center;
-    width: 700px;
-    background: color-mix(in srgb, #16131a 80%, transparent);
-    border: 2px solid #2b2233;
-    border-radius: 16px;
-    padding: 30px;
-    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    width: 80%;
+    display: flex;
     position: relative;
+    margin-top: 8%;
 }
 
 .character-box {
-    display: flex;
     flex-direction: column;
     align-items: center;
-    width: 180px;
+    width: 30%;
+    display: flex;
 }
 
 .character-box h3 {
-    color: #d89b52;
-    margin-bottom: 10px;
-    font-size: 20px;
+    color: var(--neon-gold);
+    margin-bottom: 3%;
+    font-size: 25px;
 }
 
 .arena-avatar {
-    width: 120px;
-    height: 120px;
     object-fit: contain;
-    border: 2px solid #1e1a22;
-    border-radius: 12px;
     background-color: #0b0b0f;
-    margin-bottom: 15px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 4%;
 }
 
-/* Paski Zdrowia */
 .hp-bar {
+    background-color: var(--bg-main);
+    border: 1px solid var(--border-glow);
+    border-radius: 4px;
     width: 100%;
-    height: 12px;
-    background-color: #1c1117;
-    border-radius: 6px;
+    height: 15px;
     overflow: hidden;
-    border: 1px solid #2b2233;
 }
 
 .hp-fill {
@@ -75,13 +67,12 @@
 }
 
 .hp-text {
-    margin-top: 5px;
-    font-size: 14px;
-    color: #b7a38f;
-    font-weight: bold;
+    color: var(--text-light);
+    margin-top: 7px;
+    font-size: 18px;
+    font-weight: 700;
 }
 
-/* Środek areny */
 .arena-center {
     position: relative;
     width: 100px;
@@ -103,34 +94,38 @@
     top: -40px;
     font-size: 36px;
     font-weight: bold;
-    color: #ff9a3c;
-    text-shadow: 0 0 10px #ff9a3c, 2px 2px 0px #000;
+    color: var(--neon-red);
+    text-shadow: 0 0 10px var(--bg-dark);
     z-index: 20;
 }
 
-/* Ekran Wyników */
 .arena-results {
-    margin-top: 30px;
     text-align: center;
-    background: #111116;
-    padding: 20px 40px;
-    border: 1px solid #d89b52;
+    background: var(--bg-panel);
+    border: 1px solid var(--neon-gold);
     border-radius: 12px;
-    box-shadow: 0 0 20px rgba(216, 155, 82, 0.2);
-    animation: fadeIn 0.5s ease-out;
+    margin-top: -7%;
+    padding: 20px 40px;
+    animation: .5s ease-out fadeIn;
+    box-shadow: 0 0 25px var(--neon-gold);
 }
 
 .victory-text {
-    color: #d89b52;
-    font-size: 32px;
+    color: var(--neon-orange);
+    text-shadow: 0 0 10px var(--text-muted);
     margin-bottom: 15px;
-    text-shadow: 0 0 10px rgba(216, 155, 82, 0.5);
+    font-size: 32px;
 }
 
 .defeat-text {
-    color: #7a1d2d;
-    font-size: 32px;
+    color: var(--neon-red);
+    text-shadow: 0 0 10px var(--neon-red);
     margin-bottom: 15px;
+    font-size: 32px;
+}
+
+.rewards-box {
+    margin-bottom: 20px;
 }
 
 .rewards-box p {
@@ -139,22 +134,21 @@
 }
 
 .rewards-box span {
-    font-weight: bold;
-    color: #4da3ff;
+    color: var(--neon-blue-glow);
+    font-weight: 700;
 }
-
 .reward-item {
+    border-top: 1px dashed var(--neon-gold);
     margin-top: 15px;
-    border-top: 1px dashed #34495e;
     padding-top: 10px;
 }
 
 .reward-item img {
-    width: 60px;
-    height: 60px;
-    border: 1px solid #d89b52;
+    border: 1px solid var(--neon-orange);
+    background: var(--bg-dark);
     border-radius: 8px;
-    margin-top: 5px;
+    width: 70px;
+    height: 70px;
 }
 
 @keyframes fadeIn {

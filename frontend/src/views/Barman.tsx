@@ -220,11 +220,11 @@ function Barman() {
 					<div className="quest-active-overlay">
 						<h2 className="quest-active-title">{activeQuest.questTitle}</h2>
 						{isQuestFinished ? (
-							<div style={{ textAlign: "center", marginTop: "20px" }}>
-                                <p className="quest-timer-hint" style={{ color: "#f1c40f", fontSize: "20px" }}>
+							<div>
+                                <p className="quest-timer-hint">
                                     Zlecenie ukończone! Przeciwnik czeka.
                                 </p>
-                                <button className="quest-btn" onClick={handleStartCombat} style={{ transform: "scale(1.2)" }}>
+                                <button className="quest-btn" onClick={handleStartCombat}>
                                     ROZPOCZNIJ WALKĘ
                                 </button>
                             </div>

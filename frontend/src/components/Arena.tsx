@@ -27,38 +27,35 @@ type AnimationState = 'idle' | 'playerAttack' | 'enemyAttack';
 function Arena({ combatData, onClose }: ArenaProps) {
     const { character } = useCharacter();
 
-    // 1. STANY ANIMACJI I WALKI
     const [currentStep, setCurrentStep] = useState(0);
     const [animationState, setAnimationState] = useState<AnimationState>('idle');
     const [isFinished, setIsFinished] = useState(false);
     const [currentDamageText, setCurrentDamageText] = useState<number | null>(null);
 
-    // 2. STANY ZDROWIA (Zaczynamy od MAX HP przesłanego z backendu!)
     const [currentPlayerHp, setCurrentPlayerHp] = useState(combatData.playerHp);
     const [currentEnemyHp, setCurrentEnemyHp] = useState(combatData.enemyHp);
 
-    // Zapisujemy stałe wartości maksymalne, żeby poprawnie wyliczać procent paska (0-100%)
     const maxPlayerHp = combatData.playerHp;
     const maxEnemyHp = combatData.enemyHp;
 
-    // 3. WARIANTY ANIMACJI
     const fistVariants: Variants = {
-        idle: { x: 0, opacity: 0, scaleX: 1 },
+        idle: { x: 0, opacity: 0, scaleX: 1 , scale: 1 },
         playerAttack: {
-            x: [0, 180, 0], 
+            x: [0, 280, 280],
+            scale: [1, 2, 2], 
             opacity: [0, 1, 0], 
-            scaleX: 1,
-            transition: { duration: 0.4, ease: "easeInOut" }
+            scaleX: [1, 1, 1],
+            transition: { duration: 0.6, ease: "easeInOut" }
         },
         enemyAttack: {
-            x: [0, -180, 0],
+            x: [0, -280, -280],
+            scale: [1, 2, 2], 
             opacity: [0, 1, 0],
-            scaleX: -1, 
-            transition: { duration: 0.4, ease: "easeInOut" }
+            scaleX: [-1, -1, -1], 
+            transition: { duration: 0.6, ease: "easeInOut" }
         }
     };
 
-    // 4. KONTROLER TUR
     useEffect(() => {
         if (currentStep >= combatData.combatLog.length) {
             setIsFinished(true);
@@ -68,12 +65,11 @@ function Arena({ combatData, onClose }: ArenaProps) {
         const timer = setTimeout(() => {
             const isPlayerTurn = currentStep % 2 === 0;
             setAnimationState(isPlayerTurn ? 'playerAttack' : 'enemyAttack');
-        }, 400);
+        }, 1000);
 
         return () => clearTimeout(timer);
     }, [currentStep, combatData.combatLog.length]);
 
-    // 5. OBSŁUGA TRAFIENIA
     const handleAttackComplete = (variant: any) => {
         if (variant === 'idle') return;
 
@@ -82,7 +78,6 @@ function Arena({ combatData, onClose }: ArenaProps) {
         const damage = combatData.combatLog[currentStep];
         setCurrentDamageText(damage); 
 
-        // Odejmujemy HP, ale pilnujemy, żeby nie zeszło poniżej zera (wizualnie)
         if (currentStep % 2 === 0) {
             setCurrentEnemyHp(prev => prev - damage);
         } else {
@@ -92,17 +87,12 @@ function Arena({ combatData, onClose }: ArenaProps) {
         setCurrentStep(prev => prev + 1);
         setTimeout(() => setCurrentDamageText(null), 500);
     };
-
-    // Obliczanie szerokości paska w %
     const playerHpPercent = Math.max(0, (currentPlayerHp / maxPlayerHp) * 100);
     const enemyHpPercent = Math.max(0, (currentEnemyHp / maxEnemyHp) * 100);
 
     return (
-        <div className="arena-wrapper">
-            <h2 className="arena-title">Trwa Pojedynek...</h2>
-
-            <div className="arena-container">
-                {/* --- GRACZ --- */}
+        <div className="arena-container">
+            <div className="combat-container">
                 <div className="character-box">
                     <h3>Ty</h3>
                     <img src={`/avatars/${character?.avatarPicture}`} alt="Gracz" className="arena-avatar" />
@@ -111,8 +101,6 @@ function Arena({ combatData, onClose }: ArenaProps) {
                     </div>
                     <p className="hp-text">HP: {currentPlayerHp} / {maxPlayerHp}</p>
                 </div>
-
-                {/* --- ŚRODEK ARENY --- */}
                 <div className="arena-center">
                     {currentDamageText !== null && (
                         <motion.div 
@@ -135,8 +123,6 @@ function Arena({ combatData, onClose }: ArenaProps) {
                         onAnimationComplete={handleAttackComplete} 
                     />
                 </div>
-
-                {/* --- PRZECIWNIK --- */}
                 <div className="character-box">
                     <h3>{combatData.enemyName}</h3>
                     <img src={`/opponents/${combatData.enemyImagePath}`} alt="Wróg" className="arena-avatar" />
@@ -147,15 +133,14 @@ function Arena({ combatData, onClose }: ArenaProps) {
                 </div>
             </div>
 
-            {/* --- WYNIKI --- */}
             {isFinished && (
                 <div className="arena-results">
                     {combatData.playerWon ? (
                         <>
                             <h2 className="victory-text">ZWYCIĘSTWO!</h2>
                             <div className="rewards-box">
-                                <p>💰 Złoto: <span>+{combatData.moneyReward}</span></p>
-                                <p>✨ Aura: <span>+{combatData.auraReward}</span></p>
+                                <p>Złoto: <span>+{combatData.moneyReward}</span></p>
+                                <p>Aura: <span>+{combatData.auraReward}</span></p>
                                 {combatData.itemRewardImagePath && (
                                     <div className="reward-item">
                                         <p>Zdobywasz łup!</p>
@@ -167,7 +152,7 @@ function Arena({ combatData, onClose }: ArenaProps) {
                     ) : (
                         <h2 className="defeat-text">PORAŻKA!</h2>
                     )}
-                    <button className="quest-btn" onClick={onClose} style={{ marginTop: '20px' }}>
+                    <button className="quest-btn" onClick={onClose}>
                         Wróć do Baru
                     </button>
                 </div>
