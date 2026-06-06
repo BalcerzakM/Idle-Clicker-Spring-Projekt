@@ -1,18 +1,6 @@
 import "../css/HeroPanel.css";
+import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 
-export interface ItemDto {
-	id: number;
-	itemName: string;
-	itemDescription: string;
-	slotType: string;
-	totalRizz: number;
-	totalStrength: number;
-	totalAgility: number;
-	totalEndurance: number;
-	totalLuck: number;
-	price: number;
-	imagePath: string;
-}
 
 export interface ItemsAndStatsDto {
 	name: string;
@@ -61,9 +49,6 @@ function HeroPanel({
 		if (isNaN(backpackItemId)) return;
 		onEquip(backpackItemId);
 	};
-
-	const itemTooltip = (item: ItemDto) =>
-		`${item.itemName} | ${item.slotType}\n💪 ${item.totalStrength} \n🏃 ${item.totalAgility} \n🛡️ ${item.totalEndurance}\n🍀 ${item.totalLuck} \n✨ ${item.totalRizz}`;
 
 	return (
 		<div className="hero-panel">
