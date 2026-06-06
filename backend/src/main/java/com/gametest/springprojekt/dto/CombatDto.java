@@ -9,6 +9,8 @@ import java.util.List;
 public class CombatDto {
     private List<Integer> combatLog;
     private boolean playerWon;
+    private int playerHp;
+    private int enemyHp;
     private String enemyName;
     private String enemyImagePath;
 

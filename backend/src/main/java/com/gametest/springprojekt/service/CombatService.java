@@ -45,6 +45,8 @@ public class CombatService {
         }
 
         OpponentEntity opponent = activeQuest.getOpponent();
+        int opponentHp = opponent.getBaseEndurance() * character.getAuraLvl();
+        int characterHp = character.getEndurance();
         List<Integer> combatLog;
 
         if (activeQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
@@ -87,7 +89,7 @@ public class CombatService {
         character.setMoney(character.getMoney() + bonusMoney);
         character.setActiveQuest(null);
 
-        return new CombatDto(combatLog, playerWon, enemyName, enemyImagePath, bonusMoney, bonusAura, rewardItemImagePath);
+        return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, bonusMoney, bonusAura, rewardItemImagePath);
     }
 
     private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent) {

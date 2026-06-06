@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import "../css/QuestView.css";
 import { useAlert } from "../context/AlertContext.tsx";
+import { useCharacter } from "../context/CharacterContext";
+import Arena from "../components/Arena.tsx";
 
 // ----- typy -----
 interface QuestDto {
@@ -22,6 +24,7 @@ interface ActiveQuestDto {
 }
 
 function Barman() {
+	const { refreshCharacter } = useCharacter();
 	const [quests, setQuests] = useState<QuestDto[]>([]);
 	const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
@@ -30,6 +33,8 @@ function Barman() {
 	const [progress, setProgress] = useState<number>(100);
 	const [totalDuration, setTotalDuration] = useState<number>(0);
 	const {showError} = useAlert();
+	const [isQuestFinished, setIsQuestFinished] = useState<boolean>(false);
+	const [combatResult, setCombatResult] = useState<any | null>(null);
 
 	const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -112,9 +117,35 @@ function Barman() {
 		}
 	};
 
+	const handleStartCombat = async() => {
+		try {
+			setLoading(true);
+			const res =await fetch ("http://localhost:8080/api/quest/combat", {
+				method: "POST",
+				headers: { "Content-Type": "application/json"},
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Błąd podczas rozpoczynania walki!");
+				return;
+			}
+
+			const data = await res.json();
+			setCombatResult(data);
+			setActiveQuest(null);
+			setIsQuestFinished(false);
+		} catch (err: any) {
+			console.error(err);
+			showError("Brak połączenia z serwerem");
+		} finally {
+			setLoading(false)
+		}
+	}
+
 	// odliczanie i pasek postępu
 	useEffect(() => {
-		if (!activeQuest || totalDuration <= 0) return;
+		if (!activeQuest) return;
 
 		const updateTimer = () => {
 			const now = Date.now();
@@ -122,8 +153,9 @@ function Barman() {
 			const diff = end - now;
 
 			if (diff <= 0) {
-				setTimeLeft("Ukończono!");
+				setTimeLeft("00:00:00");
 				setProgress(0);
+				setIsQuestFinished(true);
 				if (timerRef.current) clearInterval(timerRef.current);
 				return;
 			}
@@ -137,9 +169,13 @@ function Barman() {
 					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`,
 			);
 
+			if(totalDuration > 0) {
 			// oblicz postęp (procent pozostałego czasu)
 			const percentLeft = (diff / (totalDuration * 1000)) * 100;
 			setProgress(Math.max(0, percentLeft));
+			} else {
+				setProgress(100);
+			}
 		};
 
 		updateTimer();
@@ -159,6 +195,18 @@ function Barman() {
 	if (loading) return <div className="quest-loading">Ładowanie...</div>;
 	// if (error) return <div className="quest-error">{error}</div>;
 
+	if (combatResult) {
+		return (
+			<Arena
+				combatData={combatResult}
+				onClose={() => {
+					setCombatResult(null);
+					refreshCharacter();
+					fetchQuests();
+				}}
+				/>
+		)
+	}
 	// EKRAN AKTYWNEGO QUESTA (odliczanie)
 	if (activeQuest) {
 		return (
@@ -171,11 +219,24 @@ function Barman() {
 				>
 					<div className="quest-active-overlay">
 						<h2 className="quest-active-title">{activeQuest.questTitle}</h2>
-						<p className="quest-timer-label">Czas pozostały</p>
-						<p className="quest-timer">{timeLeft}</p>
-						<p className="quest-timer-hint">
-							Zlecenie zakończy się automatycznie – sprawdź później nagrody!
-						</p>
+						{isQuestFinished ? (
+							<div style={{ textAlign: "center", marginTop: "20px" }}>
+                                <p className="quest-timer-hint" style={{ color: "#f1c40f", fontSize: "20px" }}>
+                                    Zlecenie ukończone! Przeciwnik czeka.
+                                </p>
+                                <button className="quest-btn" onClick={handleStartCombat} style={{ transform: "scale(1.2)" }}>
+                                    ROZPOCZNIJ WALKĘ
+                                </button>
+                            </div>
+						) : (
+							<>
+								<p className="quest-timer-label">Czas pozostały</p>
+								<p className="quest-timer">{timeLeft}</p>
+								<p className="quest-timer-hint">
+									Zlecenie zakończy się automatycznie – sprawdź później nagrody!
+								</p>
+							</>
+						)}
 						<div className="quest-progress-container">
 							<div
 								className="quest-progress-fill"
