@@ -58,6 +58,9 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/outside")}>
 					Palarnia
 				</button>
+				<button type="button" onClick={() => navigate("/parking")}>
+					Parking
+				</button>
 			</nav>
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">

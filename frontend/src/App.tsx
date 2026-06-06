@@ -7,6 +7,7 @@ import Barman from "./views/Barman";
 import Player from "./views/Player";
 import Outside from "./views/Outside";
 import Boxer from "./views/Boxer";
+import Parking from "./views/Parking";
 
 function App() {
 
@@ -40,6 +41,7 @@ function App() {
 						<Route path="/player" element={<Player/>}/>
 						<Route path="/outside" element={<Outside/>}/>
 						<Route path="/boxer" element={<Boxer/>}/>
+						<Route path="/parking" element={<Parking/>}/>
 					</Routes>
 				</div>
 			</div>

@@ -288,6 +288,58 @@ body::before {
 	display: block;
 }
 
+.outsideMain-parking-sign {
+    position: absolute;
+    top: 220px;
+    height: 228px;
+    width: 108px;
+}
+
+.parking_sign_image {
+	position:absolute;
+	top:220px;
+	width: 120px;
+	height: auto;
+	filter: brightness(30%);
+	
+}
+
+.outsideMain-parking-sign .hover-image {
+	width: 120px;
+	height: auto;
+	filter: brightness(60%);
+
+}
+
+.outsideMain-parking-sign:hover .hover-image {
+	display: block;
+	
+}
+
+.outsideMain-parking-sign:hover + .outsideMain-parkingTextBox {
+	display: block;
+	opacity: 0.95;
+}
+
+.outsideMain-parkingTextBox {
+	display: none;
+	font-size: 16px;
+	position: absolute;
+	top: 200px;
+	left: 27px;
+	width: auto;
+	padding: 1px 6px;
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
+	background: rgba(10, 12, 18, 0.92);
+	color: #d2c1af;
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+	backdrop-filter: blur(2px);
+	z-index: 2;
+}
+
+
 .outsideMain-entrance:hover + .outsideMain-entranceTextBox {
 	display: block;
 	opacity: 0.95;
