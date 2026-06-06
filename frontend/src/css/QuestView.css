@@ -202,11 +202,9 @@
 }
 
 .quest-active-title {
-	font-family: "Teko", sans-serif;
-	font-size: 40px;
-	color: var(--neon-gold, #d89b52);
-	text-shadow: 0 0 10px var(--neon-gold);
-	margin-bottom: 20px;
+    color: var(--neon-gold, #d89b52);
+    text-shadow: 0 0 10px var(--neon-gold);
+    margin-bottom: 35%;
 }
 
 .quest-timer-label {
@@ -227,29 +225,25 @@
 }
 
 .quest-timer-hint {
-	font-size: 14px;
-	color: var(--text-muted, #7b6d62);
-	font-style: italic;
+    color: var(--text-muted, #7b6d62);
+    font-size: 14px;
+    font-style: italic;
+    margin: 4% 0;
 }
 /* ===== PASEK POSTĘPU ===== */
 .quest-progress-container {
-	width: 80%;
-	height: 12px;
-	background: rgba(0, 0, 0, 0.6);
-	border: 1px solid var(--border-color, #1e1a22);
-	border-radius: 6px;
-	margin-top: 24px;
-	overflow: hidden;
+    border: 1px solid var(--border-color, #1e1a22);
+    background: var(--bg-panel);
+    border-radius: 4px;
+    width: 80%;
+    height: 2%;
+    margin-top: 4%;
+    overflow: hidden;
 }
 
 .quest-progress-fill {
-	height: 100%;
-	background: linear-gradient(
-		90deg,
-		var(--neon-blue, #4da3ff),
-		var(--neon-blue-glow, #82c4ff)
-	);
-	box-shadow: 0 0 8px var(--neon-blue);
-	border-radius: 6px;
-	transition: width 0.5s linear;
+    background: linear-gradient(90deg, var(--neon-blue, #4da3ff), var(--neon-blue-glow, #82c4ff));
+    height: 100%;
+    border-radius: 4px;
+    transition: width .5s linear;
 }

@@ -45,12 +45,17 @@ public class CombatService {
         }
 
         OpponentEntity opponent = activeQuest.getOpponent();
+        int opponentHp = opponent.getBaseEndurance() * character.getAuraLvl();
+        int characterHp = character.getEndurance();
         List<Integer> combatLog;
 
+        String questType;
         if (activeQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
             combatLog =  simulateRizzCombat(character, opponent);
+            questType = QuestType.RIZZ_FIGHT.toString();
         } else if (activeQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
             combatLog = simulateStrengthCombat(character, opponent);
+            questType = QuestType.STRENGTH_FIGHT.toString();
         } else {
             throw new IllegalArgumentException("Błędny typ questa!");
         }
@@ -87,7 +92,7 @@ public class CombatService {
         character.setMoney(character.getMoney() + bonusMoney);
         character.setActiveQuest(null);
 
-        return new CombatDto(combatLog, playerWon, enemyName, enemyImagePath, bonusMoney, bonusAura, rewardItemImagePath);
+        return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, questType, bonusMoney, bonusAura, rewardItemImagePath);
     }
 
     private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent) {
