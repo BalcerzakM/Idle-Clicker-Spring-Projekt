@@ -13,6 +13,7 @@ public class CombatDto {
     private int enemyHp;
     private String enemyName;
     private String enemyImagePath;
+    private String questType;
 
     private int moneyReward;
     private int auraReward;

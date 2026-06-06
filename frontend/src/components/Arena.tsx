@@ -4,6 +4,7 @@ import type {Variants} from 'framer-motion';
 import { useCharacter } from '../context/CharacterContext';
 import '../css/Arena.css';
 import Fist from "../assets/other/fist.png";
+import Kiss from "../assets/other/kiss.png";
 
 interface CombatDto {
     combatLog: number[];
@@ -12,6 +13,7 @@ interface CombatDto {
     enemyHp: number;
     enemyName: string;
     enemyImagePath: string;
+    questType: string;
     moneyReward: number;
     auraReward: number;
     itemRewardImagePath: string | null;
@@ -38,6 +40,8 @@ function Arena({ combatData, onClose }: ArenaProps) {
     const maxPlayerHp = combatData.playerHp;
     const maxEnemyHp = combatData.enemyHp;
 
+    const isRizzFight = combatData.questType === "RIZZ_FIGHT";
+
     const fistVariants: Variants = {
         idle: { x: 0, opacity: 0, scaleX: 1 , scale: 1 },
         playerAttack: {
@@ -56,16 +60,43 @@ function Arena({ combatData, onClose }: ArenaProps) {
         }
     };
 
+    const rizzVariants: Variants = {
+        idle: { x: 0, y: 0, opacity: 0, scaleX: 1, scale: 1, rotate: 0 },
+        playerAttack: {
+            x: [0, 180, 280],
+            y: [0, -40, 0],
+            rotate: [0, 15, -10, 0],
+            scale: [0.5, 1.8, 3],
+            opacity: [0, 1, 0],
+            scaleX: [-1, -1, -1],
+            transition: { duration: 0.9, ease: "easeOut" }
+        },
+        enemyAttack: {
+            x: [0, -180, -280],
+            y: [0, -40, 0],
+            rotate: [0, -15, 10, 0],
+            scale: [0.5, 1.8, 3],
+            opacity: [0, 1, 0],
+            scaleX: [1, 1, 1],
+            transition: { duration: 0.9, ease: "easeOut" }
+        }
+    };
+
+    const activeVariants = isRizzFight ? rizzVariants : fistVariants;
+    const activeProjectile = isRizzFight ? Kiss : Fist;
+
     useEffect(() => {
         if (currentStep >= combatData.combatLog.length) {
             setIsFinished(true);
             return;
         }
 
+        const timerDelay = isRizzFight ? 1100: 800; 
+
         const timer = setTimeout(() => {
             const isPlayerTurn = currentStep % 2 === 0;
             setAnimationState(isPlayerTurn ? 'playerAttack' : 'enemyAttack');
-        }, 1000);
+        }, timerDelay);
 
         return () => clearTimeout(timer);
     }, [currentStep, combatData.combatLog.length]);
@@ -114,10 +145,10 @@ function Arena({ combatData, onClose }: ArenaProps) {
                     )}
 
                     <motion.img 
-                        src={Fist} 
-                        alt="Pięść" 
+                        src={activeProjectile} 
+                        alt="Pocisk" 
                         className="flying-fist"
-                        variants={fistVariants}
+                        variants={activeVariants}
                         initial="idle"
                         animate={animationState}
                         onAnimationComplete={handleAttackComplete} 
