@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/character")
 @RequiredArgsConstructor
 public class CharacterController {
-    CharacterService characterService;
+    private final CharacterService characterService;
 
     //pieniadze, krysztaly, awatar, aura i aura level
     @GetMapping("/shortInfo")
