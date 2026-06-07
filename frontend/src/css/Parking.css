@@ -10,17 +10,6 @@
 		inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
-.parking::after {
-	content: "";
-
-	position: absolute;
-	inset: 0;
-
-	background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35));
-
-	pointer-events: none;
-}
-
 .parking-carDealer {
     position: absolute;
     top: 29.3%;

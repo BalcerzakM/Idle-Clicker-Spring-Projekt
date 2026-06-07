@@ -115,3 +115,15 @@ VALUES
     ('Nerd', 20, 1, 1, 5, 30, 100),
     ('Erasmus', 30, 10, 5, 5, 5, 200),
     ('Dres', 40, 5, 10, 1, 1, 50);
+
+INSERT INTO base_vehicle_entity (name,
+                                 image_path,
+                                 price,
+                                 time_reduction_percent)
+VALUES
+    ("Rower składak", "bicycle.png", 5, 10),
+    ("Hulajnoga ksiajomi", "scooter.png", 10, 15),
+    ("Sejczento", "sejczento.png", 20, 25),
+    ("Olep asra", "olep_asra.png", 50, 50),
+    ("Bwm f67", "bwm_f67.png", 100, 60),
+    ("Traktor USRUS", "tractor.png", 200, 90);

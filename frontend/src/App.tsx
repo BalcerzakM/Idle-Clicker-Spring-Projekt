@@ -9,6 +9,7 @@ import Outside from "./views/Outside";
 import Boxer from "./views/Boxer";
 import Parking from "./views/Parking";
 import Security from "./views/Security";
+import CarDealer from "./views/CarDealer";
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -43,6 +44,7 @@ function App() {
 						<Route path="/boxer" element={<Boxer />} />
 						<Route path="/parking" element={<Parking />} />
 						<Route path="/security" element={<Security />} />
+						<Route path="/car-dealer" element={<CarDealer/>}/>
 					</Routes>
 				</div>
 			</div>

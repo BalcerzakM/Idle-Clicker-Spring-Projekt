@@ -29,7 +29,6 @@ export function AlertProvider({children}: {children: ReactNode}) {
             {message && (
                 <div className={"game-alert-overlay"}>
                     <div className={"game-alert"}>
-                        <h3>BŁĄD</h3>
                         <p>{message}</p>
 
                         <button ref={buttonRef} onClick={() => setMessage(null)}>
