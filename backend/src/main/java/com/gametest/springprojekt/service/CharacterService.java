@@ -242,9 +242,20 @@ public class CharacterService {
 
     @Transactional
     public @Nullable BouncerDutyDto startBouncerDuty(CharacterEntity character, Integer hours) {
+        Instant now = Instant.now();
         Instant dutyEndTime = Instant.now().plus(hours, ChronoUnit.HOURS);
-        character.setBouncerDutyEndTime(dutyEndTime);
-        return new BouncerDutyDto(dutyEndTime);
+        int base = 10;
+        double scale = 1.5;
+        int reward = (int)(base * character.getAuraLvl() * scale * hours); //skalowanie w zależnosći od levela aury
+        BouncerDutyEntity dutyEntity = new BouncerDutyEntity(null,now, dutyEndTime, reward);
+        character.setBouncerDuty(dutyEntity);
+        return new BouncerDutyDto(now,dutyEndTime,reward);
     }
 
+
+
+    public @Nullable BouncerDutyDto getBouncerDutyDto(CharacterEntity character) {
+        BouncerDutyEntity bouncerDutyEntity = character.getBouncerDuty();
+        return new BouncerDutyDto(bouncerDutyEntity.getBouncerDutyStartTime(),bouncerDutyEntity.getBouncerDutyEndTime(),bouncerDutyEntity.getReward());
+    }
 }

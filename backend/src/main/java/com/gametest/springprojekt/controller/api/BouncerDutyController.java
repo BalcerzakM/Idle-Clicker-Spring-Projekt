@@ -22,11 +22,7 @@ public class BouncerDutyController {
     @GetMapping
     public ResponseEntity<BouncerDutyDto> getBouncerDuty() {
         CharacterEntity character = characterService.getCurrentCharacter();
-        Instant dutyEndTime = character.getBouncerDutyEndTime();
-//        if (dutyEndTime == null) {
-//            return ResponseEntity.notFound().build();
-//        }
-        return ResponseEntity.ok(new BouncerDutyDto(dutyEndTime));
+        return ResponseEntity.ok(characterService.getBouncerDutyDto(character));
     }
 
     @PostMapping
