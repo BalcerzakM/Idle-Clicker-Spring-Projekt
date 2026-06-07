@@ -96,8 +96,31 @@ public class CharacterService {
         );
     }
 
+    public FullCharacterInfoDto getFullCharacterInfo(CharacterEntity character) {
+        character.updateAuraLevel();
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+        return new FullCharacterInfoDto(
+                character.getName(),
+                character.getAvatarPicture(),
+                character.getAuraLvl(),
+                character.getAura(),
+                stats.get("rizz"),
+                stats.get("strength"),
+                stats.get("agility"),
+                stats.get("endurance"),
+                stats.get("luck"),
+                character.getActiveVehicle().getBaseVehicle().getName(),
+                character.getActiveVehicle().getBaseVehicle().getImagePath(),
+                character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent(),
+                character.getActiveVehicle().getExpiryTime().toString(),
+                equipmentItemToItemDtos(character.getEquipment()),
+                backpackItemToItemDtos(character.getBackpack())
+        );
+    }
+
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
     public ItemsAndStatsDto getItemsAndStats(CharacterEntity character) {
+        character.updateAuraLevel();
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         return new ItemsAndStatsDto(
                 character.getName(),

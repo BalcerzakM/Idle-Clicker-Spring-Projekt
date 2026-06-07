@@ -5,6 +5,7 @@
     import com.gametest.springprojekt.exception.UsernameAlreadyExistsException;
     import com.gametest.springprojekt.service.UserService;
     import jakarta.validation.Valid;
+    import lombok.RequiredArgsConstructor;
     import org.springframework.stereotype.Controller;
     import org.springframework.ui.Model;
     import org.springframework.validation.BindingResult;
@@ -15,13 +16,10 @@
 
     @Controller
     @RequestMapping("/mvc/register")
+    @RequiredArgsConstructor
     public class RegistrationController {
 
         private final UserService userService;
-
-        public RegistrationController(UserService userService) {
-            this.userService = userService;
-        }
 
         @GetMapping
         public String registration(
