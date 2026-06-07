@@ -46,7 +46,7 @@ public class ItemTokenService {
         BaseItemEntity token = backpackToken.getItem().getBaseItem();
 
         if (!token.getItemType().equals(ItemType.ITEM_TOKEN)) {
-            throw new InvalidItemTypeException("Nie mozna wymienic tego przedmiotu!");
+            throw new InvalidItemTypeException("Nie mozna wymienić tego przedmiotu!");
         }
 
         int tokenLuck = token.getBaseLuck();

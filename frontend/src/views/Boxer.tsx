@@ -102,7 +102,7 @@ function Boxer() {
                 {displayScore.toString().padStart(3, "0")}
             </div>
 
-            <div className="boxer-credit-display">
+            <div className={`boxer-credit-display ${playing ? "playing" : ""}`}>
                 <input
                     value={bet.toString().padStart(4, "0")}
                     onChange={(e) => {
