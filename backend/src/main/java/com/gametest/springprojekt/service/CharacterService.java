@@ -1,10 +1,7 @@
 package com.gametest.springprojekt.service;
 
-import com.gametest.springprojekt.dto.CharacterCreatorDto;
-import com.gametest.springprojekt.dto.ItemDto;
-import com.gametest.springprojekt.dto.ItemsAndStatsDto;
+import com.gametest.springprojekt.dto.*;
 import com.gametest.springprojekt.exception.*;
-import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.model.enums.StatName;
@@ -12,12 +9,15 @@ import com.gametest.springprojekt.repository.CharacterClassRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 @Service
@@ -239,4 +239,43 @@ public class CharacterService {
         }
     }
 
+
+    @Transactional
+    public @Nullable BouncerDutyDto startBouncerDuty(CharacterEntity character, Integer hours) {
+        Instant now = Instant.now();
+        Instant dutyEndTime = Instant.now().plus(hours, ChronoUnit.HOURS);
+        //Instant dutyEndTime = now.plusSeconds(hours); do testowania
+        int base = 10;
+        double scale = 1.5;
+        int reward = (int)(base * character.getAuraLvl() * scale * hours); //skalowanie w zależnosći od levela aury
+        BouncerDutyEntity dutyEntity = new BouncerDutyEntity(null,now, dutyEndTime, reward);
+        character.setBouncerDuty(dutyEntity);
+        return new BouncerDutyDto(now,dutyEndTime,reward);
+    }
+
+
+
+    public @Nullable BouncerDutyDto getBouncerDutyDto(CharacterEntity character) {
+        BouncerDutyEntity bouncerDutyEntity = character.getBouncerDuty();
+        if (bouncerDutyEntity == null) {
+            return null;
+        }
+
+        return new BouncerDutyDto(
+                bouncerDutyEntity.getBouncerDutyStartTime(),
+                bouncerDutyEntity.getBouncerDutyEndTime(),
+                bouncerDutyEntity.getReward());
+    }
+
+    @Transactional
+    public int completeBouncerDuty(CharacterEntity character) {
+        BouncerDutyEntity duty = character.getBouncerDuty();
+        if (duty == null) {
+            throw new IllegalStateException("Brak aktywnej zmiany");
+        }
+        int reward = duty.getReward();
+        character.setMoney(character.getMoney() + reward);
+        character.setBouncerDuty(null);
+        return reward;
+    }
 }

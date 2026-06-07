@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
 import java.util.*;
 
 
@@ -52,6 +53,9 @@ public class CharacterEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
     private ActiveQuestEntity activeQuest;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private BouncerDutyEntity bouncerDuty;
 
     /**
      * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
