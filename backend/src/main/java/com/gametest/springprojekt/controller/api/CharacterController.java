@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.controller.api;
 
+import com.gametest.springprojekt.dto.FullCharacterInfoDto;
 import com.gametest.springprojekt.dto.ItemsAndStatsDto;
 import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.dto.SwapRequestDto;
@@ -30,6 +31,13 @@ public class CharacterController {
         CharacterEntity character = characterService.getCurrentCharacter();
         ShortCharacterInfoDto shortCharacterInfoDto = characterService.getShortCharacterInfo(character);
         return ResponseEntity.ok(shortCharacterInfoDto);
+    }
+
+    @GetMapping("/fullInfo")
+    public ResponseEntity<FullCharacterInfoDto> getFullCharacterInfo() {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        FullCharacterInfoDto fullCharacterInfoDto = characterService.getFullCharacterInfo(character);
+        return ResponseEntity.ok(fullCharacterInfoDto);
     }
 
     /**

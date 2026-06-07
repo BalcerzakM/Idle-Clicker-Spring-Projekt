@@ -4,14 +4,12 @@ import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.exception.QuestNotFoundException;
-import com.gametest.springprojekt.model.ActiveQuestEntity;
-import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.QuestEntity;
-import com.gametest.springprojekt.model.QuestOfferEntity;
+import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.QuestOfferRepository;
 import com.gametest.springprojekt.repository.QuestRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,19 +20,15 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class QuestService {
 
     private final QuestRepository questRepository;
     private final Random random = new Random();
     private final CharacterRepository characterRepository; // Intelij nie wie, że metoda setActiveQuest modyfikuje też repo
     private final QuestOfferRepository questOfferRepository;
+    private final VehicleService vehicleService;
     private final int QUEST_OFFER_SIZE = 3;
-
-    public QuestService(QuestRepository questRepository, CharacterRepository characterRepository, QuestOfferRepository questOfferRepository) {
-        this.questRepository = questRepository;
-        this.characterRepository = characterRepository;
-        this.questOfferRepository = questOfferRepository;
-    }
 
     @Transactional
     public List<QuestDto> getQuests(CharacterEntity character) {
@@ -130,10 +124,19 @@ public class QuestService {
         return Instant.now().plusSeconds(questDuration);
     }
 
-    private static long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
-        int aura = character.getAuraLvl();
+    private long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
+        int auraLvl = character.getAuraLvl();
+        double exponent = 1.5;
         int questTierVariable = quest.getQuestTier().getMultiplier();
-        return (long) questTierVariable*aura;
+        long finalQuestTime = (long) (questTierVariable * Math.pow(auraLvl, exponent));
+
+        vehicleService.validateAndRemoveExpiredVehicle(character.getId());
+        if (character.getActiveVehicle() != null) {
+            int reductionPercent = character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent();
+            double multiplier = 1.0 - (reductionPercent / 100.0);
+            finalQuestTime = (long) (finalQuestTime * multiplier);
+        }
+        return finalQuestTime;
     }
 
     @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo

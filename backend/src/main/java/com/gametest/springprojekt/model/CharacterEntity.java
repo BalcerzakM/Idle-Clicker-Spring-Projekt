@@ -53,6 +53,10 @@ public class CharacterEntity {
     @JoinColumn(name = "active_quest_id")
     private ActiveQuestEntity activeQuest;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "active_vehicle_id")
+    private ActiveVehicleEntity activeVehicle;
+
     /**
      * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
      * @param bonusAura

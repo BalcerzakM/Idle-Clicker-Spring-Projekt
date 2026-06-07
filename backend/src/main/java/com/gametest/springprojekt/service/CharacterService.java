@@ -1,10 +1,7 @@
 package com.gametest.springprojekt.service;
 
-import com.gametest.springprojekt.dto.CharacterCreatorDto;
-import com.gametest.springprojekt.dto.ItemDto;
-import com.gametest.springprojekt.dto.ItemsAndStatsDto;
+import com.gametest.springprojekt.dto.*;
 import com.gametest.springprojekt.exception.*;
-import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.model.enums.StatName;
@@ -96,8 +93,31 @@ public class CharacterService {
         );
     }
 
+    public FullCharacterInfoDto getFullCharacterInfo(CharacterEntity character) {
+        character.updateAuraLevel();
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+        return new FullCharacterInfoDto(
+                character.getName(),
+                character.getAvatarPicture(),
+                character.getAuraLvl(),
+                character.getAura(),
+                stats.get("rizz"),
+                stats.get("strength"),
+                stats.get("agility"),
+                stats.get("endurance"),
+                stats.get("luck"),
+                character.getActiveVehicle().getBaseVehicle().getName(),
+                character.getActiveVehicle().getBaseVehicle().getImagePath(),
+                character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent(),
+                character.getActiveVehicle().getExpiryTime().toString(),
+                equipmentItemToItemDtos(character.getEquipment()),
+                backpackItemToItemDtos(character.getBackpack())
+        );
+    }
+
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
     public ItemsAndStatsDto getItemsAndStats(CharacterEntity character) {
+        character.updateAuraLevel();
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         return new ItemsAndStatsDto(
                 character.getName(),
