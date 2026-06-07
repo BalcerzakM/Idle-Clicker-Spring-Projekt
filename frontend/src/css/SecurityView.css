@@ -1,0 +1,234 @@
+/* ===== Główny kontener ===== */
+.security-container {
+	position: relative;
+	width: 1310px;
+	height: 100%;
+	background: url("../assets/scenes/security.png") left center / contain
+		no-repeat;
+	border: 2px solid #1f1a24;
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
+	display: flex;
+}
+
+/* ===== LEWA STRONA – obraz ochroniarza ===== */
+.security-left-image {
+	flex: 1;
+
+	background-color: transparent;
+	min-height: 100%;
+}
+
+/* ===== PRAWY PANEL (wybór godzin) ===== */
+.security-right-panel {
+	flex: 0 0 480px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 40px;
+	background: linear-gradient(90deg, rgba(11, 11, 15, 0.9) 0%, #0b0b0f 100%);
+	backdrop-filter: blur(2px);
+	z-index: 2;
+	opacity: 0.8;
+}
+
+.security-panel-title {
+	font-family: "Teko", sans-serif;
+	font-size: 42px;
+	color: var(--neon-gold, #d89b52);
+	text-shadow: 0 0 10px var(--neon-gold);
+	margin-bottom: 12px;
+	text-align: center;
+	letter-spacing: 2px;
+}
+
+.security-description {
+	color: var(--text-muted, #7b6d62);
+	font-size: 16px;
+	text-align: center;
+	margin-bottom: 40px;
+	line-height: 1.5;
+}
+
+/* ===== Suwak ===== */
+.security-slider-container {
+	margin-bottom: 50px;
+}
+
+.security-slider-label {
+	display: block;
+	text-align: center;
+	font-size: 20px;
+	color: var(--text-light, #b7a38f);
+	margin-bottom: 16px;
+}
+
+.security-slider-label span {
+	color: var(--neon-gold, #d89b52);
+	font-weight: bold;
+	font-size: 28px;
+	margin-left: 4px;
+	text-shadow: 0 0 6px rgba(216, 155, 82, 0.6);
+}
+
+.security-slider {
+	width: 100%;
+	-webkit-appearance: none;
+	appearance: none;
+	height: 10px;
+	background: linear-gradient(90deg, #1e1a22, #2b2233);
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid var(--border-color, #1e1a22);
+	margin: 10px 0;
+}
+
+.security-slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 24px;
+	height: 24px;
+	background: var(--neon-gold, #d89b52);
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 14px var(--neon-gold);
+	transition: 0.2s;
+	border: 1px solid #fff2d8;
+}
+
+.security-slider::-webkit-slider-thumb:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 20px var(--neon-gold);
+}
+
+.security-slider-limits {
+	display: flex;
+	justify-content: space-between;
+	color: var(--text-muted, #7b6d62);
+	font-size: 14px;
+	margin-top: 4px;
+}
+
+.security-start-btn {
+	width: 100%;
+	padding: 14px 0;
+	font-size: 22px;
+	letter-spacing: 2px;
+	margin-top: 20px;
+}
+
+/* ===== WIDOK AKTYWNEJ ZMIANY (overlay na całości) ===== */
+.security-active-background {
+	width: 100%;
+	height: 100%;
+	background: url("../assets/scenes/bouncer_duty.png") left center / contain
+		no-repeat;
+	background-color: #0b0b0f;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.security-active-right-panel {
+	flex: 0 0 480px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 40px;
+	background: linear-gradient(90deg, rgba(11, 11, 15, 0.85) 0%, #0b0b0f 100%);
+	height: 100%;
+	text-align: center;
+	backdrop-filter: blur(3px);
+	opacity: 0.8;
+}
+
+.security-active-title {
+	font-family: "Teko", sans-serif;
+	font-size: 52px;
+	color: var(--neon-gold, #d89b52);
+	text-shadow: 0 0 15px var(--neon-gold);
+	margin-bottom: 10%;
+	letter-spacing: 3px;
+}
+
+.security-timer-label {
+	font-size: 18px;
+	color: var(--text-muted, #7b6d62);
+	margin-bottom: 8px;
+}
+
+.security-timer {
+	font-size: 68px;
+	font-family: "Courier New", monospace;
+	color: var(--neon-orange, #ff9a3c);
+	text-shadow:
+		0 0 12px var(--neon-orange),
+		0 0 30px rgba(255, 154, 60, 0.5);
+	margin: 0 0 24px;
+	letter-spacing: 4px;
+}
+
+.security-timer-hint {
+	color: var(--text-muted, #7b6d62);
+	font-size: 15px;
+	font-style: italic;
+	margin: 10px 0 30px;
+}
+
+.security-finished-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* ===== Pasek postępu (złoty) ===== */
+.security-progress-container {
+	border: 1px solid #2b2233;
+	background: #16131a;
+	border-radius: 4px;
+	width: 85%;
+	height: 10px;
+	margin-top: 30px;
+	overflow: hidden;
+}
+
+.security-progress-fill {
+	background: linear-gradient(90deg, #d89b52, #ffb347);
+	height: 100%;
+	border-radius: 4px;
+	transition: width 0.5s linear;
+	box-shadow: 0 0 10px rgba(216, 155, 82, 0.5);
+}
+/* ----- Wyświetlanie nagrody w widoku wyboru ----- */
+.security-estimated-reward {
+	text-align: center;
+	color: var(--text-muted, #7b6d62);
+	font-size: 18px;
+	margin: 20px 0 10px;
+}
+
+.security-estimated-reward span {
+	color: var(--neon-gold, #d89b52);
+	font-weight: bold;
+	text-shadow: 0 0 6px rgba(216, 155, 82, 0.4);
+}
+
+/* ----- Wyświetlanie nagrody podczas aktywnej zmiany ----- */
+.security-reward {
+	color: var(--text-light, #b7a38f);
+	font-size: 18px;
+	margin: 8px 0;
+	text-shadow: 0 0 4px rgba(216, 155, 82, 0.3);
+}
+.security-last-reward {
+	background: #1e1a22;
+	border: 1px solid var(--neon-gold, #d89b52);
+	color: var(--neon-gold, #d89b52);
+	text-align: center;
+	padding: 10px;
+	margin-bottom: 20px;
+	border-radius: 6px;
+	font-weight: bold;
+}

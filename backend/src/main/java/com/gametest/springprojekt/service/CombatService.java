@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.CombatDto;
+import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.exception.QuestStillActiveException;
@@ -67,7 +68,8 @@ public class CombatService {
         int bonusAura;
         int bonusMoney;
         ItemEntity rewardItem;
-        String rewardItemImagePath;
+        //String rewardItemImagePath;
+        ItemDto rewardItemDto;
 
         if(playerWon) {
             bonusAura = activeQuest.getBonusAura();
@@ -82,17 +84,19 @@ public class CombatService {
         }
 
         if (rewardItem != null) {
-            rewardItemImagePath = rewardItem.getBaseItem().getImagePath();
+            //rewardItemImagePath = rewardItem.getBaseItem().getImagePath();
+            rewardItemDto = rewardItem.generateItemDto();
             character.addItemToBackpack(rewardItem);
         } else {
-            rewardItemImagePath = null;
+            rewardItemDto = null;
+            //rewardItemImagePath = null;
         }
 
         character.setAura(character.getAura() + bonusAura);
         character.setMoney(character.getMoney() + bonusMoney);
         character.setActiveQuest(null);
 
-        return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, questType, bonusMoney, bonusAura, rewardItemImagePath);
+        return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, questType, bonusMoney, bonusAura, rewardItemDto);
     }
 
     private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent) {

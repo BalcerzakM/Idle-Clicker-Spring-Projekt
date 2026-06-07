@@ -4,6 +4,7 @@ import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -54,6 +55,9 @@ public class CharacterEntity {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "active_vehicle_id")
     private ActiveVehicleEntity activeVehicle;
+  
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    private BouncerDutyEntity bouncerDuty;
 
     /**
      * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest

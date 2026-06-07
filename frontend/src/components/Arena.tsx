@@ -2,9 +2,11 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import type {Variants} from 'framer-motion';
 import { useCharacter } from '../context/CharacterContext';
-import '../css/Arena.css';
+import '../css/ArenaView.css';
+import "../css/TooltipView.css";
 import Fist from "../assets/other/fist.png";
 import Kiss from "../assets/other/kiss.png";
+import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 
 interface CombatDto {
     combatLog: number[];
@@ -16,7 +18,7 @@ interface CombatDto {
     questType: string;
     moneyReward: number;
     auraReward: number;
-    itemRewardImagePath: string | null;
+    itemReward: ItemDto | null;
 }
 
 interface ArenaProps {
@@ -172,10 +174,17 @@ function Arena({ combatData, onClose }: ArenaProps) {
                             <div className="rewards-box">
                                 <p>Złoto: <span>+{combatData.moneyReward}</span></p>
                                 <p>Aura: <span>+{combatData.auraReward}</span></p>
-                                {combatData.itemRewardImagePath && (
+                                {combatData.itemReward && (
                                     <div className="reward-item">
                                         <p>Zdobywasz łup!</p>
-                                        <img src={`/items/${combatData.itemRewardImagePath}`} alt="Łup" />
+                                        <div className="reward-item-icon">
+                                            <img
+                                                src={`/items/${combatData.itemReward.imagePath}`}
+                                                alt="Łup"
+                                                className="item-icon"
+                                            />
+                                            <span className="tooltip">{itemTooltip(combatData.itemReward)}</span>
+                                        </div>
                                     </div>
                                 )}
                             </div>

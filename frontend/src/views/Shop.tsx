@@ -2,7 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 import { useCharacter } from "../context/CharacterContext";
 import HeroPanel from "../components/HeroPanel";
 import "../css/ShopView.css";
-import type { ItemDto, ItemsAndStatsDto } from "../components/HeroPanel";
+import "../css/TooltipView.css";
+import type { ItemsAndStatsDto } from "../components/HeroPanel";
+import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import { useAlert } from "../context/AlertContext.tsx";
 
@@ -148,6 +150,29 @@ function Shop() {
 		}
 	};
 
+    // ---------- wymiana numerka ----------
+    const handleSpendToken = async (backpackTokenId: number) => {
+        try {
+            const res = await fetch("http://localhost:8080/api/shop/spendToken", {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify(backpackTokenId),
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                showError(error.message || "Nie udało się wymienić numerka");
+                return;
+            }
+
+            await fetchCharacterData();
+            await refreshCharacter();
+        } catch (err: any) {
+            console.error(err);
+            showError("Brak połączenia z serwerem");
+        }
+    }
+
 	// Obsługa podświetlania slotu
 	const handleHoverSlot = (slotType: string | null) => {
 		setHighlightedSlot(slotType);
@@ -164,10 +189,20 @@ function Shop() {
 
 	const handleDropOnShop = (e: React.DragEvent<HTMLDivElement>) => {
 		e.preventDefault();
+
 		const backpackItemId = Number(e.dataTransfer.getData("text/plain"));
-		if (!isNaN(backpackItemId)) {
-			handleSell(backpackItemId);
+		if (isNaN(backpackItemId) || !hero) {
+			return;
 		}
+
+        const draggedItem = hero.backpack.find((item) => item.id === backpackItemId);
+        if (!draggedItem) return;
+
+        if (draggedItem.itemType === "ITEM_TOKEN") {
+            handleSpendToken(backpackItemId);
+        } else {
+            handleSell(backpackItemId);
+        }
 	};
 
 	if (loading && !hero) {
@@ -222,18 +257,7 @@ function Shop() {
 										className="shop-item-image"
 										onError={(e) => (e.currentTarget.src = "/placeholder.png")}
 									/>
-									<div className="tooltip">
-										{item.itemName} | {item.slotType}
-										<br />
-										💪 {item.totalStrength}
-										<br />
-										🏃 {item.totalAgility}
-										<br />
-										🛡️ {item.totalEndurance}
-										<br />
-										🍀 {item.totalLuck}
-										<br />✨ {item.totalRizz}
-									</div>
+                                    <span className="tooltip">{itemTooltip(item)}</span>
 								</div>
 								<div className="shop-item-info">
 									<h3 className="shop-item-name">{item.itemName}</h3>

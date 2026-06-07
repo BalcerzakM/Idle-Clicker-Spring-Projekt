@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,13 @@ public class ShopOfferEntity {
 
     private LocalDate offerDate;
 
+    @NotNull
     @OneToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "item_id")
+    @JoinColumn(name = "item_id", nullable = false)
     private ItemEntity item;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "character_id")
+    @JoinColumn(name = "character_id", nullable = false)
     private CharacterEntity character;
 }

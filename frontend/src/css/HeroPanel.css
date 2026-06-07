@@ -122,24 +122,6 @@
 }
 
 /* Tooltip */
-.tooltip {
-	visibility: hidden;
-	opacity: 0;
-	background: black;
-	color: var(--text-light);
-	text-align: center;
-	padding: 4px 8px;
-	border-radius: 6px;
-	position: absolute;
-	bottom: 110%;
-	left: 50%;
-	transform: translateX(-50%);
-	transition: opacity 0.3s;
-	white-space: pre-line;
-	z-index: 20;
-	font-size: 0.85em;
-	pointer-events: none;
-}
 
 .slot:hover .tooltip,
 .portrait:hover .tooltip {

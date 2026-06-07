@@ -53,6 +53,24 @@
     color: #ff2a00;
     text-align: center;
     text-shadow: 0 0 8px #ff2a00;
+
+    animation: blink 0.7s infinite;
+}
+
+@keyframes blink {
+    0%, 50% {
+        opacity: 1;
+    }
+
+    51%, 100% {
+        opacity: 0;
+    }
+}
+
+.boxer-credit-display input:hover,
+.boxer-credit-display input:focus,
+.boxer-credit-display.playing input {
+    animation: none;
 }
 
 .boxer-hit-button {
@@ -108,4 +126,6 @@
 .boxer-info-display .lucky-hit {
     font-weight: bold;
 }
+
+
 
