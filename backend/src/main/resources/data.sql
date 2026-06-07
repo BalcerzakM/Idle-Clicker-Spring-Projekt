@@ -72,7 +72,10 @@ VALUES
     ('Gruba',       1, 5, 1, 5, 1, 'opponent_gruba.png'),
     ('Dresiarz',    4, 6, 4, 4, 2, 'opponent_dresiarz.png'),
     ('Hiszpan',    8, 4, 5, 3, 2, 'opponent_hiszpan.png'),
-    ('Ochroniarz',  5, 7, 3, 8, 2, 'opponent_ochroniarz.png');
+    ('Ochroniarz',  5, 7, 3, 8, 2, 'opponent_ochroniarz.png'),
+    ('Blondyna',    10, 2, 6, 4, 3, 'opponent_blondyna.png'),
+    ('Menel',    5, 4, 5,   5, 10, 'opponent_menel.png'),
+    ('DJ',    8, 6, 4, 5, 4, 'opponent_dj.png');
 
 
 
@@ -85,11 +88,21 @@ INSERT INTO quest_entity (title,
                           image_path)
 VALUES
     ('Rizzowanie grubej', 'opis', 'EASY', 'RIZZ_FIGHT', 1, 'rizz_quest1.png'),
-    ('Erazmus z Hiszpanii', 'opis', 'MEDIUM', 'RIZZ_FIGHT', 3, 'rizz_quest2.png'),
-    ('Gruba ma problem', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 1, 'fight_quest5.png'),
-    ('Dresiarz', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, 'fight_quest2.png'),
     ('Wyjaśnij Hiszpana', 'opis', 'EASY', 'STRENGTH_FIGHT', 3, 'fight_quest6.png'),
-    ('Pijany ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest1.png');
+    ('Pozbądź się menela', 'Jakiś menel wtargnął nam do lokalu. Pozbędziesz się go?', 'EASY', 'STRENGTH_FIGHT', 6, 'fight_quest7.png'),
+    ('Ogarnij DJ-a', 'Przemów do rozsądku temu DJ-owi, żeby puścił coś normalnego.', 'EASY', 'STRENGTH_FIGHT', 7, 'fight_quest8.png'),
+
+    ('Erazmus z Hiszpanii', 'opis', 'MEDIUM', 'RIZZ_FIGHT', 3, 'rizz_quest2.png'),
+    ('Gruba ma problem', 'Ktoś zapytał się czy gruba pije i teraz trzeba ją ogarnąć. Załatw to!', 'MEDIUM', 'STRENGTH_FIGHT', 1, 'fight_quest5.png'),
+    ('Dresiarz robi młyn', 'opis', 'MEDIUM', 'STRENGTH_FIGHT', 2, 'fight_quest2.png'),
+    ('Poderwij dresiarza', 'opis', 'MEDIUM', 'RIZZ_FIGHT', 2, 'rizz_quest4.png'),
+    ('Samotny menel', 'Szkoda mi się zrobiło tego menela, weź idź z nim zatańcz czy coś.', 'MEDIUM', 'RIZZ_FIGHT', 6, 'rizz_quest7.png'),
+
+
+    ('Pijany ochroniarz', 'opis', 'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest4.png'),
+    ('Poderwij blondynę', 'opis', 'HARD', 'RIZZ_FIGHT', 5, 'rizz_quest4.png'),
+    ('Zrizzuj ochroniarza', 'Ja cie nie podpuszczam, ale...', 'HARD', 'RIZZ_FIGHT', 4, 'fight_quest4.png'),
+    ('Wywal DJ-a z klubu', 'Wywal tego DJ-a z lokalu, już się nie da słuchać tego co on puszcza!', 'HARD', 'STRENGTH_FIGHT', 7, 'fight_quest8.png');
 
 INSERT INTO character_class_entity (class_name,
                                     base_endurance,
