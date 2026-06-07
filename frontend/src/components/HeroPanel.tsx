@@ -1,4 +1,5 @@
 import "../css/HeroPanel.css";
+import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 
 

@@ -13,19 +13,58 @@ export interface ItemDto {
     imagePath: string;
 }
 
-export function itemTooltip(item: ItemDto): string {
-    return [
-        item.itemName,
-        item.itemType,
-        item.slotType !== "NONE" ? item.slotType : null,
-        item.itemDescription !== "NONE" ? item.itemDescription : null,
+export function itemTooltip(item: ItemDto) {
+    return (
+        <>
+            <div className="tooltip-name">
+                {item.itemName}
+            </div>
 
-        item.totalStrength !== 0 ? `💪 ${item.totalStrength}` : null,
-        item.totalAgility !== 0 ? `🏃 ${item.totalAgility}` : null,
-        item.totalEndurance !== 0 ? `🛡️ ${item.totalEndurance}` : null,
-        item.totalLuck !== 0 ? `🍀 ${item.totalLuck}` : null,
-        item.totalRizz !== 0 ? `✨ ${item.totalRizz}` : null,
-    ]
-        .filter(Boolean)
-        .join("\n");
+            <div className="tooltip-type">
+                {item.itemType}
+            </div>
+
+            {item.slotType !== "NONE" && (
+                <div className="tooltip-slot">
+                    {item.slotType}
+                </div>
+            )}
+
+            {item.itemDescription !== "NONE" && (
+                <div className="tooltip-description">
+                    {item.itemDescription}
+                </div>
+            )}
+
+            {item.totalStrength !== 0 && (
+                <div className="tooltip-stat">
+                    💪 {item.totalStrength}
+                </div>
+            )}
+
+            {item.totalAgility !== 0 && (
+                <div className="tooltip-stat">
+                    🏃 {item.totalAgility}
+                </div>
+            )}
+
+            {item.totalEndurance !== 0 && (
+                <div className="tooltip-stat">
+                    🛡️ {item.totalEndurance}
+                </div>
+            )}
+
+            {item.totalLuck !== 0 && (
+                <div className="tooltip-stat">
+                    🍀 {item.totalLuck}
+                </div>
+            )}
+
+            {item.totalRizz !== 0 && (
+                <div className="tooltip-stat">
+                    ✨ {item.totalRizz}
+                </div>
+            )}
+        </>
+    );
 }

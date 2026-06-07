@@ -17,5 +17,5 @@ public class CombatDto {
 
     private int moneyReward;
     private int auraReward;
-    private String itemRewardImagePath;
+    private ItemDto itemReward;
 }

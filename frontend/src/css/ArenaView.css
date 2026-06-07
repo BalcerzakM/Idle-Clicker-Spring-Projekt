@@ -133,7 +133,7 @@
     margin: 5px 0;
 }
 
-.rewards-box span {
+.rewards-box p span {
     color: var(--neon-blue-glow);
     font-weight: 700;
 }
@@ -141,6 +141,19 @@
     border-top: 1px dashed var(--neon-gold);
     margin-top: 15px;
     padding-top: 10px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.reward-item-icon {
+    position: relative;
+}
+
+.reward-item-icon:hover .tooltip {
+    visibility: visible;
+    opacity: 1;
 }
 
 .reward-item img {

@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useCharacter } from "../context/CharacterContext";
 import HeroPanel from "../components/HeroPanel";
 import "../css/ShopView.css";
+import "../css/TooltipView.css";
 import type { ItemsAndStatsDto } from "../components/HeroPanel";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
