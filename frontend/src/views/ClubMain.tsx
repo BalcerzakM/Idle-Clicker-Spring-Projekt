@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import barmanHover from "../assets/scenes/hover/barman_hover.png";
 import szatniarzHover from "../assets/scenes/hover/szatniarz_hover.png";
 import outsideHover from "../assets/scenes/hover/outside_hover.png";
+import toiletHover from "../assets/scenes/hover/toilet_hover.png";
 
 function ClubMain() {
 	const navigate = useNavigate();
@@ -44,6 +45,19 @@ function ClubMain() {
                 />
             </div>
             <p className="clubMain-outsideTextBox">Palarnia</p>
+
+            <div className="clubMain-toilet">
+                <img
+                    src={toiletHover}
+                    alt="toilet_hover"
+                    width={104}
+                    height={208}
+                    className="hover-image"
+                    onClick={() => navigate("/toilet")}
+
+                />
+            </div>
+            <p className="clubMain-toiletTextBox">Toaleta</p>
 		</div>
 	);
 }
