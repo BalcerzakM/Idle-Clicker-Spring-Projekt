@@ -6,24 +6,18 @@ import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
 import com.gametest.springprojekt.dto.SwapRequestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.enums.StatName;
-import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.service.CharacterService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
 @RestController
 @RequestMapping("/api/character")
+@RequiredArgsConstructor
 public class CharacterController {
-    CharacterRepository characterRepository;
     CharacterService characterService;
-
-
-    public CharacterController(CharacterRepository characterRepository, CharacterService characterService) {
-        this.characterRepository = characterRepository;
-        this.characterService = characterService;
-    }
 
     //pieniadze, krysztaly, awatar, aura i aura level
     @GetMapping("/shortInfo")

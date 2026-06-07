@@ -130,7 +130,7 @@ public class QuestService {
         int questTierVariable = quest.getQuestTier().getMultiplier();
         long finalQuestTime = (long) (questTierVariable * Math.pow(auraLvl, exponent));
 
-        vehicleService.validateAndRemoveExpiredVehicle(character.getId());
+        vehicleService.validateAndRemoveExpiredVehicle(character);
         if (character.getActiveVehicle() != null) {
             int reductionPercent = character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent();
             double multiplier = 1.0 - (reductionPercent / 100.0);
