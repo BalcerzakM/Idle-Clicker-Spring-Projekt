@@ -1,0 +1,73 @@
+.parking {
+	position: relative;
+	width: 80%;
+	height: 100%;
+	background: url("../assets/scenes/parking.png") center / contain no-repeat;
+	background-color: #0b0b0f;
+	border: 2px solid #1f1a24;
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
+}
+
+.parking::after {
+	content: "";
+
+	position: absolute;
+	inset: 0;
+
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.35));
+
+	pointer-events: none;
+}
+
+.parking-carDealer {
+    position: absolute;
+    top: 29.3%;
+    right: 2.4%;
+    width: 16.7%;
+    height: 40%;
+}
+
+.parking-carDealer .hover-image {
+    width: 100%;
+    height: auto;
+}
+
+.parking-carDealer:hover .hover-image {
+    display: block;
+}
+
+.parking-carDealerTextBox {
+	display: none;
+
+	font-size: 16px;
+
+	position: absolute;
+	top: 27%;
+	right: 4%;
+
+	width: 10.5%;
+
+	padding: 1px 6px;
+
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
+
+	background: rgba(10, 12, 18, 0.92);
+
+	color: #d2c1af;
+
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+	backdrop-filter: blur(2px);
+
+	z-index: 2;
+}
+
+.parking-carDealer:hover + .parking-carDealerTextBox {
+    display: block;
+	opacity: 0.95;
+}
