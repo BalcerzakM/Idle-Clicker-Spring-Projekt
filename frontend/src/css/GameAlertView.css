@@ -21,10 +21,6 @@
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
 }
 
-.game-alert h3 {
-    color: var(--neon-red, #ff5577);
-    margin-bottom: 12px;
-}
 
 .game-alert button {
     background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);

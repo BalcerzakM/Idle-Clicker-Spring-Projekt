@@ -4,10 +4,10 @@ import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.service.CharacterService;
 import com.gametest.springprojekt.service.CombatService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.QuestEntity;
 import com.gametest.springprojekt.service.QuestService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +16,11 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/quest")
+@RequiredArgsConstructor
 public class QuestController {
     private final QuestService questService;
     private final CharacterService characterService;
     private final CombatService combatService;
-
-
-    public QuestController(QuestService questService, CharacterService characterService, CombatService combatService) {
-        this.questService = questService;
-        this.characterService = characterService;
-        this.combatService = combatService;
-    }
-
 
     @GetMapping()
     public List<QuestDto> showQuests() {

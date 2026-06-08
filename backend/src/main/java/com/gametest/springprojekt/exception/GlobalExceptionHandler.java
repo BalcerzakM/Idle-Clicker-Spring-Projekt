@@ -26,7 +26,17 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "BACKPACK_ITEM_NOT_FOUND",
-                        "Błąd wewnętrzny serwera"
+                        "Błąd wewnętrzny serwera!"
+                ));
+    }
+
+    @ExceptionHandler(CharacterNotFoundException.class)
+    public ResponseEntity<ErrorDto> handleCharacterNotFound(CharacterNotFoundException e) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ErrorDto(
+                        "CHARACTER_NOT_FOUND",
+                        "Błąd wewnętrzny serwera!"
                 ));
     }
 
@@ -76,7 +86,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "INVALID_SLOT",
-                        "Nieprawidłowe miejsce na przedmiot"
+                        "Nieprawidłowe miejsce na przedmiot!"
                 ));
     }
 
@@ -86,7 +96,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "ITEM_NOT_FOUND",
-                        "Błąd wewnętrzny serwera"
+                        "Błąd wewnętrzny serwera!"
                 ));
     }
 
@@ -106,7 +116,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "NOT_ENOUGH_AVAILABLE_BASE_ITEMS",
-                        "Błąd wewnętrzny serwera"
+                        "Błąd wewnętrzny serwera!"
                 ));
     }
 
@@ -136,7 +146,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .body(new ErrorDto(
                         "QUEST_NOT_FOUND",
-                        "Błąd wewnętrzny serwera"
+                        "Błąd wewnętrzny serwera!"
                 ));
     }
 
@@ -151,4 +161,13 @@ public class GlobalExceptionHandler {
     }
 
 
+    @ExceptionHandler(VehicleIsAlreadyRentedException.class)
+    public ResponseEntity<ErrorDto> handleVehicleIsAlreadyRented(VehicleIsAlreadyRentedException e) {
+        return ResponseEntity
+                .status(HttpStatus.METHOD_NOT_ALLOWED)
+                .body(new ErrorDto(
+                        "VEHICLE_IS_ALREADY_RENTED",
+                        "Masz już aktywny pojazd! Najpierw anuluj posiadany pojazd w panelu postaci."
+                ));
+    }
 }

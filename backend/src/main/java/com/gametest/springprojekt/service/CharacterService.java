@@ -26,6 +26,7 @@ public class CharacterService {
     private final UserRepository userRepository;
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
+    private final VehicleService vehicleService;
 
     public CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -96,8 +97,45 @@ public class CharacterService {
         );
     }
 
+    public FullCharacterInfoDto getFullCharacterInfo(CharacterEntity character) {
+        vehicleService.validateAndRemoveExpiredVehicle(character);
+        character.updateAuraLevel();
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+
+        String vehicleName = null;
+        String vehicleImagePath = null;
+        int vehicleTimeReduction = 0;
+        String vehicleExpiryTime = null;
+
+        if (character.getActiveVehicle() != null) {
+            vehicleName = character.getActiveVehicle().getBaseVehicle().getName();
+            vehicleImagePath = character.getActiveVehicle().getBaseVehicle().getImagePath();
+            vehicleTimeReduction = character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent();
+            vehicleExpiryTime = character.getActiveVehicle().getExpiryTime().toString();
+        }
+
+        return new FullCharacterInfoDto(
+                character.getName(),
+                character.getAvatarPicture(),
+                character.getAuraLvl(),
+                character.getAura(),
+                stats.get("rizz"),
+                stats.get("strength"),
+                stats.get("agility"),
+                stats.get("endurance"),
+                stats.get("luck"),
+                vehicleName,
+                vehicleImagePath,
+                vehicleTimeReduction,
+                vehicleExpiryTime,
+                equipmentItemToItemDtos(character.getEquipment()),
+                backpackItemToItemDtos(character.getBackpack())
+        );
+    }
+
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
     public ItemsAndStatsDto getItemsAndStats(CharacterEntity character) {
+        character.updateAuraLevel();
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         return new ItemsAndStatsDto(
                 character.getName(),

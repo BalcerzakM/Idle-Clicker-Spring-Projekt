@@ -2,16 +2,14 @@ package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.Instant;
 import java.util.*;
 
-
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class CharacterEntity {
@@ -54,6 +52,10 @@ public class CharacterEntity {
     @JoinColumn(name = "active_quest_id")
     private ActiveQuestEntity activeQuest;
 
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "active_vehicle_id")
+    private ActiveVehicleEntity activeVehicle;
+  
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     private BouncerDutyEntity bouncerDuty;
 
