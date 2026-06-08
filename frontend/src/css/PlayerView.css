@@ -152,3 +152,88 @@
 	border: 1px dashed var(--border-color);
 	border-radius: 6px;
 }
+
+.active-vehicle-info {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 8px 16px;
+    align-items: center;
+    background: rgba(15, 12, 18, 0.7);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    padding: 12px;
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8);
+    transition: border-color 0.3s;
+}
+
+.active-vehicle-info:hover {
+    border-color: var(--neon-blue);
+    box-shadow: inset 0 0 15px rgba(77, 163, 255, 0.1);
+}
+
+.active-vehicle-image {
+    grid-column: 1 / 2;
+    grid-row: 1 / 4;
+    width: 100%;
+    height: auto;
+    max-height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.6));
+}
+
+.active-vehicle-name {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
+    margin: 0;
+    font-family: "Teko", sans-serif;
+    font-size: 22px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 5px rgba(77, 163, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.active-vehicle-bonus {
+    grid-column: 2 / 3;
+    grid-row: 2 / 3;
+    margin: 0;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.active-vehicle-bonus strong {
+    color: var(--neon-gold);
+}
+
+.active-vehicle-expiry {
+    grid-column: 2 / 3;
+    grid-row: 3 / 4;
+    margin: 0;
+    font-size: 13px;
+    color: var(--neon-red);
+    font-style: italic;
+    opacity: 0.9;
+}
+
+.cancel-vehicle-btn {
+    grid-column: 1 / 3; /* Rozciąga przycisk na całą szerokość pod obrazkiem i tekstem */
+    margin-top: 8px;
+    background: linear-gradient(180deg, #2a0b12 0%, #160408 100%);
+    border: 1px solid var(--neon-red);
+    color: var(--neon-red);
+    font-family: "Teko", sans-serif;
+    font-size: 18px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cancel-vehicle-btn:hover {
+    background: linear-gradient(180deg, #42111d 0%, #2a0b12 100%);
+    color: #ffb3c1;
+    border-color: #ff6b81;
+    box-shadow: 0 0 12px rgba(122, 29, 45, 0.6); /* Czerwony glow */
+}
