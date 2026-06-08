@@ -155,7 +155,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.METHOD_NOT_ALLOWED)
                 .body(new ErrorDto(
                         "VEHICLE_IS_ALREADY_RENTED",
-                        "Masz już aktywny pojazd!"
+                        "Masz już aktywny pojazd! Najpierw anuluj posiadany pojazd w panelu postaci."
                 ));
     }
 }
