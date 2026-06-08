@@ -65,7 +65,7 @@ public class CharacterEntity {
      * @param bonusMoney
      */
     public void grantQuestReward(int bonusAura, int bonusMoney, ItemEntity rewardItem) {// do ewentualnej generalizacji (nagrody z innych źródeł)
-        this.aura += bonusAura;
+        this.addAura(bonusAura);
         this.money += bonusMoney;
         this.activeQuest = null;
         if (rewardItem != null) {
@@ -109,10 +109,15 @@ public class CharacterEntity {
         return totals;
     }// trzeba dodać te stąd
 
-    public void updateAuraLevel() {
+    private void updateAuraLevel() {
         int aura = this.getAura();
         int auraLevel = 1 + (int) Math.sqrt(aura / 100.0);
 
         this.setAuraLvl(auraLevel);
+    }
+
+    public void addAura(int bonusAura) {
+        this.aura += bonusAura;
+        updateAuraLevel();
     }
 }

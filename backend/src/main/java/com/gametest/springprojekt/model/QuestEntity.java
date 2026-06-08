@@ -50,7 +50,7 @@ public class QuestEntity {
     public int calculateMoneyReward(CharacterEntity character) {
         Random random = new Random();
         int aura = character.getAuraLvl();
-        return this.getQuestTier().getMultiplier() * aura + random.nextInt(aura%character.getLuck()); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
+        return this.getQuestTier().getMultiplier() * aura + random.nextInt(aura); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
     }
     public int calculateAuraReward(CharacterEntity character) {
         return this.getQuestTier().getMultiplier() * character.getAuraLvl();
