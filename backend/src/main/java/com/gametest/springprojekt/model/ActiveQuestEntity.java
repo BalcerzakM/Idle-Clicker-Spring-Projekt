@@ -25,6 +25,7 @@ public class ActiveQuestEntity {//osobna encja, bo potrzeba przechowywać nagrod
     private String imagePath;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "opponent_id", nullable = false)
     private OpponentEntity opponent;
 
     @Enumerated(EnumType.STRING)

@@ -16,9 +16,11 @@ public class BackpackItem {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "character_id", nullable = false)
     private CharacterEntity player;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "item_id", nullable = false)
     private ItemEntity item;
 
 }

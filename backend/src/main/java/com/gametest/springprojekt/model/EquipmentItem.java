@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(
         uniqueConstraints = @UniqueConstraint(columnNames =
-                {"player_id", "slot"} //para typu: id_gracza + slot ma być unikalne przez co nie będzie dwóch itemów na jednym slocie
+                {"character_id", "slot"} //para typu: id_gracza + slot ma być unikalne przez co nie będzie dwóch itemów na jednym slocie
         )
 )
 public class EquipmentItem {
@@ -29,6 +29,6 @@ public class EquipmentItem {
     private ItemEntity item;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "player_id")
+    @JoinColumn(name = "character_id")
     private CharacterEntity player;
 }

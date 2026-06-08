@@ -4,7 +4,6 @@ import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.Instant;
 import java.util.*;
 
 @Entity
@@ -57,6 +56,7 @@ public class CharacterEntity {
     private ActiveVehicleEntity activeVehicle;
   
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "bouncer_duty_id")
     private BouncerDutyEntity bouncerDuty;
 
     /**
