@@ -15,11 +15,16 @@ VALUES
     ('Różowe okulary',          'opis', 'EQUIPMENT','HEAD', 7, 3, 3, 6, 8, 52, 'item-pink-sunglasses.png'),
     ('Czapka rolnika',          'opis', 'EQUIPMENT','HEAD', 4, 3, 0, 9, 0, 35, 'item-farmer-cap.png'),
     ('Pomarańczowe okulary',    'opis', 'EQUIPMENT','HEAD', 5, 0, 4, 5, 3, 35, 'item-orange-sunglasses.png'),
+    ('Słuchawki gamingowe',     'opis', 'EQUIPMENT','HEAD', 7, 0, 6, 4, 2, 42, 'item-gaming-headset.png'),
+    ('Czerwona kominiara',      'opis', 'EQUIPMENT','HEAD', 2, 6, 0, 10, 0, 40, 'item-balaclava.png'),
+    ('Kask budowlańca',         'opis', 'EQUIPMENT','HEAD', 1, 6, 0, 15, 0, 48, 'item-builder-helmet.png'),
+    ('Czapka bucket',           'opis', 'EQUIPMENT','HEAD', 4, 0, 4, 8, 2, 35, 'item-bucket-hat.png'),
 
     ('Karta do akademika',      'opis', 'EQUIPMENT','NECK', 3, 3, 0, 8, 0, 35, 'item-dormitory-card.png'),
     ('Szalik Gajelonii',        'opis', 'EQUIPMENT','NECK', 2, 7, 3, 4, 0, 40, 'item-sport-scarf.png'),
     ('Wisiorek z krucyfiksem',  'opis', 'EQUIPMENT','NECK', 3, 3, 3, 3, 1, 40, 'item-crucifix-necklace.png'),
     ('Czerwone korale',         'opis', 'EQUIPMENT','NECK', 4, 4, 4, 4, 2, 44, 'item-red-corals.png'),
+    ('Złoty łańcuch',           'opis', 'EQUIPMENT','NECK', 7, 5, 0, 3, 0, 40, 'item-golden-chain.png'),
 
     ('Biała marynarka',         'opis', 'EQUIPMENT','UPPER_BODY', 7, 3, 3, 12, 1, 48, 'item-white-suit.png'),
     ('Hawajska koszula',        'opis', 'EQUIPMENT','UPPER_BODY', 6, 3, 5, 8, 1, 45, 'item-hawaiian-shirt.png'),
@@ -28,10 +33,17 @@ VALUES
     ('Fartuch kuchenny',        'opis', 'EQUIPMENT','UPPER_BODY', 8, 4, 8, 7, 4, 50, 'item-kitchen-apron.png'),
     ('Biała bluzka',            'opis', 'EQUIPMENT','UPPER_BODY', 4, 1, 5, 12, 0, 45, 'item-white-blouse.png'),
     ('Skórzana kurtka',         'opis', 'EQUIPMENT','UPPER_BODY', 7, 8, 0, 16, 1, 50, 'item-leather-jacket.png'),
+    ('Długi płaszcz',           'opis', 'EQUIPMENT','UPPER_BODY', 4, 10, 5, 15, 2, 65, 'item-long-jacket.png'),
+    ('Żonobijka',               'opis', 'EQUIPMENT','UPPER_BODY', 7, 15, 3, 7, 0, 55, 'item-sleeveless-shirt.png'),
+    ('Sztywna koszulka',        'opis', 'EQUIPMENT','UPPER_BODY', 5, 12, 5, 12, 0, 40, 'item-rigid-tshirt.png'),
 
     ('Stare Jeansy',            'opis', 'EQUIPMENT','LOWER_BODY', 3, 0, 2, 10, 0, 38, 'item-old-jeans.png'),
     ('Spodnie od garniaka',     'opis', 'EQUIPMENT','LOWER_BODY', 6, 3, 4, 7, 1, 45, 'item-white-suit-pants.png'),
     ('Czarna spódniczka',       'opis', 'EQUIPMENT','LOWER_BODY', 9, 0, 8, 8, 1, 47, 'item-black-skirt.png'),
+    ('Spodnie moro',            'opis', 'EQUIPMENT','LOWER_BODY', 2, 7, 3, 12, 0, 45, 'item-military-pants.png'),
+    ('Fioletowe rajstopy',      'opis', 'EQUIPMENT','LOWER_BODY', 5, 0, 7, 7, 1, 41, 'item-purple-tights.png'),
+    ('Kąpielówki',              'opis', 'EQUIPMENT','LOWER_BODY', 4, 2, 9, 7, 3, 44, 'item-swimming-trunks.png'),
+    ('Ogrodniczki',             'opis', 'EQUIPMENT','LOWER_BODY', 4, 5, 1, 11, 0, 40, 'item-dungarees.png'),
 
     ('Wysokie buty',            'opis', 'EQUIPMENT','FEET', 6, 6, 0, 9, 0, 44, 'item-high-soled-shoes.png'),
     ('Kalosze',                 'opis', 'EQUIPMENT','FEET', 2, 8, 1, 11, 0, 43, 'item-rain-boots.png'),
@@ -39,10 +51,15 @@ VALUES
     ('Crocsy',                  'opis', 'EQUIPMENT','FEET', 3, 8, 5, 10, 0, 50, 'item-crocs.png'),
     ('Sztyblety',               'opis', 'EQUIPMENT','FEET', 5, 8, 1, 11, 0, 46, 'item-chelsea-boots.png'),
     ('Czarne szpilki',          'opis', 'EQUIPMENT','FEET', 7, 6, 0, 6, 1, 40, 'item-black-heels.png'),
+    ('Sandały',                 'opis', 'EQUIPMENT','FEET', 8, 3, 8, 3, 0, 47, 'item-sandals.png'),
+    ('Łyżwy',                   'opis', 'EQUIPMENT','FEET', 3, 3, 10,9, 1, 55, 'item-skates.png'),
 
     ('Złota branzoletka',       'opis', 'EQUIPMENT','WRIST', 4, 5, 0, 3, 2, 40, 'item-golden-bracelet.png'),
     ('Sikor',                   'opis', 'EQUIPMENT','WRIST', 7, 0, 0, 1, 3, 40, 'item-leather-watch.png'),
     ('Branzoletka przyjaźni',   'opis', 'EQUIPMENT','WRIST', 4, 6, 0, 5, 1, 45, 'item-friendship-bracelet.png'),
+    ('Frotkowa opaska',         'opis', 'EQUIPMENT','WRIST', 4, 2, 0, 6, 7, 67, 'item-chill-wristband.png'),
+    ('Smartwatch',              'opis', 'EQUIPMENT','WRIST', 3, 3, 3, 3, 3, 50, 'item-smartwatch.png'),
+    ('Opaska policyjna',        'opis', 'EQUIPMENT','WRIST', 6, 6, 3, 0, 1, 52, 'item-supervision-armband.png'),
 
     ('Zapalniczka',             'opis', 'EQUIPMENT','EMBLEM', 6, 4, 3, 0, 3, 45, 'item-lighter.png'),
     ('Paczka szlugów',          'opis', 'EQUIPMENT','EMBLEM', 9, 6, 0, 0, 4, 50, 'item-cigarettes.png'),
@@ -52,6 +69,7 @@ VALUES
     ('Pudełko snusów',          'opis', 'EQUIPMENT','EMBLEM', 6, 5, 1, 1, 2, 48, 'item-snus.png'),
     ('Różowa torebka',          'opis', 'EQUIPMENT','EMBLEM', 5, 8, 2, 2, 5, 52, 'item-pink-bag.png'),
     ('Karty tarota',            'opis', 'EQUIPMENT','EMBLEM', 4, 4, 4, 4, 12, 65, 'item-tarot.png'),
+    ('Butelka zwrotna',         'opis', 'EQUIPMENT','EMBLEM', 5, 8, 0, 2, 3, 51, 'item-returnable-bottle.png'),
 
 
     ('Numerek do szatni', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-03.png'),
