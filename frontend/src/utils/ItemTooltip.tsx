@@ -65,6 +65,12 @@ export function itemTooltip(item: ItemDto) {
                     ✨ {item.totalRizz}
                 </div>
             )}
+
+            {item.price !== 0 && (
+                <div className="tooltip-stat">
+                    💰 {item.price}
+                </div>
+            )}
         </>
     );
 }

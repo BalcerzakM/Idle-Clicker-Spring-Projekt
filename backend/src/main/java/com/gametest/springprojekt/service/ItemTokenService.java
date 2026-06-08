@@ -26,7 +26,7 @@ public class ItemTokenService {
     private final ItemRepository itemRepository;
     private final SecureRandom random = new SecureRandom();
 
-    private final double ITEM_DROP_CHANCE = 0.7;
+    private final double ITEM_DROP_CHANCE = 0.3;
 
     public ItemTokenService(BaseItemRepository baseItemRepository, ItemShopService itemShopService, ItemRepository itemRepository) {
         this.baseItemRepository = baseItemRepository;

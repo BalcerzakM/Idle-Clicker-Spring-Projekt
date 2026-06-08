@@ -21,7 +21,7 @@
     padding: 20px;
 
     left: 570px;
-    top: 200px;
+    top: 190px;
 }
 
 .premium-header {
@@ -104,6 +104,7 @@
     font-family: "Teko", sans-serif;
     font-size: 24px;
     letter-spacing: 1px;
+    margin: 2px 0;
 
     color: var(--neon-blue-glow);
     text-shadow: 0 0 8px var(--neon-blue);
@@ -112,6 +113,7 @@
 .premium-price {
     font-size: 18px;
     font-weight: bold;
+    margin: 2px 0;
 
     color: var(--text-hover);
 }
@@ -129,6 +131,8 @@
     font-family: "Teko", sans-serif;
     font-size: 20px;
     letter-spacing: 1px;
+
+    margin: 2px 0;
 
     cursor: pointer;
 

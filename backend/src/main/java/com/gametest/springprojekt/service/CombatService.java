@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +47,12 @@ public class CombatService {
         }
 
         OpponentEntity opponent = activeQuest.getOpponent();
+
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+
         int opponentHp = opponent.getBaseEndurance() * character.getAuraLvl();
-        int characterHp = character.getEndurance();
+        int characterHp = stats.get("endurance");
+
         List<Integer> combatLog;
 
         String questType;
@@ -84,17 +89,13 @@ public class CombatService {
         }
 
         if (rewardItem != null) {
-            //rewardItemImagePath = rewardItem.getBaseItem().getImagePath();
             rewardItemDto = rewardItem.generateItemDto();
-            character.addItemToBackpack(rewardItem);
+
         } else {
             rewardItemDto = null;
-            //rewardItemImagePath = null;
         }
 
-        character.setAura(character.getAura() + bonusAura);
-        character.setMoney(character.getMoney() + bonusMoney);
-        character.setActiveQuest(null);
+        character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
 
         return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, questType, bonusMoney, bonusAura, rewardItemDto);
     }

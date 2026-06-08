@@ -78,8 +78,6 @@ public class CharacterService {
     }
 
     public ShortCharacterInfoDto getShortCharacterInfo(CharacterEntity character) {
-        character.updateAuraLevel();
-
         int currentLevelAuraRequirement = (character.getAuraLvl() - 1) * (character.getAuraLvl() - 1) * 100;
 
         int nextLevelAuraRequirement = character.getAuraLvl() * character.getAuraLvl() * 100;
@@ -99,7 +97,6 @@ public class CharacterService {
 
     public FullCharacterInfoDto getFullCharacterInfo(CharacterEntity character) {
         vehicleService.validateAndRemoveExpiredVehicle(character);
-        character.updateAuraLevel();
         Map<String, Integer> stats = character.getEquipmentStatsSum();
 
         String vehicleName = null;
@@ -135,7 +132,6 @@ public class CharacterService {
 
     @Transactional(readOnly = true) // bo klika pól, które odczytuje ma leniwego fetcha
     public ItemsAndStatsDto getItemsAndStats(CharacterEntity character) {
-        character.updateAuraLevel();
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         return new ItemsAndStatsDto(
                 character.getName(),
