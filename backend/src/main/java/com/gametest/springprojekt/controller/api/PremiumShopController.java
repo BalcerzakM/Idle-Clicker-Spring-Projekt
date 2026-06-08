@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.PremiumOfferDto;
+import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.service.CharacterService;
 import com.gametest.springprojekt.service.PremiumShopService;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +26,10 @@ public class PremiumShopController {
     }
 
     @PostMapping("/buyCristals")
-    public ResponseEntity<?> buyCristals(@RequestBody int offerId) {
+    public ResponseEntity<PremiumOfferDto> buyCristals(@RequestBody String packageCode) {
+        CharacterEntity character = characterService.getCurrentCharacter();
 
-        return ResponseEntity.ok().build();
+        PremiumOfferDto premiumOfferDto = premiumShopService.buyPackage(packageCode.trim().replace("\"", ""), character);
+        return ResponseEntity.ok(premiumOfferDto);
     }
 }

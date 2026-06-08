@@ -25,7 +25,11 @@ public class TransactionEntity {
 
     @NotNull
     @Column(nullable = false)
-    private double paymentAmount;
+    private String packageCode;
+
+    @NotNull
+    @Column(nullable = false)
+    private int paymentAmountInGrosze;
 
     @NotNull
     @Column(nullable = false)

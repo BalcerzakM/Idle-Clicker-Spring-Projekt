@@ -8,6 +8,6 @@ import lombok.Data;
 @AllArgsConstructor
 public class PremiumOfferDto {
     private String packageCode;
-    private double price;
+    private int price;
     private int cristals;
 }
