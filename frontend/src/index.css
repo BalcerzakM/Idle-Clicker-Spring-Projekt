@@ -127,6 +127,12 @@ body::before {
 	pointer-events: none;
 }
 
+.hover-image {
+    display: none;
+    cursor: pointer;
+}
+
+/*BARMAN*/
 .clubMain-barmanTextBox {
 	display: none;
 
@@ -176,6 +182,7 @@ body::before {
 	opacity: 0.95;
 }
 
+/*SZATNIARZ*/
 .clubMain-szatniarzTextBox {
 	display: none;
 
@@ -225,9 +232,106 @@ body::before {
 	display: block;
 }
 
-.hover-image {
-	display: none;
-	cursor: pointer;
+/*WYJSCIE NA PALARNIE*/
+.clubMain-outsideTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 790px;
+    left: 200px;
+
+    width: 82px;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+    text-align: center;
+
+    z-index: 2;
+}
+
+.clubMain-outside {
+    position: absolute;
+    top: 624px;
+    left: 0px;
+
+    width: 725px;
+    height: 204px;
+
+    z-index: 2;
+}
+
+.clubMain-outside:hover + .clubMain-outsideTextBox {
+    display: block;
+    opacity: 0.95;
+}
+
+.clubMain-outside:hover .hover-image {
+    display: block;
+}
+
+/*TOALETA*/
+.clubMain-toiletTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 140px;
+    left: 1000px;
+
+    width: 82px;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+    text-align: center;
+
+    z-index: 2;
+}
+
+.clubMain-toilet {
+    position: absolute;
+    top: 174px;
+    left: 1005px;
+
+    width: 725px;
+    height: 204px;
+
+    z-index: 2;
+}
+
+.clubMain-toilet:hover + .clubMain-toiletTextBox {
+    display: block;
+    opacity: 0.95;
+}
+
+.clubMain-toilet:hover .hover-image {
+    display: block;
 }
 
 /*PALARNIA*/
@@ -394,4 +498,55 @@ body::before {
     display: block;
     opacity: 0.95;
 }
+
+/*OUTSIDE SECURITY*/
+.outsideMain-securityTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 280px;
+    left: 445px;
+
+    width: auto;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 2;
+}
+
+.outsideMain-security {
+    position: absolute;
+    top: 305px;
+    left: 436px;
+
+    width: 122px;
+    height: 218px;
+
+    z-index: 2;
+}
+
+.outsideMain-security:hover .hover-image {
+    display: block;
+}
+
+.outsideMain-security:hover + .outsideMain-securityTextBox {
+    display: block;
+    opacity: 0.95;
+}
+
 

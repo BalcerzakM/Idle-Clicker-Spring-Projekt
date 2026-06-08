@@ -3,6 +3,7 @@ package com.gametest.springprojekt.exception;
 import com.gametest.springprojekt.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -148,6 +149,17 @@ public class GlobalExceptionHandler {
                         "Błąd wewnętrzny serwera!"
                 ));
     }
+
+    @ExceptionHandler(PaymentUnsuccessfulException.class)
+    public ResponseEntity<ErrorDto> handlePaymentUnsuccessful(PaymentUnsuccessfulException e) {
+        return ResponseEntity
+                .status(HttpStatus.PAYMENT_REQUIRED)
+                .body(new ErrorDto(
+                        "PAYMENT_FAILED",
+                        "Nie udało się wykonać płatności"
+                ));
+    }
+
 
     @ExceptionHandler(VehicleIsAlreadyRentedException.class)
     public ResponseEntity<ErrorDto> handleVehicleIsAlreadyRented(VehicleIsAlreadyRentedException e) {

@@ -20,20 +20,24 @@
 .tooltip-name {
     font-weight: bold;
     font-size: 15px;
+    margin: 3px 0;
 }
 
 .tooltip-type {
     font-size: 13px;
+    margin: 2px 0;
 }
 
 .tooltip-slot {
     font-size: 13px;
+    margin: 2px 0;
 }
 .tooltip-description {
     font-size: 11px;
-    margin: 1px 0;
+    margin: 3px 0;
 }
 
 .tooltip-stat {
     font-size: 13px;
+    margin: 1px 0;
 }

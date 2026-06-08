@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import entranceHover from "../assets/scenes/hover/entrance_hover.png";
 import boxerHover from "../assets/scenes/hover/boxer_hover.png";
+import securityHover from "../assets/scenes/hover/security_hover.png";
 import ParkingSign from "../assets/scenes/hover/parking_sign.png";
 
 function Outside() {
@@ -48,10 +49,10 @@ function Outside() {
 
 			<div className="outsideMain-security">
 				<img
-					src={boxerHover}
+					src={securityHover}
 					alt="security_hover"
-					width={184}
-					height={205}
+					width={100}
+					height={265}
 					className="hover-image"
 					onClick={() => navigate("/security")}
 				/>
