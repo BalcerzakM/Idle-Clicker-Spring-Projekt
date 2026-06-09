@@ -14,4 +14,5 @@ public class ShortCharacterInfoDto {
     private int auraLevel;
     private int nextLevelAuraRequirement;
     private int levelProgressPercent;
+    private String characterClass;
 }

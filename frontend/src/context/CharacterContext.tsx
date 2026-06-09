@@ -10,6 +10,7 @@ interface CharacterShortInfo {
     auraLevel: number;
     nextLevelAuraRequirement: number;
     levelProgressPercent: number;
+    characterClass: string;
 }
 
 interface CharacterContextType {

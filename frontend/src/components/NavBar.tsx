@@ -33,19 +33,21 @@ function NavBar() {
 					<p>{`${character?.cristals ?? "Error"}`}</p>
 				</div>
 				<div className="navBar-character-aura">
-					<p>Aura level: <b>{character?.auraLevel ?? "-"}</b></p>
+                    <p><b>{character?.characterClass ?? "-"}</b>, aura lvl <b>{character?.auraLevel ?? "-"}</b></p>
 
-					<div className="auraBar">
-						<div
-							className="auraBar-fill"
-							style={{
-								width: `${character?.levelProgressPercent ?? 0}%`,
-							}}
-						/>
-					</div>
-					<p className="navBar-character-aura-points">
-						Następny level: {character?.aura ?? 0}/{character?.nextLevelAuraRequirement ?? 0} pkt aury
-					</p>
+                    <div className="auraBar-wrapper">
+                        <div className="auraBar">
+                            <div
+                                className="auraBar-fill"
+                                style={{
+                                    width: `${character?.levelProgressPercent ?? 0}%`,
+                                }}
+                            />
+                        </div>
+                        <p className="navBar-character-aura-points">
+                            Następny level: {character?.aura ?? 0}/{character?.nextLevelAuraRequirement ?? 0} pkt aury
+                        </p>
+                    </div>
 				</div>
 			</div>
 			<nav className="navBar-navigation">

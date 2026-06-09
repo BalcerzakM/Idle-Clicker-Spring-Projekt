@@ -101,8 +101,28 @@
     text-align: center;
 }
 
+.auraBar-wrapper {
+    position: relative;
+    cursor: pointer;
+}
+
 .navBar-character-aura-points {
-    font-size: 8px;
+    font-size: 9px;
+    opacity: 0;
+    visibility: hidden;
+
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    white-space: nowrap;
+    transition: opacity 0.2s ease;
+}
+
+.auraBar-wrapper:hover .navBar-character-aura-points {
+    opacity: 1;
+    visibility: visible;
 }
 
 .auraBar {

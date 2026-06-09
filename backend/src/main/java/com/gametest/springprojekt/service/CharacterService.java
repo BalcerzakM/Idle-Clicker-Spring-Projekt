@@ -91,7 +91,8 @@ public class CharacterService {
                 character.getAura(),
                 character.getAuraLvl(),
                 nextLevelAuraRequirement,
-                levelProgressPercent
+                levelProgressPercent,
+                character.getCharacterClass().getClassName()
         );
     }
 
