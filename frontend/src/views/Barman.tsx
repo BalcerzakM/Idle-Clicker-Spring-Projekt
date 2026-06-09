@@ -19,6 +19,7 @@ interface QuestDto {
 
 interface ActiveQuestDto {
 	questTitle: string;
+	questStartTime: string;
 	questEndTime: string; // Instant jako string ISO
 	imagePath: string;
 }
@@ -31,10 +32,10 @@ function Barman() {
 	//const [error, setError] = useState<string | null>(null);
 	const [timeLeft, setTimeLeft] = useState<string>("");
 	const [progress, setProgress] = useState<number>(100);
-	const [totalDuration, setTotalDuration] = useState<number>(0);
-	const {showError} = useAlert();
+	const { showError } = useAlert();
 	const [isQuestFinished, setIsQuestFinished] = useState<boolean>(false);
 	const [combatResult, setCombatResult] = useState<any | null>(null);
+	const [hasActiveDuty, setHasActiveDuty] = useState(false);
 
 	const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
@@ -53,7 +54,7 @@ function Barman() {
 			setQuests(data);
 		} catch (err: any) {
 			console.error(err);
-			showError("Brak połączenia z serwerem")
+			showError("Brak połączenia z serwerem");
 		} finally {
 			setLoading(false);
 		}
@@ -66,7 +67,11 @@ function Barman() {
 
 			if (!res.ok) {
 				const error = await res.json();
-				if (error.errorCode === "NO_ACTIVE_QUEST" || res.status === 404 || res.status === 409) {
+				if (
+					error.errorCode === "NO_ACTIVE_QUEST" ||
+					res.status === 404 ||
+					res.status === 409
+				) {
 					await fetchQuests();
 					return;
 				}
@@ -79,50 +84,71 @@ function Barman() {
 			setActiveQuest(data);
 		} catch (err: any) {
 			console.error(err);
-			showError("Brak połączenia z serwerem")
+			showError("Brak połączenia z serwerem");
 		} finally {
 			setLoading(false);
 		}
 	}, [fetchQuests, showError]);
 
+	const checkActiveDuty = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/security");
+
+			if (res.status === 404) {
+				setHasActiveDuty(false);
+				return;
+			}
+
+			if (!res.ok) {
+				return;
+			}
+
+			setHasActiveDuty(true);
+		} catch (err) {
+			console.error(err);
+		}
+	}, []);
+
 	useEffect(() => {
+		checkActiveDuty();
 		checkActiveQuest();
-	}, [checkActiveQuest]);
+	}, [checkActiveDuty, checkActiveQuest]);
 
 	const handleSelectQuest = async (questId: number) => {
+		if (hasActiveDuty) {
+			showError("Nie możesz wykonywać questa podczas aktywnej warty.");
+			return;
+		}
+
 		try {
-			//setError(null);
 			const res = await fetch("http://localhost:8080/api/quest/active", {
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
 				body: JSON.stringify(questId),
 			});
+
 			if (!res.ok) {
 				const error = await res.json();
 				showError(error.message || "Nie udało się wybrać questa");
 				return;
 			}
+
 			const data: ActiveQuestDto = await res.json();
 
-			// zapamiętaj całkowity czas trwania na podstawie wybranego questa
-			const selectedQuest = quests.find((q) => q.questId === questId);
-			if (selectedQuest) {
-				setTotalDuration(selectedQuest.questTime);
-			}
-
+			setIsQuestFinished(false); // na wszelki wypadek reset
 			setActiveQuest(data);
-		} catch (err: any) {
+		} catch (err) {
 			console.error(err);
-			showError("Brak połączenia z serwerem")
+			showError("Brak połączenia z serwerem");
 		}
 	};
 
-	const handleStartCombat = async() => {
+	const handleStartCombat = async () => {
 		try {
 			setLoading(true);
-			const res =await fetch ("http://localhost:8080/api/quest/combat", {
+			const res = await fetch("http://localhost:8080/api/quest/combat", {
 				method: "POST",
-				headers: { "Content-Type": "application/json"},
+				headers: { "Content-Type": "application/json" },
 			});
 
 			if (!res.ok) {
@@ -139,9 +165,9 @@ function Barman() {
 			console.error(err);
 			showError("Brak połączenia z serwerem");
 		} finally {
-			setLoading(false)
+			setLoading(false);
 		}
-	}
+	};
 
 	// odliczanie i pasek postępu
 	useEffect(() => {
@@ -149,42 +175,47 @@ function Barman() {
 
 		const updateTimer = () => {
 			const now = Date.now();
+
+			const start = new Date(activeQuest.questStartTime).getTime();
 			const end = new Date(activeQuest.questEndTime).getTime();
+
 			const diff = end - now;
+			const totalDuration = end - start;
 
 			if (diff <= 0) {
 				setTimeLeft("00:00:00");
 				setProgress(0);
 				setIsQuestFinished(true);
-				if (timerRef.current) clearInterval(timerRef.current);
+
+				if (timerRef.current) {
+					clearInterval(timerRef.current);
+				}
 				return;
 			}
 
 			const hours = Math.floor(diff / (1000 * 60 * 60));
 			const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 			const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
 			setTimeLeft(
 				`${hours.toString().padStart(2, "0")}:${minutes
 					.toString()
 					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`,
 			);
 
-			if(totalDuration > 0) {
-			// oblicz postęp (procent pozostałego czasu)
-			const percentLeft = (diff / (totalDuration * 1000)) * 100;
+			const percentLeft = (diff / totalDuration) * 100;
 			setProgress(Math.max(0, percentLeft));
-			} else {
-				setProgress(100);
-			}
 		};
 
 		updateTimer();
 		timerRef.current = setInterval(updateTimer, 1000);
 
 		return () => {
-			if (timerRef.current) clearInterval(timerRef.current);
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+			}
 		};
-	}, [activeQuest, totalDuration]);
+	}, [activeQuest]);
 
 	useEffect(() => {
 		return () => {
@@ -204,8 +235,8 @@ function Barman() {
 					refreshCharacter();
 					fetchQuests();
 				}}
-				/>
-		)
+			/>
+		);
 	}
 	// EKRAN AKTYWNEGO QUESTA (odliczanie)
 	if (activeQuest) {
@@ -221,13 +252,13 @@ function Barman() {
 						<h2 className="quest-active-title">{activeQuest.questTitle}</h2>
 						{isQuestFinished ? (
 							<div>
-                                <p className="quest-timer-hint">
-                                    Zlecenie ukończone! Przeciwnik czeka.
-                                </p>
-                                <button className="quest-btn" onClick={handleStartCombat}>
-                                    ROZPOCZNIJ WALKĘ
-                                </button>
-                            </div>
+								<p className="quest-timer-hint">
+									Zlecenie ukończone! Przeciwnik czeka.
+								</p>
+								<button className="quest-btn" onClick={handleStartCombat}>
+									ROZPOCZNIJ WALKĘ
+								</button>
+							</div>
 						) : (
 							<>
 								<p className="quest-timer-label">Czas pozostały</p>
@@ -280,9 +311,10 @@ function Barman() {
 							</div>
 							<button
 								className="quest-btn"
+								disabled={hasActiveDuty}
 								onClick={() => handleSelectQuest(quest.questId)}
 							>
-								Wybierz
+								{hasActiveDuty ? "Aktywna zmiana (Ochrona)" : "Wybierz"}
 							</button>
 						</div>
 					))}

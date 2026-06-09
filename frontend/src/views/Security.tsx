@@ -133,12 +133,28 @@ function Security() {
 	}, []);
 
 	// Ręczne zakończenie przed czasem – bez nagrody
-	const handleFinishEarly = () => {
-		setIsDutyFinished(true);
-		setProgress(0);
-		setTimeLeft("00:00:00");
-		setEarlyFinish(true); // oznacz jako wcześniejsze przerwanie
-		if (timerRef.current) clearInterval(timerRef.current);
+	const handleFinishEarly = async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/security/clear", {
+				method: "PATCH",
+			});
+
+			if (!res.ok) {
+				showError("Nie udało się zakończyć zmiany");
+				return;
+			}
+
+			setIsDutyFinished(true);
+			setProgress(0);
+			setTimeLeft("00:00:00");
+			setEarlyFinish(true);
+
+			if (timerRef.current) {
+				clearInterval(timerRef.current);
+			}
+		} catch {
+			showError("Brak połączenia z serwerem");
+		}
 	};
 
 	// Powrót do wyboru godzin (po zakończeniu)
