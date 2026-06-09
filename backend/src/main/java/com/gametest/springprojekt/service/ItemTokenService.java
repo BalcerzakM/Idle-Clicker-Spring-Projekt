@@ -26,7 +26,7 @@ public class ItemTokenService {
     private final ItemRepository itemRepository;
     private final SecureRandom random = new SecureRandom();
 
-    private final double ITEM_DROP_CHANCE = 0.3;
+    private final double ITEM_DROP_CHANCE = 0.25;
 
     public ItemTokenService(BaseItemRepository baseItemRepository, ItemShopService itemShopService, ItemRepository itemRepository) {
         this.baseItemRepository = baseItemRepository;
@@ -52,6 +52,7 @@ public class ItemTokenService {
         int tokenLuck = token.getBaseLuck();
 
         ItemEntity item = generateItemFromToken(character, tokenLuck);
+        item.decreaseItemPrice();
         item = itemRepository.save(item);
 
         character.getBackpack().remove(backpackToken);
@@ -94,7 +95,7 @@ public class ItemTokenService {
                 0,
                 0,
                 baseItemEntity.getBaseLuck(),
-                1,
+                0,
                 baseItemEntity
         );
     }

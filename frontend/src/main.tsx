@@ -8,12 +8,12 @@ import {AlertProvider} from "./context/AlertContext.tsx";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <CharacterProvider>
-        <AlertProvider>
+    <AlertProvider>
+        <CharacterProvider>
           <BrowserRouter>
             <App />
           </BrowserRouter>
-        </AlertProvider>
-    </CharacterProvider>
+        </CharacterProvider>
+    </AlertProvider>
   </StrictMode>,
 )

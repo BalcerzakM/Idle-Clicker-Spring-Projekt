@@ -4,34 +4,68 @@ import "../css/GameAlertView.css";
 
 interface AlertContextType {
     showError: (message: string) => void;
+    showInfo: (message: string) => void;
+    showLevelUp: (message: string) => void;
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
 export function AlertProvider({children}: {children: ReactNode}) {
-    const [message, setMessage] = useState<string | null>(null);
+    type AlertType = "error" | "info" | "levelUp";
+    const [alert, setAlert] = useState<{
+        message: string;
+        type: AlertType;
+    } | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
     const showError = (message: string) => {
-        setMessage(message);
+        setAlert({
+            message,
+            type: "error",
+        });
+    };
+
+    const showInfo = (message: string) => {
+        setAlert({
+            message,
+            type: "info",
+        });
+    };
+
+    const showLevelUp = (message: string) => {
+        setAlert({
+            message,
+            type: "levelUp",
+        });
     };
 
     useEffect(() => {
-        if (message) {
+        if (alert) {
             buttonRef.current?.focus();
         }
-    }, [message]);
+    }, [alert]);
 
     return (
-        <AlertContext.Provider value={{showError}}>
+        <AlertContext.Provider value={{ showError, showInfo, showLevelUp }}>
             {children}
 
-            {message && (
-                <div className={"game-alert-overlay"}>
-                    <div className={"game-alert"}>
-                        <p>{message}</p>
+            {alert && (
+                <div className="game-alert-overlay">
+                    <div className={`game-alert ${alert.type}`}>
+                        <h2>
+                            {{
+                                error: "BŁĄD",
+                                info: "KOMUNIKAT",
+                                levelUp: "AWANS!"
+                            }[alert.type]}
+                        </h2>
 
-                        <button ref={buttonRef} onClick={() => setMessage(null)}>
+                        <p>{alert.message}</p>
+
+                        <button
+                            ref={buttonRef}
+                            onClick={() => setAlert(null)}
+                        >
                             OK
                         </button>
                     </div>

@@ -25,9 +25,9 @@ public class ItemShopService {
     private final ShopOfferRepository shopOfferRepository;
     private final BaseItemRepository baseItemRepository;
     private final CharacterRepository characterRepository;
-    private final int NUMBER_OF_SHOP_ITEMS = 4; //narazie 3 zeby w dataloaderze nie dodawac za duzo
-    private final double BOUGHT_ITEM_PRICE_DECREASE = 0.3;
     private final ItemRepository itemRepository;
+
+    private final int NUMBER_OF_SHOP_ITEMS = 4;
 
     public ItemShopService(ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository, ItemRepository itemRepository) {
         this.shopOfferRepository = shopOfferRepository;
@@ -75,7 +75,7 @@ public class ItemShopService {
         shopOffer.setItem(null);
         shopOfferRepository.delete(shopOffer);
 
-        boughtItem.setPrice((int) Math.round(boughtItem.getPrice()*BOUGHT_ITEM_PRICE_DECREASE));
+        boughtItem.decreaseItemPrice();
 
         character.addItemToBackpack(boughtItem);
 
@@ -219,7 +219,7 @@ public class ItemShopService {
                 baseItemEntity.getBaseAgility() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
                 baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
                 baseItemEntity.getBaseLuck() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBasePrice() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
+                baseItemEntity.getBasePrice() * (random.nextInt(character.getAuraLvl() + amplifier) + 2),
                 baseItemEntity
         );
     }

@@ -26,7 +26,7 @@ const packageImages: Record<string, string> = {
 };
 
 function Premium() {
-    const { showError } = useAlert();
+    const { showError, showInfo } = useAlert();
     const { refreshCharacter } = useCharacter();
 
     const [offers, setOffers] = useState<PremiumOfferDto[]>([]);
@@ -75,6 +75,7 @@ function Premium() {
                 return;
             }
 
+            showInfo("Dziękujemy z zakup!")
             await refreshCharacter();
         } catch (err) {
             console.error(err);

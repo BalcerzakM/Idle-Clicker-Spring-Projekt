@@ -73,7 +73,6 @@ public class CombatService {
         int bonusAura;
         int bonusMoney;
         ItemEntity rewardItem;
-        //String rewardItemImagePath;
         ItemDto rewardItemDto;
 
         if(playerWon) {
