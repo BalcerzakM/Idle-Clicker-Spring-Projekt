@@ -53,13 +53,14 @@ VALUES
     ('Czarne szpilki',          'opis', 'EQUIPMENT','FEET', 7, 6, 0, 6, 1, 40, 'item-black-heels.png'),
     ('Sandały',                 'opis', 'EQUIPMENT','FEET', 8, 3, 8, 3, 0, 47, 'item-sandals.png'),
     ('Łyżwy',                   'opis', 'EQUIPMENT','FEET', 3, 3, 10,9, 1, 55, 'item-skates.png'),
+    ('Opaska policyjna',        'opis', 'EQUIPMENT','FEET', 6, 6, 3, 0, 1, 52, 'item-supervision-armband.png'),
+
 
     ('Złota branzoletka',       'opis', 'EQUIPMENT','WRIST', 4, 5, 0, 3, 2, 40, 'item-golden-bracelet.png'),
     ('Sikor',                   'opis', 'EQUIPMENT','WRIST', 7, 0, 0, 1, 3, 40, 'item-leather-watch.png'),
     ('Branzoletka przyjaźni',   'opis', 'EQUIPMENT','WRIST', 4, 6, 0, 5, 1, 45, 'item-friendship-bracelet.png'),
     ('Frotkowa opaska',         'opis', 'EQUIPMENT','WRIST', 4, 2, 0, 6, 7, 67, 'item-chill-wristband.png'),
     ('Smartwatch',              'opis', 'EQUIPMENT','WRIST', 3, 3, 3, 3, 3, 50, 'item-smartwatch.png'),
-    ('Opaska policyjna',        'opis', 'EQUIPMENT','WRIST', 6, 6, 3, 0, 1, 52, 'item-supervision-armband.png'),
 
     ('Zapalniczka',             'opis', 'EQUIPMENT','EMBLEM', 6, 4, 3, 0, 3, 45, 'item-lighter.png'),
     ('Paczka szlugów',          'opis', 'EQUIPMENT','EMBLEM', 9, 6, 0, 0, 4, 50, 'item-cigarettes.png'),

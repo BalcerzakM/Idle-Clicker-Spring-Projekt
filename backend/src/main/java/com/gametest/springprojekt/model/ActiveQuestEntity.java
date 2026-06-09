@@ -20,6 +20,8 @@ public class ActiveQuestEntity {//osobna encja, bo potrzeba przechowywać nagrod
 
     private String title;
 
+    private Instant startTime;
+
     private Instant endTime;
 
     private String imagePath;

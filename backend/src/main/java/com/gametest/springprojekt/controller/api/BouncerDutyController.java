@@ -48,4 +48,11 @@ public class BouncerDutyController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
+    @PatchMapping("/clear")
+    public ResponseEntity<?> updateBouncerDuty(){
+        CharacterEntity character = characterService.getCurrentCharacter();
+        characterService.clearBouncerDuty(character);
+        return ResponseEntity.ok("Anulowano zmianę");
+    }
 }
