@@ -1,4 +1,4 @@
-INSERT INTO base_item_entity (name,
+INSERT IGNORE INTO base_item_entity (name,
                               description,
                               item_type,
                               slot_type,
@@ -86,7 +86,7 @@ VALUES
     ('Numerek do szatni', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 1, 0, 'item-token-99.png'),
     ('Numerek do szatni', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE',0, 0, 0, 0, 10, 0, 'item-token-420.png');
 
-INSERT INTO opponent_entity (name,
+INSERT IGNORE INTO opponent_entity (name,
                              base_rizz,
                              base_strength,
                              base_agility,
@@ -105,7 +105,7 @@ VALUES
 
 
 
-INSERT INTO quest_entity (title,
+INSERT IGNORE INTO quest_entity (title,
                           description,
                           quest_tier,
                           quest_type,
@@ -129,7 +129,7 @@ VALUES
     ('Zrizzuj ochroniarza', 'Ja cie nie podpuszczam, ale...', 'HARD', 'RIZZ_FIGHT', 4, 'fight_quest4.png'),
     ('Wywal DJ-a z klubu', 'Wywal tego DJ-a z lokalu, już się nie da słuchać tego co on puszcza!', 'HARD', 'STRENGTH_FIGHT', 7, 'fight_quest8.png');
 
-INSERT INTO character_class_entity (class_name,
+INSERT IGNORE INTO character_class_entity (class_name,
                                     base_endurance,
                                     base_rizz,
                                     base_strength,
@@ -141,7 +141,7 @@ VALUES
     ('Erasmus', 30, 10, 5, 5, 5, 200),
     ('Dres', 40, 5, 10, 1, 1, 50);
 
-INSERT INTO base_vehicle_entity (name,
+INSERT IGNORE INTO base_vehicle_entity (name,
                                  image_path,
                                  price,
                                  time_reduction_percent)
