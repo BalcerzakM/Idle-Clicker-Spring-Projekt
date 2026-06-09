@@ -12,7 +12,7 @@ export interface BaseVehicleDto {
 }
 
 const VehicleShop = () => {
-    const { showError } = useAlert();
+    const { showError, showInfo} = useAlert();
     const { refreshCharacter } = useCharacter();
 
     const [vehicles, setVehicles] = useState<BaseVehicleDto[]>([]);
@@ -71,7 +71,7 @@ const VehicleShop = () => {
                 return;
             }
 
-            showError("Pojazd pomyślnie wynajęty!");
+            showInfo("Pojazd pomyślnie wynajęty!");
 
             if (refreshCharacter) {
                 await refreshCharacter();

@@ -1,5 +1,6 @@
-import { createContext, useContext, useState, useCallback, useEffect } from "react";
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from "react";
 import type { ReactNode } from "react";
+import {useAlert} from "./AlertContext";
 
 interface CharacterShortInfo {
     avatarPicture: string;
@@ -22,6 +23,8 @@ const CharacterContext = createContext<CharacterContextType | undefined>(undefin
 // 2. Tworzymy Provider (Dostawcę danych)
 export function CharacterProvider({ children }: { children: ReactNode }) {
     const [character, setCharacter] = useState<CharacterShortInfo | null>(null);
+    const {showError, showLevelUp} = useAlert();
+    const previousAuraLevelRef = useRef<number | null>(null);
 
     // Funkcja do pobierania/odświeżania danych portfela
     const refreshCharacter = useCallback(async () => {
@@ -30,11 +33,23 @@ export function CharacterProvider({ children }: { children: ReactNode }) {
             if (res.ok) {
                 const data = await res.json();
                 setCharacter(data);
+
+                if (
+                    previousAuraLevelRef.current !== null &&
+                    data.auraLevel > previousAuraLevelRef.current
+                ) {
+                    showLevelUp(`Twoja aura osiągnęła level ${data.auraLevel}!`)
+                }
+
+                previousAuraLevelRef.current = data.auraLevel;
+                setCharacter(data);
             }
+
         } catch (err) {
             console.error("Błąd pobierania danych użytkownika:", err);
+            showError("Nie udało się odświeżyć danych postaci")
         }
-    }, []);
+    }, [showError, showLevelUp]);
 
     // Pobieramy dane raz na starcie aplikacji
     useEffect(() => {

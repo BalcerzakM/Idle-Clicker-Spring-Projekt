@@ -46,8 +46,8 @@ function App() {
 						<Route path="/boxer" element={<Boxer />} />
 						<Route path="/parking" element={<Parking />} />
 						<Route path="/security" element={<Security />} />
-            <Route path="/toilet" element={<Toilet />} />
-            <Route path="/premium" element={<Premium />} />
+                        <Route path="/toilet" element={<Toilet />} />
+                        <Route path="/premium" element={<Premium />} />
 						<Route path="/car-dealer" element={<CarDealer/>}/>
 					</Routes>
 				</div>
