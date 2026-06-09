@@ -312,4 +312,9 @@ public class CharacterService {
         character.setBouncerDuty(null);
         return reward;
     }
+
+    @Transactional
+    public void clearBouncerDuty(CharacterEntity character) {
+        character.setBouncerDuty(null);
+    }
 }
