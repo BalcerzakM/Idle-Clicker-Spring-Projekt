@@ -115,7 +115,7 @@ public class QuestService {
         }
         ActiveQuestEntity aq = character.getActiveQuest();
 
-        ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(), aq.getEndTime() , aq.getImagePath() );
+        ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(),aq.getStartTime(), aq.getEndTime() , aq.getImagePath() );
 
         return activeQuest;
     }
@@ -151,12 +151,14 @@ public class QuestService {
         questOfferRepository.delete(questOffer);
 
         Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,quest));
+        Instant qStartTime = Instant.now();
 
         int bonusMoney = quest.calculateMoneyReward(character);
         int bonusAura = quest.calculateAuraReward(character);
 
-        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(), qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), bonusMoney, bonusAura));
 
-        return new ActiveQuestDto(quest.getTitle(), qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
+        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), bonusMoney, bonusAura));
+
+        return new ActiveQuestDto(quest.getTitle(),qStartTime, qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
     }
 }
