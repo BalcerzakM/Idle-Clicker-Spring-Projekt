@@ -150,28 +150,28 @@ function Shop() {
 		}
 	};
 
-    // ---------- wymiana numerka ----------
-    const handleSpendToken = async (backpackTokenId: number) => {
-        try {
-            const res = await fetch("http://localhost:8080/api/shop/spendToken", {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(backpackTokenId),
-            });
+	// ---------- wymiana numerka ----------
+	const handleSpendToken = async (backpackTokenId: number) => {
+		try {
+			const res = await fetch("http://localhost:8080/api/shop/spendToken", {
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(backpackTokenId),
+			});
 
-            if (!res.ok) {
-                const error = await res.json();
-                showError(error.message || "Nie udało się wymienić numerka");
-                return;
-            }
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się wymienić numerka");
+				return;
+			}
 
-            await fetchCharacterData();
-            await refreshCharacter();
-        } catch (err: any) {
-            console.error(err);
-            showError("Brak połączenia z serwerem");
-        }
-    }
+			await fetchCharacterData();
+			await refreshCharacter();
+		} catch (err: any) {
+			console.error(err);
+			showError("Brak połączenia z serwerem");
+		}
+	};
 
 	// Obsługa podświetlania slotu
 	const handleHoverSlot = (slotType: string | null) => {
@@ -195,14 +195,16 @@ function Shop() {
 			return;
 		}
 
-        const draggedItem = hero.backpack.find((item) => item.id === backpackItemId);
-        if (!draggedItem) return;
+		const draggedItem = hero.backpack.find(
+			(item) => item.id === backpackItemId,
+		);
+		if (!draggedItem) return;
 
-        if (draggedItem.itemType === "ITEM_TOKEN") {
-            handleSpendToken(backpackItemId);
-        } else {
-            handleSell(backpackItemId);
-        }
+		if (draggedItem.itemType === "ITEM_TOKEN") {
+			handleSpendToken(backpackItemId);
+		} else {
+			handleSell(backpackItemId);
+		}
 	};
 
 	if (loading && !hero) {
@@ -257,7 +259,7 @@ function Shop() {
 										className="shop-item-image"
 										onError={(e) => (e.currentTarget.src = "/placeholder.png")}
 									/>
-                                    <span className="tooltip">{itemTooltip(item)}</span>
+									<span className="tooltip">{itemTooltip(item)}</span>
 								</div>
 								<div className="shop-item-info">
 									<h3 className="shop-item-name">{item.itemName}</h3>
