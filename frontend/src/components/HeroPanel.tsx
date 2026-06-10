@@ -2,7 +2,6 @@ import "../css/HeroPanel.css";
 import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 
-
 export interface ItemsAndStatsDto {
 	name: string;
 	avatarPicture: string;
@@ -92,7 +91,7 @@ function HeroPanel({
 					return (
 						<div
 							key={slotType}
-							className={`slot equip-slot ${isHighlighted ? "highlight-slot" : ""}`}
+							className={`slot equip-slot ${isHighlighted ? "highlight-slot" : ""} ${isHighlighted ? "show-tooltip" : ""}`}
 							data-slot={slotType}
 							onDragOver={handleDragOver}
 							onDrop={handleDrop}

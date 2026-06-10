@@ -145,13 +145,34 @@
 	align-items: center;
 	justify-content: center;
 	border-bottom: 1px solid var(--border-color);
-	position: relative; /* dla tooltipa */
+	position: relative;
 }
 
 .shop-item-image {
 	max-width: 88px;
 	max-height: 88px;
 	object-fit: contain;
+}
+
+.shop-item-card,
+.shop-grid,
+.shop-panel {
+	overflow: visible;
+}
+
+.shop-item-card {
+	position: relative;
+}
+
+.shop-item-card:hover {
+	z-index: 100;
+}
+
+.tooltip {
+	position: absolute;
+	z-index: 1000;
+	visibility: hidden;
+	opacity: 0;
 }
 
 .shop-item-image-wrapper:hover .tooltip {
