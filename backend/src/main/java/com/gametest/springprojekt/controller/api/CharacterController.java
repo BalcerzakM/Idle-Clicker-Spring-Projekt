@@ -1,14 +1,16 @@
 package com.gametest.springprojekt.controller.api;
 
-import com.gametest.springprojekt.dto.FullCharacterInfoDto;
-import com.gametest.springprojekt.dto.ItemsAndStatsDto;
-import com.gametest.springprojekt.dto.ShortCharacterInfoDto;
-import com.gametest.springprojekt.dto.SwapRequestDto;
+import com.gametest.springprojekt.dto.*;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.enums.StatName;
 import com.gametest.springprojekt.service.CharacterService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +68,16 @@ public class CharacterController {
         characterService.incrementStat(character, stat, 1);
         return ResponseEntity.ok("Zwiększono statystykę");
     }
+
+    @GetMapping("/ranking")
+    public Page<CharacterDto> getRanking(
+            @PageableDefault(size = 10, sort = "auraLvl", direction = Sort.Direction.DESC)//domyślnie pierwsza strona i po 10 rekordów oraz sort po lewelu
+            Pageable pageable
+
+    ){
+        return characterService.getRanking(pageable);
+    }
+
 
 
 }

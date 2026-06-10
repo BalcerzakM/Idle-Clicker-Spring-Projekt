@@ -128,8 +128,8 @@ body::before {
 }
 
 .hover-image {
-    display: none;
-    cursor: pointer;
+	display: none;
+	cursor: pointer;
 }
 
 /*BARMAN*/
@@ -234,104 +234,104 @@ body::before {
 
 /*WYJSCIE NA PALARNIE*/
 .clubMain-outsideTextBox {
-    display: none;
+	display: none;
 
-    font-size: 16px;
+	font-size: 16px;
 
-    position: absolute;
-    top: 790px;
-    left: 200px;
+	position: absolute;
+	top: 790px;
+	left: 200px;
 
-    width: 82px;
+	width: 82px;
 
-    padding: 1px 6px;
+	padding: 1px 6px;
 
-    border: 1px solid var(--neon-blue);
-    border-radius: 20px;
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
 
-    background: rgba(10, 12, 18, 0.92);
+	background: rgba(10, 12, 18, 0.92);
 
-    color: #d2c1af;
+	color: #d2c1af;
 
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
 
-    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
 
-    backdrop-filter: blur(2px);
-    text-align: center;
+	backdrop-filter: blur(2px);
+	text-align: center;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .clubMain-outside {
-    position: absolute;
-    top: 624px;
-    left: 0px;
+	position: absolute;
+	top: 624px;
+	left: 0px;
 
-    width: 725px;
-    height: 204px;
+	width: 725px;
+	height: 204px;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .clubMain-outside:hover + .clubMain-outsideTextBox {
-    display: block;
-    opacity: 0.95;
+	display: block;
+	opacity: 0.95;
 }
 
 .clubMain-outside:hover .hover-image {
-    display: block;
+	display: block;
 }
 
 /*TOALETA*/
 .clubMain-toiletTextBox {
-    display: none;
+	display: none;
 
-    font-size: 16px;
+	font-size: 16px;
 
-    position: absolute;
-    top: 140px;
-    left: 1000px;
+	position: absolute;
+	top: 140px;
+	left: 1000px;
 
-    width: 82px;
+	width: 82px;
 
-    padding: 1px 6px;
+	padding: 1px 6px;
 
-    border: 1px solid var(--neon-blue);
-    border-radius: 20px;
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
 
-    background: rgba(10, 12, 18, 0.92);
+	background: rgba(10, 12, 18, 0.92);
 
-    color: #d2c1af;
+	color: #d2c1af;
 
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
 
-    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
 
-    backdrop-filter: blur(2px);
-    text-align: center;
+	backdrop-filter: blur(2px);
+	text-align: center;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .clubMain-toilet {
-    position: absolute;
-    top: 174px;
-    left: 1005px;
+	position: absolute;
+	top: 174px;
+	left: 1005px;
 
-    width: 725px;
-    height: 204px;
+	width: 725px;
+	height: 204px;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .clubMain-toilet:hover + .clubMain-toiletTextBox {
-    display: block;
-    opacity: 0.95;
+	display: block;
+	opacity: 0.95;
 }
 
 .clubMain-toilet:hover .hover-image {
-    display: block;
+	display: block;
 }
 
 /*PALARNIA*/
@@ -343,8 +343,8 @@ body::before {
 	background-color: #0b0b0f;
 	border: 2px solid #1f1a24;
 	box-shadow:
-			inset 0 0 40px rgba(0, 0, 0, 0.6),
-			inset 0 0 80px rgba(122, 29, 45, 0.08);
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
 /*WEJSCIE DO KLUBU*/
@@ -393,31 +393,28 @@ body::before {
 }
 
 .outsideMain-parking-sign {
-    position: absolute;
-    top: 220px;
-    height: 228px;
-    width: 108px;
+	position: absolute;
+	top: 220px;
+	height: 228px;
+	width: 108px;
 }
 
 .parking_sign_image {
-	position:absolute;
-	top:220px;
+	position: absolute;
+	top: 220px;
 	width: 120px;
 	height: auto;
 	filter: brightness(30%);
-	
 }
 
 .outsideMain-parking-sign .hover-image {
 	width: 120px;
 	height: auto;
 	filter: brightness(60%);
-
 }
 
 .outsideMain-parking-sign:hover .hover-image {
 	display: block;
-	
 }
 
 .outsideMain-parking-sign:hover + .outsideMain-parkingTextBox {
@@ -443,7 +440,6 @@ body::before {
 	z-index: 2;
 }
 
-
 .outsideMain-entrance:hover + .outsideMain-entranceTextBox {
 	display: block;
 	opacity: 0.95;
@@ -451,102 +447,150 @@ body::before {
 
 /*OUTSIDE BOXER*/
 .outsideMain-boxerTextBox {
-    display: none;
+	display: none;
 
-    font-size: 16px;
+	font-size: 16px;
 
-    position: absolute;
-    top: 205px;
-    left: 1140px;
+	position: absolute;
+	top: 205px;
+	left: 1140px;
 
-    width: auto;
+	width: auto;
 
-    padding: 1px 6px;
+	padding: 1px 6px;
 
-    border: 1px solid var(--neon-blue);
-    border-radius: 20px;
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
 
-    background: rgba(10, 12, 18, 0.92);
+	background: rgba(10, 12, 18, 0.92);
 
-    color: #d2c1af;
+	color: #d2c1af;
 
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
 
-    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
 
-    backdrop-filter: blur(2px);
+	backdrop-filter: blur(2px);
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .outsideMain-boxer {
-    position: absolute;
-    top: 240px;
-    left: 1087px;
+	position: absolute;
+	top: 240px;
+	left: 1087px;
 
-    width: 184px;
-    height: 205px;
+	width: 184px;
+	height: 205px;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .outsideMain-boxer:hover .hover-image {
-    display: block;
+	display: block;
 }
 
 .outsideMain-boxer:hover + .outsideMain-boxerTextBox {
-    display: block;
-    opacity: 0.95;
+	display: block;
+	opacity: 0.95;
 }
 
 /*OUTSIDE SECURITY*/
 .outsideMain-securityTextBox {
-    display: none;
+	display: none;
 
-    font-size: 16px;
+	font-size: 16px;
 
-    position: absolute;
-    top: 280px;
-    left: 445px;
+	position: absolute;
+	top: 280px;
+	left: 445px;
 
-    width: auto;
+	width: auto;
 
-    padding: 1px 6px;
+	padding: 1px 6px;
 
-    border: 1px solid var(--neon-blue);
-    border-radius: 20px;
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
 
-    background: rgba(10, 12, 18, 0.92);
+	background: rgba(10, 12, 18, 0.92);
 
-    color: #d2c1af;
+	color: #d2c1af;
 
-    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
 
-    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
 
-    backdrop-filter: blur(2px);
+	backdrop-filter: blur(2px);
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .outsideMain-security {
-    position: absolute;
-    top: 305px;
-    left: 436px;
+	position: absolute;
+	top: 305px;
+	left: 436px;
 
-    width: 122px;
-    height: 218px;
+	width: 122px;
+	height: 218px;
 
-    z-index: 2;
+	z-index: 2;
 }
 
 .outsideMain-security:hover .hover-image {
-    display: block;
+	display: block;
 }
 
 .outsideMain-security:hover + .outsideMain-securityTextBox {
-    display: block;
-    opacity: 0.95;
+	display: block;
+	opacity: 0.95;
 }
 
+/* RANKING */
+.outsideMain-rankingTextBox {
+	display: none;
 
+	font-size: 16px;
+
+	position: absolute;
+	top: 175px;
+	left: 870px;
+
+	width: auto;
+
+	padding: 1px 6px;
+
+	border: 1px solid var(--neon-blue);
+	border-radius: 20px;
+
+	background: rgba(10, 12, 18, 0.92);
+
+	color: #d2c1af;
+
+	text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+	box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+	backdrop-filter: blur(2px);
+
+	z-index: 2;
+}
+
+.outsideMain-ranking {
+	position: absolute;
+	top: 203px;
+	left: 813px;
+
+	width: 190px;
+	height: 228px;
+
+	z-index: 2;
+}
+
+.outsideMain-ranking:hover .hover-image {
+	display: block;
+}
+
+.outsideMain-ranking:hover + .outsideMain-rankingTextBox {
+	display: block;
+	opacity: 0.95;
+}

@@ -1,0 +1,294 @@
+/* ===== KONTEner GŁÓWNY RANKINGU ===== */
+.ranking-container {
+	position: relative;
+	width: 1310px;
+	height: 100%;
+	/* background: linear-gradient(145deg, #0f0e13 0%, #09070c 100%); */
+	background: url("../assets/scenes/ranking.png") center / contain no-repeat;
+	border: 2px solid #1f1a24;
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08),
+		0 10px 25px rgba(0, 0, 0, 0.5);
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+/* ===== NAGŁÓWEK ===== */
+.ranking-header-section {
+	text-align: center;
+	padding: 24px 20px 16px;
+	border-bottom: 1px solid #1e1a22;
+	/* background: rgba(11, 11, 15, 0.7); */
+	/* backdrop-filter: blur(2px); */
+}
+
+.ranking-title {
+	font-family: "Teko", sans-serif;
+	font-size: 36px;
+	letter-spacing: 3px;
+	color: var(--neon-gold, #d89b52);
+	text-shadow: 0 0 8px var(--neon-gold, #d89b52);
+	margin: 0 0 8px;
+}
+
+.ranking-subtitle {
+	color: var(--text-muted, #7b6d62);
+	font-size: 15px;
+	font-style: italic;
+	margin: 0;
+}
+
+/* ===== TABELA ===== */
+.ranking-table {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	margin: 15px 20px;
+	/* background: rgba(8, 8, 12, 0.5); */
+
+	border-radius: 12px;
+	border: 1px solid #1e1a22;
+	overflow: hidden;
+}
+
+.ranking-table-header {
+	display: grid;
+	grid-template-columns: 80px 1.8fr 1.5fr 1.2fr;
+	background: linear-gradient(180deg, #1a1622 0%, #131016 100%);
+	padding: 14px 20px;
+	border-bottom: 2px solid #2a2333;
+	font-weight: bold;
+	font-size: 16px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: var(--neon-blue, #4da3ff);
+	text-shadow: 0 0 4px rgba(77, 163, 255, 0.4);
+}
+
+.ranking-table-body {
+	display: flex;
+	flex-direction: column;
+	max-height: 580px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}
+
+.ranking-row {
+	display: grid;
+	grid-template-columns: 80px 1.8fr 1.5fr 1.2fr;
+	align-items: center;
+	padding: 12px 20px;
+	border-bottom: 1px solid #1a1620;
+	transition: all 0.2s;
+	background: rgba(0, 0, 0, 0.2);
+}
+
+.ranking-row:hover {
+	background: rgba(77, 163, 255, 0.05);
+	transform: translateX(4px);
+	border-left: 3px solid var(--neon-blue, #4da3ff);
+}
+
+.ranking-row--top {
+	background: linear-gradient(
+		90deg,
+		rgba(216, 155, 82, 0.1),
+		rgba(0, 0, 0, 0.3)
+	);
+	border-left: 3px solid var(--neon-gold, #d89b52);
+}
+
+/* ===== KOLUMNY ===== */
+.rank-col {
+	font-weight: bold;
+	font-size: 22px;
+	color: var(--text-light, #b7a38f);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 6px;
+}
+
+.rank-medal {
+	font-size: 26px;
+	filter: drop-shadow(0 0 4px gold);
+}
+
+.rank-number {
+	font-family: monospace;
+	font-weight: bold;
+	color: #b7a38f;
+}
+
+.name-col {
+	font-size: 18px;
+	font-weight: 600;
+	color: #ddd0c0;
+	letter-spacing: 0.5px;
+	text-shadow: 0 1px 1px black;
+}
+
+.class-col {
+	font-size: 16px;
+}
+
+.character-class-badge {
+	background: #1a1522;
+	border: 1px solid #332a3f;
+	padding: 4px 12px;
+	border-radius: 30px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #c9b6e2;
+	display: inline-block;
+	box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.aura-col {
+	font-size: 22px;
+	font-weight: bold;
+	font-family: monospace;
+}
+
+.aura-value {
+	color: var(--neon-orange, #ff9a3c);
+	text-shadow: 0 0 6px rgba(255, 154, 60, 0.6);
+	background: rgba(0, 0, 0, 0.4);
+	padding: 2px 12px;
+	border-radius: 40px;
+	display: inline-block;
+	letter-spacing: 1px;
+}
+
+/* ===== PAGINACJA ===== */
+.ranking-pagination {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 16px 28px;
+	/* background: #0b0b0f; */
+	border-top: 1px solid #1e1a22;
+	margin-top: auto;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.pagination-info {
+	color: var(--text-muted, #7b6d62);
+	font-size: 14px;
+	background: #121016;
+	padding: 6px 16px;
+	border-radius: 30px;
+	border: 1px solid #24202b;
+}
+
+.pagination-controls {
+	display: flex;
+	gap: 20px;
+	align-items: center;
+	flex-wrap: wrap;
+}
+
+.pagination-btn {
+	background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+	border: 1px solid var(--neon-gold, #d89b52);
+	color: var(--neon-gold, #d89b52);
+	padding: 8px 22px;
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	border-radius: 40px;
+	text-shadow: 0 0 4px rgba(216, 155, 82, 0.5);
+	transition: all 0.25s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.pagination-btn:hover:not(:disabled) {
+	background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+	color: #ffd29c;
+	border-color: #ffc285;
+	box-shadow: 0 0 10px rgba(255, 154, 60, 0.4);
+	transform: translateY(-1px);
+}
+
+.pagination-btn:disabled {
+	opacity: 0.45;
+	cursor: not-allowed;
+	filter: grayscale(0.1);
+}
+
+.page-size-selector {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	background: #0a080f;
+	padding: 5px 14px;
+	border-radius: 40px;
+	border: 1px solid #2a2333;
+}
+
+.page-size-selector label {
+	color: #b7a38f;
+	font-size: 13px;
+}
+
+.page-size-selector select {
+	background: #1c1722;
+	border: 1px solid #4a3b55;
+	color: #e6d5b8;
+	padding: 6px 10px;
+	border-radius: 20px;
+	font-weight: bold;
+	cursor: pointer;
+	font-size: 14px;
+	transition: 0.2s;
+}
+
+.page-size-selector select:hover {
+	border-color: var(--neon-gold);
+	background: #2c2335;
+}
+
+/* ===== STANY ŁADOWANIA / PUSTY ===== */
+.ranking-loading,
+.ranking-empty {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	font-size: 1.4rem;
+	color: var(--text-muted, #7b6d62);
+	text-shadow: 0 0 2px black;
+	background: radial-gradient(circle at 20% 30%, #131016, #050408);
+	border-radius: 12px;
+	text-align: center;
+	padding: 60px;
+}
+
+.ranking-loading {
+	font-style: italic;
+	color: #bda98c;
+	letter-spacing: 2px;
+}
+
+/* ===== DOSTOSOWANIE SCROLLA ===== */
+.ranking-table-body::-webkit-scrollbar {
+	width: 6px;
+}
+
+.ranking-table-body::-webkit-scrollbar-track {
+	background: #0e0c13;
+	border-radius: 6px;
+}
+
+.ranking-table-body::-webkit-scrollbar-thumb {
+	background: #4a3a55;
+	border-radius: 6px;
+}
+
+.ranking-table-body::-webkit-scrollbar-thumb:hover {
+	background: #7a5f8a;
+}

@@ -10,6 +10,8 @@ import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +29,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
+    private final CharacterMapper characterMapper;
 
     public CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -317,5 +320,12 @@ public class CharacterService {
     @Transactional
     public void clearBouncerDuty(CharacterEntity character) {
         character.setBouncerDuty(null);
+    }
+
+
+    public Page<CharacterDto> getRanking(Pageable pageable) {
+        return characterRepository
+                .findAll(pageable)
+                .map(characterMapper::toDto);
     }
 }
