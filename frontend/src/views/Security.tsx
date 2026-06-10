@@ -9,6 +9,13 @@ interface BouncerDutyDto {
 	reward: number;
 }
 
+interface ActiveQuestDto {
+	questTitle: string;
+	questStartTime: string;
+	questEndTime: string;
+	imagePath: string;
+}
+
 function Security() {
 	const { refreshCharacter, character } = useCharacter();
 	const { showError } = useAlert();
@@ -16,11 +23,12 @@ function Security() {
 	const [hours, setHours] = useState<number>(4);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [activeDuty, setActiveDuty] = useState<BouncerDutyDto | null>(null);
+	const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null); // nowy stan
 	const [timeLeft, setTimeLeft] = useState<string>("");
 	const [progress, setProgress] = useState<number>(100);
 	const [totalDuration, setTotalDuration] = useState<number>(0);
 	const [isDutyFinished, setIsDutyFinished] = useState<boolean>(false);
-	const [earlyFinish, setEarlyFinish] = useState<boolean>(false); // czy przerwano ręcznie
+	const [earlyFinish, setEarlyFinish] = useState<boolean>(false);
 	const [lastReward, setLastReward] = useState<number | null>(null);
 
 	const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -30,6 +38,29 @@ function Security() {
 		const auraLvl = character?.auraLevel ?? 1;
 		return Math.floor(10 * auraLvl * 1.5 * hours);
 	};
+
+	// Sprawdzenie aktywnego questa (podobnie jak w Barman)
+	const checkActiveQuest = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/quest/active");
+			if (res.status === 404 || res.status === 409) {
+				setActiveQuest(null);
+				return;
+			}
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Błąd sprawdzania aktywnego zlecenia");
+				setActiveQuest(null);
+				return;
+			}
+			const data: ActiveQuestDto = await res.json();
+			setActiveQuest(data);
+		} catch (err) {
+			console.error(err);
+			// Nie pokazuj błędu, aby nie denerwować użytkownika przy każdym odświeżeniu
+			setActiveQuest(null);
+		}
+	}, [showError]);
 
 	const checkActiveDuty = useCallback(async () => {
 		try {
@@ -57,10 +88,19 @@ function Security() {
 	}, [showError]);
 
 	useEffect(() => {
+		checkActiveQuest(); // sprawdź quest przy starcie
 		checkActiveDuty();
-	}, [checkActiveDuty]);
+	}, [checkActiveQuest, checkActiveDuty]);
 
 	const handleStartDuty = async () => {
+		// Blokada: jeśli aktywny quest, nie można rozpocząć ochrony
+		if (activeQuest) {
+			showError(
+				"Nie możesz rozpocząć ochrony, gdy masz aktywne zlecenie u barmana.",
+			);
+			return;
+		}
+
 		try {
 			setLoading(true);
 			const res = await fetch("http://localhost:8080/api/security", {
@@ -78,7 +118,7 @@ function Security() {
 			const startMs = new Date(data.dutyStartTime).getTime();
 			const endMs = new Date(data.dutyEndTime).getTime();
 			setTotalDuration(endMs - startMs);
-			setEarlyFinish(false); // nowa zmiana – reset flagi
+			setEarlyFinish(false);
 		} catch {
 			showError("Brak połączenia z serwerem");
 		} finally {
@@ -86,7 +126,7 @@ function Security() {
 		}
 	};
 
-	// Odliczanie
+	// Odliczanie (bez zmian)
 	useEffect(() => {
 		if (!activeDuty || !activeDuty.dutyEndTime) return;
 
@@ -99,7 +139,6 @@ function Security() {
 				setTimeLeft("00:00:00");
 				setProgress(0);
 				setIsDutyFinished(true);
-				// earlyFinish zostaje false (normalny koniec)
 				if (timerRef.current) clearInterval(timerRef.current);
 				return;
 			}
@@ -132,23 +171,19 @@ function Security() {
 		};
 	}, []);
 
-	// Ręczne zakończenie przed czasem – bez nagrody
 	const handleFinishEarly = async () => {
 		try {
 			const res = await fetch("http://localhost:8080/api/security/clear", {
 				method: "PATCH",
 			});
-
 			if (!res.ok) {
 				showError("Nie udało się zakończyć zmiany");
 				return;
 			}
-
 			setIsDutyFinished(true);
 			setProgress(0);
 			setTimeLeft("00:00:00");
 			setEarlyFinish(true);
-
 			if (timerRef.current) {
 				clearInterval(timerRef.current);
 			}
@@ -157,13 +192,11 @@ function Security() {
 		}
 	};
 
-	// Powrót do wyboru godzin (po zakończeniu)
 	const handleBackToSelection = async () => {
 		if (completingRef.current) return;
 		completingRef.current = true;
 
 		if (earlyFinish) {
-			// Wcześniejsze przerwanie – tylko reset, bez nagrody
 			await refreshCharacter();
 			setActiveDuty(null);
 			setIsDutyFinished(false);
@@ -171,12 +204,11 @@ function Security() {
 			setTimeLeft("");
 			setTotalDuration(0);
 			setEarlyFinish(false);
-			setLastReward(null); // nie pokazuj komunikatu o nagrodzie
+			setLastReward(null);
 			completingRef.current = false;
 			return;
 		}
 
-		// Normalne zakończenie – odbierz nagrodę
 		try {
 			const res = await fetch("http://localhost:8080/api/security/complete", {
 				method: "POST",
@@ -205,7 +237,7 @@ function Security() {
 
 	if (loading) return <div className="quest-loading">Ładowanie...</div>;
 
-	// ----- WIDOK AKTYWNEJ ZMIANY -----
+	// Widok aktywnej zmiany (bez zmian)
 	if (activeDuty) {
 		return (
 			<div className="security-container">
@@ -218,7 +250,6 @@ function Security() {
 								<p className="security-timer-hint">
 									Zmiana zakończona! Czas odpocząć.
 								</p>
-								{/* Pokaż nagrodę tylko przy normalnym zakończeniu */}
 								{!earlyFinish && (
 									<p className="security-reward">
 										Nagroda: 💰 {activeDuty.reward} monet
@@ -263,7 +294,7 @@ function Security() {
 		);
 	}
 
-	// ----- WIDOK WYBORU GODZIN -----
+	// Widok wyboru godzin – z dodatkowym komunikatem blokady
 	return (
 		<div className="security-container">
 			<div className="security-left-image" />
@@ -273,6 +304,17 @@ function Security() {
 				{lastReward !== null && (
 					<div className="security-last-reward">
 						Ostatnia zmiana: otrzymałeś 💰 {lastReward} monet!
+					</div>
+				)}
+
+				{/* Informacja o aktywnym queście, jeśli istnieje */}
+				{activeQuest && (
+					<div
+						className="security-last-reward"
+						style={{ backgroundColor: "#9e1d02", color: "white" }}
+					>
+						⚠️ Masz aktywne zlecenie u barmana! Zakończ je, zanim rozpoczniesz
+						ochronę.
 					</div>
 				)}
 
@@ -292,6 +334,7 @@ function Security() {
 						value={hours}
 						onChange={(e) => setHours(Number(e.target.value))}
 						className="security-slider"
+						disabled={!!activeQuest}
 					/>
 					<div className="security-slider-limits">
 						<span>1h</span>
@@ -304,9 +347,9 @@ function Security() {
 				<button
 					className="quest-btn security-start-btn"
 					onClick={handleStartDuty}
-					disabled={loading}
+					disabled={loading || !!activeQuest}
 				>
-					Zacznij zmianę
+					{activeQuest ? "Zlecenie u barmana aktywne" : "Zacznij zmianę"}
 				</button>
 			</div>
 		</div>
