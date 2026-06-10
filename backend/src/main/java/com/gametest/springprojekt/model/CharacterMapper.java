@@ -9,10 +9,8 @@ public class CharacterMapper {
         CharacterDto dto = new CharacterDto();
 
         dto.setName(character.getName());
-        dto.setCharacterClass(character.getCharacterClass());
-        dto.setAvatarPicture(character.getAvatarPicture());
+        dto.setCharacterClass(character.getCharacterClass().getClassName());
         dto.setAuraLvl(character.getAuraLvl());
-        dto.setEquipment(character.getEquipment());
 
         return dto;
     }
