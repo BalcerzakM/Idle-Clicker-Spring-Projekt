@@ -33,21 +33,25 @@ function NavBar() {
 					<p>{`${character?.cristals ?? "Error"}`}</p>
 				</div>
 				<div className="navBar-character-aura">
-                    <p><b>{character?.characterClass ?? "-"}</b>, aura lvl <b>{character?.auraLevel ?? "-"}</b></p>
+					<p>
+						<b>{character?.characterClass ?? "-"}</b>, aura lvl{" "}
+						<b>{character?.auraLevel ?? "-"}</b>
+					</p>
 
-                    <div className="auraBar-wrapper">
-                        <div className="auraBar">
-                            <div
-                                className="auraBar-fill"
-                                style={{
-                                    width: `${character?.levelProgressPercent ?? 0}%`,
-                                }}
-                            />
-                        </div>
-                        <p className="navBar-character-aura-points">
-                            Następny level: {character?.aura ?? 0}/{character?.nextLevelAuraRequirement ?? 0} pkt aury
-                        </p>
-                    </div>
+					<div className="auraBar-wrapper">
+						<div className="auraBar">
+							<div
+								className="auraBar-fill"
+								style={{
+									width: `${character?.levelProgressPercent ?? 0}%`,
+								}}
+							/>
+						</div>
+						<p className="navBar-character-aura-points">
+							Następny level: {character?.aura ?? 0}/
+							{character?.nextLevelAuraRequirement ?? 0} pkt aury
+						</p>
+					</div>
 				</div>
 			</div>
 			<nav className="navBar-navigation">
@@ -63,20 +67,20 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/parking")}>
 					Parking
 				</button>
-                <button type="button" onClick={() => navigate("/security")}>
-                    Ochrona
-                </button>
-                <button type="button" onClick={() => navigate("/toilet")}>
-                    Toaleta
-                </button>
+				<button type="button" onClick={() => navigate("/security")}>
+					Ochrona
+				</button>
+				<button type="button" onClick={() => navigate("/ranking")}>
+					Ranking
+				</button>
+				<button type="button" onClick={() => navigate("/toilet")}>
+					Toaleta
+				</button>
 			</nav>
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">
-					<button type="submit">
-						WYLOGUJ SIĘ
-					</button>
+					<button type="submit">WYLOGUJ SIĘ</button>
 				</form>
-			
 			</div>
 		</div>
 	);
