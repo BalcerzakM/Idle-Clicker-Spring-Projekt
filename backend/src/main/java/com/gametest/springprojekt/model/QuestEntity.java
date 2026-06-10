@@ -3,6 +3,7 @@ package com.gametest.springprojekt.model;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.model.enums.QuestType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,12 +21,10 @@ public class QuestEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String title;
 
-    @NotNull
-    @Column(nullable = false)
     private String description;
 
     @NotNull
@@ -49,7 +48,7 @@ public class QuestEntity {
 
     public int calculateMoneyReward(CharacterEntity character) {
         Random random = new Random();
-        return this.getQuestTier().getMultiplier() * character.getAuraLvl() + random.nextInt(character.getLuck()); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
+        return this.getQuestTier().getMultiplier() * character.getAuraLvl() + random.nextInt(character.getLuck() + 1); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
     }
     public int calculateAuraReward(CharacterEntity character) {
         return this.getQuestTier().getMultiplier() * character.getAuraLvl();

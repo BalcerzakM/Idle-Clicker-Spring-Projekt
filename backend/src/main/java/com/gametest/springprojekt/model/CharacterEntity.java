@@ -2,6 +2,7 @@ package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 import java.util.*;
@@ -19,31 +20,65 @@ public class CharacterEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private UserEntity user;
 
+    @NotBlank
     @Column(nullable = false, unique = true)
     private String name;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "character_class_id", nullable = false)
     private CharacterClassEntity characterClass;
 
+    @NotBlank
+    @Column(nullable = false)
     private String avatarPicture;
+
+    @Positive
+    @Column(nullable = false)
     private int auraLvl;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int aura;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int rizz;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int strength;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int agility;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int endurance;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int luck;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int money;
+
+    @PositiveOrZero
+    @Column(nullable = false)
     private int cristals;
 
+    @Size(max = 7)
     @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
     private List<EquipmentItem> equipment = new ArrayList<>();
 
+    @Size(max = MAX_BACKPACK_SLOTS)
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<BackpackItem> backpack = new ArrayList<>();
 

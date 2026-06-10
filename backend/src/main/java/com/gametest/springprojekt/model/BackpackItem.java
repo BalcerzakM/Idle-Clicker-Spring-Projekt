@@ -22,7 +22,7 @@ public class BackpackItem {
     private CharacterEntity player;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "item_id", nullable = false)
     private ItemEntity item;
 

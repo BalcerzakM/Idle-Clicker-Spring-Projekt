@@ -93,13 +93,13 @@ INSERT IGNORE INTO opponent_entity (name,
                              base_luck,
                              image_path)
 VALUES
-    ('Gruba',       6, 9, 1, 40, 1, 'opponent_gruba.png'),
-    ('Dresiarz',    9, 11, 5, 35, 2, 'opponent_dresiarz.png'),
-    ('Hiszpan',    13, 9, 6, 30, 2, 'opponent_hiszpan.png'),
-    ('Ochroniarz',  10, 12, 4, 50, 2, 'opponent_ochroniarz.png'),
-    ('Blondyna',    15, 7, 7, 28, 3, 'opponent_blondyna.png'),
-    ('Menel',    10, 9, 6,   35, 10, 'opponent_menel.png'),
-    ('DJ',    13, 11, 5, 45, 4, 'opponent_dj.png');
+    ('Gruba',       4, 7, 1, 47, 1, 'opponent_gruba.png'),
+    ('Dresiarz',    7, 10, 5, 40, 2, 'opponent_dresiarz.png'),
+    ('Hiszpan',    12, 9, 6, 33, 2, 'opponent_hiszpan.png'),
+    ('Ochroniarz',  9, 13, 5, 52, 4, 'opponent_ochroniarz.png'),
+    ('Blondyna',    16, 8, 7, 30, 3, 'opponent_blondyna.png'),
+    ('Menel',    5, 7, 3, 35, 10, 'opponent_menel.png'),
+    ('DJ',    12, 10, 4, 45, 4, 'opponent_dj.png');
 
 
 
@@ -136,9 +136,9 @@ INSERT IGNORE INTO character_class_entity (class_name,
                                     base_luck,
                                     base_money)
 VALUES
-    ('Nerd', 20, 1, 1, 5, 30, 100),
-    ('Erasmus', 30, 10, 5, 5, 5, 200),
-    ('Dres', 40, 5, 10, 1, 1, 50);
+    ('Nerd', 25, 5, 5, 5, 30, 100),
+    ('Erasmus', 30, 12, 5, 3, 5, 200),
+    ('Dres', 40, 7, 10, 4, 1, 50);
 
 INSERT IGNORE INTO base_vehicle_entity (name,
                                  image_path,

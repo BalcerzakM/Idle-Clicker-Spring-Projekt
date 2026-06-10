@@ -3,7 +3,9 @@ package com.gametest.springprojekt.model;
 import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +21,8 @@ public class BaseItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(nullable = false)
+    @NotBlank
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;
@@ -35,31 +37,31 @@ public class BaseItemEntity {
     @Enumerated(EnumType.STRING)
     private SlotType slotType;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int baseRizz;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int baseStrength;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int baseAgility;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int baseEndurance;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int baseLuck;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int basePrice;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String imagePath;
 }

@@ -1,7 +1,10 @@
 package com.gametest.springprojekt.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,15 +26,15 @@ public class TransactionEntity {
     @JoinColumn(name = "character_id", nullable = false)
     private CharacterEntity character;
 
-    @NotNull
+    @NotBlank
     @Column(nullable = false)
     private String packageCode;
 
-    @NotNull
+    @Positive
     @Column(nullable = false)
     private int paymentAmountInGrosze;
 
-    @NotNull
+    @Positive
     @Column(nullable = false)
     private int cristalsAmount;
 

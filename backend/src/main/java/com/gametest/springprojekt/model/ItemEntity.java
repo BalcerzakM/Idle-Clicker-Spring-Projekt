@@ -3,6 +3,7 @@ package com.gametest.springprojekt.model;
 import com.gametest.springprojekt.dto.ItemDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,38 +14,39 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ItemEntity {
     @Transient
-    private final double ITEM_PRICE_DECREASE = 0.3;
+    private static final double ITEM_PRICE_DECREASE = 0.3;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int totalRizz;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int totalStrength;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int totalAgility;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int totalEndurance;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int totalLuck;
 
-    @NotNull
+    @PositiveOrZero
     @Column(nullable = false)
     private int price;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "base_item_id")
+    @JoinColumn(name = "base_item_id", nullable = false)
     private BaseItemEntity baseItem;
 
     public ItemDto generateItemDto() {

@@ -18,6 +18,8 @@ public class ShopOfferEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
+    @Column(nullable = false)
     private LocalDate offerDate;
 
     @NotNull
