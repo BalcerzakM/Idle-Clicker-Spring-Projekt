@@ -3,6 +3,7 @@ import entranceHover from "../assets/scenes/hover/entrance_hover.png";
 import boxerHover from "../assets/scenes/hover/boxer_hover.png";
 import securityHover from "../assets/scenes/hover/security_hover.png";
 import ParkingSign from "../assets/scenes/hover/parking_sign.png";
+import rankingHover from "../assets/scenes/hover/ranking_hover.png";
 
 function Outside() {
 	const navigate = useNavigate();
@@ -58,6 +59,18 @@ function Outside() {
 				/>
 			</div>
 			<p className="outsideMain-securityTextBox">Ochrona</p>
+
+			<div className="outsideMain-ranking">
+				<img
+					src={rankingHover}
+					alt="ranking_hover"
+					width={190}
+					height={228}
+					className="hover-image"
+					onClick={() => navigate("/ranking")}
+				/>
+			</div>
+			<p className="outsideMain-rankingTextBox">Ranking</p>
 		</div>
 	);
 }
