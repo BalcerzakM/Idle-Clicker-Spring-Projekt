@@ -3,10 +3,15 @@ import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import "../css/NavBarView.css";
 import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
+import { useState } from "react";
+import ReportForm from "./ReportForm";
 
 function NavBar() {
 	const navigate = useNavigate();
 	const { character } = useCharacter();
+	const [showReportModal, setShowReportModal] = useState(false);
+	const openReportModal = () => setShowReportModal(true);
+	const closeReportModal = () => setShowReportModal(false);
 
 	return (
 		<div className="navBar">
@@ -82,6 +87,25 @@ function NavBar() {
 					<button type="submit">WYLOGUJ SIĘ</button>
 				</form>
 			</div>
+			{/* Nowy przycisk zgłoszenia */}
+			<div className="navBar-report">
+				<button
+					type="button"
+					onClick={openReportModal}
+					title="Zgłoś Usterkę"
+					className="reportButton"
+				>
+					⚠️
+				</button>
+			</div>
+			{/* Modal z formularzem */}
+			{showReportModal && (
+				<div className="modal-overlay" onClick={closeReportModal}>
+					<div className="modal-content" onClick={(e) => e.stopPropagation()}>
+						<ReportForm onClose={closeReportModal} />
+					</div>
+				</div>
+			)}
 		</div>
 	);
 }

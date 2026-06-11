@@ -32,6 +32,10 @@ public class AppInterceptor implements HandlerInterceptor {
         boolean isAuthenticated = auth != null && auth.isAuthenticated() && !Objects.equals(auth.getPrincipal(), "anonymousUser");
 
         if (isAuthenticated) {
+            if (uri.startsWith("/mvc/admin")) {//nie wymuszamy na adminie tworzenia postaci
+                return true;
+            }
+
             String username = auth.getName();
             boolean hasCharacter = userService.hasCharacter(username);
 

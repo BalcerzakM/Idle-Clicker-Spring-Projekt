@@ -22,6 +22,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
     @Override
     public void onAuthenticationSuccess(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         String username = authentication.getName();
+
+        // Sprawdzenie, czy użytkownik ma rolę ADMIN
+        boolean isAdmin = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            response.sendRedirect("/mvc/admin/reports");
+            return;
+        }
+
         boolean hasCharacter = userService.hasCharacter(username);
 
         if(hasCharacter) {

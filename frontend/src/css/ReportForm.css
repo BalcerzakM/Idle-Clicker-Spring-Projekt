@@ -1,0 +1,103 @@
+/* ReportForm.css */
+
+.report-form-container {
+	/* background: var(--bg-panel); */
+	background: linear-gradient(180deg, #15131a 0%, #0d0d12 100%);
+	border: 1px solid var(--border-color);
+	border-radius: 8px;
+	padding: 28px 24px;
+	margin: 20px auto;
+	box-shadow: 0 0 18px rgba(43, 34, 51, 0.6); /* --border-glow z alfą */
+}
+
+.report-form-title {
+	color: var(--neon-gold);
+	text-align: center;
+	margin: 0 0 24px 0;
+	font-size: 1.5rem;
+	letter-spacing: 1px;
+	text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+}
+
+.report-form {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+}
+
+.report-input,
+.report-textarea {
+	width: 100%;
+	padding: 12px 16px;
+	background: var(--bg-dark);
+	border: 1px solid var(--border-color);
+	border-radius: 6px;
+	color: var(--text-light);
+	font-size: 1rem;
+	font-family: inherit;
+	outline: none;
+	transition:
+		border-color 0.2s,
+		box-shadow 0.2s;
+}
+
+.report-input:focus,
+.report-textarea:focus {
+	border-color: var(--neon-blue);
+	box-shadow: 0 0 10px var(--neon-blue-glow);
+}
+
+.report-textarea {
+	min-height: 130px;
+	resize: vertical;
+}
+
+.report-submit-btn {
+	padding: 12px;
+	background: var(--neon-orange);
+	border: none;
+	border-radius: 6px;
+	color: #fff;
+	font-size: 1rem;
+	font-weight: bold;
+	cursor: pointer;
+	transition:
+		box-shadow 0.25s,
+		opacity 0.25s;
+}
+
+.report-submit-btn:hover:not(:disabled) {
+	box-shadow: 0 0 14px var(--neon-orange);
+}
+
+.report-submit-btn:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+/* Komunikaty błędów/sukcesów będą obsługiwane przez AlertContext,
+   więc nie potrzebujemy dodatkowych klas */
+
+.report-form-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
+}
+
+.close-button {
+	background: none;
+	border: none;
+	font-size: 1.5rem;
+	cursor: pointer;
+	color: #aaa;
+	transition:
+		color 0.2s,
+		transform 0.1s;
+	padding: 0 8px;
+}
+
+.close-button:hover {
+	color: #ff5555;
+	transform: scale(1.1);
+}

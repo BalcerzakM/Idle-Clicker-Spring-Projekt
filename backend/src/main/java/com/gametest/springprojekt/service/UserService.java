@@ -32,6 +32,7 @@ public class UserService {
         userEntity.setUsername(user.getUsername());
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userEntity.setEmail(user.getEmail());
+        userEntity.setRole("USER");
         userRepository.save(userEntity);
     }
 
