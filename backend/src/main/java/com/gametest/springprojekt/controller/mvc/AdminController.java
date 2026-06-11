@@ -28,6 +28,6 @@ public class AdminController {
     @PostMapping("/reports/delete/{id}")
     public String deleteReport(@PathVariable Long id) {
         reportService.deleteReport(id);
-        return "redirect:/admin/reports";
+        return "redirect:/mvc/admin/reports";
     }
 }

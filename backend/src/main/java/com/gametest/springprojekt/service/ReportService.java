@@ -41,6 +41,7 @@ public class ReportService {
         return reportRepository.findAllByOrderByCreatedAtDesc();
     }
 
+    @Transactional
     public void deleteReport(Long id) {
         reportRepository.deleteById(id);
     }
