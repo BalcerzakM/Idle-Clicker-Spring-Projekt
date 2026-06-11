@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Component
+//@Component
 public class DataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -37,8 +37,5 @@ public class DataLoader implements CommandLineRunner {
 //        characterRepository.save(character1);
 //
 //        itemShopService.refreshShopOffers();
-
-        UserEntity admin = new UserEntity(null,"admin","ADMIN", "admin@admin.pl", passwordEncoder.encode("admin"),List.of());
-        userRepository.save(admin);
     }
 }
