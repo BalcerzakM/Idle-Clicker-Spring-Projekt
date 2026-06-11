@@ -14,8 +14,8 @@ function Outside() {
 				<img
 					src={entranceHover}
 					alt="entrance_hover"
-					width={187}
-					height={188}
+					width={190}
+					height={194}
 					className="hover-image"
 					onClick={() => navigate("/")}
 				/>
@@ -26,8 +26,8 @@ function Outside() {
 				<img
 					src={boxerHover}
 					alt="boxer_hover"
-					width={184}
-					height={205}
+					width={192}
+					height={211}
 					className="hover-image"
 					onClick={() => navigate("/boxer")}
 				/>
@@ -52,8 +52,8 @@ function Outside() {
 				<img
 					src={securityHover}
 					alt="security_hover"
-					width={100}
-					height={265}
+					width={105}
+					height={270}
 					className="hover-image"
 					onClick={() => navigate("/security")}
 				/>
@@ -64,8 +64,8 @@ function Outside() {
 				<img
 					src={rankingHover}
 					alt="ranking_hover"
-					width={190}
-					height={228}
+					width={198}
+					height={237}
 					className="hover-image"
 					onClick={() => navigate("/ranking")}
 				/>

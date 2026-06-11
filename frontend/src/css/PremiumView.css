@@ -1,175 +1,174 @@
 .premium-container {
-    width: 1310px;
-    height: 100%;
+	width: 80%;
+	height: 100%;
 
-    display: flex;
+	display: flex;
 
-    background: url("../assets/scenes/premium.png") center / contain no-repeat;
-    background-color: #0b0b0f;
-    border: 2px solid #1f1a24;
+	background: url("../assets/scenes/premium.png") center / contain no-repeat;
+	background-color: #0b0b0f;
+	border: 2px solid #1f1a24;
 
-    box-shadow:
-            inset 0 0 40px rgba(0, 0, 0, 0.6),
-            inset 0 0 80px rgba(122, 29, 45, 0.08);
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
 
-    color: var(--text-light);
+	color: var(--text-light);
 }
 
 .premium-panel {
-    position: absolute;
-    width: 520px;
-    padding: 20px;
+	position: absolute;
+	width: 520px;
+	padding: 20px;
 
-    left: 570px;
-    top: 190px;
+	left: 570px;
+	top: 190px;
 }
 
 .premium-header {
-    text-align: center;
-    margin-bottom: 28px;
+	text-align: center;
+	margin-bottom: 28px;
 }
 
 .premium-header h1 {
-    margin: 0;
+	margin: 0;
 
-    font-family: "Teko", sans-serif;
-    font-size: 34px;
-    letter-spacing: 1.5px;
+	font-family: "Teko", sans-serif;
+	font-size: 34px;
+	letter-spacing: 1.5px;
 
-    color: var(--neon-gold);
-    text-shadow:
-            0 0 5px var(--neon-gold),
-            0 0 14px rgba(216, 155, 82, 0.45);
+	color: var(--neon-gold);
+	text-shadow:
+		0 0 5px var(--neon-gold),
+		0 0 14px rgba(216, 155, 82, 0.45);
 }
 
 .premium-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 150px);
-    gap: 16px;
-    justify-content: center;
-    margin: 1px;
+	display: grid;
+	grid-template-columns: repeat(3, 150px);
+	gap: 16px;
+	justify-content: center;
+	margin: 1px;
 }
 
 .premium-card {
-    width: 150px;
-    height: 210px;
-    padding: 10px;
+	width: 150px;
+	height: 210px;
+	padding: 10px;
 
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	text-align: center;
 
-    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
-    border: 1px solid var(--border-color);
-    border-radius: 14px;
+	background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+	border: 1px solid var(--border-color);
+	border-radius: 14px;
 
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+	box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
 
-    transition:
-            transform 0.2s,
-            box-shadow 0.2s,
-            border-color 0.2s;
+	transition:
+		transform 0.2s,
+		box-shadow 0.2s,
+		border-color 0.2s;
 }
 
 .premium-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--neon-pink);
+	transform: translateY(-5px);
+	border-color: var(--neon-pink);
 
-    box-shadow:
-            0 0 18px rgba(176, 76, 255, 0.32),
-            0 8px 20px rgba(0, 0, 0, 0.65);
+	box-shadow:
+		0 0 18px rgba(176, 76, 255, 0.32),
+		0 8px 20px rgba(0, 0, 0, 0.65);
 }
 
 .premium-package-img {
-    width: 90px;
-    height: 90px;
-    object-fit: contain;
+	width: 90px;
+	height: 90px;
+	object-fit: contain;
 
-    transition:
-            transform 0.25s ease,
-            filter 0.25s ease;
+	transition:
+		transform 0.25s ease,
+		filter 0.25s ease;
 }
 
 .premium-card:hover .premium-package-img {
-    transform: scale(1.08);
+	transform: scale(1.08);
 
-    filter:
-            drop-shadow(0 0 10px rgba(255, 154, 60, 0.45))
-            drop-shadow(0 0 20px rgba(255, 154, 60, 0.2));
+	filter: drop-shadow(0 0 10px rgba(255, 154, 60, 0.45))
+		drop-shadow(0 0 20px rgba(255, 154, 60, 0.2));
 }
 
 .premium-crystals {
-    font-family: "Teko", sans-serif;
-    font-size: 24px;
-    letter-spacing: 1px;
-    margin: 2px 0;
+	font-family: "Teko", sans-serif;
+	font-size: 24px;
+	letter-spacing: 1px;
+	margin: 2px 0;
 
-    color: var(--neon-blue-glow);
-    text-shadow: 0 0 8px var(--neon-blue);
+	color: var(--neon-blue-glow);
+	text-shadow: 0 0 8px var(--neon-blue);
 }
 
 .premium-price {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 2px 0;
+	font-size: 18px;
+	font-weight: bold;
+	margin: 2px 0;
 
-    color: var(--text-hover);
+	color: var(--text-hover);
 }
 
 .premium-buy-btn {
-    width: 100%;
-    height: 32px;
+	width: 100%;
+	height: 32px;
 
-    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
-    border: 1px solid var(--neon-gold);
-    border-radius: 6px;
+	background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+	border: 1px solid var(--neon-gold);
+	border-radius: 6px;
 
-    color: var(--neon-gold);
+	color: var(--neon-gold);
 
-    font-family: "Teko", sans-serif;
-    font-size: 20px;
-    letter-spacing: 1px;
+	font-family: "Teko", sans-serif;
+	font-size: 20px;
+	letter-spacing: 1px;
 
-    margin: 2px 0;
+	margin: 2px 0;
 
-    cursor: pointer;
+	cursor: pointer;
 
-    text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+	text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
 
-    transition:
-            background 0.2s,
-            color 0.2s,
-            box-shadow 0.2s,
-            transform 0.2s;
+	transition:
+		background 0.2s,
+		color 0.2s,
+		box-shadow 0.2s,
+		transform 0.2s;
 }
 
 .premium-buy-btn:hover:not(:disabled) {
-    background: linear-gradient(180deg, #24141d 0%, #161019 100%);
-    color: #ffd29c;
-    border-color: #ffc285;
+	background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+	color: #ffd29c;
+	border-color: #ffc285;
 
-    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
-    transform: scale(1.02);
+	box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
+	transform: scale(1.02);
 }
 
 .premium-buy-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+	opacity: 0.5;
+	cursor: not-allowed;
 }
 
 .premium-loading {
-    width: 1310px;
-    height: 100%;
+	width: 1310px;
+	height: 100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 
-    background: #0b0b0f;
-    color: var(--neon-gold);
+	background: #0b0b0f;
+	color: var(--neon-gold);
 
-    font-family: "Teko", sans-serif;
-    font-size: 42px;
+	font-family: "Teko", sans-serif;
+	font-size: 42px;
 }

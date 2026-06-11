@@ -1,7 +1,7 @@
 /* ===== Główny kontener ===== */
 .security-container {
 	position: relative;
-	width: 1310px;
+	width: 80%;
 	height: 100%;
 	background: url("../assets/scenes/security.png") left center / contain
 		no-repeat;

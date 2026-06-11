@@ -1,7 +1,7 @@
 /* ===== KONTEner GŁÓWNY RANKINGU ===== */
 .ranking-container {
 	position: relative;
-	width: 1310px;
+	width: 80%;
 	height: 100%;
 	/* background: linear-gradient(145deg, #0f0e13 0%, #09070c 100%); */
 	background: url("../assets/scenes/ranking.png") center / contain no-repeat;
