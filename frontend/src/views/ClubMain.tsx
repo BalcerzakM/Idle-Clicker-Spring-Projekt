@@ -12,8 +12,8 @@ function ClubMain() {
 				<img
 					src={barmanHover}
 					alt="barman_hover"
-					width={131}
-					height={144}
+					width={144}
+					height={153}
 					className="hover-image"
 					onClick={() => navigate("/barman")}
 				/>
@@ -24,40 +24,37 @@ function ClubMain() {
 				<img
 					src={szatniarzHover}
 					alt="szatniarz_hover"
-					width={140}
-					height={256}
+					width={150}
+					height={266}
 					className="hover-image"
 					onClick={() => navigate("/shop")}
-
 				/>
 			</div>
 			<p className="clubMain-szatniarzTextBox">Szatniarz</p>
 
-            <div className="clubMain-outside">
-                <img
-                    src={outsideHover}
-                    alt="outside_hover"
-                    width={725}
-                    height={204}
-                    className="hover-image"
-                    onClick={() => navigate("/outside")}
+			<div className="clubMain-outside">
+				<img
+					src={outsideHover}
+					alt="outside_hover"
+					width={725}
+					height={204}
+					className="hover-image"
+					onClick={() => navigate("/outside")}
+				/>
+			</div>
+			<p className="clubMain-outsideTextBox">Palarnia</p>
 
-                />
-            </div>
-            <p className="clubMain-outsideTextBox">Palarnia</p>
-
-            <div className="clubMain-toilet">
-                <img
-                    src={toiletHover}
-                    alt="toilet_hover"
-                    width={104}
-                    height={208}
-                    className="hover-image"
-                    onClick={() => navigate("/toilet")}
-
-                />
-            </div>
-            <p className="clubMain-toiletTextBox">Toaleta</p>
+			<div className="clubMain-toilet">
+				<img
+					src={toiletHover}
+					alt="toilet_hover"
+					width={108}
+					height={215}
+					className="hover-image"
+					onClick={() => navigate("/toilet")}
+				/>
+			</div>
+			<p className="clubMain-toiletTextBox">Toaleta</p>
 		</div>
 	);
 }

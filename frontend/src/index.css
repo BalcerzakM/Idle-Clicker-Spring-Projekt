@@ -139,8 +139,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 200px;
-	left: 500px;
+	top: 190px;
+	left: 520px;
 
 	width: 70px;
 
@@ -164,11 +164,11 @@ body::before {
 
 .clubMain-barman {
 	position: absolute;
-	top: 235px;
-	left: 458px;
+	top: 225px;
+	left: 471px;
 
 	width: 130px;
-	height: 130px;
+	height: 140px;
 
 	z-index: 2;
 }
@@ -214,11 +214,11 @@ body::before {
 
 .clubMain-szatniarz {
 	position: absolute;
-	top: 253px;
-	left: 165px;
+	top: 245px;
+	left: 168px;
 
-	width: 100px;
-	height: 210px;
+	width: 120px;
+	height: 236px;
 
 	z-index: 2;
 }
@@ -265,7 +265,7 @@ body::before {
 
 .clubMain-outside {
 	position: absolute;
-	top: 624px;
+	top: 643px;
 	left: 0px;
 
 	width: 725px;
@@ -290,8 +290,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 140px;
-	left: 1000px;
+	top: 132px;
+	left: 1040px;
 
 	width: 82px;
 
@@ -316,11 +316,11 @@ body::before {
 
 .clubMain-toilet {
 	position: absolute;
-	top: 174px;
-	left: 1005px;
+	top: 165px;
+	left: 1048px;
 
-	width: 725px;
-	height: 204px;
+	width: 105px;
+	height: 224px;
 
 	z-index: 2;
 }
