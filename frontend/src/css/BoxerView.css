@@ -1,131 +1,128 @@
 .outsideBoxer {
-    position: relative;
-    width: 1310px;
-    height: 100%;
-    background: url("../assets/scenes/boxer.png") center / contain no-repeat;
-    background-color: #0b0b0f;
-    border: 2px solid #1f1a24;
-    box-shadow:
-            inset 0 0 40px rgba(0, 0, 0, 0.6),
-            inset 0 0 80px rgba(122, 29, 45, 0.08);
+	position: relative;
+	width: 80%;
+	height: 100%;
+	background: url("../assets/scenes/boxer.png") center / contain no-repeat;
+	background-color: #0b0b0f;
+	border: 2px solid #1f1a24;
+	box-shadow:
+		inset 0 0 40px rgba(0, 0, 0, 0.6),
+		inset 0 0 80px rgba(122, 29, 45, 0.08);
 }
 
 @font-face {
-    font-family: "SevenSegment";
-    src: url("/fonts/DSEG7Modern-Bold.woff2") format("woff2");
+	font-family: "SevenSegment";
+	src: url("/fonts/DSEG7Modern-Bold.woff2") format("woff2");
 }
 
 .boxer-score-display {
-    position: absolute;
-    left: 437px;
-    top: 405px;
-    width: 285px;
-    height: 100px;
+	position: absolute;
+	left: 437px;
+	top: 405px;
+	width: 285px;
+	height: 100px;
 
-    font-family: "SevenSegment", monospace;
-    font-size: 72px;
-    color: #ff2a00;
-    text-shadow: 0 0 12px #ff2a00;
+	font-family: "SevenSegment", monospace;
+	font-size: 72px;
+	color: #ff2a00;
+	text-shadow: 0 0 12px #ff2a00;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .boxer-credit-display {
-    position: absolute;
-    left: 508px;
-    top: 653px;
-    width: 140px;
-    height: 70px;
+	position: absolute;
+	left: 508px;
+	top: 653px;
+	width: 140px;
+	height: 70px;
 }
 
 .boxer-credit-display input {
-    width: 100%;
-    height: 100%;
+	width: 100%;
+	height: 100%;
 
-    background: transparent;
-    border: none;
-    outline: none;
+	background: transparent;
+	border: none;
+	outline: none;
 
-    font-family: "SevenSegment", monospace;
-    font-size: 36px;
-    color: #ff2a00;
-    text-align: center;
-    text-shadow: 0 0 8px #ff2a00;
+	font-family: "SevenSegment", monospace;
+	font-size: 36px;
+	color: #ff2a00;
+	text-align: center;
+	text-shadow: 0 0 8px #ff2a00;
 
-    animation: blink 0.7s infinite;
+	animation: blink 0.7s infinite;
 }
 
 @keyframes blink {
-    0%, 50% {
-        opacity: 1;
-    }
+	0%,
+	50% {
+		opacity: 1;
+	}
 
-    51%, 100% {
-        opacity: 0;
-    }
+	51%,
+	100% {
+		opacity: 0;
+	}
 }
 
 .boxer-credit-display input:hover,
 .boxer-credit-display input:focus,
 .boxer-credit-display.playing input {
-    animation: none;
+	animation: none;
 }
 
 .boxer-hit-button {
-    position: absolute;
-    left: 675px;
-    top: -30px;
-    width: 447px;
-    height: 708px;
+	position: absolute;
+	left: 675px;
+	top: -30px;
+	width: 447px;
+	height: 708px;
 
-    z-index: 999;
-    cursor: pointer;
+	z-index: 999;
+	cursor: pointer;
 }
 
 .boxer-result-text {
-    position: absolute;
-    left: 460px;
-    top: 740px;
+	position: absolute;
+	left: 460px;
+	top: 740px;
 
-    font-size: 28px;
-    color: #ff9a3c;
+	font-size: 28px;
+	color: #ff9a3c;
 }
 
-
-
 .boxer-info-display {
-    background: linear-gradient(180deg, #16131a 0%, #0b0b0f 100%);
-    border: 1px solid var(--border-color, #1e1a22);
-    border-radius: 10px;
-    padding: 20px;
-    position: absolute;
-    top: 210px;
-    left: 481px;
-    width: auto;
-    opacity: 90%;
+	background: linear-gradient(180deg, #16131a 0%, #0b0b0f 100%);
+	border: 1px solid var(--border-color, #1e1a22);
+	border-radius: 10px;
+	padding: 20px;
+	position: absolute;
+	top: 210px;
+	left: 481px;
+	width: auto;
+	opacity: 90%;
 
-    text-align: center;
+	text-align: center;
 
-    font-family: "Teko", sans-serif;
-    font-size: 35px;
-    color: var(--neon-gold, #d89b52);
-    text-shadow: 0 0 4px var(--neon-gold);
+	font-family: "Teko", sans-serif;
+	font-size: 35px;
+	color: var(--neon-gold, #d89b52);
+	text-shadow: 0 0 4px var(--neon-gold);
 
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
-    margin-top: auto;
+	transition: all 0.3s ease;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+	margin-top: auto;
 }
 
 .boxer-info-display:hover {
-    opacity: 95%;
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
+	opacity: 95%;
+	box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7);
 }
 
 .boxer-info-display .lucky-hit {
-    font-weight: bold;
+	font-weight: bold;
 }
-
-
-

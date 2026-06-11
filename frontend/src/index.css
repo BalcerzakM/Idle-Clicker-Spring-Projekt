@@ -107,7 +107,7 @@ body::before {
 
 .clubMain {
 	position: relative;
-	width: 1310px;
+	width: 80%;
 	height: 100%;
 	background: url("assets/scenes/club_main.png") center / contain no-repeat;
 	background-color: #0b0b0f;
@@ -337,7 +337,7 @@ body::before {
 /*PALARNIA*/
 .outsideMain {
 	position: relative;
-	width: 1310px;
+	width: 80%;
 	height: 100%;
 	background: url("assets/scenes/outside_main.png") center / contain no-repeat;
 	background-color: #0b0b0f;
@@ -355,7 +355,7 @@ body::before {
 
 	position: absolute;
 	top: 190px;
-	left: 635px;
+	left: 662px;
 
 	width: auto;
 
@@ -379,11 +379,11 @@ body::before {
 
 .outsideMain-entrance {
 	position: absolute;
-	top: 236px;
-	left: 565px;
+	top: 229px;
+	left: 589px;
 
-	width: 187px;
-	height: 188px;
+	width: 190px;
+	height: 194px;
 
 	z-index: 2;
 }
@@ -452,8 +452,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 205px;
-	left: 1140px;
+	top: 200px;
+	left: 1192px;
 
 	width: auto;
 
@@ -477,11 +477,11 @@ body::before {
 
 .outsideMain-boxer {
 	position: absolute;
-	top: 240px;
-	left: 1087px;
+	top: 235px;
+	left: 1129px;
 
-	width: 184px;
-	height: 205px;
+	width: 192px;
+	height: 211px;
 
 	z-index: 2;
 }
@@ -502,8 +502,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 280px;
-	left: 445px;
+	top: 275px;
+	left: 465px;
 
 	width: auto;
 
@@ -527,11 +527,11 @@ body::before {
 
 .outsideMain-security {
 	position: absolute;
-	top: 305px;
-	left: 436px;
+	top: 301px;
+	left: 454px;
 
-	width: 122px;
-	height: 218px;
+	width: 105px;
+	height: 270px;
 
 	z-index: 2;
 }
@@ -552,8 +552,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 175px;
-	left: 870px;
+	top: 160px;
+	left: 900px;
 
 	width: auto;
 
@@ -577,11 +577,11 @@ body::before {
 
 .outsideMain-ranking {
 	position: absolute;
-	top: 203px;
-	left: 813px;
+	top: 194px;
+	left: 844px;
 
-	width: 190px;
-	height: 228px;
+	width: 198px;
+	height: 237px;
 
 	z-index: 2;
 }
