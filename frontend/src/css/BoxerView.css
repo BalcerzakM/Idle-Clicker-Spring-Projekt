@@ -38,6 +38,7 @@
 	top: 653px;
 	width: 140px;
 	height: 70px;
+    cursor: pointer;
 }
 
 .boxer-credit-display input {
