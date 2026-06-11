@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum QuestTier {
-    EASY(30),
-    MEDIUM(45),
-    HARD(60);
+    EASY(5),
+    MEDIUM(10),
+    HARD(15);
 
     private final int multiplier;
 
