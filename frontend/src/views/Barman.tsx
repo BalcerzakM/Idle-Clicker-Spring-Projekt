@@ -186,6 +186,7 @@ function Barman() {
 				setTimeLeft("00:00:00");
 				setProgress(0);
 				setIsQuestFinished(true);
+				document.title = "QUEST ZAKOŃCZONY | Sruba Game"
 
 				if (timerRef.current) {
 					clearInterval(timerRef.current);
@@ -197,11 +198,12 @@ function Barman() {
 			const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
 			const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-			setTimeLeft(
-				`${hours.toString().padStart(2, "0")}:${minutes
+			const formattedTime = `${hours.toString().padStart(2, "0")}:${minutes
 					.toString()
-					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`,
-			);
+					.padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+			setTimeLeft(formattedTime);
+
+			document.title = `(${formattedTime}) | Sruba Game`
 
 			const percentLeft = (diff / totalDuration) * 100;
 			setProgress(Math.max(0, percentLeft));
@@ -220,8 +222,9 @@ function Barman() {
 	useEffect(() => {
 		return () => {
 			if (timerRef.current) clearInterval(timerRef.current);
+			document.title = "Sruba Game";
 		};
-	}, []);
+	}, [activeQuest]);
 
 	if (loading) return <div className="quest-loading">Ładowanie...</div>;
 	// if (error) return <div className="quest-error">{error}</div>;
