@@ -28,7 +28,7 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        UserEntity player = new UserEntity(null,"test","test", passwordEncoder.encode("test"),List.of());
+        UserEntity player = new UserEntity(null,"test","test", "test", passwordEncoder.encode("test"),List.of());
         userRepository.save(player);
         CharacterClassEntity characterClass= new CharacterClassEntity(null, "TEST", 10, 10, 10, 10, 10, 10);
         characterClassRepository.save(characterClass);

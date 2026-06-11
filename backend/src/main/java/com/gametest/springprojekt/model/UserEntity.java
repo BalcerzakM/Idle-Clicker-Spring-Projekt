@@ -24,6 +24,10 @@ public class UserEntity {
     private String username;
 
     @NotBlank
+    @Column(nullable = false)
+    private String role;
+
+    @NotBlank
     @Email
     @Column(nullable = false, unique = true)
     private String email;
