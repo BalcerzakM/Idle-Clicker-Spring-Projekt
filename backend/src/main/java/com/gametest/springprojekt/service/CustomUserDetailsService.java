@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService { //klasa dla Spring Security
 
 
     private final UserRepository userRepository;
@@ -25,7 +25,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         return User.withUsername(player.getUsername())
                 .password(player.getPassword())
-                .roles("USER")
+                .roles(player.getRole())
                 .build();
     }
 }

@@ -11,6 +11,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ReportService {
@@ -30,5 +32,14 @@ public class ReportService {
         newReport.setTitle(report.getTitle());
         newReport.setDescription(report.getDescription());
         reportRepository.save(newReport);
+    }
+
+
+    public List<ReportEntity> getAllReports() {
+        return reportRepository.findAllByOrderByCreatedAtDesc();
+    }
+
+    public void deleteReport(Long id) {
+        reportRepository.deleteById(id);
     }
 }

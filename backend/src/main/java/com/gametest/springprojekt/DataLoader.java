@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-//@Component
+@Component
 public class DataLoader implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -28,14 +28,17 @@ public class DataLoader implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        UserEntity player = new UserEntity(null,"test","test", "test", passwordEncoder.encode("test"),List.of());
-        userRepository.save(player);
-        CharacterClassEntity characterClass= new CharacterClassEntity(null, "TEST", 10, 10, 10, 10, 10, 10);
-        characterClassRepository.save(characterClass);
-        CharacterEntity character1 = new CharacterEntity(null,player, "test", characterClass,"avatar3.png",4,1000,420,67,67,67,67,10000,2000, List.of(),List.of(), null, null, null);
-        player.setCharacters(List.of(character1));
-        characterRepository.save(character1);
+//        UserEntity player = new UserEntity(null,"test","test", "test", passwordEncoder.encode("test"),List.of());
+//        userRepository.save(player);
+//        CharacterClassEntity characterClass= new CharacterClassEntity(null, "TEST", 10, 10, 10, 10, 10, 10);
+//        characterClassRepository.save(characterClass);
+//        CharacterEntity character1 = new CharacterEntity(null,player, "test", characterClass,"avatar3.png",4,1000,420,67,67,67,67,10000,2000, List.of(),List.of(), null, null, null);
+//        player.setCharacters(List.of(character1));
+//        characterRepository.save(character1);
+//
+//        itemShopService.refreshShopOffers();
 
-        itemShopService.refreshShopOffers();
+        UserEntity admin = new UserEntity(null,"admin","ADMIN", "admin@admin.pl", passwordEncoder.encode("admin"),List.of());
+        userRepository.save(admin);
     }
 }
