@@ -60,3 +60,53 @@
     display: block;
 	opacity: 0.95;
 }
+
+/*POWROT NA PALARNIE*/
+.parking-leaveParkingTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 720px;
+    left: 580px;
+
+    width: auto;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+
+    z-index: 2;
+}
+
+.parking-leaveParking {
+    position: absolute;
+    top: 624px;
+    left: 220px;
+
+    width: 725px;
+    height: 204px;
+
+    z-index: 2;
+}
+
+.parking-leaveParking:hover .hover-image {
+    display: block;
+}
+
+.parking-leaveParking:hover + .parking-leaveParkingTextBox {
+    display: block;
+    opacity: 0.95;
+}

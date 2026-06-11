@@ -12,8 +12,8 @@ function ClubMain() {
 				<img
 					src={barmanHover}
 					alt="barman_hover"
-					width={144}
-					height={153}
+					width={141}
+					height={152}
 					className="hover-image"
 					onClick={() => navigate("/barman")}
 				/>
@@ -24,8 +24,8 @@ function ClubMain() {
 				<img
 					src={szatniarzHover}
 					alt="szatniarz_hover"
-					width={150}
-					height={266}
+					width={149}
+					height={269}
 					className="hover-image"
 					onClick={() => navigate("/shop")}
 				/>

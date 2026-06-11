@@ -164,8 +164,8 @@ body::before {
 
 .clubMain-barman {
 	position: absolute;
-	top: 225px;
-	left: 471px;
+	top: 227px;
+	left: 474px;
 
 	width: 130px;
 	height: 140px;
@@ -217,8 +217,8 @@ body::before {
 	top: 245px;
 	left: 168px;
 
-	width: 120px;
-	height: 236px;
+	width: 149px;
+	height: 268px;
 
 	z-index: 2;
 }
@@ -239,8 +239,8 @@ body::before {
 	font-size: 16px;
 
 	position: absolute;
-	top: 790px;
-	left: 200px;
+	top: 740px;
+	left: 250px;
 
 	width: 82px;
 
@@ -477,8 +477,8 @@ body::before {
 
 .outsideMain-boxer {
 	position: absolute;
-	top: 235px;
-	left: 1129px;
+	top: 234px;
+	left: 1128px;
 
 	width: 192px;
 	height: 211px;
