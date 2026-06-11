@@ -126,7 +126,7 @@ public class QuestService {
 
     private long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
         int auraLvl = character.getAuraLvl();
-        double exponent = 1.5;
+        double exponent = 1.2;
         int questTierVariable = quest.getQuestTier().getMultiplier();
         long finalQuestTime = (long) (questTierVariable * Math.pow(auraLvl, exponent));
 
