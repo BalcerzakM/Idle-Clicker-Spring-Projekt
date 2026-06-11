@@ -76,7 +76,7 @@
         <td th:text="${#temporals.format(report.createdAt, 'dd.MM.yyyy HH:mm')}" th:if="${report.createdAt}">01.01.2025 12:00</td>
         <td th:unless="${report.createdAt}">brak</td>
         <td>
-          <form th:action="@{/admin/reports/delete/{id}(id=${report.id})}" method="post" onsubmit="return confirm('Czy na pewno usunąć to zgłoszenie?');">
+          <form th:action="@{/mvc/admin/reports/delete/{id}(id=${report.id})}" method="post" onsubmit="return confirm('Czy na pewno usunąć to zgłoszenie?');">
             <button type="submit" class="delete-btn">Usuń</button>
           </form>
         </td>
