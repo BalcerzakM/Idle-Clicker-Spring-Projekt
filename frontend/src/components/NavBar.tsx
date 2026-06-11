@@ -64,17 +64,17 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/outside")}>
 					Palarnia
 				</button>
-				<button type="button" onClick={() => navigate("/parking")}>
-					Parking
+				<button type="button" onClick={() => navigate("/ranking")}>
+					Ranking
 				</button>
 				<button type="button" onClick={() => navigate("/security")}>
 					Ochrona
 				</button>
-				<button type="button" onClick={() => navigate("/ranking")}>
-					Ranking
-				</button>
 				<button type="button" onClick={() => navigate("/toilet")}>
 					Toaleta
+				</button>
+				<button type="button" onClick={() => navigate("/parking")}>
+					Parking
 				</button>
 			</nav>
 			<div className="navBar-logout">
