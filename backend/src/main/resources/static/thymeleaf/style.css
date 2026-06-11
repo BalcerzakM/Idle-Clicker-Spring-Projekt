@@ -39,7 +39,7 @@ html,
 body {
     background: var(--bg-body);
     width: 100%;
-    height: 98%;
+    height: 100%;
 
     color: var(--text-light);
 
@@ -111,6 +111,7 @@ main {
     background-position: center;
     background-size: cover;
     height: min-content;
+    min-height: 765px;
     padding: 30px;
     justify-items: center;
 }
