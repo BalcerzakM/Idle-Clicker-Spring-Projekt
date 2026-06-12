@@ -6,8 +6,8 @@ INSERT INTO opponent_entity (name,
                              base_endurance,
                              base_luck,
                              image_path)
-VALUES ('Andrzej Miękkowski', 60, 0, 5, 350, 5, 'opponent_gruba.png'),
-       ('Borys Piotrenko', 150, 0, 10, 600, 30, 'opponent_gruba.png');
+VALUES ('Andrzej Miękkowski', 5, 0, 5, 20, 5, 'boss_andrzej.png'),
+       ('Borys Piotrenko', 0, 5, 10, 20, 30, 'boss_piotrenko.png');
 
 
 
@@ -17,5 +17,5 @@ INSERT INTO quest_entity (title,
                           quest_type,
                           opponent_id,
                           image_path)
-VALUES ('Samorząd studencki', 'opis', 'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Andrzej Miękkowski'), 'rizz_quest1.png'),
-       ('Psychol z polibudy', 'opis', 'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Borys Piotrenko'), 'rizz_quest1.png');
+VALUES ('Członek samorządu', 'Studenci wydziału pracują nad pewnym niebezpiecznym dla rządu projektem. Trzeba go jakoś przekabacić, by im go uwalił i pozbyć się ich z uczelni. Dasz radę to zrobić?', 'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Andrzej Miękkowski'), ''),
+       ('Psychol z polibudy', 'Zwany także niekiedy "Bestią z Pieprzniczek", czyli miejscowości z której pochodzi. Absolutny szaleniec i zwyrol, ktoś musi się nim zająć. Zrobisz to?', 'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Borys Piotrenko'), '');

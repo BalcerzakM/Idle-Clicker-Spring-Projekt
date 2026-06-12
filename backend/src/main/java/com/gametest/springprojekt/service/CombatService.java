@@ -115,15 +115,15 @@ public class CombatService {
             throw new BackpackIsAlreadyFullException("Twój plecak jest pełny! Zrób w nim miejsce, zanim ruszysz do walki.");
         }
 
-        List<QuestEntity> bossQuests = questRepository.findByQuestTier(QuestTier.BOSS);
+        List<QuestEntity> bossQuests = questRepository.findByQuestTierOrderByIdAsc(QuestTier.BOSS);
 
         int currentCharacterBoss = character.getCurrentBoss();
 
-        if (currentCharacterBoss >= bossQuests.size()) {
-            throw new QuestNotFoundException("Pokonałeś już wszystkich bossów!");
+        if (currentCharacterBoss > bossQuests.size()) {
+            throw new QuestNotFoundException("Brak zadań specjalnych.");
         }
 
-        QuestEntity bossQuest = bossQuests.get(currentCharacterBoss);
+        QuestEntity bossQuest = bossQuests.get(currentCharacterBoss - 1);
 
         OpponentEntity opponent = bossQuest.getOpponent();
         int opponentHp = opponent.getBaseEndurance();
@@ -163,7 +163,7 @@ public class CombatService {
             }
 
             character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
-            character.setCurrentBoss(currentCharacterBoss + 1);
+            character.setCurrentBoss(character.getCurrentBoss() + 1);
         }
 
         return new CombatDto(

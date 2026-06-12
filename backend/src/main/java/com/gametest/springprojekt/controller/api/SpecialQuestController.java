@@ -2,6 +2,7 @@ package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.dto.QuestDto;
+import com.gametest.springprojekt.dto.SpecialQuestDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.service.CharacterService;
 import com.gametest.springprojekt.service.CombatService;
@@ -27,11 +28,11 @@ public class SpecialQuestController {
 
 
     @GetMapping
-    public ResponseEntity<QuestDto> getSpecialQuest() {
+    public ResponseEntity<SpecialQuestDto> getSpecialQuest() {
         CharacterEntity character = characterService.getCurrentCharacter();
 
-        QuestDto questDto = questService.getCurrentBoss(character);
-        return ResponseEntity.ok(questDto);
+        SpecialQuestDto specialQuestDto = questService.getCurrentBoss(character);
+        return ResponseEntity.ok(specialQuestDto);
     }
 
     @PostMapping("/combat")

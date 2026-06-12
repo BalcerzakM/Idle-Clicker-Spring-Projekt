@@ -11,4 +11,5 @@ import java.util.List;
 public interface QuestRepository extends JpaRepository<QuestEntity,Long> {
 
     List<QuestEntity> findByQuestTier(QuestTier questTier);
+    List<QuestEntity> findByQuestTierOrderByIdAsc(QuestTier questTier);
 }
