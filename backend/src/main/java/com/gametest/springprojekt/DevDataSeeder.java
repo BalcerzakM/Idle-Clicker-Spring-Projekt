@@ -4,7 +4,6 @@ import com.gametest.springprojekt.model.CharacterClassEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.repository.CharacterClassRepository;
-import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import net.datafaker.Faker;
@@ -13,6 +12,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Profile("dev")
@@ -21,9 +21,7 @@ import java.util.List;
 public class DevDataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
-
 
     @Override
     public void run(String... args){
@@ -34,39 +32,45 @@ public class DevDataSeeder implements CommandLineRunner {
         Faker faker = new Faker();
 
         List<CharacterClassEntity> classes = characterClassRepository.findAll();
+        List<UserEntity> users = new ArrayList<>();
 
-        for(int i=0;i<1000;i++){
+        for (int i = 0; i < 3000; i++){
             UserEntity user = new UserEntity();
             user.setUsername(faker.name().name() + "_" + i);
-            user.setEmail("test" + i + "@example.com");
+            user.setEmail(faker.internet().emailAddress() + "_" + i);
+            user.setRole("USER");
             user.setPassword(passwordEncoder.encode(faker.internet().password()));
 
-            userRepository.save(user);
-
             CharacterClassEntity randomClass = classes.get(faker.random().nextInt(classes.size()));
-
             CharacterEntity character = new CharacterEntity();
 
             character.setUser(user);
             character.setName(faker.funnyName().name() +  "_" + i);
-
             character.setCharacterClass(randomClass);
-
             character.setAvatarPicture("avatar1.png");
+            character.setAuraLvl(faker.number().numberBetween(1,200));
 
-            character.setAuraLvl(faker.number().numberBetween(1,100));
-            character.setAura(faker.number().numberBetween(1,10000));
+            character.setAura(1);
+            character.setMoney(1);
+            character.setCristals(1);
+            character.setRizz(1);
+            character.setStrength(1);
+            character.setAgility(1);
+            character.setEndurance(1);
+            character.setLuck(1);
 
-            character.setMoney(faker.number().numberBetween(1,50000));
-            character.setCristals(faker.number().numberBetween(1,5000));
+            user.setCharacters(List.of(character));
 
-            character.setRizz(randomClass.getBaseRizz());
-            character.setStrength(randomClass.getBaseStrength());
-            character.setAgility(randomClass.getBaseAgility());
-            character.setEndurance(randomClass.getBaseEndurance());
-            character.setLuck(randomClass.getBaseLuck());
+            users.add(user);
 
-            characterRepository.save(character);
+            if (users.size() == 1000) {
+                userRepository.saveAll(users);
+                users.clear();
+            }
+        }
+
+        if (!users.isEmpty()){
+            userRepository.saveAll(users);
         }
     }
 }
