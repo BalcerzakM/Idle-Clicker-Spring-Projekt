@@ -52,6 +52,18 @@ public class QuestService {
         return generateQuestDtoList(quests, character);
     }
 
+    public QuestDto getCurrentBoss(CharacterEntity character) {
+        List<QuestEntity> bossQuests = questRepository.findByQuestTier(QuestTier.BOSS);
+
+        int currentCharacterBoss = character.getCurrentBoss();
+
+        if (currentCharacterBoss >= bossQuests.size()) {
+            throw new QuestNotFoundException("Pokonałeś już wszystkich bossów!");
+        }
+
+        return generateQuestDto(bossQuests.get(currentCharacterBoss), character);
+    }
+
     //pobiera losowe 3 questy po jednym z kazdego tieru
     private List<QuestEntity> getRandomQuestList() {
         List<QuestEntity> randomQuestList = new ArrayList<>();
@@ -75,8 +87,6 @@ public class QuestService {
         int moneyReward = quest.calculateMoneyReward(character);
 
         int auraReward = quest.calculateAuraReward(character);
-
-        //ItemEntity itemReward = null;
 
         return new QuestDto(
                 quest.getId(),
@@ -157,7 +167,7 @@ public class QuestService {
         int bonusAura = quest.calculateAuraReward(character);
 
 
-        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), bonusMoney, bonusAura));
+        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), quest.getQuestTier(), bonusMoney, bonusAura));
 
         return new ActiveQuestDto(quest.getTitle(),qStartTime, qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
     }

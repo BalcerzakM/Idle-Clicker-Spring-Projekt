@@ -74,6 +74,10 @@ public class CharacterEntity {
     @Column(nullable = false)
     private int cristals;
 
+    @Positive
+    @Column(nullable = false)
+    private int currentBoss;
+
     @Size(max = 7)
     @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
     private List<EquipmentItem> equipment = new ArrayList<>();

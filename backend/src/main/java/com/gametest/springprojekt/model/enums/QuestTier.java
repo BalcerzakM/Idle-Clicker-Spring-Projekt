@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum QuestTier {
     EASY(5),
     MEDIUM(10),
-    HARD(15);
+    HARD(15),
+    BOSS(30);
 
     private final int multiplier;
 

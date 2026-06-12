@@ -13,6 +13,7 @@ import Toilet from "./views/Toilet";
 import Premium from "./views/Premium";
 import CarDealer from "./views/CarDealer";
 import RankingView from "./views/RankingView";
+import Boss from "./views/Boss";
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -51,6 +52,7 @@ function App() {
 						<Route path="/premium" element={<Premium />} />
 						<Route path="/car-dealer" element={<CarDealer />} />
 						<Route path="/ranking" element={<RankingView />} />
+                        <Route path="/boss" element={<Boss />} />
 					</Routes>
 				</div>
 			</div>
