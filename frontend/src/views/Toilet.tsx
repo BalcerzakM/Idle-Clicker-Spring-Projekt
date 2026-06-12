@@ -12,8 +12,8 @@ function Toilet() {
                 <img
                     src={premiumHover}
                     alt="premium_hover"
-                    width={200}
-                    height={308}
+                    width={207}
+                    height={313}
                     className="hover-image"
                     onClick={() => navigate("/premium")}
                 />

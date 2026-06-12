@@ -27,7 +27,7 @@ function Outside() {
 					src={boxerHover}
 					alt="boxer_hover"
 					width={192}
-					height={211}
+					height={212}
 					className="hover-image"
 					onClick={() => navigate("/boxer")}
 				/>

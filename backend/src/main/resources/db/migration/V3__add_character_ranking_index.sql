@@ -1,0 +1,1 @@
+CREATE INDEX idx_character_aura_lvl ON character_entity(aura_lvl);

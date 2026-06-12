@@ -69,9 +69,13 @@ public class CharacterController {
         return ResponseEntity.ok("Zwiększono statystykę");
     }
 
+    //domyślnie pierwsza strona i po 10 rekordów oraz sort po lewelu
     @GetMapping("/ranking")
     public Page<CharacterDto> getRanking(
-            @PageableDefault(size = 10, sort = "auraLvl", direction = Sort.Direction.DESC)//domyślnie pierwsza strona i po 10 rekordów oraz sort po lewelu
+            @PageableDefault(
+                    size = 10,
+                    sort = "auraLvl",
+                    direction = Sort.Direction.DESC)
             Pageable pageable
 
     ){
