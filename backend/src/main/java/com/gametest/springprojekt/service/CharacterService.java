@@ -325,6 +325,7 @@ public class CharacterService {
     }
 
 
+    @Transactional(readOnly = true)
     public Page<CharacterDto> getRanking(Pageable pageable) {
         return characterRepository
                 .findAll(pageable)
