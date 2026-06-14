@@ -77,7 +77,7 @@ public class CombatService {
         if(playerWon) {
             bonusAura = activeQuest.getBonusAura();
             bonusMoney = activeQuest.getBonusMoney();
-            rewardItem = itemTokenService.handleRewardToken();
+            rewardItem = itemTokenService.handleRewardToken(false);
 
         } else {
             bonusAura = 0;
@@ -109,6 +109,9 @@ public class CombatService {
         );
     }
 
+    /*
+        WALKA Z BOSSEM TO WERSJA BETA JESZCZE DO POPRAWY
+    */
     @Transactional
     public CombatDto startBossCombat(CharacterEntity character) {
         if (character.getBackpack().size() >= character.getMAX_BACKPACK_SLOTS()) {
@@ -153,10 +156,10 @@ public class CombatService {
         ItemDto rewardItemDto = null;
 
         if(playerWon) {
-            bonusAura = bossQuest.calculateAuraReward(character);
+            bonusAura = bossQuest.calculateAuraReward(character)*currentCharacterBoss;
             bonusMoney = bossQuest.calculateMoneyReward(character);
 
-            rewardItem = itemTokenService.handleRewardToken();
+            rewardItem = itemTokenService.handleRewardToken(true);
 
             if (rewardItem != null) {
                 rewardItemDto = rewardItem.generateItemDto();

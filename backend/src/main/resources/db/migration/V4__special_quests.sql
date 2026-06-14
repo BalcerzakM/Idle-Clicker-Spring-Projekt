@@ -6,8 +6,8 @@ INSERT INTO opponent_entity (name,
                              base_endurance,
                              base_luck,
                              image_path)
-VALUES ('Andrzej Miękkowski', 50, 0, 5, 200, 5, 'boss_andrzej.png'),
-       ('Borys Piotrenko', 0, 80, 10, 300, 30, 'boss_piotrenko.png');
+VALUES ('Andrzej Miękkowski', 50, 0, 5, 500, 5, 'boss_andrzej.png'),
+       ('Borys Piotrenko', 0, 80, 10, 1000, 30, 'boss_piotrenko.png');
 
 
 
