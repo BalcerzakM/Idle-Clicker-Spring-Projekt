@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.model.enums.QuestType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -46,6 +47,11 @@ public class ActiveQuestEntity {//osobna encja, bo potrzeba przechowywać nagrod
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private QuestType questType;
+
+    @NotNull
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private QuestTier questTier;
 
     @PositiveOrZero
     @Column(nullable = false)

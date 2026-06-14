@@ -120,7 +120,7 @@ public class ItemShopService {
     }
 
     //o podanej godzinie odswieza oferte dla kazdego charactera w bazie
-    @Scheduled(cron = "0 0 0 * * *")
+    @Scheduled(cron = "0 0 6 * * *")
     @Transactional
     public void refreshShopOffers() {
         List<CharacterEntity> characters = characterRepository.findAll();

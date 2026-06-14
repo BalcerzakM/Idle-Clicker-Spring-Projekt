@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useCharacter } from "../context/CharacterContext";
 import "../css/BoxerView.css";
 import { useAlert } from "../context/AlertContext.tsx";
-import boxerIdle from "../assets/scenes/boxer/boxer_idle.png";
-import boxerHit from "../assets/scenes/boxer/boxer_hit.png";
-import boxerIdleHover from "../assets/scenes/boxer/boxer_idle_hover.png";
+import boxerIdle from "../assets/scenes/other/boxer_idle.png";
+import boxerHit from "../assets/scenes/other/boxer_hit.png";
+import boxerIdleHover from "../assets/scenes/other/boxer_idle_hover.png";
 
 interface BoxerResultDto {
     result: number;

@@ -77,6 +77,8 @@ public class CharacterService {
         newCharacter.setEndurance(chosenClass.getBaseEndurance());
         newCharacter.setLuck(chosenClass.getBaseLuck());
 
+        newCharacter.setCurrentBoss(1);
+
         characterRepository.save(newCharacter);
     }
 

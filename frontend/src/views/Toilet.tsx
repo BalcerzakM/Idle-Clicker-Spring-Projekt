@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/ToiletView.css";
 import premiumHover from "../assets/scenes/hover/premium_hover.png";
 import leaveToiletHover from "../assets/scenes/hover/outside_hover.png";
+import bossHover from "../assets/scenes/hover/boss_hover.png";
 
 function Toilet() {
     const navigate = useNavigate();
@@ -31,6 +32,18 @@ function Toilet() {
                 />
             </div>
             <p className="toilet-leaveToiletTextBox">Klub</p>
+
+            <div className="toilet-boss">
+                <img
+                    src={bossHover}
+                    alt="boss_hover"
+                    width={200}
+                    height={312}
+                    className="hover-image"
+                    onClick={() => navigate("/boss")}
+                />
+            </div>
+            <p className="toilet-bossTextBox">Agent</p>
         </div>
     );
 }

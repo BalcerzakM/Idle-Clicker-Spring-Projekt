@@ -2,19 +2,19 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.dto.ItemDto;
+import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
+import com.gametest.springprojekt.exception.QuestNotFoundException;
 import com.gametest.springprojekt.exception.QuestStillActiveException;
-import com.gametest.springprojekt.model.ActiveQuestEntity;
-import com.gametest.springprojekt.model.CharacterEntity;
-import com.gametest.springprojekt.model.ItemEntity;
-import com.gametest.springprojekt.model.OpponentEntity;
+import com.gametest.springprojekt.model.*;
+import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.model.enums.QuestType;
+import com.gametest.springprojekt.repository.QuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.security.SecureRandom;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +24,9 @@ import java.util.Random;
 @Service
 @RequiredArgsConstructor
 public class CombatService {
-
     private final ItemTokenService itemTokenService;
     private final Random random = new Random();
-
+    private final QuestRepository questRepository;
 
     @Transactional
     public CombatDto startCombat(CharacterEntity character) {
@@ -57,10 +56,10 @@ public class CombatService {
 
         String questType;
         if (activeQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
-            combatLog =  simulateRizzCombat(character, opponent);
+            combatLog =  simulateRizzCombat(character, opponent, true);
             questType = QuestType.RIZZ_FIGHT.toString();
         } else if (activeQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
-            combatLog = simulateStrengthCombat(character, opponent);
+            combatLog = simulateStrengthCombat(character, opponent, true);
             questType = QuestType.STRENGTH_FIGHT.toString();
         } else {
             throw new IllegalArgumentException("Błędny typ questa!");
@@ -96,12 +95,97 @@ public class CombatService {
 
         character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
 
-        return new CombatDto(combatLog, playerWon, characterHp, opponentHp, enemyName, enemyImagePath, questType, bonusMoney, bonusAura, rewardItemDto);
+        return new CombatDto(
+                combatLog,
+                playerWon,
+                characterHp,
+                opponentHp,
+                enemyName,
+                enemyImagePath,
+                questType,
+                bonusMoney,
+                bonusAura,
+                rewardItemDto
+        );
     }
 
-    private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent) {
+    @Transactional
+    public CombatDto startBossCombat(CharacterEntity character) {
+        if (character.getBackpack().size() >= character.getMAX_BACKPACK_SLOTS()) {
+            throw new BackpackIsAlreadyFullException("Twój plecak jest pełny! Zrób w nim miejsce, zanim ruszysz do walki.");
+        }
 
-        int characterAuraLvl = character.getAuraLvl();
+        List<QuestEntity> bossQuests = questRepository.findByQuestTierOrderByIdAsc(QuestTier.BOSS);
+
+        int currentCharacterBoss = character.getCurrentBoss();
+
+        if (currentCharacterBoss > bossQuests.size()) {
+            throw new QuestNotFoundException("Brak zadań specjalnych.");
+        }
+
+        QuestEntity bossQuest = bossQuests.get(currentCharacterBoss - 1);
+
+        OpponentEntity opponent = bossQuest.getOpponent();
+        int opponentHp = opponent.getBaseEndurance();
+
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+        int characterHp = stats.get("endurance");
+
+        List<Integer> combatLog;
+
+        if (bossQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
+            combatLog =  simulateRizzCombat(character, opponent, false);
+
+        } else if (bossQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
+            combatLog = simulateStrengthCombat(character, opponent, false);
+
+        } else {
+            throw new IllegalArgumentException("Błędny typ questa!");
+        }
+
+        String enemyName = opponent.getName();
+        String enemyImagePath = opponent.getImagePath();
+        boolean playerWon = combatLog.size() % 2 != 0;
+
+        int bonusAura = 0;
+        int bonusMoney = 0;
+        ItemEntity rewardItem = null;
+        ItemDto rewardItemDto = null;
+
+        if(playerWon) {
+            bonusAura = bossQuest.calculateAuraReward(character);
+            bonusMoney = bossQuest.calculateMoneyReward(character);
+
+            rewardItem = itemTokenService.handleRewardToken();
+
+            if (rewardItem != null) {
+                rewardItemDto = rewardItem.generateItemDto();
+            }
+
+            character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
+            character.setCurrentBoss(character.getCurrentBoss() + 1);
+        }
+
+        return new CombatDto(
+                combatLog,
+                playerWon,
+                characterHp,
+                opponentHp,
+                enemyName,
+                enemyImagePath,
+                bossQuest.getQuestType().toString(),
+                bonusMoney,
+                bonusAura,
+                rewardItemDto
+        );
+    }
+
+
+    private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent, Boolean scaling) {
+        int scalingValue = character.getAuraLvl();
+        if (!scaling) {
+            scalingValue = 1;
+        }
 
         Map<String, Integer> characterStats = character.getEquipmentStatsSum();
         int characterHp = characterStats.get("endurance");
@@ -112,10 +196,10 @@ public class CombatService {
         int baseCharacterDmg = (int) ((characterRizz + (0.5 * characterAgility)));
 
 
-        int opponentHp = opponent.getBaseEndurance() * characterAuraLvl;
-        int opponentRizz = opponent.getBaseRizz() * characterAuraLvl;
-        int opponentAgility = opponent.getBaseAgility() * characterAuraLvl;
-        int opponentLuck = opponent.getBaseLuck() * characterAuraLvl;
+        int opponentHp = opponent.getBaseEndurance() * scalingValue;
+        int opponentRizz = opponent.getBaseRizz() * scalingValue;
+        int opponentAgility = opponent.getBaseAgility() * scalingValue;
+        int opponentLuck = opponent.getBaseLuck() * scalingValue;
 
         int baseOpponentDmg = (int) (opponentRizz + (0.5 * opponentAgility));
 
@@ -138,8 +222,11 @@ public class CombatService {
         return combatLog;
     }
 
-    private List<Integer> simulateStrengthCombat(CharacterEntity character, OpponentEntity opponent) {
-        int characterAuraLvl = character.getAuraLvl();
+    private List<Integer> simulateStrengthCombat(CharacterEntity character, OpponentEntity opponent, Boolean scaling) {
+        int scalingValue = character.getAuraLvl();
+        if (!scaling) {
+            scalingValue = 1;
+        }
 
         Map<String, Integer> characterStats = character.getEquipmentStatsSum();
         int characterHp = characterStats.get("endurance");
@@ -147,10 +234,10 @@ public class CombatService {
         int characterAgility = characterStats.get("agility");
         int characterLuck = characterStats.get("luck");
 
-        int opponentHp = opponent.getBaseEndurance() * characterAuraLvl;
-        int opponentStrength = opponent.getBaseStrength() * characterAuraLvl;
-        int opponentAgility = opponent.getBaseAgility() * characterAuraLvl;
-        int opponentLuck = opponent.getBaseLuck() * characterAuraLvl;
+        int opponentHp = opponent.getBaseEndurance() * scalingValue;
+        int opponentStrength = opponent.getBaseStrength() * scalingValue;
+        int opponentAgility = opponent.getBaseAgility() * scalingValue;
+        int opponentLuck = opponent.getBaseLuck() * scalingValue;
 
         List<Integer> combatLog = new ArrayList<>();
         boolean playersAtack = true;

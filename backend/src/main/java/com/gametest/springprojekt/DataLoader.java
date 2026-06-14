@@ -59,6 +59,8 @@ public class DataLoader implements CommandLineRunner {
             character.setEndurance(1);
             character.setLuck(1);
 
+            character.setCurrentBoss(1);
+
             user.setCharacters(List.of(character));
 
             users.add(user);

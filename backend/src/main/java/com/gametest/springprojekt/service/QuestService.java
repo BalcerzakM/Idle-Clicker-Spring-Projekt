@@ -2,6 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.ActiveQuestDto;
 import com.gametest.springprojekt.dto.QuestDto;
+import com.gametest.springprojekt.dto.SpecialQuestDto;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.exception.QuestNotFoundException;
 import com.gametest.springprojekt.model.*;
@@ -75,8 +76,6 @@ public class QuestService {
         int moneyReward = quest.calculateMoneyReward(character);
 
         int auraReward = quest.calculateAuraReward(character);
-
-        //ItemEntity itemReward = null;
 
         return new QuestDto(
                 quest.getId(),
@@ -157,8 +156,30 @@ public class QuestService {
         int bonusAura = quest.calculateAuraReward(character);
 
 
-        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), bonusMoney, bonusAura));
+        character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), quest.getQuestTier(), bonusMoney, bonusAura));
 
         return new ActiveQuestDto(quest.getTitle(),qStartTime, qEndTime , quest.getImagePath());// zwracamy Dto a nie encje bo api nie musi wiedzieć o przeciwniku
+    }
+
+    public SpecialQuestDto getCurrentBoss(CharacterEntity character) {
+        List<QuestEntity> bossQuests = questRepository.findByQuestTierOrderByIdAsc(QuestTier.BOSS);
+
+        int currentCharacterBoss = character.getCurrentBoss();
+
+        if (currentCharacterBoss > bossQuests.size()) {
+            throw new QuestNotFoundException("Brak zadań specjalnych.");
+        }
+
+        return generateSpecialQuestDto(bossQuests.get(currentCharacterBoss - 1));
+    }
+
+    private SpecialQuestDto generateSpecialQuestDto(QuestEntity bossQuest) {
+        return new SpecialQuestDto(
+                bossQuest.getTitle(),
+                bossQuest.getDescription(),
+                bossQuest.getQuestType(),
+                bossQuest.getOpponent().getName(),
+                bossQuest.getOpponent().getImagePath()
+        );
     }
 }
