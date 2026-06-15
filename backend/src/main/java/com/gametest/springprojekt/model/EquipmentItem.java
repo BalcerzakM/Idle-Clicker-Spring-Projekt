@@ -28,7 +28,7 @@ public class EquipmentItem {
     private SlotType slot;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY) //aby sie wszcytywało dopiero wtedy gdy jest potrzebne
+    @OneToOne(fetch = FetchType.LAZY) //aby sie wszcytywało dopiero wtedy gdy jest potrzebne
     @JoinColumn(name = "item_id", nullable = false)
     private ItemEntity item;
 
