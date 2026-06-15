@@ -39,7 +39,6 @@ public class SecurityConfig {
                         .tokenValiditySeconds(7*24*60*60)
                         .userDetailsService(userDetailsService)
                 )
-                .csrf(csrf -> csrf.disable()) // USUNĄĆ NA KONICEC, TO JEST TYLKO NA POTRZEBY TESTOWANIA Z POSTMANEM!!!!!!!!!!!!!!!!!!!!!!!!
                 .httpBasic(basic -> basic.authenticationEntryPoint((request, response, authException) -> {
                     if (request.getRequestURI().startsWith("/api/")) {
                         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

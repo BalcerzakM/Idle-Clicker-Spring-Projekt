@@ -79,7 +79,7 @@ public class CharacterEntity {
     private int currentBoss;
 
     @Size(max = 7)
-    @OneToMany(mappedBy = "player", cascade = CascadeType.PERSIST, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true) //aby się zapisywało po założeniu i usuwało po zdjęciu
     private List<EquipmentItem> equipment = new ArrayList<>();
 
     @Size(max = MAX_BACKPACK_SLOTS)
