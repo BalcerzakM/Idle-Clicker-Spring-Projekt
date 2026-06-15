@@ -22,6 +22,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/mvc/login", "/mvc/register", "/thymeleaf/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()//zezwolenie do logowania
                         .requestMatchers("/mvc/admin/**").hasRole("ADMIN")

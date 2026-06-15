@@ -8,6 +8,7 @@ CREATE TABLE active_quest_entity
     start_time  DATETIME(6)                          NOT NULL,
     image_path  VARCHAR(255)                         NOT NULL,
     title       VARCHAR(255)                         NOT NULL,
+    quest_tier  ENUM ('BOSS','EASY','HARD','MEDIUM') NOT NULL,
     quest_type  ENUM ('RIZZ_FIGHT','STRENGTH_FIGHT') NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -76,6 +77,7 @@ CREATE TABLE character_entity
     aura               INTEGER      NOT NULL,
     aura_lvl           INTEGER      NOT NULL,
     cristals           INTEGER      NOT NULL,
+    current_boss       INTEGER      NOT NULL,
     endurance          INTEGER      NOT NULL,
     luck               INTEGER      NOT NULL,
     money              INTEGER      NOT NULL,
@@ -130,7 +132,7 @@ CREATE TABLE quest_entity
     description VARCHAR(255),
     image_path  VARCHAR(255)                         NOT NULL,
     title       VARCHAR(255)                         NOT NULL,
-    quest_tier  ENUM ('EASY','HARD','MEDIUM')        NOT NULL,
+    quest_tier  ENUM ('BOSS','EASY','HARD','MEDIUM') NOT NULL,
     quest_type  ENUM ('RIZZ_FIGHT','STRENGTH_FIGHT') NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -139,6 +141,15 @@ CREATE TABLE quest_offer_entity
     character_id BIGINT NOT NULL,
     id           BIGINT NOT NULL AUTO_INCREMENT,
     quest_id     BIGINT NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE report_entity
+(
+    created_at  DATETIME(6),
+    id          BIGINT       NOT NULL AUTO_INCREMENT,
+    user_id     BIGINT       NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    title       VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE shop_offer_entity
@@ -164,6 +175,7 @@ CREATE TABLE user_entity
     id       BIGINT       NOT NULL AUTO_INCREMENT,
     email    VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
+    role     VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -185,6 +197,8 @@ ALTER TABLE character_entity
     ADD CONSTRAINT ukheta67icofutts7yfjm5vebvv UNIQUE (name);
 ALTER TABLE equipment_item
     ADD CONSTRAINT uk55mno4vattoea0punlvt8g7uc UNIQUE (character_id, slot);
+ALTER TABLE equipment_item
+    ADD CONSTRAINT ukp8j9tkx5eiptbrx84abhhn5v8 UNIQUE (item_id);
 ALTER TABLE opponent_entity
     ADD CONSTRAINT ukteektgyhlupyxibgqew61w54e UNIQUE (name);
 ALTER TABLE shop_offer_entity
@@ -223,6 +237,8 @@ ALTER TABLE quest_offer_entity
     ADD CONSTRAINT fk7r1ht67f2jfvs8ofeehw6jqkv FOREIGN KEY (character_id) REFERENCES character_entity (id);
 ALTER TABLE quest_offer_entity
     ADD CONSTRAINT fkkxclqn5ukh7wefdcmgx9rpwd8 FOREIGN KEY (quest_id) REFERENCES quest_entity (id);
+ALTER TABLE report_entity
+    ADD CONSTRAINT fki3gqs7c17bvk71lq7v1df2lrc FOREIGN KEY (user_id) REFERENCES user_entity (id);
 ALTER TABLE shop_offer_entity
     ADD CONSTRAINT fkig2kd0ilvm6dvsns208ekcy84 FOREIGN KEY (character_id) REFERENCES character_entity (id);
 ALTER TABLE shop_offer_entity

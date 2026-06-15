@@ -78,11 +78,13 @@ VALUES ('Zimowa czapka', 'opis', 'EQUIPMENT', 'HEAD', 5, 2, 0, 7, 5, 40, 'item-w
        ('Numerek do szatni 34', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-34.png'),
        ('Numerek do szatni 55', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-55.png'),
        ('Numerek do szatni 58', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-58.png'),
-       ('Numerek do szatni 67', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 10, 0, 'item-token-67.png'),
+       ('Numerek do szatni 67', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 10, 0,
+        'item-token-67.png'),
        ('Numerek do szatni 77', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-77.png'),
        ('Numerek do szatni 89', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-89.png'),
        ('Numerek do szatni 99', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-99.png'),
-       ('Numerek do szatni 420', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 10, 0, 'item-token-420.png');
+       ('Numerek do szatni 420', 'Wymień go u szatniarza.', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 10, 0,
+        'item-token-420.png');
 
 INSERT INTO opponent_entity (name,
                              base_rizz,
@@ -97,7 +99,10 @@ VALUES ('Gruba', 4, 7, 1, 47, 1, 'opponent_gruba.png'),
        ('Ochroniarz', 9, 13, 5, 52, 4, 'opponent_ochroniarz.png'),
        ('Blondyna', 16, 8, 7, 30, 3, 'opponent_blondyna.png'),
        ('Menel', 5, 7, 3, 35, 10, 'opponent_menel.png'),
-       ('DJ', 12, 10, 4, 45, 4, 'opponent_dj.png');
+       ('DJ', 12, 10, 4, 45, 4, 'opponent_dj.png'),
+
+       ('Andrzej Miękkowski', 50, 0, 5, 500, 5, 'boss_andrzej.png'),
+       ('Borys Piotrenko', 0, 80, 10, 1000, 30, 'boss_piotrenko.png');
 
 
 
@@ -127,7 +132,14 @@ VALUES ('Rizzowanie grubej', 'opis', 'EASY', 'RIZZ_FIGHT', 1, 'rizz_quest1.png')
        ('Poderwij blondynę', 'opis', 'HARD', 'RIZZ_FIGHT', 5, 'rizz_quest4.png'),
        ('Zrizzuj ochroniarza', 'Ja cie nie podpuszczam, ale...', 'HARD', 'RIZZ_FIGHT', 4, 'fight_quest4.png'),
        ('Wywal DJ-a z klubu', 'Wywal tego DJ-a z lokalu, już się nie da słuchać tego co on puszcza!', 'HARD',
-        'STRENGTH_FIGHT', 7, 'fight_quest8.png');
+        'STRENGTH_FIGHT', 7, 'fight_quest8.png'),
+
+       ('Członek samorządu',
+        'Studenci wydziału pracują nad pewnym niebezpiecznym dla rządu projektem. Trzeba go jakoś przekabacić, by im go uwalił i pozbyć się ich z uczelni. Dasz radę to zrobić?',
+        'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Andrzej Miękkowski'), ''),
+       ('Psychol z polibudy',
+        'Zwany także niekiedy "Bestią z Pieprzniczek", czyli miejscowości z której pochodzi. Absolutny szaleniec i zwyrol, ktoś musi się nim zająć. Zrobisz to?',
+        'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Borys Piotrenko'), '');
 
 INSERT INTO character_class_entity (class_name,
                                     base_endurance,
