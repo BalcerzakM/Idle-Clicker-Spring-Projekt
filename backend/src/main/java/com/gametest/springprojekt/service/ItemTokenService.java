@@ -61,7 +61,7 @@ public class ItemTokenService {
         return item.generateItemDto();
     }
 
-    public ItemEntity handleRewardToken() {
+    public ItemEntity handleRewardToken(boolean isGuaranteed) {
         List<BaseItemEntity> baseItems = baseItemRepository.findByItemType(ItemType.ITEM_TOKEN);
 
         if (baseItems.isEmpty()) {
@@ -70,7 +70,7 @@ public class ItemTokenService {
 
         Collections.shuffle(baseItems, random);
 
-        if (random.nextDouble() < ITEM_DROP_CHANCE) {
+        if ((random.nextDouble() < ITEM_DROP_CHANCE) || isGuaranteed) {
             ItemEntity token = generateTokenItemEntity(baseItems.getFirst());
             return itemRepository.save(token);
         }
