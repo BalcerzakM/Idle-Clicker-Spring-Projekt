@@ -331,4 +331,22 @@ public class CharacterService {
                 .findAll(pageable)
                 .map(characterMapper::toDto);
     }
+
+    @Transactional(readOnly = true)
+    public RankingPositionDto findPlayerInRanking(String search, int pageSize) {
+        CharacterEntity character = characterRepository
+                .findByNameIgnoreCase(search.trim())  //dokładne dopasowanie
+                .orElse(null);
+
+        if (character == null) {
+            return null;
+        }
+
+        long rank = characterRepository.countHigherRanked(
+                character.getAuraLvl(), character.getId()) + 1;
+
+        int page = (int) ((rank - 1) / pageSize);
+
+        return new RankingPositionDto(rank, page);
+    }
 }

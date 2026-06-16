@@ -7,9 +7,9 @@
 	background: url("../assets/scenes/ranking.png") center / contain no-repeat;
 	border: 2px solid #1f1a24;
 	box-shadow:
-		inset 0 0 40px rgba(0, 0, 0, 0.6),
-		inset 0 0 80px rgba(122, 29, 45, 0.08),
-		0 10px 25px rgba(0, 0, 0, 0.5);
+			inset 0 0 40px rgba(0, 0, 0, 0.6),
+			inset 0 0 80px rgba(122, 29, 45, 0.08),
+			0 10px 25px rgba(0, 0, 0, 0.5);
 	display: flex;
 	flex-direction: column;
 	overflow: hidden;
@@ -93,11 +93,94 @@
 
 .ranking-row--top {
 	background: linear-gradient(
-		90deg,
-		rgba(216, 155, 82, 0.1),
-		rgba(0, 0, 0, 0.3)
+			90deg,
+			rgba(216, 155, 82, 0.1),
+			rgba(0, 0, 0, 0.3)
 	);
 	border-left: 3px solid var(--neon-gold, #d89b52);
+}
+
+.ranking-search {
+	position: absolute;
+	top: 58px;
+	right: 35px;
+	display: flex;
+	align-items: center;
+	background: rgba(8, 8, 12, 0.75);
+	backdrop-filter: blur(4px);
+	border: 1px solid #1e1a22;
+	border-radius: 40px;
+	padding: 6px 16px 6px 20px;
+	box-shadow:
+			inset 0 0 10px rgba(0, 0, 0, 0.5),
+			0 4px 8px rgba(0, 0, 0, 0.3);
+	transition:
+			border-color 0.3s ease,
+			box-shadow 0.3s ease;
+	z-index: 10;
+}
+
+/* Pole input wewnątrz */
+.ranking-search input {
+	background: transparent;
+	border: none;
+	outline: none;
+	color: #ddd0c0;
+	font-size: 15px;
+	font-family: "Teko", sans-serif;
+	letter-spacing: 0.5px;
+	padding: 6px 0;
+	width: 160px;
+	min-width: 120px;
+}
+
+.ranking-search input::placeholder {
+	color: #6a5d52;
+	font-style: italic;
+	font-weight: 300;
+	opacity: 0.8;
+}
+
+/* Ikona (np. lupa) */
+.ranking-search .search-icon {
+	color: #7b6d62;
+	margin-right: 10px;
+	font-size: 18px;
+	transition: color 0.3s ease;
+}
+
+/* Stany interakcji */
+.ranking-search:hover,
+.ranking-search:focus-within {
+	border-color: var(--neon-gold, #d89b52);
+	box-shadow:
+			0 0 20px rgba(216, 155, 82, 0.15),
+			inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.ranking-search:hover .search-icon,
+.ranking-search:focus-within .search-icon {
+	color: var(--neon-gold, #d89b52);
+}
+
+/* Przycisk (opcjonalny) – jeśli występuje */
+.ranking-search {
+	background: transparent;
+	border: none;
+	color: var(--neon-gold, #d89b52);
+	font-size: 16px;
+	font-weight: bold;
+	cursor: pointer;
+	padding: 4px 8px;
+	margin-left: 6px;
+	border-radius: 30px;
+	transition: background 0.2s;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.ranking-search .search-btn:hover {
+	background: rgba(216, 155, 82, 0.15);
 }
 
 /* ===== KOLUMNY ===== */
@@ -220,38 +303,6 @@
 	filter: grayscale(0.1);
 }
 
-.page-size-selector {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-	background: #0a080f;
-	padding: 5px 14px;
-	border-radius: 40px;
-	border: 1px solid #2a2333;
-}
-
-.page-size-selector label {
-	color: #b7a38f;
-	font-size: 13px;
-}
-
-.page-size-selector select {
-	background: #1c1722;
-	border: 1px solid #4a3b55;
-	color: #e6d5b8;
-	padding: 6px 10px;
-	border-radius: 20px;
-	font-weight: bold;
-	cursor: pointer;
-	font-size: 14px;
-	transition: 0.2s;
-}
-
-.page-size-selector select:hover {
-	border-color: var(--neon-gold);
-	background: #2c2335;
-}
-
 /* ===== STANY ŁADOWANIA / PUSTY ===== */
 .ranking-loading,
 .ranking-empty {
@@ -291,4 +342,31 @@
 
 .ranking-table-body::-webkit-scrollbar-thumb:hover {
 	background: #7a5f8a;
+}
+.ranking-row--searched {
+	border: 2px solid #d89b52;
+	box-shadow:
+			0 0 12px rgba(216, 155, 82, 0.7),
+			inset 0 0 12px rgba(216, 155, 82, 0.2);
+	background: rgba(216, 155, 82, 0.08);
+}
+
+.ranking-loading-overlay {
+	position: absolute;
+	top: 500px;
+	left: 50%;
+	transform: translateX(-50%);
+	z-index: 100;
+
+	padding: 8px 20px;
+
+	background: rgba(0, 0, 0, 0.85);
+	border: 1px solid #d89b52;
+	border-radius: 30px;
+
+	color: #d89b52;
+	font-size: 26px;
+	font-weight: bold;
+
+	pointer-events: none;
 }

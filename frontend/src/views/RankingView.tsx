@@ -26,9 +26,12 @@ const RankingView = () => {
 
 	// Stany paginacji
 	const [page, setPage] = useState<number>(0);
-	const [pageSize, setPageSize] = useState<number>(10);
+	const [pageSize] = useState<number>(10);
 	const [totalPages, setTotalPages] = useState<number>(0);
 	const [totalElements, setTotalElements] = useState<number>(0);
+	const [search, setSearch] = useState("");
+	const [debouncedSearch, setDebouncedSearch] = useState("");
+	const [searchedPlayer, setSearchedPlayer] = useState("");
 
 	// Pobieranie danych z backendu
 	const fetchRanking = useCallback(async () => {
@@ -72,6 +75,43 @@ const RankingView = () => {
 		fetchRanking();
 	}, [fetchRanking]);
 
+	useEffect(() => {
+		if (!debouncedSearch.trim()) {
+			return;
+		}
+
+		const findPlayer = async () => {
+			try {
+				console.log("page", page);
+				console.log("pageSize", pageSize);
+				const params = new URLSearchParams({
+					name: debouncedSearch,
+					pageSize: pageSize.toString(),
+				});
+
+				const response = await fetch(
+					`http://localhost:8080/api/character/ranking/search?${params}`,
+					{
+						credentials: "include",
+					},
+				);
+
+				if (!response.ok) {
+					return;
+				}
+
+				const data = await response.json();
+
+				setSearchedPlayer(debouncedSearch);
+				setPage(data.page ?? 0);
+			} catch (err) {
+				console.error(err);
+			}
+		};
+
+		findPlayer();
+	}, [debouncedSearch, pageSize]);
+
 	// Zmiana strony
 	const goToPreviousPage = () => {
 		if (page > 0) setPage(page - 1);
@@ -79,15 +119,6 @@ const RankingView = () => {
 
 	const goToNextPage = () => {
 		if (page + 1 < totalPages) setPage(page + 1);
-	};
-
-	// Zmiana liczby elementów na stronie (resetuje na pierwszą stronę)
-	const handlePageSizeChange = (
-		event: React.ChangeEvent<HTMLSelectElement>,
-	) => {
-		const newSize = parseInt(event.target.value, 10);
-		setPageSize(newSize);
-		setPage(0);
 	};
 
 	// Pomocnicza funkcja do wyświetlania medalu dla top3
@@ -101,17 +132,35 @@ const RankingView = () => {
 	// Obliczanie globalnego indeksu w rankingu
 	const getGlobalRank = (index: number) => page * pageSize + index + 1;
 
-	if (loading) {
-		return <div className="ranking-loading">Ładowanie rankingu...</div>;
-	}
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			setDebouncedSearch(search);
+		}, 300);
+
+		return () => clearTimeout(timeout);
+	}, [search]);
 
 	return (
 		<div className="ranking-container">
+			{loading && (
+				<div className="ranking-loading-overlay">Aktualizacja rankingu...</div>
+			)}
 			<div className="ranking-header-section">
 				<h2 className="ranking-title">🏆 TABLICA SŁAWY 🏆</h2>
 				<p className="ranking-subtitle">
 					Najwięksi wojownicy według poziomu Aury
 				</p>
+			</div>
+			<div className="ranking-search">
+				<span className="search-icon">🔍</span>
+				<input
+					type="text"
+					placeholder="Szukaj postaci..."
+					value={search}
+					onChange={(e) => {
+						setSearch(e.target.value);
+					}}
+				/>
 			</div>
 
 			{ranking.length === 0 ? (
@@ -134,10 +183,16 @@ const RankingView = () => {
 								const medal = getRankMedal(globalRank);
 								const isTop3 = globalRank <= 3;
 
+								const isSearched =
+									character.name.toLowerCase() === searchedPlayer.toLowerCase();
+
 								return (
 									<div
 										key={`${character.name}-${globalRank}`}
-										className={`ranking-row ${isTop3 ? "ranking-row--top" : ""}`}
+										className={`ranking-row 
+	${isTop3 ? "ranking-row--top" : ""}
+	${isSearched ? "ranking-row--searched" : ""}
+`}
 									>
 										<div className="rank-col">
 											{medal ? (
@@ -176,16 +231,6 @@ const RankingView = () => {
 							>
 								◀ Poprzednia
 							</button>
-
-							<div className="page-size-selector">
-								<label>Postaci na stronie: </label>
-								<select value={pageSize} onChange={handlePageSizeChange}>
-									<option value={5}>5</option>
-									<option value={10}>10</option>
-									<option value={20}>20</option>
-									<option value={50}>50</option>
-								</select>
-							</div>
 
 							<button
 								className="pagination-btn"

@@ -74,12 +74,20 @@ public class CharacterController {
     public Page<CharacterDto> getRanking(
             @PageableDefault(
                     size = 10,
-                    sort = "auraLvl",
+                    sort = {"auraLvl", "id"}, //id dodane gdy są postacie o tym samym lvl
                     direction = Sort.Direction.DESC)
             Pageable pageable
 
     ){
         return characterService.getRanking(pageable);
+    }
+
+    @GetMapping("/ranking/search")
+    public RankingPositionDto searchRanking(
+            @RequestParam String name,
+            @RequestParam(defaultValue = "10") int pageSize
+    ) {
+        return characterService.findPlayerInRanking(name, pageSize);
     }
 
 
