@@ -10,8 +10,6 @@ import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,7 +27,6 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
-    private final CharacterMapper characterMapper;
 
     public CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -324,29 +321,4 @@ public class CharacterService {
         character.setBouncerDuty(null);
     }
 
-
-    @Transactional(readOnly = true)
-    public Page<CharacterDto> getRanking(Pageable pageable) {
-        return characterRepository
-                .findAll(pageable)
-                .map(characterMapper::toDto);
-    }
-
-    @Transactional(readOnly = true)
-    public RankingPositionDto findPlayerInRanking(String search, int pageSize) {
-        CharacterEntity character = characterRepository
-                .findByNameIgnoreCase(search.trim())  //dokładne dopasowanie
-                .orElse(null);
-
-        if (character == null) {
-            return null;
-        }
-
-        long rank = characterRepository.countHigherRanked(
-                character.getAuraLvl(), character.getId()) + 1;
-
-        int page = (int) ((rank - 1) / pageSize);
-
-        return new RankingPositionDto(rank, page);
-    }
 }
