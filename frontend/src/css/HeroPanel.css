@@ -28,6 +28,7 @@
 		"head  portrait portrait upper"
 		"neck  portrait portrait lower"
 		"wrist emblem   emblem   feet";
+
 	justify-items: center;
 	align-items: center;
 	gap: 8px;

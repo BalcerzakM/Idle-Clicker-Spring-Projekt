@@ -16,6 +16,19 @@ interface PageResponse<T> {
 	number: number; // bieżący numer strony (0-index)
 	size: number;
 }
+export interface RankingPlayerDto {
+	characterName: string;
+	avatarPicture: string;
+	eqItemsPicrures: Record<string, string>;
+
+	auraLvl: number;
+
+	totalRizz: number;
+	totalStrength: number;
+	totalAgility: number;
+	totalEndurance: number;
+	totalLuck: number;
+}
 
 const RankingView = () => {
 	const { showError } = useAlert();
@@ -33,6 +46,60 @@ const RankingView = () => {
 	const [debouncedSearch, setDebouncedSearch] = useState("");
 	const [searchedPlayer, setSearchedPlayer] = useState("");
 
+	const [expandedPlayer, setExpandedPlayer] = useState<string | null>(null);
+
+	const [playerDetails, setPlayerDetails] = useState<
+		Record<string, RankingPlayerDto>
+	>({});
+
+	const loadPlayerDetails = async (playerName: string) => {
+		if (playerDetails[playerName]) {
+			return;
+		}
+
+		try {
+			const response = await fetch(
+				`http://localhost:8080/api/ranking/player/${playerName}`,
+				{
+					credentials: "include",
+				},
+			);
+
+			if (!response.ok) {
+				throw new Error("Nie udało się pobrać danych gracza");
+			}
+
+			const data: RankingPlayerDto = await response.json();
+
+			setPlayerDetails((prev) => ({
+				...prev,
+				[playerName]: data,
+			}));
+		} catch (err: any) {
+			showError(err.message);
+		}
+	};
+
+	const handleRowClick = async (playerName: string) => {
+		if (expandedPlayer === playerName) {
+			setExpandedPlayer(null);
+			return;
+		}
+
+		await loadPlayerDetails(playerName);
+		setExpandedPlayer(playerName);
+	};
+
+	const EQUIPMENT_SLOTS = [
+		"HEAD",
+		"NECK",
+		"UPPER_BODY",
+		"LOWER_BODY",
+		"FEET",
+		"WRIST",
+		"EMBLEM",
+	];
+
 	// Pobieranie danych z backendu
 	const fetchRanking = useCallback(async () => {
 		setLoading(true);
@@ -44,7 +111,7 @@ const RankingView = () => {
 			});
 
 			const response = await fetch(
-				`http://localhost:8080/api/character/ranking?${params.toString()}`,
+				`http://localhost:8080/api/ranking?${params.toString()}`,
 				{
 					credentials: "include",
 				},
@@ -90,7 +157,7 @@ const RankingView = () => {
 				});
 
 				const response = await fetch(
-					`http://localhost:8080/api/character/ranking/search?${params}`,
+					`http://localhost:8080/api/ranking/search?${params}`,
 					{
 						credentials: "include",
 					},
@@ -186,30 +253,83 @@ const RankingView = () => {
 								const isSearched =
 									character.name.toLowerCase() === searchedPlayer.toLowerCase();
 
+								const details = playerDetails[character.name];
+								const expanded = expandedPlayer === character.name;
+
 								return (
-									<div
-										key={`${character.name}-${globalRank}`}
-										className={`ranking-row 
-	${isTop3 ? "ranking-row--top" : ""}
-	${isSearched ? "ranking-row--searched" : ""}
-`}
-									>
-										<div className="rank-col">
-											{medal ? (
-												<span className="rank-medal">{medal}</span>
-											) : (
-												<span className="rank-number">{globalRank}</span>
-											)}
+									<div key={`${character.name}-${globalRank}`}>
+										<div
+											className={`ranking-row
+            ${isTop3 ? "ranking-row--top" : ""}
+            ${isSearched ? "ranking-row--searched" : ""}`}
+											onClick={() => handleRowClick(character.name)}
+										>
+											<div className="rank-col">
+												{medal ? (
+													<span className="rank-medal">{medal}</span>
+												) : (
+													<span className="rank-number">{globalRank}</span>
+												)}
+											</div>
+
+											<div className="name-col">{character.name}</div>
+
+											<div className="class-col">
+												<span className="character-class-badge">
+													{character.characterClass}
+												</span>
+											</div>
+
+											<div className="aura-col">
+												<span className="aura-value">{character.auraLvl}</span>
+											</div>
 										</div>
-										<div className="name-col">{character.name}</div>
-										<div className="class-col">
-											<span className="character-class-badge">
-												{character.characterClass}
-											</span>
-										</div>
-										<div className="aura-col">
-											<span className="aura-value">{character.auraLvl}</span>
-										</div>
+
+										{expanded && details && (
+											<div className="ranking-player-details">
+												<div className="ranking-player-stats">
+													<span>✨ {details.totalRizz}</span>
+													<span>💪 {details.totalStrength}</span>
+													<span>🏃 {details.totalAgility}</span>
+													<span>🛡️ {details.totalEndurance}</span>
+													<span>🍀 {details.totalLuck}</span>
+												</div>
+
+												<div className="ranking-equipment">
+													<div className="ranking-portrait">
+														<img
+															src={`/avatars/${details.avatarPicture}`}
+															alt={details.characterName}
+															className="ranking-portrait-img"
+														/>
+													</div>
+
+													{EQUIPMENT_SLOTS.map((slot) => {
+														const image = details.eqItemsPicrures?.[slot];
+
+														return (
+															<div
+																key={slot}
+																className="ranking-equip-slot"
+																data-slot={slot}
+															>
+																{image ? (
+																	<img
+																		src={`/items/${image}`}
+																		alt={slot}
+																		className="ranking-item-icon"
+																	/>
+																) : (
+																	<span className="slot-placeholder">
+																		{slot}
+																	</span>
+																)}
+															</div>
+														);
+													})}
+												</div>
+											</div>
+										)}
 									</div>
 								);
 							})}
