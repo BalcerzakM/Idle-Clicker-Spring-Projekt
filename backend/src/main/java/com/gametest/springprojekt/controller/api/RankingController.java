@@ -20,7 +20,7 @@ public class RankingController {
     private final RankingService rankingService;
 
     //domyślnie pierwsza strona i po 10 rekordów oraz sort po lewelu
-    @GetMapping("/ranking")
+    @GetMapping
     public Page<CharacterDto> getRanking(
             @PageableDefault(
                     size = 10,
@@ -32,7 +32,7 @@ public class RankingController {
         return rankingService.getRanking(pageable);
     }
 
-    @GetMapping("/ranking/search")
+    @GetMapping("/search")
     public ResponseEntity<RankingPositionDto> searchRanking(
             @RequestParam String name,
             @RequestParam(defaultValue = "10") int pageSize
