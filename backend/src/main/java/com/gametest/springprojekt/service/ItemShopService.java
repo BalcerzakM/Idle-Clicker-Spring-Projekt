@@ -11,6 +11,7 @@ import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
 import com.gametest.springprojekt.repository.ShopOfferRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -20,21 +21,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class ItemShopService {
     private final SecureRandom random = new SecureRandom();
     private final ShopOfferRepository shopOfferRepository;
     private final BaseItemRepository baseItemRepository;
     private final CharacterRepository characterRepository;
     private final ItemRepository itemRepository;
+    private final CalculationService calculationService;
 
     private final int NUMBER_OF_SHOP_ITEMS = 4;
-
-    public ItemShopService(ShopOfferRepository shopOfferRepository, BaseItemRepository baseItemRepository, CharacterRepository characterRepository, ItemRepository itemRepository) {
-        this.shopOfferRepository = shopOfferRepository;
-        this.baseItemRepository = baseItemRepository;
-        this.characterRepository = characterRepository;
-        this.itemRepository = itemRepository;
-    }
 
     //sciaga dzisiejsza oferte z bazy danych
     @Transactional
@@ -211,16 +207,24 @@ public class ItemShopService {
     }
 
     //tworzy item na podstawie basicItema z dynamicznymi statystykami, na podstawie aury itp, tutaj da sie algorytmy do liczenia tego
-    public ItemEntity generateItemEntity(BaseItemEntity baseItemEntity, CharacterEntity character, int amplifier) {
+    public ItemEntity generateItemEntity(BaseItemEntity baseItem, CharacterEntity character, int amplifier) {
+        int bonusRizz = calculationService.calculateItemBonusRizz(baseItem, character, amplifier);
+        int bonusStrength = calculationService.calculateItemBonusStrength(baseItem, character, amplifier);
+        int bonusAgility = calculationService.calculateItemBonusAgility(baseItem, character, amplifier);
+        int bonusEndurance = calculationService.calculateItemBonusEndurance(baseItem, character, amplifier);
+        int bonusLuck = calculationService.calculateItemBonusLuck(baseItem, character, amplifier);
+
+        int statsSum = bonusRizz + bonusStrength + bonusAgility + bonusEndurance + bonusLuck;
+
         return new ItemEntity(
                 null,
-                baseItemEntity.getBaseRizz() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBaseStrength() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBaseAgility() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBaseEndurance() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBaseLuck() * (random.nextInt(character.getAuraLvl() + amplifier) + 1),
-                baseItemEntity.getBasePrice() * (random.nextInt(character.getAuraLvl() + amplifier) + 2),
-                baseItemEntity
+                bonusRizz,
+                bonusStrength,
+                bonusAgility,
+                bonusEndurance,
+                bonusLuck,
+                calculationService.calculateItemPrice(baseItem, character, statsSum),
+                baseItem
         );
     }
 

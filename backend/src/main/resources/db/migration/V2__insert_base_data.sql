@@ -61,7 +61,7 @@ VALUES ('Zimowa czapka', 'Ma znajomy zapach.', 'EQUIPMENT', 'HEAD', 5, 2, 0, 7, 
        ('Czarne szpilki', '', 'EQUIPMENT', 'FEET', 7, 6, 0, 6, 1, 40, 'item-black-heels.png'),
        ('Sandały', 'Ze skarpetami w pakiecie stanowią zabójcze połączenie.', 'EQUIPMENT', 'FEET', 8, 3, 8, 5, 0, 47, 'item-sandals.png'),
        ('Łyżwy', '', 'EQUIPMENT', 'FEET', 3, 3, 10, 9, 1, 55, 'item-skates.png'),
-       ('Japonki', '', 'EQUIPMENT', 'FEET', 4, 1, 8, 35, 5, 43, 'item-flip-flops.png'),
+       ('Japonki', '', 'EQUIPMENT', 'FEET', 4, 1, 8, 5, 5, 43, 'item-flip-flops.png'),
 
        ('Złota branzoletka', '', 'EQUIPMENT', 'WRIST', 4, 5, 0, 3, 2, 40, 'item-golden-bracelet.png'),
        ('Sikor', '', 'EQUIPMENT', 'WRIST', 7, 0, 0, 1, 3, 40, 'item-leather-watch.png'),
@@ -140,7 +140,7 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
        ('Dresiarz robi młyn', 'Jakiś dresiarz robi awanturę na parkiecie. Będę wdzięczny jak postawisz go do pionu.', 'MEDIUM', 'STRENGTH_FIGHT', 2, 'fight_quest2.png'),
        ('Poderwij dresiarza', 'Widzisz tego dresa na parkiecie? Założę się że go nie poderwiesz!', 'MEDIUM', 'RIZZ_FIGHT', 2, 'rizz_quest4.png'),
        ('Zajmij barmankę', 'Mam do ciebie sprawę. Poderwij barmankę żeby ją czymś zająć, a ci się odwdzięczę!', 'MEDIUM', 'RIZZ_FIGHT', 8, 'rizz_quest8.png'),
-       ('Wkurzająca barmanka', 'Już dłużej nie wytrzymam z tą barmanką. Pokaż jej gdzie jest jej miejsce!', 'MEDIUM', 'RIZZ_FIGHT', 8, 'fight_quest9.png'),
+       ('Wkurzająca barmanka', 'Już dłużej nie wytrzymam z tą barmanką. Pokaż jej gdzie jest jej miejsce!', 'MEDIUM', 'STRENGTH_FIGHT', 8, 'fight_quest9.png'),
 
        ('Pijany ochroniarz', 'Jeden z ochroniarzy chyba trochę za dużo wypił i zaczyna odwalać. Pójdziesz go ogarnąć?', 'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest4.png'),
        ('Poderwij blondynę', 'Widzisz tą blondynę przy stole? Stawiam moją dniówkę, że jej nie poderwiesz.', 'HARD', 'RIZZ_FIGHT', 5, 'rizz_quest4.png'),

@@ -14,7 +14,6 @@ import java.util.TreeMap;
 @Service
 public class BoxerService {
     private final SecureRandom random = new SecureRandom();
-    //private final int BOXER_PRICE = 10;
 
     private static final TreeMap<Integer, Double> PAYOUT_TABLE = new TreeMap<>();
     static {

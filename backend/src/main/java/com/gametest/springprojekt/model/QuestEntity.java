@@ -46,12 +46,11 @@ public class QuestEntity {
     @Column(nullable = false)
     private String imagePath;
 
-    public int calculateMoneyReward(CharacterEntity character) {
-        Random random = new Random();
-        return this.getQuestTier().getMultiplier() * character.getAuraLvl() + random.nextInt(character.getLuck() + 1); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
-    }
-    public int calculateAuraReward(CharacterEntity character) {
-        return this.getQuestTier().getMultiplier() * character.getAuraLvl();
-    }
+//    public int calculateMoneyReward(CharacterEntity character) {
+//        return this.getQuestTier().getMultiplier() * character.getAuraLvl(); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
+//    }
+//    public int calculateAuraReward(CharacterEntity character) {
+//        return this.getQuestTier().getMultiplier() * character.getAuraLvl();
+//    }
 
 }

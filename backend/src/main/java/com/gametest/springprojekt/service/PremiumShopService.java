@@ -7,6 +7,7 @@ import com.gametest.springprojekt.model.TransactionEntity;
 import com.gametest.springprojekt.model.enums.CristalsPackage;
 import com.gametest.springprojekt.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,13 +16,10 @@ import java.util.List;
 import java.util.Random;
 
 @Service
+@RequiredArgsConstructor
 public class PremiumShopService {
     private final TransactionRepository transactionRepository;
     private final Random random = new Random();
-
-    public PremiumShopService(TransactionRepository transactionRepository) {
-        this.transactionRepository = transactionRepository;
-    }
 
     public List<PremiumOfferDto> getPremiumOffers() {
         List<PremiumOfferDto> premiumOffers = new ArrayList<>();
