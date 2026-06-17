@@ -14,17 +14,21 @@
       margin: 20px 0;
       background: var(--bg-panel, #1e1e2f);
       color: var(--text-light, #eee);
+      table-layout: fixed; /* opcjonalnie – wymusza równe kolumny, ale lepiej zdefiniować szerokości */
     }
     .reports-table th, .reports-table td {
       border: 1px solid var(--border-color, #333);
       padding: 12px;
       text-align: left;
       vertical-align: top;
+      word-break: break-word;    /* łamie długie wyrazy */
+      overflow-wrap: break-word; /* to samo, dla zgodności */
     }
     .reports-table th {
       background: var(--bg-dark, #2a2a2a);
       font-weight: bold;
     }
+
     .delete-btn {
       background: #aa2e2e;
       color: white;
@@ -49,7 +53,7 @@
 </header>
 <hr class="content-divider"/>
 <main>
-  <div class="form-container" style="max-width: 1200px;">
+  <div class="form-container" style="max-width: 1800px;">
     <h1>📋 Zgłoszenia użytkowników</h1>
 
     <div th:if="${reports.isEmpty()}" class="alert alert-info">
@@ -84,7 +88,9 @@
       </tbody>
     </table>
 
-    <a th:href="@{/}" class="back-link">← Powrót do strony głównej</a>
+    <a th:href="@{/}" class="back-link">← Testowanie</a>
+    <br>
+    <a th:href="@{/mvc/admin/ranking/view}" class="back-link">← Gracze</a>
   </div>
 </main>
 <hr class="content-divider"/>
