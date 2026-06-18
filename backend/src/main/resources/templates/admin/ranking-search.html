@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" th:href="@{/thymeleaf/favicon.png}">
+  <link rel="stylesheet" th:href="@{/thymeleaf/style.css}">
+  <title>Wynik wyszukiwania</title>
+
+  <style>
+    .title {
+      font-size: 28px;
+      color: var(--neon-gold, #ffb347);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .info {
+      font-size: 18px;
+      margin: 10px 0;
+      border-bottom: 1px solid var(--border-color, #333);
+      padding-bottom: 6px;
+    }
+
+    .value {
+      color: var(--neon-gold, #ffb347);
+      font-weight: bold;
+    }
+
+    .ban-btn {
+      margin-top: 25px;
+      width: 100%;
+      padding: 14px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: linear-gradient(180deg, #b91c1c, #7f1d1d);
+      color: white;
+      transition: 0.2s;
+    }
+
+    .ban-btn:hover {
+      background: linear-gradient(180deg, #dc2626, #991b1b);
+      transform: translateY(-2px);
+      box-shadow: 0 0 12px rgba(220, 38, 38, 0.5);
+    }
+
+    .back {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+      color: var(--neon-gold, #ffb347);
+      text-decoration: none;
+    }
+
+    .back:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
+</header>
+<hr class="content-divider"/>
+<main>
+  <div class="form-container" style="max-width: 1800px;">
+
+  <div class="title">Wynik wyszukiwania</div>
+
+  <div class="info">
+    Id Użytkownika: <span class="value" th:text="${userId}">Id usera</span>
+  </div>
+
+  <div class="info">
+    Nazwa Użytkownika: <span class="value" th:text="${userName}">nazwa usera</span>
+  </div>
+
+  <div class="info">
+    Adres Email: <span class="value" th:text="${userEmail}">email usera</span>
+  </div>
+
+
+  <div class="info">
+    Rola: <span class="value" th:text="${userRole}">Rola usera</span>
+  </div>
+
+  <div class="info">
+    Id Postaci: <span class="value" th:text="${characterId}">id postaci</span>
+  </div>
+
+  <div class="info">
+    Nazwa Postaci: <span class="value" th:text="${name}">nazwa postaci</span>
+  </div>
+
+  <div class="info">
+    Aura: <span class="value" th:text="${auraLvl}">0</span>
+  </div>
+
+  <div class="info">
+    Klasa: <span class="value" th:text="${class}">klasa</span>
+  </div>
+
+  <div class="info">
+    Ilość kryształów: <span class="value" th:text="${cristals}">0</span>
+  </div>
+
+  <div class="info">
+    Nick: <span class="value" th:text="${name}">name</span>
+  </div>
+
+
+  <form th:action="@{/mvc/admin/ban/{id}(id=${userId})}" method="post">
+    <button type="submit"
+            class="ban-btn"
+            onclick="return confirm('Czy na pewno zbanować tego gracza?')">
+      🚫 ZBANUJ GRACZA
+    </button>
+  </form>
+
+  <a th:href="@{/mvc/admin/ranking/view}" class="back">← Powrót do rankingu</a>
+
+</div>
+</main>
+<hr class="content-divider"/>
+<footer>
+  <p>&copy; 2026 SRUBA Inc. Wszelkie prawa zastrzeżone.</p>
+</footer>
+</body>
+</html>

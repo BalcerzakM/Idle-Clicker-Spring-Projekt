@@ -7,6 +7,7 @@ import com.gametest.springprojekt.exception.CharacterNotFoundException;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.CharacterMapper;
 import com.gametest.springprojekt.model.EquipmentItem;
+import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import lombok.RequiredArgsConstructor;
@@ -77,5 +78,17 @@ public class RankingService {
                 stats.get("endurance"),
                 stats.get("luck")
         );
+    }
+
+    //do admina
+    public CharacterEntity getCharacterFromPlayersList(String charactersName) {
+        CharacterEntity character = characterRepository
+                .findByNameIgnoreCase(charactersName.trim())  //dokładne dopasowanie
+                .orElse(null);
+
+        if (character == null) {
+            return null;
+        }
+        return character;
     }
 }

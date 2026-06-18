@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" th:href="@{/thymeleaf/favicon.png}">
+  <link rel="stylesheet" th:href="@{/thymeleaf/style.css}">
+  <title>Lista Graczy</title>
+
+  <style>
+    .users-container {
+      width: 90%;
+      max-width: 1400px;
+      margin: 40px auto;
+      background: var(--bg-panel, #1e1e2f);
+      border: 1px solid var(--border-color, #333);
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      overflow: hidden;
+      color: var(--text-light, #eee);
+    }
+
+    .users-header {
+      text-align: center;
+      padding: 24px;
+      border-bottom: 1px solid var(--border-color, #333);
+    }
+
+    .users-title {
+      font-size: 36px;
+      color: var(--neon-gold, #ffb347);
+      margin: 0;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .search-box {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 20px;
+      border-bottom: 1px solid var(--border-color, #333);
+    }
+
+    .search-box input {
+      padding: 10px 14px;
+      border-radius: 20px;
+      border: 1px solid var(--border-color, #555);
+      background: var(--bg-dark, #2a2a2a);
+      color: var(--text-light, #eee);
+      outline: none;
+      width: 250px;
+    }
+
+    .search-box button {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: none;
+      background: var(--neon-gold, #ffb347);
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .search-box button:hover {
+      background: #e6a030;
+    }
+
+    .users-table {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .users-table-header {
+      text-align: center;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      padding: 16px 24px;
+      background: var(--bg-dark, #2a2a2a);
+      color: var(--neon-gold, #ffb347);
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 2px solid var(--border-color, #444);
+    }
+
+    .user-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--border-color, #333);
+      transition: 0.2s;
+    }
+
+    .user-row:hover {
+      background: rgba(255, 179, 71, 0.05);
+      border-left: 3px solid var(--neon-gold, #ffb347);
+    }
+
+    .username {
+      color: var(--text-light, #eee);
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .aura {
+      text-align: center;
+      color: var(--neon-gold, #ffb347);
+      font-weight: bold;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+      color: var(--text-light, #eee);
+    }
+
+    .pagination a {
+      color: var(--neon-gold, #ffb347);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .pagination a:hover {
+      text-decoration: underline;
+    }
+
+    .empty-info {
+      padding: 40px;
+      text-align: center;
+      color: #aaa;
+    }
+    .back-link {
+      display: inline-block;
+      margin-top: 20px;
+      color: var(--neon-gold, #ffb347);
+    }
+  </style>
+</head>
+
+<body>
+<header>
+  <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
+</header>
+<nav th:fragment="adminNav" class="admin-nav">
+
+  <a th:href="@{/mvc/admin/ranking/view}">
+    👥 Gracze
+  </a>
+
+  <a th:href="@{/mvc/admin/ban/blackList}">
+    🚫 Black Lista
+  </a>
+
+  <a th:href="@{/mvc/admin/reports}">
+    📋 Zgłoszenia
+  </a>
+
+  <a th:href="@{/}">
+    🏠 Testowanie
+  </a>
+
+</nav>
+<hr class="content-divider"/>
+<main>
+  <div class="form-container" style="max-width: 1800px;">
+
+  <div class="users-header">
+    <h2 class="users-title">GRACZE</h2>
+  </div>
+
+  <!-- SEARCH -->
+  <form class="search-box" th:action="@{/mvc/admin/ranking/search}" method="get">
+    <input type="text" name="name" placeholder="Szukaj gracza..."/>
+    <button type="submit">Szukaj</button>
+  </form>
+
+  <!-- EMPTY -->
+  <div th:if="${page.empty}" class="empty-info">
+    Brak danych w rankingu.
+  </div>
+
+  <!-- TABLE -->
+  <div th:unless="${page.empty}" class="users-table">
+
+    <div class="users-table-header">
+      <div>Pozycja</div>
+      <div>Postać</div>
+      <div>Aura</div>
+    </div>
+
+    <div class="user-row"
+         th:each="char, iterStat : ${page.content}">
+
+      <div class="username"
+           th:text="${page.number * page.size + iterStat.index + 1}">
+        1
+      </div>
+
+      <div class="username"
+           th:text="${char.name}">
+        Name
+      </div>
+
+      <div class="aura"
+           th:text="${char.auraLvl}">
+        0
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- PAGINATION -->
+  <div class="pagination">
+
+    <a th:if="${page.hasPrevious()}"
+       th:href="@{/mvc/admin/ranking/view(page=${page.number - 1})}">
+      ◀ Prev
+    </a>
+
+    <span>
+            Strona <span th:text="${page.number + 1}"></span>
+        </span>
+
+    <a th:if="${page.hasNext()}"
+       th:href="@{/mvc/admin/ranking/view(page=${page.number + 1})}">
+      Next ▶
+    </a>
+
+
+  </div>
+
+</div>
+</main>
+<hr class="content-divider"/>
+<footer>
+  <p>&copy; 2026 SRUBA Inc. Wszelkie prawa zastrzeżone.</p>
+</footer>
+</body>
+</html>

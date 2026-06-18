@@ -5,9 +5,12 @@ import com.gametest.springprojekt.exception.EmailAlreadyExistsException;
 import com.gametest.springprojekt.exception.UsernameAlreadyExistsException;
 import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.repository.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -33,6 +36,7 @@ public class UserService {
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userEntity.setEmail(user.getEmail());
         userEntity.setRole("USER");
+        userEntity.setBanned(false);
         userRepository.save(userEntity);
     }
 
@@ -43,4 +47,21 @@ public class UserService {
                 .orElse(false);
     }
 
+    @Transactional
+    public void banUser(Long id) {
+        UserEntity user = userRepository.getUserEntityById(id).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika!"));
+        user.setBanned(true);
+    }
+
+    @Transactional
+    public void unBanUser(Long id) {
+        UserEntity user = userRepository.getUserEntityById(id).orElseThrow(() -> new UsernameNotFoundException("Nie znaleziono użytkownika!"));
+        user.setBanned(false);
+    }
+
+
+    @Transactional(readOnly = true)
+    public List<UserEntity> getBannedList() {
+        return userRepository.findByIsBannedIsTrue();
+    }
 }

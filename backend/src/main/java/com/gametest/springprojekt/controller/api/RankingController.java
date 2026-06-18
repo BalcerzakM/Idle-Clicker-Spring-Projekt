@@ -41,7 +41,7 @@ public class RankingController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/player/{playerName}")
+    @GetMapping("/player/{playerName}")//to zmienić na prametr
     public ResponseEntity<RankingPlayerDto> getPlayerFromRanking(
             @PathVariable String playerName
     ) {
