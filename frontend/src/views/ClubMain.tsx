@@ -49,7 +49,7 @@ function ClubMain() {
 					src={toiletHover}
 					alt="toilet_hover"
 					width={108}
-					height={215}
+					height={217}
 					className="hover-image"
 					onClick={() => navigate("/toilet")}
 				/>

@@ -13,6 +13,13 @@ interface SpecialQuestDto {
     opponentImagePath: string;
 }
 
+interface ActiveQuestDto {
+    questTitle: string;
+    questStartTime: string;
+    questEndTime: string;
+    imagePath: string;
+}
+
 function Boss() {
     const { showError } = useAlert();
     const { refreshCharacter } = useCharacter();
@@ -23,6 +30,7 @@ function Boss() {
     const [startingCombat, setStartingCombat] = useState(false);
     const [noBoss, setNoBoss] = useState(false);
     const [hasActiveDuty, setHasActiveDuty] = useState(false);
+    const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null);
 
     const fetchBossQuest = useCallback(async () => {
         try {
@@ -70,14 +78,42 @@ function Boss() {
         }
     }, []);
 
+    const checkActiveQuest = useCallback(async () => {
+        try {
+            const res = await fetch("http://localhost:8080/api/quest/active");
+
+            if (res.status === 404 || res.status === 409) {
+                setActiveQuest(null);
+                return;
+            }
+
+            if (!res.ok) {
+                setActiveQuest(null);
+                return;
+            }
+
+            const data: ActiveQuestDto = await res.json();
+            setActiveQuest(data);
+        } catch (err) {
+            console.error(err);
+            setActiveQuest(null);
+        }
+    }, []);
+
     useEffect(() => {
         fetchBossQuest();
         checkActiveDuty();
-    }, [fetchBossQuest, checkActiveDuty]);
+        checkActiveQuest();
+    }, [fetchBossQuest, checkActiveDuty, checkActiveQuest]);
 
     const handleStartBossCombat = async () => {
         if (hasActiveDuty) {
             showError("Nie możesz walczyć z bossem podczas aktywnej zmiany.");
+            return;
+        }
+
+        if (activeQuest) {
+            showError("Nie możesz walczyć z bossem podczas aktywnego questa.");
             return;
         }
 
@@ -171,9 +207,9 @@ function Boss() {
                             <button
                                 className="boss-fight-btn"
                                 onClick={handleStartBossCombat}
-                                disabled={startingCombat || hasActiveDuty}
+                                disabled={startingCombat || hasActiveDuty || !!activeQuest}
                             >
-                                {hasActiveDuty ? "AKTYWNA ZMIANA (OCHRONA)" : "PRZYJMIJ ZLECENIE"}
+                                {hasActiveDuty ? "AKTYWNA ZMIANA (OCHRONA)" : activeQuest ? "AKTYWNY QUEST (BARMAN)" : startingCombat ? "Start..." : "PRZYJMIJ ZLECENIE"}
                             </button>
                         </div>
                     </div>
