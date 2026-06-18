@@ -178,6 +178,10 @@
 	transform: translateY(-1px);
 }
 
+.quest-end-btn {
+	margin-top: 165px;
+}
+
 /* ===== EKRAN AKTYWNEGO QUESTA ===== */
 .quest-active-background {
 	width: 100%;
@@ -196,7 +200,6 @@
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	justify-content: center;
 	text-align: center;
 	padding: 20px;
 }
@@ -204,7 +207,8 @@
 .quest-active-title {
 	color: var(--neon-gold, #d89b52);
 	text-shadow: 0 0 10px var(--neon-gold);
-	margin-bottom: 35%;
+	margin-top: 30px;
+	margin-bottom: 380px;
 }
 
 .quest-timer-label {

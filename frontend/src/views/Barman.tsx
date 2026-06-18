@@ -254,7 +254,7 @@ function Barman() {
 					<div className="quest-active-overlay">
 						<h2 className="quest-active-title">{activeQuest.questTitle}</h2>
 						{isQuestFinished ? (
-							<div>
+							<div className="quest-end-btn">
 								<p className="quest-timer-hint">
 									Zlecenie ukończone! Przeciwnik czeka.
 								</p>
