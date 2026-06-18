@@ -149,8 +149,6 @@ const RankingView = () => {
 
 		const findPlayer = async () => {
 			try {
-				console.log("page", page);
-				console.log("pageSize", pageSize);
 				const params = new URLSearchParams({
 					name: debouncedSearch,
 					pageSize: pageSize.toString(),
@@ -171,6 +169,7 @@ const RankingView = () => {
 
 				setSearchedPlayer(debouncedSearch);
 				setPage(data.page ?? 0);
+				console.log("strona:", data.page);
 			} catch (err) {
 				console.error(err);
 			}
@@ -197,7 +196,7 @@ const RankingView = () => {
 	};
 
 	// Obliczanie globalnego indeksu w rankingu
-	const getGlobalRank = (index: number) => page * pageSize + index + 1;
+	const getGlobalRank = (index: number) => page * pageSize + index;
 
 	useEffect(() => {
 		const timeout = setTimeout(() => {
@@ -246,7 +245,7 @@ const RankingView = () => {
 
 						<div className="ranking-table-body">
 							{ranking.map((character, idx) => {
-								const globalRank = getGlobalRank(idx);
+								const globalRank = getGlobalRank(idx) + 1;
 								const medal = getRankMedal(globalRank);
 								const isTop3 = globalRank <= 3;
 
