@@ -65,7 +65,7 @@ public class CharacterService {
         newCharacter.setAvatarPicture(dto.getAvatarPicture());
 
         newCharacter.setMoney(chosenClass.getBaseMoney());
-        newCharacter.setCristals(0);
+        newCharacter.setCristals(10);
         newCharacter.setAuraLvl(1);
         newCharacter.setAura(0);
         newCharacter.setRizz(chosenClass.getBaseRizz());
