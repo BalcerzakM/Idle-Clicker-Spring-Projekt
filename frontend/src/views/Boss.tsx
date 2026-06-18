@@ -22,6 +22,7 @@ function Boss() {
     const [loading, setLoading] = useState(true);
     const [startingCombat, setStartingCombat] = useState(false);
     const [noBoss, setNoBoss] = useState(false);
+    const [hasActiveDuty, setHasActiveDuty] = useState(false);
 
     const fetchBossQuest = useCallback(async () => {
         try {
@@ -50,11 +51,36 @@ function Boss() {
         }
     }, [showError]);
 
+    const checkActiveDuty = useCallback(async () => {
+        try {
+            const res = await fetch("http://localhost:8080/api/security");
+
+            if (res.status === 404) {
+                setHasActiveDuty(false);
+                return;
+            }
+
+            if (!res.ok) {
+                return;
+            }
+
+            setHasActiveDuty(true);
+        } catch (err) {
+            console.error(err);
+        }
+    }, []);
+
     useEffect(() => {
         fetchBossQuest();
-    }, [fetchBossQuest]);
+        checkActiveDuty();
+    }, [fetchBossQuest, checkActiveDuty]);
 
     const handleStartBossCombat = async () => {
+        if (hasActiveDuty) {
+            showError("Nie możesz walczyć z bossem podczas aktywnej zmiany.");
+            return;
+        }
+
         try {
             setStartingCombat(true);
 
@@ -145,9 +171,9 @@ function Boss() {
                             <button
                                 className="boss-fight-btn"
                                 onClick={handleStartBossCombat}
-                                disabled={startingCombat}
+                                disabled={startingCombat || hasActiveDuty}
                             >
-                                {startingCombat ? "Start..." : "PRZYJMIJ ZLECENIE"}
+                                {hasActiveDuty ? "AKTYWNA ZMIANA (OCHRONA)" : "PRZYJMIJ ZLECENIE"}
                             </button>
                         </div>
                     </div>

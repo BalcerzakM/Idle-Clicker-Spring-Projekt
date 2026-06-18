@@ -127,43 +127,26 @@
 }
 
 .boss-fight-btn {
-    width: 180px;
-    height: 56px;
-
     background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
-    border: 1px solid var(--neon-gold);
-    border-radius: 6px;
-
-    color: var(--neon-gold);
-
-    font-family: "Teko", sans-serif;
+    border: 1px solid var(--neon-gold, #d89b52);
+    color: var(--neon-gold, #d89b52);
+    padding: 10px 0;
     font-size: 18px;
     font-weight: bold;
-    letter-spacing: 1px;
-
     cursor: pointer;
-
+    border-radius: 6px;
     text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
-
-    transition:
-            background 0.2s,
-            color 0.2s,
-            box-shadow 0.2s,
-            transform 0.2s;
+    transition: all 0.25s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
-.boss-fight-btn:hover:not(:disabled) {
+.boss-fight-btn:hover {
     background: linear-gradient(180deg, #24141d 0%, #161019 100%);
     color: #ffd29c;
     border-color: #ffc285;
-
-    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
-    transform: translateY(-2px);
-}
-
-.boss-fight-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
+    box-shadow: 0 0 12px rgba(255, 154, 60, 0.3);
+    transform: translateY(-1px);
 }
 
 .boss-loading {

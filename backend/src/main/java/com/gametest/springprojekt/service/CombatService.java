@@ -2,7 +2,6 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.dto.ItemDto;
-import com.gametest.springprojekt.dto.QuestDto;
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import com.gametest.springprojekt.exception.NoActiveQuestException;
 import com.gametest.springprojekt.exception.QuestNotFoundException;
@@ -19,14 +18,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
 public class CombatService {
     private final ItemTokenService itemTokenService;
-    private final Random random = new Random();
     private final QuestRepository questRepository;
+    private final CalculationService calculationService;
 
     @Transactional
     public CombatDto startCombat(CharacterEntity character) {
@@ -49,17 +47,17 @@ public class CombatService {
 
         Map<String, Integer> stats = character.getEquipmentStatsSum();
 
-        int opponentHp = opponent.getBaseEndurance() * character.getAuraLvl();
+        int opponentHp = calculationService.calculateOpponentStat(character, opponent.getBaseEndurance(), activeQuest.getQuestTier());
         int characterHp = stats.get("endurance");
 
         List<Integer> combatLog;
 
         String questType;
         if (activeQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
-            combatLog =  simulateRizzCombat(character, opponent, true);
+            combatLog = simulateRizzCombat(character, opponent, activeQuest.getQuestTier());
             questType = QuestType.RIZZ_FIGHT.toString();
         } else if (activeQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
-            combatLog = simulateStrengthCombat(character, opponent, true);
+            combatLog = simulateStrengthCombat(character, opponent, activeQuest.getQuestTier());
             questType = QuestType.STRENGTH_FIGHT.toString();
         } else {
             throw new IllegalArgumentException("Błędny typ questa!");
@@ -69,31 +67,24 @@ public class CombatService {
         String enemyImagePath = opponent.getImagePath();
         boolean playerWon = combatLog.size() % 2 != 0;
 
-        int bonusAura;
-        int bonusMoney;
-        ItemEntity rewardItem;
-        ItemDto rewardItemDto;
+        int bonusAura = 0;
+        int bonusMoney = 0;
+        ItemDto rewardItemDto = null;
 
         if(playerWon) {
             bonusAura = activeQuest.getBonusAura();
             bonusMoney = activeQuest.getBonusMoney();
-            rewardItem = itemTokenService.handleRewardToken(false);
 
-        } else {
-            bonusAura = 0;
-            bonusMoney = 0;
-            rewardItem = null;
+            ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
 
+            if (rewardItem != null) {
+                rewardItemDto = rewardItem.generateItemDto();
+            }
+
+            character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
         }
 
-        if (rewardItem != null) {
-            rewardItemDto = rewardItem.generateItemDto();
-
-        } else {
-            rewardItemDto = null;
-        }
-
-        character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
+        character.setActiveQuest(null);
 
         return new CombatDto(
                 combatLog,
@@ -129,7 +120,7 @@ public class CombatService {
         QuestEntity bossQuest = bossQuests.get(currentCharacterBoss - 1);
 
         OpponentEntity opponent = bossQuest.getOpponent();
-        int opponentHp = opponent.getBaseEndurance();
+        int opponentHp = calculationService.calculateOpponentStat(character, opponent.getBaseEndurance(), bossQuest.getQuestTier());
 
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         int characterHp = stats.get("endurance");
@@ -137,10 +128,10 @@ public class CombatService {
         List<Integer> combatLog;
 
         if (bossQuest.getQuestType() == QuestType.RIZZ_FIGHT) {
-            combatLog =  simulateRizzCombat(character, opponent, false);
+            combatLog =  simulateRizzCombat(character, opponent, bossQuest.getQuestTier());
 
         } else if (bossQuest.getQuestType() == QuestType.STRENGTH_FIGHT) {
-            combatLog = simulateStrengthCombat(character, opponent, false);
+            combatLog = simulateStrengthCombat(character, opponent, bossQuest.getQuestTier());
 
         } else {
             throw new IllegalArgumentException("Błędny typ questa!");
@@ -152,14 +143,13 @@ public class CombatService {
 
         int bonusAura = 0;
         int bonusMoney = 0;
-        ItemEntity rewardItem = null;
         ItemDto rewardItemDto = null;
 
         if(playerWon) {
-            bonusAura = bossQuest.calculateAuraReward(character)*currentCharacterBoss;
-            bonusMoney = bossQuest.calculateMoneyReward(character);
+            bonusAura = calculationService.calculateQuestAuraReward(character, bossQuest);
+            bonusMoney = calculationService.calculateQuestMoneyReward(character, bossQuest);
 
-            rewardItem = itemTokenService.handleRewardToken(true);
+            ItemEntity rewardItem = itemTokenService.handleRewardToken(true);
 
             if (rewardItem != null) {
                 rewardItemDto = rewardItem.generateItemDto();
@@ -184,39 +174,32 @@ public class CombatService {
     }
 
 
-    private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent, Boolean scaling) {
-        int scalingValue = character.getAuraLvl();
-        if (!scaling) {
-            scalingValue = 1;
-        }
-
+    private List<Integer> simulateRizzCombat(CharacterEntity character, OpponentEntity opponent, QuestTier questTier) {
         Map<String, Integer> characterStats = character.getEquipmentStatsSum();
+
         int characterHp = characterStats.get("endurance");
         int characterRizz = characterStats.get("rizz");
         int characterAgility = characterStats.get("agility");
         int characterLuck = characterStats.get("luck");
 
-        int baseCharacterDmg = (int) ((characterRizz + (0.5 * characterAgility)));
+        int opponentHp = calculationService.calculateOpponentStat(character, opponent.getBaseEndurance(), questTier);
+        int opponentRizz = calculationService.calculateOpponentStat(character, opponent.getBaseRizz(), questTier);
+        int opponentAgility = calculationService.calculateOpponentStat(character, opponent.getBaseAgility(), questTier);
+        int opponentLuck = calculationService.calculateOpponentStat(character, opponent.getBaseLuck(), questTier);
 
-
-        int opponentHp = opponent.getBaseEndurance() * scalingValue;
-        int opponentRizz = opponent.getBaseRizz() * scalingValue;
-        int opponentAgility = opponent.getBaseAgility() * scalingValue;
-        int opponentLuck = opponent.getBaseLuck() * scalingValue;
-
-        int baseOpponentDmg = (int) (opponentRizz + (0.5 * opponentAgility));
-
+        int baseCharacterDmg = calculationService.calculateRizzFightBaseDamage(characterRizz, characterAgility, opponentAgility);
+        int baseOpponentDmg = calculationService.calculateRizzFightBaseDamage(opponentRizz,opponentAgility, characterAgility);
 
         List<Integer> combatLog = new ArrayList<>();
         boolean playersAtack = true;
         while (characterHp > 0 && opponentHp > 0) {
             if(playersAtack) {
-                int dmg = calculateDamage(baseCharacterDmg, characterLuck);
+                int dmg = calculationService.calculateDamage(baseCharacterDmg, characterLuck);
                 combatLog.add(dmg);
                 opponentHp -= dmg;
                 playersAtack = false;
             } else {
-                int dmg = calculateDamage(baseOpponentDmg, opponentLuck);
+                int dmg = calculationService.calculateDamage(baseOpponentDmg, opponentLuck);
                 combatLog.add(dmg);
                 characterHp -= dmg;
                 playersAtack = true;
@@ -225,40 +208,36 @@ public class CombatService {
         return combatLog;
     }
 
-    private List<Integer> simulateStrengthCombat(CharacterEntity character, OpponentEntity opponent, Boolean scaling) {
-        int scalingValue = character.getAuraLvl();
-        if (!scaling) {
-            scalingValue = 1;
-        }
-
+    private List<Integer> simulateStrengthCombat(CharacterEntity character, OpponentEntity opponent, QuestTier questTier) {
         Map<String, Integer> characterStats = character.getEquipmentStatsSum();
+
         int characterHp = characterStats.get("endurance");
         int characterStrength = characterStats.get("strength");
         int characterAgility = characterStats.get("agility");
         int characterLuck = characterStats.get("luck");
 
-        int opponentHp = opponent.getBaseEndurance() * scalingValue;
-        int opponentStrength = opponent.getBaseStrength() * scalingValue;
-        int opponentAgility = opponent.getBaseAgility() * scalingValue;
-        int opponentLuck = opponent.getBaseLuck() * scalingValue;
+        int opponentHp = calculationService.calculateOpponentStat(character, opponent.getBaseEndurance(), questTier);
+        int opponentStrength = calculationService.calculateOpponentStat(character, opponent.getBaseStrength(), questTier);
+        int opponentAgility = calculationService.calculateOpponentStat(character, opponent.getBaseAgility(), questTier);
+        int opponentLuck = calculationService.calculateOpponentStat(character, opponent.getBaseLuck(), questTier);
 
         List<Integer> combatLog = new ArrayList<>();
         boolean playersAtack = true;
         while (characterHp > 0 && opponentHp > 0) {
             if(playersAtack) {
-                if(random.nextInt(10000) + opponentAgility > 9000) {
+                if(calculationService.didDodge(opponentAgility)) {
                     combatLog.add(0);
                 } else {
-                    int dmg = calculateDamage(characterStrength, characterLuck);
+                    int dmg = calculationService.calculateDamage(characterStrength, characterLuck);
                     combatLog.add(dmg);
                     opponentHp -= dmg;
                 }
                 playersAtack = false;
             } else {
-                if(random.nextInt(10000) + characterAgility > 9000) {
+                if(calculationService.didDodge(characterAgility)) {
                     combatLog.add(0);
                 } else {
-                    int dmg = calculateDamage(opponentStrength, opponentLuck);
+                    int dmg = calculationService.calculateDamage(opponentStrength, opponentLuck);
                     combatLog.add(dmg);
                     characterHp -= dmg;
                 }
@@ -268,18 +247,7 @@ public class CombatService {
         return combatLog;
     }
 
-    private int calculateDamage(int baseDamage, int luck) {
-        if (baseDamage <= 0) baseDamage = 1;
 
-        int minDmg = (int) (baseDamage * 0.8);
-        int maxDmg = (int) (baseDamage * 1.2);
-        int actualDamage = random.nextInt(maxDmg - minDmg + 1) + minDmg;
-
-        if(random.nextInt(10000) + luck > 9000) {
-            actualDamage *= 2;
-        }
-        return Math.max(actualDamage, 1);
-    }
 
 
 

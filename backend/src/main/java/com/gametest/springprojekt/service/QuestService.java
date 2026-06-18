@@ -29,6 +29,7 @@ public class QuestService {
     private final CharacterRepository characterRepository; // Intelij nie wie, że metoda setActiveQuest modyfikuje też repo
     private final QuestOfferRepository questOfferRepository;
     private final VehicleService vehicleService;
+    private final CalculationService calculationService;
     private final int QUEST_OFFER_SIZE = 3;
 
     @Transactional
@@ -71,11 +72,11 @@ public class QuestService {
 
     //generuje dto z parametrami questa na podstawie expa postaci
     private QuestDto generateQuestDto(QuestEntity quest, CharacterEntity character) {
-        long questDuration = calculateQuestDuration(character, quest);
+        long questDuration = calculationService.calculateQuestDuration(character, quest);
 
-        int moneyReward = quest.calculateMoneyReward(character);
+        int moneyReward = calculationService.calculateQuestMoneyReward(character, quest);
 
-        int auraReward = quest.calculateAuraReward(character);
+        int auraReward = calculationService.calculateQuestAuraReward(character, quest);
 
         return new QuestDto(
                 quest.getId(),
@@ -85,7 +86,6 @@ public class QuestService {
                 quest.getQuestType(),
                 quest.getOpponent().getName(),
                 questDuration, moneyReward, auraReward
-
         );
     }
 
@@ -119,25 +119,6 @@ public class QuestService {
         return activeQuest;
     }
 
-    private Instant calculateQuestEndTime(long questDuration) {
-        return Instant.now().plusSeconds(questDuration);
-    }
-
-    private long calculateQuestDuration(CharacterEntity character,QuestEntity quest) {
-        int auraLvl = character.getAuraLvl();
-        double exponent = 1.2;
-        int questTierVariable = quest.getQuestTier().getMultiplier();
-        long finalQuestTime = (long) (questTierVariable * Math.pow(auraLvl, exponent));
-
-        vehicleService.validateAndRemoveExpiredVehicle(character);
-        if (character.getActiveVehicle() != null) {
-            int reductionPercent = character.getActiveVehicle().getBaseVehicle().getTimeReductionPercent();
-            double multiplier = 1.0 - (reductionPercent / 100.0);
-            finalQuestTime = (long) (finalQuestTime * multiplier);
-        }
-        return finalQuestTime;
-    }
-
     @Transactional //fajne to transactional bo i gwarantuje atomowość i nie trzeba do repo.save robić, w tym przypadku do characterRepo
     public ActiveQuestDto setActiveQuest(CharacterEntity character, Long questId) {
         QuestEntity quest = questRepository.findById(questId)
@@ -149,11 +130,13 @@ public class QuestService {
         }
         questOfferRepository.delete(questOffer);
 
-        Instant qEndTime = calculateQuestEndTime(calculateQuestDuration(character,quest));
+        vehicleService.validateAndRemoveExpiredVehicle(character);
+
+        Instant qEndTime = calculationService.calculateQuestEndTime(Instant.now(), calculationService.calculateQuestDuration(character,quest));
         Instant qStartTime = Instant.now();
 
-        int bonusMoney = quest.calculateMoneyReward(character);
-        int bonusAura = quest.calculateAuraReward(character);
+        int bonusMoney = calculationService.calculateQuestMoneyReward(character, quest);
+        int bonusAura = calculationService.calculateQuestAuraReward(character, quest);
 
 
         character.setActiveQuest(new ActiveQuestEntity(null, quest.getTitle(),qStartTime, qEndTime, quest.getImagePath(), quest.getOpponent(), quest.getQuestType(), quest.getQuestTier(), bonusMoney, bonusAura));
