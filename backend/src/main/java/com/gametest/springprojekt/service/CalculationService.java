@@ -17,7 +17,7 @@ public class CalculationService {
         ######################## NAGRODY ZA QUESTY ########################
     */
     public int calculateQuestMoneyReward(CharacterEntity character, QuestEntity quest) {
-        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl();
+        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl()*2;
         if (quest.getQuestTier() == QuestTier.BOSS) {
             moneyReward *= character.getCurrentBoss();
         }
