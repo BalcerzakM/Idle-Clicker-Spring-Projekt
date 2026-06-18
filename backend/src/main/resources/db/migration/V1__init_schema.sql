@@ -177,6 +177,7 @@ CREATE TABLE user_entity
     password VARCHAR(255) NOT NULL,
     role     VARCHAR(255) NOT NULL,
     username VARCHAR(255) NOT NULL,
+    is_banned BOOLEAN     NOT NULL DEFAULT FALSE,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 ALTER TABLE backpack_item
