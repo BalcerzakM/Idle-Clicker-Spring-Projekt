@@ -8,18 +8,6 @@
   <title>Wynik wyszukiwania</title>
 
   <style>
-    .container {
-      width: 60%;
-      max-width: 800px;
-      margin: 60px auto;
-      background: var(--bg-panel, #1e1e2f);
-      border: 1px solid var(--border-color, #333);
-      border-radius: 12px;
-      padding: 30px;
-      color: var(--text-light, #eee);
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-    }
-
     .title {
       font-size: 28px;
       color: var(--neon-gold, #ffb347);
@@ -74,6 +62,10 @@
 </head>
 
 <body>
+<header>
+  <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
+</header>
+<hr class="content-divider"/>
 <main>
   <div class="form-container" style="max-width: 1800px;">
 
@@ -121,7 +113,7 @@
   </div>
 
 
-  <form th:action="@{/admin/ban/{id}(id=${characterId})}" method="post">
+  <form th:action="@{/mvc/admin/ban/{id}(id=${userId})}" method="post">
     <button type="submit"
             class="ban-btn"
             onclick="return confirm('Czy na pewno zbanować tego gracza?')">
@@ -133,5 +125,9 @@
 
 </div>
 </main>
+<hr class="content-divider"/>
+<footer>
+  <p>&copy; 2026 SRUBA Inc. Wszelkie prawa zastrzeżone.</p>
+</footer>
 </body>
 </html>

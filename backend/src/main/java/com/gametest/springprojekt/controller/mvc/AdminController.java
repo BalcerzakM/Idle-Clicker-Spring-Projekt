@@ -4,8 +4,10 @@ import com.gametest.springprojekt.dto.CharacterDto;
 import com.gametest.springprojekt.dto.RankingPositionDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.ReportEntity;
+import com.gametest.springprojekt.model.UserEntity;
 import com.gametest.springprojekt.service.RankingService;
 import com.gametest.springprojekt.service.ReportService;
+import com.gametest.springprojekt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +28,7 @@ public class AdminController {
 
     private final ReportService reportService;
     private final RankingService rankingService;
+    private final UserService userService;
 
     @GetMapping("/reports")
     public String showReports(Model model) {
@@ -71,5 +74,28 @@ public class AdminController {
 
         return "admin/ranking-search";
     }
+
+
+    @GetMapping("/ban/blackList")
+    public String getBlackList(Model model) {
+        List<UserEntity> bannedList = userService.getBannedList();
+        model.addAttribute("bannedUsers", bannedList);
+        return "admin/black-list";
+    }
+
+    @PostMapping("/ban/{id}")
+    public String banUser(
+            @PathVariable Long id){
+        userService.banUser(id);
+        return "redirect:/mvc/admin/ranking/view";
+    }
+
+    @PostMapping("/unban/{id}")
+    public String unBanUser(
+            @PathVariable Long id){
+        userService.unBanUser(id);
+        return "redirect:/mvc/admin/ranking/view";
+    }
+
 
 }

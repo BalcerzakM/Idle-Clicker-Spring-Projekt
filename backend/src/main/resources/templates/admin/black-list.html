@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" th:href="@{/thymeleaf/favicon.png}">
+  <link rel="stylesheet" th:href="@{/thymeleaf/style.css}">
+  <title>Black Lista</title>
+
+  <style>
+
+    .blacklist-header {
+      padding: 25px;
+      text-align: center;
+      border-bottom: 1px solid #25202c;
+    }
+
+    .blacklist-title {
+      margin: 0;
+      font-size: 34px;
+      color: #d89b52;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .blacklist-table-header {
+      display: grid;
+      text-align: center;
+      grid-template-columns: 2fr 220px;
+      padding: 15px 25px;
+      background: #1a1622;
+      color: #4da3ff;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 2px solid #2a2333;
+      font-size: 18px;
+    }
+
+    .blacklist-row {
+      display: grid;
+      grid-template-columns: 2fr 220px;
+      align-items: center;
+      padding: 15px 25px;
+      border-bottom: 1px solid #1e1a22;
+      transition: 0.2s;
+      text-align: center;
+    }
+
+    .blacklist-row:hover {
+      background: rgba(77,163,255,0.05);
+    }
+
+    .username {
+      font-size: 18px;
+      font-weight: 600;
+    }
+
+    .unban-btn {
+      width: 70%;
+      border: none;
+      border-radius: 30px;
+      padding: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      background: linear-gradient(
+              180deg,
+              #16a34a 0%,
+              #166534 100%
+      );
+      color: white;
+      transition: 0.2s;
+    }
+
+    .unban-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 0 10px rgba(34,197,94,0.5);
+    }
+
+    .empty-message {
+      text-align: center;
+      padding: 50px;
+      color: #7b6d62;
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
+</header>
+<nav th:fragment="adminNav" class="admin-nav">
+
+  <a th:href="@{/mvc/admin/ranking/view}">
+    👥 Gracze
+  </a>
+
+  <a th:href="@{/mvc/admin/ban/blackList}">
+    🚫 Black Lista
+  </a>
+
+  <a th:href="@{/mvc/admin/reports}">
+    📋 Zgłoszenia
+  </a>
+
+  <a th:href="@{/}">
+    🏠 Testowanie
+  </a>
+
+</nav>
+<hr class="content-divider"/>
+<main>
+  <div class="form-container" style="max-width: 1800px;">
+
+  <div class="blacklist-header">
+    <h1 class="blacklist-title">🚫 Black Lista</h1>
+  </div>
+
+  <div th:if="${#lists.isEmpty(bannedUsers)}"
+       class="empty-message">
+    Brak zbanowanych użytkowników.
+  </div>
+
+  <div th:unless="${#lists.isEmpty(bannedUsers)}">
+
+    <div class="blacklist-table-header">
+      <div>Użytkownik  </div>
+      <div>Akcja</div>
+    </div>
+
+    <div class="blacklist-row"
+         th:each="user : ${bannedUsers}">
+
+      <div class="username"
+           th:text="${user.username}">
+        username
+      </div>
+
+      <div>
+        <form th:action="@{/mvc/admin/unban/{id}(id=${user.id})}"
+              method="post">
+
+          <button
+                  type="submit"
+                  class="unban-btn"
+                  onclick="return confirm('Czy na pewno odbanować użytkownika?')">
+            ✅ Odbanuj
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+</main>
+<hr class="content-divider"/>
+<footer>
+  <p>&copy; 2026 SRUBA Inc. Wszelkie prawa zastrzeżone.</p>
+</footer>
+</body>
+</html>

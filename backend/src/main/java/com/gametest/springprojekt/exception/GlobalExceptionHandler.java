@@ -170,4 +170,14 @@ public class GlobalExceptionHandler {
                         "Masz już aktywny pojazd! Najpierw anuluj posiadany pojazd w panelu postaci."
                 ));
     }
+
+    @ExceptionHandler(UserIsBannedException.class)
+    public ResponseEntity<ErrorDto> handleUserIsBanned(UserIsBannedException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "USER_IS_BANNED",
+                        "Twoje konto zostało zablokowane!"
+                ));
+    }
 }

@@ -51,6 +51,25 @@
 <header>
   <a th:href="@{/}"><img id="logo" th:src="@{/thymeleaf/images/logo.png}" alt="SRUBA Logo"></a>
 </header>
+<nav th:fragment="adminNav" class="admin-nav">
+
+  <a th:href="@{/mvc/admin/ranking/view}">
+    👥 Gracze
+  </a>
+
+  <a th:href="@{/mvc/admin/ban/blackList}">
+    🚫 Black Lista
+  </a>
+
+  <a th:href="@{/mvc/admin/reports}">
+    📋 Zgłoszenia
+  </a>
+
+  <a th:href="@{/}">
+    🏠 Testowanie
+  </a>
+
+</nav>
 <hr class="content-divider"/>
 <main>
   <div class="form-container" style="max-width: 1800px;">
@@ -88,9 +107,6 @@
       </tbody>
     </table>
 
-    <a th:href="@{/}" class="back-link">← Testowanie</a>
-    <br>
-    <a th:href="@{/mvc/admin/ranking/view}" class="back-link">← Gracze</a>
   </div>
 </main>
 <hr class="content-divider"/>
