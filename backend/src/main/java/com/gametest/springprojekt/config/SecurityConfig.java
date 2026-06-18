@@ -2,6 +2,8 @@ package com.gametest.springprojekt.config;
 
 import com.gametest.springprojekt.service.CustomUserDetailsService;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -10,14 +12,13 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableMethodSecurity//do zabezpieczeń przed metodami
+@RequiredArgsConstructor
 public class SecurityConfig {
     private final LoginSuccessHandler successHandler;
     private final CustomUserDetailsService userDetailsService;
 
-    public SecurityConfig(LoginSuccessHandler successHandler, CustomUserDetailsService userDetailsService) {
-        this.successHandler = successHandler;
-        this.userDetailsService = userDetailsService;
-    }
+    @Value("${app.security.remember-me.key}")
+    private String rememberMeKey;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,7 +37,7 @@ public class SecurityConfig {
                 )
                 .rememberMe(remember -> remember
                         .rememberMeParameter("rememberMe")
-                        .key("SrubaRpgBardzoTajnyKlucz2026!@#")
+                        .key(rememberMeKey)
                         .tokenValiditySeconds(7*24*60*60)
                         .userDetailsService(userDetailsService)
                 )
