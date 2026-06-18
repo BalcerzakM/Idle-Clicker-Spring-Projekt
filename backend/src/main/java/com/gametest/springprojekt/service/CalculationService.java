@@ -96,6 +96,7 @@ public class CalculationService {
         return random.nextInt(ROLL_MAX) < dodgeChanceRoll;
     }
 
+    //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
     public int calculateDamage(int baseDamage, int luck) {
         if (baseDamage <= 0) baseDamage = 1;
 

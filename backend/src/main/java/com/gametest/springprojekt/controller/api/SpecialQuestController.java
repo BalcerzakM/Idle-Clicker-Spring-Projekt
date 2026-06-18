@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/boss")
 @RequiredArgsConstructor
 public class SpecialQuestController {
-    QuestService questService;
-    CharacterService characterService;
-    CombatService combatService;
+    private final QuestService questService;
+    private final CharacterService characterService;
+    private final CombatService combatService;
 
     @GetMapping
     public ResponseEntity<SpecialQuestDto> getSpecialQuest() {
