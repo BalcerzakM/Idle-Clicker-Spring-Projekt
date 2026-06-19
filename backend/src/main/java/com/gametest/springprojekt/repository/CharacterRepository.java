@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface CharacterRepository extends JpaRepository<CharacterEntity,Long> {
     boolean existsByName(String name);
 
-    @Query("SELECT COUNT(c) FROM CharacterEntity c WHERE c.auraLvl > :aura OR (c.auraLvl = :aura AND c.id < :id)")
+    @Query("SELECT COUNT(c) FROM CharacterEntity c WHERE c.auraLvl > :aura OR (c.auraLvl = :aura AND c.id > :id)")
     long countHigherRanked(@Param("aura") int aura, @Param("id") Long id);
 
     Optional<CharacterEntity> findByNameIgnoreCase(String trim);

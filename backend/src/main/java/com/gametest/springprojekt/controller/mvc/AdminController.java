@@ -23,7 +23,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/mvc/admin")
 @RequiredArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")//dodatkowe zabezpieczenie metod (bez admina leci forbiden)
 public class AdminController {
 
     private final ReportService reportService;

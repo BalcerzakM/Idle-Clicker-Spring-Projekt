@@ -107,7 +107,6 @@ const RankingView = () => {
 			const params = new URLSearchParams({
 				page: page.toString(),
 				size: pageSize.toString(),
-				sort: "auraLvl,desc",
 			});
 
 			const response = await fetch(
