@@ -64,6 +64,7 @@ public class CombatService {
         }
 
         String enemyName = opponent.getName();
+        String enemyImageFolder = "opponents";
         String enemyImagePath = opponent.getImagePath();
         boolean playerWon = combatLog.size() % 2 != 0;
 
@@ -92,6 +93,7 @@ public class CombatService {
                 characterHp,
                 opponentHp,
                 enemyName,
+                enemyImageFolder,
                 enemyImagePath,
                 questType,
                 bonusMoney,
@@ -138,6 +140,7 @@ public class CombatService {
         }
 
         String enemyName = opponent.getName();
+        String enemyImageFolder = "bosses";
         String enemyImagePath = opponent.getImagePath();
         boolean playerWon = combatLog.size() % 2 != 0;
 
@@ -165,6 +168,7 @@ public class CombatService {
                 characterHp,
                 opponentHp,
                 enemyName,
+                enemyImageFolder,
                 enemyImagePath,
                 bossQuest.getQuestType().toString(),
                 bonusMoney,
@@ -317,7 +321,7 @@ public class CombatService {
         Map<String, Integer> stats = character.getEquipmentStatsSum();
         int characterHp = stats.get("endurance");
 
-        Map<String, Integer> opponentStats = character.getEquipmentStatsSum();
+        Map<String, Integer> opponentStats = opponent.getEquipmentStatsSum();
         int opponentHp = opponentStats.get("endurance");
 
         List<Integer> combatLog;
@@ -326,6 +330,7 @@ public class CombatService {
 
 
         String enemyName = opponent.getName();
+        String enemyImageFolder = "avatars";
         String enemyImagePath = opponent.getAvatarPicture();
         boolean playerWon = combatLog.size() % 2 != 0;
 
@@ -354,6 +359,7 @@ public class CombatService {
                 characterHp,
                 opponentHp,
                 enemyName,
+                enemyImageFolder,
                 enemyImagePath,
                 null,
                 bonusMoney,

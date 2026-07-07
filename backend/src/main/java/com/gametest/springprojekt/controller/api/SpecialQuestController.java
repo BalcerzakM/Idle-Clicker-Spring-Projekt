@@ -8,10 +8,7 @@ import com.gametest.springprojekt.service.CombatService;
 import com.gametest.springprojekt.service.QuestService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/boss")
@@ -34,6 +31,16 @@ public class SpecialQuestController {
         CharacterEntity character = characterService.getCurrentCharacter();
 
         CombatDto combatDto = combatService.startBossCombat(character);
+        return ResponseEntity.ok(combatDto);
+    }
+
+    @PostMapping("/pvp") //
+    public ResponseEntity<CombatDto> getPvpCombatSequence(
+            @RequestParam String playerName
+    ) {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        CharacterEntity opponent = characterService.getCharacterByName(playerName);
+        CombatDto combatDto = combatService.startPlayerCombat(character, opponent);
         return ResponseEntity.ok(combatDto);
     }
 }
