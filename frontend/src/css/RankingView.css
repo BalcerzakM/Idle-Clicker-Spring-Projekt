@@ -495,3 +495,31 @@
 .slot-placeholder {
 	font-size: 12px;
 }
+
+.ranking-player-actions {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+
+.ranking-attack-btn {
+	padding: 12px 26px;
+	font-size: 16px;
+	font-weight: bold;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	background: #b71c1c;
+	color: white;
+	transition: 0.2s;
+}
+
+.ranking-attack-btn:hover:not(:disabled) {
+	background: #d32f2f;
+	transform: scale(1.05);
+}
+
+.ranking-attack-btn:disabled {
+	background: #777;
+	cursor: not-allowed;
+}

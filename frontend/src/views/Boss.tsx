@@ -1,222 +1,224 @@
 import "../css/BossView.css";
 import questCard from "../assets/scenes/other/special_quest_card.png";
-import {useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import Arena from "../components/Arena";
-import {useAlert} from "../context/AlertContext";
-import {useCharacter} from "../context/CharacterContext";
+import { useAlert } from "../context/AlertContext";
+import { useCharacter } from "../context/CharacterContext";
 
 interface SpecialQuestDto {
-    questTitle: string;
-    questDescription: string;
-    questType: string;
-    opponentName: string;
-    opponentImagePath: string;
+	questTitle: string;
+	questDescription: string;
+	questType: string;
+	opponentName: string;
+	opponentImagePath: string;
 }
 
 interface ActiveQuestDto {
-    questTitle: string;
-    questStartTime: string;
-    questEndTime: string;
-    imagePath: string;
+	questTitle: string;
+	questStartTime: string;
+	questEndTime: string;
+	imagePath: string;
 }
 
 function Boss() {
-    const { showError } = useAlert();
-    const { refreshCharacter } = useCharacter();
+	const { showError } = useAlert();
+	const { refreshCharacter } = useCharacter();
 
-    const [bossQuest, setBossQuest] = useState<SpecialQuestDto | null>(null);
-    const [combatResult, setCombatResult] = useState<any | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [startingCombat, setStartingCombat] = useState(false);
-    const [noBoss, setNoBoss] = useState(false);
-    const [hasActiveDuty, setHasActiveDuty] = useState(false);
-    const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null);
+	const [bossQuest, setBossQuest] = useState<SpecialQuestDto | null>(null);
+	const [combatResult, setCombatResult] = useState<any | null>(null);
+	const [loading, setLoading] = useState(true);
+	const [startingCombat, setStartingCombat] = useState(false);
+	const [noBoss, setNoBoss] = useState(false);
+	const [hasActiveDuty, setHasActiveDuty] = useState(false);
+	const [activeQuest, setActiveQuest] = useState<ActiveQuestDto | null>(null);
 
-    const fetchBossQuest = useCallback(async () => {
-        try {
-            setLoading(true);
+	const fetchBossQuest = useCallback(async () => {
+		try {
+			setLoading(true);
 
-            const res = await fetch("http://localhost:8080/api/boss");
+			const res = await fetch("http://localhost:8080/api/boss");
 
-            if (!res.ok) {
-                const error = await res.json();
-                if (res.status === 404) {
-                    setBossQuest(null);
-                    setNoBoss(true);
-                    return;
-                }
-                showError(error.message || "Nie udało się pobrać bossa");
-                return;
-            }
+			if (!res.ok) {
+				const error = await res.json();
+				if (res.status === 404) {
+					setBossQuest(null);
+					setNoBoss(true);
+					return;
+				}
+				showError(error.message || "Nie udało się pobrać bossa");
+				return;
+			}
 
-            const data: SpecialQuestDto = await res.json();
-            setBossQuest(data);
-        } catch (err) {
-            console.error(err);
-            showError("Brak połączenia z serwerem");
-        } finally {
-            setLoading(false);
-        }
-    }, [showError]);
+			const data: SpecialQuestDto = await res.json();
+			setBossQuest(data);
+		} catch (err) {
+			console.error(err);
+			showError("Brak połączenia z serwerem");
+		} finally {
+			setLoading(false);
+		}
+	}, [showError]);
 
-    const checkActiveDuty = useCallback(async () => {
-        try {
-            const res = await fetch("http://localhost:8080/api/security");
+	const checkActiveDuty = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/security");
 
-            if (res.status === 404) {
-                setHasActiveDuty(false);
-                return;
-            }
+			if (res.status === 404) {
+				setHasActiveDuty(false);
+				return;
+			}
 
-            if (!res.ok) {
-                return;
-            }
+			if (!res.ok) {
+				return;
+			}
 
-            setHasActiveDuty(true);
-        } catch (err) {
-            console.error(err);
-        }
-    }, []);
+			setHasActiveDuty(true);
+		} catch (err) {
+			console.error(err);
+		}
+	}, []);
 
-    const checkActiveQuest = useCallback(async () => {
-        try {
-            const res = await fetch("http://localhost:8080/api/quest/active");
+	const checkActiveQuest = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/quest/active");
 
-            if (res.status === 404 || res.status === 409) {
-                setActiveQuest(null);
-                return;
-            }
+			if (res.status === 404 || res.status === 409) {
+				setActiveQuest(null);
+				return;
+			}
 
-            if (!res.ok) {
-                setActiveQuest(null);
-                return;
-            }
+			if (!res.ok) {
+				setActiveQuest(null);
+				return;
+			}
 
-            const data: ActiveQuestDto = await res.json();
-            setActiveQuest(data);
-        } catch (err) {
-            console.error(err);
-            setActiveQuest(null);
-        }
-    }, []);
+			const data: ActiveQuestDto = await res.json();
+			setActiveQuest(data);
+		} catch (err) {
+			console.error(err);
+			setActiveQuest(null);
+		}
+	}, []);
 
-    useEffect(() => {
-        fetchBossQuest();
-        checkActiveDuty();
-        checkActiveQuest();
-    }, [fetchBossQuest, checkActiveDuty, checkActiveQuest]);
+	useEffect(() => {
+		fetchBossQuest();
+		checkActiveDuty();
+		checkActiveQuest();
+	}, [fetchBossQuest, checkActiveDuty, checkActiveQuest]);
 
-    const handleStartBossCombat = async () => {
-        if (hasActiveDuty) {
-            showError("Nie możesz walczyć z bossem podczas aktywnej zmiany.");
-            return;
-        }
+	const handleStartBossCombat = async () => {
+		if (hasActiveDuty) {
+			showError("Nie możesz walczyć z bossem podczas aktywnej zmiany.");
+			return;
+		}
 
-        if (activeQuest) {
-            showError("Nie możesz walczyć z bossem podczas aktywnego questa.");
-            return;
-        }
+		if (activeQuest) {
+			showError("Nie możesz walczyć z bossem podczas aktywnego questa.");
+			return;
+		}
 
-        try {
-            setStartingCombat(true);
+		try {
+			setStartingCombat(true);
 
-            const res = await fetch("http://localhost:8080/api/boss/combat", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                }
-            });
+			const res = await fetch("http://localhost:8080/api/boss/combat", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
 
-            if (!res.ok) {
-                const error = await res.json();
-                showError(error.message || "Nie udało się rozpocząć walki");
-                return;
-            }
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się rozpocząć walki");
+				return;
+			}
 
-            const data = await res.json();
-            setCombatResult(data);
-        } catch (err) {
-            console.error(err);
-            showError("Brak połączenia z serwerem");
-        } finally {
-            setStartingCombat(false);
-        }
-    };
+			const data = await res.json();
+			setCombatResult(data);
+		} catch (err) {
+			console.error(err);
+			showError("Brak połączenia z serwerem");
+		} finally {
+			setStartingCombat(false);
+		}
+	};
 
-    if (loading) {
-        return <div className="boss-loading">Ładowanie...</div>;
-    }
+	if (loading) {
+		return <div className="boss-loading">Ładowanie...</div>;
+	}
 
-    if (combatResult) {
-        return (
-            <Arena
-                combatData={combatResult}
-                onClose={() => {
-                    setCombatResult(null);
-                    refreshCharacter();
-                    fetchBossQuest();
-                }}
-            />
-        );
-    }
+	if (combatResult) {
+		return (
+			<Arena
+				combatData={combatResult}
+				onClose={() => {
+					setCombatResult(null);
+					refreshCharacter();
+					fetchBossQuest();
+				}}
+			/>
+		);
+	}
 
-    return (
-        <div className="boss">
-            <div className="boss-card">
-                <img
-                    src={questCard}
-                    alt="boss_card"
-                    width={735}
-                    height={400}
-                    className="boss-card-img"
-                />
-                {noBoss && (
-                    <div className="boss-card-content boss-card-empty">
-                        <div className="boss-info">
-                            <h2>Brak zleceń specjalnych</h2>
-                            <p className="boss-description">
-                                Wróć później
-                            </p>
-                        </div>
-                    </div>
-                )}
+	return (
+		<div className="boss">
+			<div className="boss-card">
+				<img
+					src={questCard}
+					alt="boss_card"
+					width={735}
+					height={400}
+					className="boss-card-img"
+				/>
+				{noBoss && (
+					<div className="boss-card-content boss-card-empty">
+						<div className="boss-info">
+							<h2>Brak zleceń specjalnych</h2>
+							<p className="boss-description">Wróć później</p>
+						</div>
+					</div>
+				)}
 
-                {bossQuest && (
-                    <div className="boss-card-content">
-                        <div className="boss-opponent">
-                            <img
-                                src={`/opponents/${bossQuest.opponentImagePath}`}
-                                alt={bossQuest.opponentName}
-                                className="boss-opponent-img"
-                            />
-                            <p className="boss-opponent-name">
-                                Cel: <span>{bossQuest.opponentName}</span>
-                            </p>
-                        </div>
+				{bossQuest && (
+					<div className="boss-card-content">
+						<div className="boss-opponent">
+							<img
+								src={`/bosses/${bossQuest.opponentImagePath}`}
+								alt={bossQuest.opponentName}
+								className="boss-opponent-img"
+							/>
+							<p className="boss-opponent-name">
+								Cel: <span>{bossQuest.opponentName}</span>
+							</p>
+						</div>
 
-                        <div className="boss-info">
-                            <h2>{bossQuest.questTitle}</h2>
+						<div className="boss-info">
+							<h2>{bossQuest.questTitle}</h2>
 
-                            <p className="boss-description">
-                                {bossQuest.questDescription}
-                            </p>
+							<p className="boss-description">{bossQuest.questDescription}</p>
 
-                            <p className="boss-type">
-                                Typ walki: <span>{bossQuest.questType}</span>
-                            </p>
-                            <button
-                                className="boss-fight-btn"
-                                onClick={handleStartBossCombat}
-                                disabled={startingCombat || hasActiveDuty || !!activeQuest}
-                            >
-                                {hasActiveDuty ? "AKTYWNA ZMIANA (OCHRONA)" : activeQuest ? "AKTYWNY QUEST (BARMAN)" : startingCombat ? "Start..." : "PRZYJMIJ ZLECENIE"}
-                            </button>
-                        </div>
-                    </div>
-                )}
-            </div>
-        </div>
-    );
+							<p className="boss-type">
+								Typ walki: <span>{bossQuest.questType}</span>
+							</p>
+							<button
+								className="boss-fight-btn"
+								onClick={handleStartBossCombat}
+								disabled={startingCombat || hasActiveDuty || !!activeQuest}
+							>
+								{hasActiveDuty
+									? "AKTYWNA ZMIANA (OCHRONA)"
+									: activeQuest
+										? "AKTYWNY QUEST (BARMAN)"
+										: startingCombat
+											? "Start..."
+											: "PRZYJMIJ ZLECENIE"}
+							</button>
+						</div>
+					</div>
+				)}
+			</div>
+		</div>
+	);
 }
 
 export default Boss;
