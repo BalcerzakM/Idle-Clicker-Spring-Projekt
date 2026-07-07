@@ -57,4 +57,14 @@ public class QuestController {
         CombatDto combatDto = combatService.startCombat(character);
         return ResponseEntity.ok(combatDto);
     }
+
+    @PostMapping("/pvp") //
+    public ResponseEntity<CombatDto> getPvpCombatSequence(
+            @RequestParam String playerName
+    ) {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        CharacterEntity opponent = characterService.getCharacterByName(playerName);
+        CombatDto combatDto = combatService.startPlayerCombat(character, opponent);
+        return ResponseEntity.ok(combatDto);
+    }
 }

@@ -247,6 +247,120 @@ public class CombatService {
         return combatLog;
     }
 
+    private List<Integer> simulateMixedCombat(CharacterEntity character, CharacterEntity opponent) {
+        Map<String, Integer> characterStats = character.getEquipmentStatsSum();
+        Map<String, Integer> opponentStats = opponent.getEquipmentStatsSum();
+
+        int characterHp = characterStats.get("endurance");
+        int characterStrength = characterStats.get("strength");
+        int characterAgility = characterStats.get("agility");
+        int characterLuck = characterStats.get("luck");
+        int characterRizz = characterStats.get("rizz");
+
+        int opponentHp = opponentStats.get("endurance");
+        int opponentStrength = opponentStats.get("strength");
+        int opponentAgility = opponentStats.get("agility");
+        int opponentLuck = opponentStats.get("luck");
+        int opponentRizz = opponentStats.get("rizz");
+
+
+        int baseCharacterDmg = calculationService.calculateRizzFightBaseDamage(characterRizz, characterAgility, opponentAgility);
+        int baseOpponentDmg = calculationService.calculateRizzFightBaseDamage(opponentRizz,opponentAgility, characterAgility);
+
+        List<Integer> combatLog = new ArrayList<>();
+        boolean playersAtack = true;
+        int attacktype =0;
+        int dmg;
+        while (characterHp > 0 && opponentHp > 0) {
+            if(playersAtack) {
+                if(calculationService.didDodge(opponentAgility)) {
+                    combatLog.add(0);
+                } else {
+                    if(attacktype % 2 == 0) {
+                        dmg = calculationService.calculateDamage(characterStrength, characterLuck);
+                    }
+                    else{
+                        dmg = calculationService.calculateDamage(baseCharacterDmg, characterLuck);
+                    }
+                    combatLog.add(dmg);
+                    opponentHp -= dmg;
+                    attacktype++;
+                }
+                playersAtack = false;
+            } else {
+                if(calculationService.didDodge(characterAgility)) {
+                    combatLog.add(0);
+                } else {
+                    if(attacktype % 2 == 0) {
+                        dmg = calculationService.calculateDamage(opponentStrength, opponentLuck);
+                    }
+                    else{
+                        dmg = calculationService.calculateDamage(baseOpponentDmg, opponentLuck);
+                    }
+                    combatLog.add(dmg);
+                    characterHp -= dmg;
+                    attacktype++;
+                }
+                playersAtack = true;
+            }
+        }
+        return combatLog;
+    }
+
+
+    @Transactional
+    public CombatDto startPlayerCombat(CharacterEntity character, CharacterEntity opponent) {
+        if (character.getBackpack().size() >= character.getMAX_BACKPACK_SLOTS()) {
+            throw new BackpackIsAlreadyFullException("Twój plecak jest pełny! Zrób w nim miejsce, zanim ruszysz do walki.");
+        }
+
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+        int characterHp = stats.get("endurance");
+
+        Map<String, Integer> opponentStats = character.getEquipmentStatsSum();
+        int opponentHp = opponentStats.get("endurance");
+
+        List<Integer> combatLog;
+
+        combatLog = simulateMixedCombat(character, opponent);
+
+
+        String enemyName = opponent.getName();
+        String enemyImagePath = opponent.getAvatarPicture();
+        boolean playerWon = combatLog.size() % 2 != 0;
+
+        int bonusAura = 0;
+        int bonusMoney = 0;
+        ItemDto rewardItemDto = null;
+
+        if(playerWon) {
+            bonusAura = opponent.getAuraLvl()*10; //aktualnie na sztywno jako nagroda dziesięciokrotność poziomu pokonanej postaci
+            bonusMoney = opponent.getAuraLvl()*10;
+
+            ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
+
+            if (rewardItem != null) {
+                rewardItemDto = rewardItem.generateItemDto();
+            }
+
+            character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
+        }
+
+        character.setActiveQuest(null);
+
+        return new CombatDto(
+                combatLog,
+                playerWon,
+                characterHp,
+                opponentHp,
+                enemyName,
+                enemyImagePath,
+                null,
+                bonusMoney,
+                bonusAura,
+                rewardItemDto
+        );
+    }
 
 
 

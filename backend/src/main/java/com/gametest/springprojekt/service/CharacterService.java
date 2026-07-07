@@ -28,6 +28,7 @@ public class CharacterService {
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
 
+    @Transactional(readOnly = true)
     public CharacterEntity getCurrentCharacter() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
@@ -79,6 +80,7 @@ public class CharacterService {
         characterRepository.save(newCharacter);
     }
 
+    @Transactional(readOnly = true)
     public ShortCharacterInfoDto getShortCharacterInfo(CharacterEntity character) {
         int currentLevelAuraRequirement = (character.getAuraLvl() - 1) * (character.getAuraLvl() - 1) * 100;
 
@@ -98,6 +100,7 @@ public class CharacterService {
         );
     }
 
+    @Transactional(readOnly = true)
     public FullCharacterInfoDto getFullCharacterInfo(CharacterEntity character) {
         vehicleService.validateAndRemoveExpiredVehicle(character);
         Map<String, Integer> stats = character.getEquipmentStatsSum();
@@ -321,4 +324,9 @@ public class CharacterService {
         character.setBouncerDuty(null);
     }
 
+    @Transactional(readOnly = true)
+    public CharacterEntity getCharacterByName(String name) {
+        return  characterRepository.findByNameIgnoreCase(name)
+                .orElseThrow(() -> new CharacterNotFoundException("Nie istnieje postać o tej nazwie!"));
+    }
 }
