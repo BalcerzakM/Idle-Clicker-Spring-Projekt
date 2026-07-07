@@ -14,6 +14,8 @@ import Premium from "./views/Premium";
 import CarDealer from "./views/CarDealer";
 import RankingView from "./views/RankingView";
 import Boss from "./views/Boss";
+import { HelpProvider } from "./context/HelpContext";
+import HelpModal from "./components/HelpModal";
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -35,28 +37,31 @@ function App() {
 	}, []);
 
 	return (
-		<div className="gameWrapper">
-			<div id="root" className="app-root">
-				<div ref={gameRef} className="game-content">
-					<NavBar />
-					<Routes>
-						<Route index element={<ClubMain />} />
-						<Route path="/shop" element={<Shop />} />
-						<Route path="/barman" element={<Barman />} />
-						<Route path="/player" element={<Player />} />
-						<Route path="/outside" element={<Outside />} />
-						<Route path="/boxer" element={<Boxer />} />
-						<Route path="/parking" element={<Parking />} />
-						<Route path="/security" element={<Security />} />
-						<Route path="/toilet" element={<Toilet />} />
-						<Route path="/premium" element={<Premium />} />
-						<Route path="/car-dealer" element={<CarDealer />} />
-						<Route path="/ranking" element={<RankingView />} />
-                        <Route path="/boss" element={<Boss />} />
-					</Routes>
+		<HelpProvider>
+			<div className="gameWrapper">
+				<div id="root" className="app-root">
+					<div ref={gameRef} className="game-content">
+						<NavBar />
+						<Routes>
+							<Route index element={<ClubMain />} />
+							<Route path="/shop" element={<Shop />} />
+							<Route path="/barman" element={<Barman />} />
+							<Route path="/player" element={<Player />} />
+							<Route path="/outside" element={<Outside />} />
+							<Route path="/boxer" element={<Boxer />} />
+							<Route path="/parking" element={<Parking />} />
+							<Route path="/security" element={<Security />} />
+							<Route path="/toilet" element={<Toilet />} />
+							<Route path="/premium" element={<Premium />} />
+							<Route path="/car-dealer" element={<CarDealer />} />
+							<Route path="/ranking" element={<RankingView />} />
+							<Route path="/boss" element={<Boss />} />
+						</Routes>
+						<HelpModal />
+					</div>
 				</div>
 			</div>
-		</div>
+		</HelpProvider>
 	);
 }
 

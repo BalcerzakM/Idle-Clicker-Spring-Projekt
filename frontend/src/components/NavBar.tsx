@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
 import { useState } from "react";
 import ReportForm from "./ReportForm";
+import InfoButton from "./InfoButton";
 
 function NavBar() {
 	const navigate = useNavigate();
@@ -106,6 +107,8 @@ function NavBar() {
 					</div>
 				</div>
 			)}
+
+			<InfoButton />
 		</div>
 	);
 }
