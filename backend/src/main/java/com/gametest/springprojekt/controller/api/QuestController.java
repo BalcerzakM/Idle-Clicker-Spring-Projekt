@@ -57,4 +57,5 @@ public class QuestController {
         CombatDto combatDto = combatService.startCombat(character);
         return ResponseEntity.ok(combatDto);
     }
+
 }

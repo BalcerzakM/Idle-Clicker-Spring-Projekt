@@ -1,6 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
 import "../css/RankingView.css";
 import { useAlert } from "../context/AlertContext.tsx";
+import Arena from "../components/Arena";
+import { useCharacter } from "../context/CharacterContext";
 
 // Typy danych
 interface CharacterDto {
@@ -32,6 +34,7 @@ export interface RankingPlayerDto {
 
 const RankingView = () => {
 	const { showError } = useAlert();
+	const { refreshCharacter } = useCharacter();
 
 	// Stan rankingu
 	const [ranking, setRanking] = useState<CharacterDto[]>([]);
@@ -51,6 +54,61 @@ const RankingView = () => {
 	const [playerDetails, setPlayerDetails] = useState<
 		Record<string, RankingPlayerDto>
 	>({});
+	const [combatResult, setCombatResult] = useState<any | null>(null);
+	const [startingCombat, setStartingCombat] = useState(false);
+
+	const [hasActiveDuty, setHasActiveDuty] = useState(false);
+	const [activeQuest, setActiveQuest] = useState<any | null>(null);
+
+	const checkActiveDuty = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/security", {
+				credentials: "include",
+			});
+
+			if (res.status === 404) {
+				setHasActiveDuty(false);
+				return;
+			}
+
+			if (!res.ok) {
+				return;
+			}
+
+			setHasActiveDuty(true);
+		} catch (err) {
+			console.error(err);
+		}
+	}, []);
+
+	const checkActiveQuest = useCallback(async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/quest/active", {
+				credentials: "include",
+			});
+
+			if (res.status === 404 || res.status === 409) {
+				setActiveQuest(null);
+				return;
+			}
+
+			if (!res.ok) {
+				setActiveQuest(null);
+				return;
+			}
+
+			const data = await res.json();
+			setActiveQuest(data);
+		} catch (err) {
+			console.error(err);
+			setActiveQuest(null);
+		}
+	}, []);
+
+	useEffect(() => {
+		checkActiveDuty();
+		checkActiveQuest();
+	}, [checkActiveDuty, checkActiveQuest]);
 
 	const loadPlayerDetails = async (playerName: string) => {
 		if (playerDetails[playerName]) {
@@ -88,6 +146,46 @@ const RankingView = () => {
 
 		await loadPlayerDetails(playerName);
 		setExpandedPlayer(playerName);
+	};
+
+	const handleStartPvpCombat = async (playerName: string) => {
+		if (hasActiveDuty) {
+			showError("Nie możesz walczyć podczas aktywnej zmiany.");
+			return;
+		}
+
+		if (activeQuest) {
+			showError("Nie możesz walczyć podczas aktywnego questa.");
+			return;
+		}
+
+		try {
+			setStartingCombat(true);
+
+			const params = new URLSearchParams({
+				playerName,
+			});
+
+			const res = await fetch(`http://localhost:8080/api/boss/pvp?${params}`, {
+				method: "POST",
+				credentials: "include",
+			});
+
+			if (!res.ok) {
+				const error = await res.json();
+				showError(error.message || "Nie udało się rozpocząć walki");
+				return;
+			}
+
+			const data = await res.json();
+
+			setCombatResult(data);
+		} catch (err) {
+			console.error(err);
+			showError("Brak połączenia z serwerem");
+		} finally {
+			setStartingCombat(false);
+		}
 	};
 
 	const EQUIPMENT_SLOTS = [
@@ -205,6 +303,20 @@ const RankingView = () => {
 		return () => clearTimeout(timeout);
 	}, [search]);
 
+	if (combatResult) {
+		return (
+			<Arena
+				combatData={combatResult}
+				onClose={() => {
+					setCombatResult(null);
+					refreshCharacter();
+					fetchRanking();
+					checkActiveDuty();
+					checkActiveQuest();
+				}}
+			/>
+		);
+	}
 	return (
 		<div className="ranking-container">
 			{loading && (
@@ -325,6 +437,26 @@ const RankingView = () => {
 															</div>
 														);
 													})}
+												</div>
+												<div className="ranking-player-actions">
+													<button
+														className="ranking-attack-btn"
+														onClick={(e) => {
+															e.stopPropagation();
+															handleStartPvpCombat(character.name);
+														}}
+														disabled={
+															startingCombat || hasActiveDuty || !!activeQuest
+														}
+													>
+														{hasActiveDuty
+															? "AKTYWNA ZMIANA"
+															: activeQuest
+																? "AKTYWNY QUEST"
+																: startingCombat
+																	? "Start..."
+																	: "⚔ ZAATAKUJ"}
+													</button>
 												</div>
 											</div>
 										)}
