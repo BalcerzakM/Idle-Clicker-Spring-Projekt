@@ -12,6 +12,7 @@ public class CombatDto {
     private int playerHp;
     private int enemyHp;
     private String enemyName;
+    private String enemyImageFolder;
     private String enemyImagePath;
     private String questType;
 
