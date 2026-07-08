@@ -180,4 +180,34 @@ public class GlobalExceptionHandler {
                         "Twoje konto zostało zablokowane!"
                 ));
     }
+
+    @ExceptionHandler(CharacterIsInAGangException.class)
+    public ResponseEntity<ErrorDto> handleCharacterAlreadyInGang(CharacterIsInAGangException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "CHARACTER_ALREADY_IN_GANG",
+                        "Jesteś członkiem innego gangu!"
+                ));
+    }
+
+    @ExceptionHandler(GangNameTakenException.class)
+    public ResponseEntity<ErrorDto> GangNameTaken(GangNameTakenException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "GANG_NAME_TAKEN",
+                        "Gang o tej nazwie już istnieje!"
+                ));
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<ErrorDto> PermissionDenied(PermissionDeniedException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "PERMISSION_DENIED",
+                        "Nie masz uprawnień aby wykonać tę operację!"
+                ));
+    }
 }
