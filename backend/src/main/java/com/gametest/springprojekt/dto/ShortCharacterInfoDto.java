@@ -15,4 +15,5 @@ public class ShortCharacterInfoDto {
     private int nextLevelAuraRequirement;
     private int levelProgressPercent;
     private String characterClass;
+    private String gangName;
 }

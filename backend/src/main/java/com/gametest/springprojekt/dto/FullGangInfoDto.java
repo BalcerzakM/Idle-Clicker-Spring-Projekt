@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.dto;
 
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,6 @@ public class FullGangInfoDto {
     private String gangLeader;
     private String gangEmblem;
     private Set<String> requests;
+    private int moneyBank;
+    private int cristalBank;
 }
