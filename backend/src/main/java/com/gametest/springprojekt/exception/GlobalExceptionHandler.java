@@ -221,7 +221,7 @@ public class GlobalExceptionHandler {
                 ));
     }
 
-    @ExceptionHandler(CannotAttackSelfException.class)
+    @ExceptionHandler(GangAlreadyFullException.class)
     public ResponseEntity<ErrorDto> GangAlreadyFull(GangAlreadyFullException e) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)

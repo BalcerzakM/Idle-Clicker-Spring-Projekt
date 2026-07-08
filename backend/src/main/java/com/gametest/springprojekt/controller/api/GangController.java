@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.controller.api;
 
+import com.gametest.springprojekt.dto.FullGangInfoDto;
 import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.service.CharacterService;
@@ -76,6 +77,13 @@ public class GangController {
             Pageable pageable
     ){
         return gangService.getGangList(pageable);
+    }
+
+    @GetMapping("/{gangName}/info")
+    public FullGangInfoDto getGangInfo(
+            @PathVariable String gangName
+    ){
+        return gangService.getGangInfo(gangName);
     }
 
     @PostMapping("/{gangName}/join")

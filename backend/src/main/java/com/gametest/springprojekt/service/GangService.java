@@ -1,11 +1,13 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.FullGangInfoDto;
 import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.exception.CharacterIsInAGangException;
 import com.gametest.springprojekt.exception.GangAlreadyFullException;
 import com.gametest.springprojekt.exception.GangNameTakenException;
 import com.gametest.springprojekt.exception.PermissionDeniedException;
 import com.gametest.springprojekt.model.CharacterEntity;
+import com.gametest.springprojekt.model.CharacterMapper;
 import com.gametest.springprojekt.model.GangDtoMapper;
 import com.gametest.springprojekt.model.GangEntity;
 import com.gametest.springprojekt.repository.CharacterRepository;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ public class GangService {
     private final GangRepository gangRepository;
     private final int INITIAL_BALANCE = 0;//początkowa wartość jaką gangi mają w skarbcach
     private final GangDtoMapper gangDtoMapper;
+    private final CharacterMapper characterMapper;
 
     @Transactional
     public GangEntity createGang(CharacterEntity character, String name, String description, String emblemPicturePath) {
@@ -183,5 +187,20 @@ public class GangService {
         gang.getRequests().add(character);
 
         gangRepository.save(gang);
+    }
+
+    @Transactional(readOnly = true)
+    public FullGangInfoDto getGangInfo(String gangName) {
+        GangEntity gang = gangRepository.findByGangName(gangName).orElseThrow(() -> new RuntimeException("Podany gang nie istnieje"));
+        FullGangInfoDto dto = new FullGangInfoDto();
+        dto.setGangName(gang.getGangName());
+        dto.setGangDesc(gang.getGangDescription());
+        dto.setGangLeader(gang.getLeader().getName());
+        dto.setMembersCount(gang.getMembers().size());
+        dto.setMembers(gang.getMembers().stream().map(characterMapper::toDto).collect(Collectors.toSet())); //jak to działa to alleluja
+        dto.setRequests(gang.getRequests().stream().map(character -> character.getName()).collect(Collectors.toSet()));
+        dto.setGangEmblem(gang.getEmblemPicturePath());
+
+        return dto;
     }
 }
