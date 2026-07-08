@@ -90,20 +90,20 @@ public class GangService {
             throw new RuntimeException("Postać nie należy do żadnego gangu.");
         }
 
-        gang.getMembers().remove(character);
         character.setGang(null);
+        gang.getMembers().remove(character);
 
         if (gang.getMembers().isEmpty()) {
             gangRepository.delete(gang);
         }
-        if (gang.getLeader() == character) {
-            character.setGang(null);
+        else if (gang.getLeader() == character) {
             gang.setLeader(gang.getMembers().iterator().next());
         }
 
 
+
         characterRepository.save(character);
-        gangRepository.save(gang);
+//        gangRepository.save(gang);
     }
 
     @Transactional
@@ -200,6 +200,8 @@ public class GangService {
         dto.setMembers(gang.getMembers().stream().map(characterMapper::toDto).collect(Collectors.toSet())); //jak to działa to alleluja
         dto.setRequests(gang.getRequests().stream().map(character -> character.getName()).collect(Collectors.toSet()));
         dto.setGangEmblem(gang.getEmblemPicturePath());
+        dto.setCristalBank(gang.getCristalBank());
+        dto.setMoneyBank(gang.getMoneyBank());
 
         return dto;
     }

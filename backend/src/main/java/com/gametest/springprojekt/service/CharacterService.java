@@ -96,7 +96,8 @@ public class CharacterService {
                 character.getAuraLvl(),
                 nextLevelAuraRequirement,
                 levelProgressPercent,
-                character.getCharacterClass().getClassName()
+                character.getCharacterClass().getClassName(),
+                character.getGang().getGangName()
         );
     }
 
