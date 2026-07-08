@@ -1,14 +1,17 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.exception.CharacterIsInAGangException;
 import com.gametest.springprojekt.exception.GangNameTakenException;
 import com.gametest.springprojekt.exception.PermissionDeniedException;
 import com.gametest.springprojekt.model.CharacterEntity;
+import com.gametest.springprojekt.model.GangDtoMapper;
 import com.gametest.springprojekt.model.GangEntity;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.GangRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.PermissionDeniedDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,7 @@ public class GangService {
     private final CharacterRepository characterRepository;
     private final GangRepository gangRepository;
     private final int INITIAL_BALANCE = 0;//początkowa wartość jaką gangi mają w skarbcach
+    private final GangDtoMapper gangDtoMapper;
 
     @Transactional
     public GangEntity createGang(CharacterEntity character, String name, String description, String emblemPicturePath) {
@@ -27,9 +31,10 @@ public class GangService {
             throw new CharacterIsInAGangException("Gracz jest aktualnie w innym gangu!");
         }
 
-        if (gangRepository.findByGangName(name) != null){
+        if (gangRepository.findByGangName(name).isPresent()) {
             throw new GangNameTakenException("Gang o tej nazwie już istnieje!");
         }
+
         GangEntity gang = new GangEntity();
         gang.setGangName(name);
         gang.setGangDescription(description);
@@ -82,6 +87,15 @@ public class GangService {
 
         gang.getMembers().remove(character);
         character.setGang(null);
+
+        if (gang.getMembers().isEmpty()) {
+            gangRepository.delete(gang);
+        }
+        if (gang.getLeader() == character) {
+            character.setGang(null);
+            gang.setLeader(gang.getMembers().iterator().next());
+        }
+
 //
 //        characterRepository.save(character);
 //        gangRepository.save(gang);
@@ -142,6 +156,10 @@ public class GangService {
     }
 
 
-
-
+    @Transactional(readOnly = true)
+    public Page<GangInfoDto> getGangList(Pageable pageable) {
+        return gangRepository
+                .findAll(pageable)
+                .map(gangDtoMapper::toDto);
+    }
 }

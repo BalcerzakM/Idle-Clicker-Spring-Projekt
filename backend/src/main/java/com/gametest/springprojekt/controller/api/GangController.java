@@ -1,10 +1,16 @@
 package com.gametest.springprojekt.controller.api;
 
+import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.service.CharacterService;
 import com.gametest.springprojekt.service.GangService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
+
 
 @RestController
 @RequestMapping("/api/gang")
@@ -64,6 +70,24 @@ public class GangController {
         gangService.depositCristals(gangName, amount);
 
         return "Wpłacono kryształy.";
+    }
+
+
+    @GetMapping
+    public Page<GangInfoDto> getGangList(
+            @PageableDefault(
+                    size = 10
+            )
+            Pageable pageable
+    ){
+        return gangService.getGangList(pageable);
+    }
+
+    @PostMapping("/{gangName}/join")
+    public String addMember(@PathVariable String gangName) {
+        gangService.addMember(characterService.getCurrentCharacter(),gangName, characterService.getCurrentCharacter().getName());
+//na razie od razu akceptuje
+        return "Dodano członka.";
     }
 
 }
