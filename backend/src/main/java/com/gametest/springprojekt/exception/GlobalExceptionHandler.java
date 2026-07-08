@@ -220,4 +220,14 @@ public class GlobalExceptionHandler {
                         "Nie można zaatakować samego siebie."
                 ));
     }
+
+    @ExceptionHandler(CannotAttackSelfException.class)
+    public ResponseEntity<ErrorDto> GangAlreadyFull(GangAlreadyFullException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "GANG_ALREADY_FULL",
+                        "Limit miejsc tego gangu został osiągnięty."
+                ));
+    }
 }

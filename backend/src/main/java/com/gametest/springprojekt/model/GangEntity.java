@@ -49,5 +49,8 @@ public class GangEntity {
     @Column(nullable = false)
     private String emblemPicturePath;
 
+    @ManyToMany
+    private Set<CharacterEntity> requests; //prosby o dołączenie
+
  //kiedyś można dodać chat
 }

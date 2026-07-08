@@ -7,8 +7,6 @@ import com.gametest.springprojekt.service.GangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -75,19 +73,17 @@ public class GangController {
 
     @GetMapping
     public Page<GangInfoDto> getGangList(
-            @PageableDefault(
-                    size = 10
-            )
             Pageable pageable
     ){
         return gangService.getGangList(pageable);
     }
 
     @PostMapping("/{gangName}/join")
-    public String addMember(@PathVariable String gangName) {
-        gangService.addMember(characterService.getCurrentCharacter(),gangName, characterService.getCurrentCharacter().getName());
-//na razie od razu akceptuje
-        return "Dodano członka.";
+    public String requestToJoin(@PathVariable String gangName) {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        gangService.requestToJoin(character, gangName );
+
+        return "Wysłano prośbę.";
     }
 
 }

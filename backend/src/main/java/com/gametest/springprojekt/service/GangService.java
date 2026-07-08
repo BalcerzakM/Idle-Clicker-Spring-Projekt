@@ -2,6 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.exception.CharacterIsInAGangException;
+import com.gametest.springprojekt.exception.GangAlreadyFullException;
 import com.gametest.springprojekt.exception.GangNameTakenException;
 import com.gametest.springprojekt.exception.PermissionDeniedException;
 import com.gametest.springprojekt.model.CharacterEntity;
@@ -51,13 +52,13 @@ public class GangService {
     }
 
     @Transactional
-    public void addMember(CharacterEntity Leader ,String gangName, String characterName) { //tylko lider może dodać do gangu
+    public void addMember(CharacterEntity leader ,String gangName, String characterName) { //tylko lider może dodać do gangu
 
 
         GangEntity gang = gangRepository.findByGangName(gangName)
                 .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
 
-        if (!gang.getMembers().contains(Leader)){
+        if (gang.getLeader()!=leader) {
             throw new PermissionDeniedException("Tylko lider może dodać członka");
         }
 
@@ -71,8 +72,8 @@ public class GangService {
         character.setGang(gang);
         gang.getMembers().add(character);
 
-//        characterRepository.save(character);
-//        gangRepository.save(gang);
+        characterRepository.save(character);
+        gangRepository.save(gang);
     }
 
     @Transactional
@@ -96,33 +97,33 @@ public class GangService {
             gang.setLeader(gang.getMembers().iterator().next());
         }
 
-//
-//        characterRepository.save(character);
-//        gangRepository.save(gang);
+
+        characterRepository.save(character);
+        gangRepository.save(gang);
     }
 
     @Transactional
-    public void removeMember(CharacterEntity Leader ,String characterName) {
+    public void removeMember(CharacterEntity leader ,String characterName) {
 
         CharacterEntity character = characterRepository.findByNameIgnoreCase(characterName)
                 .orElseThrow(() -> new RuntimeException("Postać nie istnieje"));
 
-        GangEntity gang = character.getGang();
-
-        if (!gang.getMembers().contains(Leader)){
-            throw new PermissionDeniedException("Tylko lider może usunąć członka");
-        }
-
-        if (gang == null) {
+        if (character.getGang() == null) {
             throw new RuntimeException("Postać nie należy do żadnego gangu.");
         }
 
+        GangEntity gang = character.getGang();
+
+
+        if (gang.getLeader() != leader) {
+            throw new PermissionDeniedException("Tylko lider może usunąć członka");
+        }
 
         gang.getMembers().remove(character);
         character.setGang(null);
-//
-//        characterRepository.save(character);
-//        gangRepository.save(gang);
+
+        characterRepository.save(character);
+        gangRepository.save(gang);
     }
 
     @Transactional
@@ -161,5 +162,26 @@ public class GangService {
         return gangRepository
                 .findAll(pageable)
                 .map(gangDtoMapper::toDto);
+    }
+
+    @Transactional
+    public void requestToJoin(CharacterEntity character, String gangName) {
+        if (character.getGang() != null) {
+            throw new CharacterIsInAGangException("Należysz już do gangu.");
+        }
+        GangEntity gang = gangRepository.findByGangName(gangName)
+                .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
+
+        if(gang.getMembers().size()>30){
+            throw new GangAlreadyFullException("Limit miejsc tego gangu został osiągnięty. ");
+        }
+
+        if(gang.getRequests().contains(character)){
+            throw new RuntimeException("Już wysłano prośbę do tego gangu. ");
+        }
+
+        gang.getRequests().add(character);
+
+        gangRepository.save(gang);
     }
 }
