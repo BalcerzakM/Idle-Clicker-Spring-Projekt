@@ -1,6 +1,7 @@
 import { useLocation } from "react-router-dom";
 import { helpTexts } from "../assets/helpTexts";
 import { useHelp } from "../context/HelpContext";
+import LogoImg from "../assets/other/logo.png";
 
 export default function HelpModal() {
 	const { pathname } = useLocation();
@@ -14,15 +15,24 @@ export default function HelpModal() {
 	return (
 		<div className="help-overlay" onClick={closeHelp}>
 			<div className="help-modal" onClick={(e) => e.stopPropagation()}>
-				<button className="help-close" onClick={closeHelp}>
-					✖
-				</button>
+                <div className="help-content">
+                    <img
+                        src={LogoImg}
+                        alt="Logo"
+                        className="help-logo"
+                    />
+                    <button className="help-close" onClick={closeHelp}>
+                        ✖
+                    </button>
+                    <div className="help-text-wrapper">
+                        <h2>{help?.title ?? "Instrukcja"}</h2>
+                        <hr/>
 
-				<h2>{help?.title ?? "Instrukcja"}</h2>
-
-				<p style={{ whiteSpace: "pre-line" }}>
-					{help?.text ?? "Brak instrukcji dla tego widoku."}
-				</p>
+                        <p style={{ whiteSpace: "pre-line" }}>
+                            {help?.text ?? "Brak instrukcji dla tego widoku."}
+                        </p>
+                    </div>
+                </div>
 			</div>
 		</div>
 	);

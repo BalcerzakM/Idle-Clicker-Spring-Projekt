@@ -639,23 +639,74 @@ body::before {
 
 	padding: 30px;
 
-	position: relative;
+	position: absolute;
 
 	animation: popup 0.2s ease;
 }
 
-.help-close {
-	position: absolute;
+.help-content {
+    position: relative;
 
-	top: 15px;
-	right: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+
+    left: 460px;
+    top: 210px;
+
+    width: 715px;
+}
+
+.help-text-wrapper {
+    font-family: "Times New Roman";
+    position: relative;
+    line-height: 30px;
+    width: 100%;
+    text-align: justify;
+    color: black;
+}
+
+.help-text-wrapper h2 {
+    font-size: 35px;
+    line-height: 40px;
+    font-weight: normal;
+}
+
+.help-text-wrapper hr {
+    height: 3px;
+    width: 100%;
+}
+
+.help-text-wrapper p {
+    font-size: 18px;
+}
+
+.help-close {
+	position: relative;
+    color: #7a1d2d;
+
+	top: 0;
+	left: 370px;
 
 	border: none;
 	background: none;
 
 	cursor: pointer;
 
-	font-size: 22px;
+	font-size: 30px;
+}
+
+.help-close:hover {
+    color: #ff5a5a;
+    text-shadow: 0 0 12px rgba(255, 90, 90, 0.7);
+}
+
+.help-logo {
+    position: relative;
+    top: 50px;
+    width: 200px;
+    height: auto;
 }
 
 @keyframes popup {
