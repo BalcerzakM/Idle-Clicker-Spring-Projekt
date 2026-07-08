@@ -210,4 +210,14 @@ public class GlobalExceptionHandler {
                         "Nie masz uprawnień aby wykonać tę operację!"
                 ));
     }
+
+    @ExceptionHandler(CannotAttackSelfException.class)
+    public ResponseEntity<ErrorDto> CannotAttackSelf(CannotAttackSelfException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "CANNOT_SELF_ATTACK",
+                        "Nie można zaatakować samego siebie."
+                ));
+    }
 }
