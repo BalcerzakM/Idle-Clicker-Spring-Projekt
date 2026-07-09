@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("/api/character")
@@ -59,6 +61,21 @@ public class CharacterController {
         CharacterEntity character = characterService.getCurrentCharacter();
         characterService.incrementStat(character, stat, 1);
         return ResponseEntity.ok("Zwiększono statystykę");
+    }
+
+    @GetMapping("/gang")
+    public ResponseEntity<?> getGang() {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        if (character.getGang() == null) {
+            return ResponseEntity.ok(Map.of("gangName", (String) null));
+        }
+        return ResponseEntity.ok(Map.of("gangName", character.getGang().getGangName()));
+    }
+
+    @GetMapping
+    public ResponseEntity<?> getName() {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        return ResponseEntity.ok(Map.of("name", character.getName()));
     }
 
 }

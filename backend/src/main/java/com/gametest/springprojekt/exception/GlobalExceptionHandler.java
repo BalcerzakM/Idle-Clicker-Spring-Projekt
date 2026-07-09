@@ -180,4 +180,54 @@ public class GlobalExceptionHandler {
                         "Twoje konto zostało zablokowane!"
                 ));
     }
+
+    @ExceptionHandler(CharacterIsInAGangException.class)
+    public ResponseEntity<ErrorDto> handleCharacterAlreadyInGang(CharacterIsInAGangException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "CHARACTER_ALREADY_IN_GANG",
+                        "Już jesteś członkiem gangu!"
+                ));
+    }
+
+    @ExceptionHandler(GangNameTakenException.class)
+    public ResponseEntity<ErrorDto> GangNameTaken(GangNameTakenException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "GANG_NAME_TAKEN",
+                        "Gang o tej nazwie już istnieje!"
+                ));
+    }
+
+    @ExceptionHandler(PermissionDeniedException.class)
+    public ResponseEntity<ErrorDto> PermissionDenied(PermissionDeniedException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "PERMISSION_DENIED",
+                        "Nie masz uprawnień aby wykonać tę operację!"
+                ));
+    }
+
+    @ExceptionHandler(CannotAttackSelfException.class)
+    public ResponseEntity<ErrorDto> CannotAttackSelf(CannotAttackSelfException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "CANNOT_SELF_ATTACK",
+                        "Nie można zaatakować samego siebie."
+                ));
+    }
+
+    @ExceptionHandler(GangAlreadyFullException.class)
+    public ResponseEntity<ErrorDto> GangAlreadyFull(GangAlreadyFullException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "GANG_ALREADY_FULL",
+                        "Limit miejsc tego gangu został osiągnięty."
+                ));
+    }
 }
