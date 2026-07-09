@@ -644,6 +644,10 @@ body::before {
 	animation: popup 0.2s ease;
 }
 
+.help-overlay.help-closing .help-modal {
+    animation: popupClose 0.2s ease forwards;
+}
+
 .help-content {
     position: relative;
 
@@ -713,6 +717,7 @@ body::before {
 	from {
 		transform: scale(0.9);
 		opacity: 0;
+        translate: 0 200px;
 	}
 
 	to {
@@ -720,3 +725,15 @@ body::before {
 		opacity: 1;
 	}
 }
+@keyframes popupClose {
+     from {
+         transform: scale(1);
+         opacity: 1;
+     }
+
+     to {
+         transform: scale(0.9);
+         opacity: 0;
+         translate: 0 200px;
+     }
+ }

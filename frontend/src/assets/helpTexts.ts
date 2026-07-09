@@ -14,7 +14,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
     "/shop": {
         title: "Szatnia",
         text:
-            `Tutaj możesz kupić i wyekwipować swoje przedmioty. W oknie sklepu, które znajduje się po prawej stronie po najecheniu kursorem na jeden z czterech przedmiotów pokażą się jego statystyki oraz statystyki aktualnie założonego w tym slocie przedmiotu. Przedmiot kupisz klikając "Kup". Jego miejsce w sklepie uzupełni nowa oferta. Za 1 Kryształ możesz odświeżyć ofertę sklepową klikająć przycisk u góry okna sklepu. Oferta resetuje się też codziennie o godz. 6:00. 
+            `Tutaj możesz kupić i wyekwipować swoje przedmioty. W oknie sklepu, które znajduje się po prawej stronie po najecheniu kursorem na jeden z czterech przedmiotów pokażą się jego statystyki oraz statystyki aktualnie założonego w tym slocie przedmiotu. Przedmiot kupisz klikając "Kup". Jego miejsce w sklepie uzupełni nowa oferta. Za 1 Kryształ możesz odświeżyć ofertę sklepową klikając przycisk u góry okna sklepu. Oferta resetuje się też codziennie około godz. 6:00. 
             Przedmiot można sprzedać przeciągając go z plecaka na okno sklepu. W podobny sposób można wymieniać numerki do szatni - po przeciągnięciu numerku na okno sklepu otrzymasz przedmiot.
             Przedmiot można wyekwipować przeciągając go z plecaka na postać lub slot nad plecakiem.
             `,
@@ -26,7 +26,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
             `U Barmana możesz przyjmować i wykonywać questy. Questy dzielą się na dwa główny typy:
             • Rizz Fight - polega na testowaniu swojej charyzmy, walczysz z przeciwnikiem na Rizz, a Zwinność daje bonus do ataku dla postaci u której ma wyższą wartość,
             • Strength Fight - fizyczna walka która oparta jest na  Sile, a Zwinność zwiększa szansę na unik.
-            Po wybraniu questa uruchamia się ekran oczekiwania z licznikiem czasu. W tym czasie możesz zająć się czymś innym. Pojazdy skracają czas czekania. Po zakończeniu odliczania można rozpocząć automatyczną walkę z przeciwnikiem. Po wygranej walce otrzymasz Monety i Aurę. Możesz też otrzymać Numerek do szatni, który wymienisz w Szatni na przedmiot.
+            Po wybraniu questa musisz odczekać czas, który rośnie wraz twoją Aurą. W tym czasie możesz zająć się czymś innym. Pojazdy skracają czas czekania. Po zakończeniu odliczania można rozpocząć automatyczną walkę z przeciwnikiem. Po wygranej walce otrzymasz Monety i Aurę. Możesz też otrzymać Numerek do szatni, który wymienisz w Szatni na przedmiot.
             `,
     },
 
@@ -35,7 +35,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         text:
             `Tutaj możesz zarządzać swoim ekwipunkiem, statystykami i pojazdami.
             Po lewej stronie pokazane są twój plecak oraz wyposażone przez ciebie przedmioty. Najeżdżając na nie pokażą ci się ich statystyki. Przedmiot możesz założyć przeciągając go z plecaka na postać lub sloty wyżej.
-            Po prawej stronie pokazane są twoje statystyki, które możesz dodatkowo zwiększać za pomocą kryształów (1 kryształ = 1 pkt. statystyki). Poniżej pokazany pokazany jest aktualnie posiadany pojazd wraz z terminem jego wynajmu. Pojazdy możesz wynajmować na Parkingu.
+            Po prawej stronie pokazane są twoje statystyki, które możesz dodatkowo zwiększać za pomocą Kryształów (1 Kryształ = 1 pkt. statystyki). Poniżej pokazany pokazany jest aktualnie posiadany Pojazd wraz z terminem jego wynajmu. Pojazdy możesz wynajmować na Parkingu.
             `,
     },
 
@@ -116,7 +116,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
     "/boss": {
         title: "Zadania Specjalne",
         text:
-            `Tutaj możesz podjąć walki z kolejnym dostępnym bossem. Bossy w przeciwieństwie do przeciwników u Barmana nie skalują się z twoją Aurą, ale za to są silniejsze. Każdego bossa możesz pokonać tylko raz i po wygraniu z jednym dostępny jest kolejny. Wygrane bossami dają lepsze nagrody w postaci większej ilości Monet, Aury oraz gwarantowany Numerek do szatni.
+            `Tutaj możesz podjąć walkę z kolejnym dostępnym bossem. Bossy w przeciwieństwie do przeciwników u Barmana nie skalują się z twoją Aurą, ale za to są silniejsze. Każdego bossa możesz pokonać tylko raz i po wygraniu z jednym dostępny jest kolejny. Wygrane bossami dają lepsze nagrody w postaci większej ilości Monet, Aury oraz gwarantowany Numerek do szatni.
             `,
     },
 
