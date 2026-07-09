@@ -86,6 +86,9 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<BackpackItem> backpack = new ArrayList<>();
 
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EffectEntity> effects = new HashSet<>();
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
     private ActiveQuestEntity activeQuest;

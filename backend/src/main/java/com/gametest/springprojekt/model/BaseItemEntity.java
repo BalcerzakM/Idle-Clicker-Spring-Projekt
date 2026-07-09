@@ -1,19 +1,19 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.model.enums.EffectType;
 import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 //ta klasa reprezentuje podstawowy, niewyskalowany jeszcze item
 
-@Data
 @Entity
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class BaseItemEntity {
@@ -64,4 +64,12 @@ public class BaseItemEntity {
     @NotBlank
     @Column(nullable = false)
     private String imagePath;
+
+    //to do drinkow
+    private Integer durationInSeconds;
+
+    @Enumerated(EnumType.STRING)
+    EffectType effectType;
+
+    private Integer effectValue;
 }

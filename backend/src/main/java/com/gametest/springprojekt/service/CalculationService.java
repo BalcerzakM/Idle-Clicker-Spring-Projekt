@@ -159,4 +159,12 @@ public class CalculationService {
     public int calculateItemPrice(BaseItemEntity baseItem, CharacterEntity character, int statsSum) {
         return baseItem.getBasePrice() * (random.nextInt(character.getAuraLvl()) + 1) + statsSum;
     }
+
+    /*
+        ######################## DRINKI ########################
+    */
+
+    public int calculateDrinkValue(int statValue, CharacterEntity character) {
+        return statValue * character.getAuraLvl();
+    }
 }

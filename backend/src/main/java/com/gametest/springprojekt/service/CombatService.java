@@ -9,6 +9,7 @@ import com.gametest.springprojekt.exception.QuestStillActiveException;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.model.enums.QuestType;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.QuestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class CombatService {
     private final ItemTokenService itemTokenService;
     private final QuestRepository questRepository;
     private final CalculationService calculationService;
+    private final ItemMapper itemMapper;
 
     @Transactional
     public CombatDto startCombat(CharacterEntity character) {
@@ -79,7 +81,7 @@ public class CombatService {
             ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
 
             if (rewardItem != null) {
-                rewardItemDto = rewardItem.generateItemDto();
+                rewardItemDto = itemMapper.toDto(rewardItem);
             }
 
             character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
@@ -155,7 +157,7 @@ public class CombatService {
             ItemEntity rewardItem = itemTokenService.handleRewardToken(true);
 
             if (rewardItem != null) {
-                rewardItemDto = rewardItem.generateItemDto();
+                rewardItemDto = itemMapper.toDto(rewardItem);
             }
 
             character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
@@ -345,7 +347,7 @@ public class CombatService {
             ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
 
             if (rewardItem != null) {
-                rewardItemDto = rewardItem.generateItemDto();
+                rewardItemDto = itemMapper.toDto(rewardItem);
             }
 
             character.grantQuestReward(bonusAura, bonusMoney, rewardItem);
