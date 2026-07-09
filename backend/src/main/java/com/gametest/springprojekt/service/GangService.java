@@ -94,6 +94,8 @@ public class GangService {
         gang.getMembers().remove(character);
 
         if (gang.getMembers().isEmpty()) {
+            gang.setLeader(null);
+            gang.setRequests(null);
             gangRepository.delete(gang);
         }
         else if (gang.getLeader() == character) {
@@ -204,5 +206,33 @@ public class GangService {
         dto.setMoneyBank(gang.getMoneyBank());
 
         return dto;
+    }
+
+    @Transactional
+    public void acceptJoinRequest(String gangName, String characterName, CharacterEntity currentCharacter) {
+        addMember(currentCharacter,gangName,characterName);
+        GangEntity gang = gangRepository.findByGangName(gangName)
+                .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
+        CharacterEntity character = characterRepository.findByNameIgnoreCase(characterName)
+                .orElseThrow(() -> new RuntimeException("Postać nie istnieje"));
+
+        gang.getRequests().remove(character);
+        gangRepository.save(gang);
+    }
+
+
+    public void rejectJoinRequest(String gangName, String characterName, CharacterEntity currentCharacter) {
+        GangEntity gang = gangRepository.findByGangName(gangName)
+                .orElseThrow(() -> new RuntimeException("Gang nie istnieje. "));
+
+        if (gang.getLeader()!=currentCharacter) {
+            throw new PermissionDeniedException("Tylko lider może usunąć prośbę o dołączenie.");
+        }
+
+        CharacterEntity character = characterRepository.findByNameIgnoreCase(characterName)
+                .orElseThrow(() -> new RuntimeException("Postać nie istnieje"));
+
+        gang.getRequests().remove(character);
+        gangRepository.save(gang);
     }
 }

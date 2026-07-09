@@ -94,4 +94,20 @@ public class GangController {
         return "Wysłano prośbę.";
     }
 
+    @PostMapping("/{gangName}/acceptRequest")
+    public String acceptJoinRequest(@PathVariable String gangName,
+                                    @RequestParam String characterName) {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        gangService.acceptJoinRequest(gangName, characterName, currentCharacter);
+        return "Prośba o dołączenie została zaakceptowana.";
+    }
+
+    @PostMapping("/{gangName}/rejectRequest")
+    public String rejectJoinRequest(@PathVariable String gangName,
+                                    @RequestParam String characterName) {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        gangService.rejectJoinRequest(gangName, characterName, currentCharacter);
+        return "Prośba o dołączenie została odrzucona.";
+    }
+
 }
