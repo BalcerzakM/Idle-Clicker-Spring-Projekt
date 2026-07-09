@@ -187,7 +187,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.CONFLICT)
                 .body(new ErrorDto(
                         "CHARACTER_ALREADY_IN_GANG",
-                        "Jesteś członkiem innego gangu!"
+                        "Już jesteś członkiem gangu!"
                 ));
     }
 
