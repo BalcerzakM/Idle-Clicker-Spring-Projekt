@@ -97,6 +97,7 @@ public class CalculationService {
     }
 
     //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
+    //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
     public int calculateDamage(int baseDamage, int luck) {
         if (baseDamage <= 0) baseDamage = 1;
 
@@ -104,11 +105,27 @@ public class CalculationService {
         int maxDmg = (int) (baseDamage * 1.2);
         int actualDamage = random.nextInt(maxDmg - minDmg + 1) + minDmg;
 
-        if(random.nextInt(10000) + luck > 9000) {
+        if(didCrit(luck)) {
             actualDamage *= 2;
         }
         return Math.max(actualDamage, 1);
     }
+
+    private boolean didCrit(int luck) {
+        final int ROLL_MAX = 10_000;
+
+        final double MAX_CRIT_CHANCE = 0.90; //max 75% szansy na unik
+        final double LUCK_SCALE = 1000.0;
+
+        luck = Math.max(luck, 0);
+
+        double critChance = MAX_CRIT_CHANCE * (luck / (luck + LUCK_SCALE));
+
+        int dodgeChanceRoll = (int) (critChance * ROLL_MAX);
+
+        return random.nextInt(ROLL_MAX) < dodgeChanceRoll;
+    }
+
 
     /*
         ######################## ITEMY ########################
