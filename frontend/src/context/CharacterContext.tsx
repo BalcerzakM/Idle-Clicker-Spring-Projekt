@@ -18,7 +18,6 @@ interface CharacterShortInfo {
 	nextLevelAuraRequirement: number;
 	levelProgressPercent: number;
 	characterClass: string;
-	gangName: string | null;
 }
 
 interface CharacterContextType {

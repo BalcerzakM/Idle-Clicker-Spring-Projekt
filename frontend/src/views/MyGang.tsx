@@ -43,8 +43,7 @@ const MyGang = () => {
 	);
 	const [removingMember, setRemovingMember] = useState<string | null>(null);
 
-	const gangName =
-		searchParams.get("name") || character?.gangName || gangInfo?.gangName || "";
+	const gangName = searchParams.get("name") || gangInfo?.gangName || "";
 
 	// ----- POBIERANIE NAZWY POSTACI -----
 	useEffect(() => {
@@ -289,8 +288,8 @@ const MyGang = () => {
 				<div className="gang-my-emblem">
 					{gangInfo.gangEmblem ? (
 						<img
-							src={`/emblems/${gangInfo.gangEmblem}`}
-							alt={gangInfo.gangName}
+							src={`/gang_emblems/${gangInfo.gangEmblem}.png`}
+							alt={`Emblemat + ${gangInfo.gangEmblem}`}
 							className="gang-my-emblem-img"
 						/>
 					) : (

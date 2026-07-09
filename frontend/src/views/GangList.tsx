@@ -40,7 +40,7 @@ const GangList = () => {
 	useEffect(() => {
 		const fetchMyGang = async () => {
 			try {
-				const res = await fetch("http://localhost:8080/api/character", {
+				const res = await fetch("http://localhost:8080/api/character/gang", {
 					credentials: "include",
 				});
 				if (res.ok) {
@@ -196,8 +196,8 @@ const GangList = () => {
 										<div className="gang-emblem-col">
 											{gang.gangEmblem ? (
 												<img
-													src={`/emblems/${gang.gangEmblem}`}
-													alt={gang.gangName}
+													src={`/gang_emblems/${gang.gangEmblem}.png`}
+													alt={`Emblemat + ${gang.gangEmblem}`}
 													className="gang-emblem-img"
 												/>
 											) : (
