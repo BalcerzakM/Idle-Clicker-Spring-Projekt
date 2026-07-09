@@ -4,6 +4,7 @@ import boxerHover from "../assets/scenes/hover/boxer_hover.png";
 import securityHover from "../assets/scenes/hover/security_hover.png";
 import ParkingSign from "../assets/scenes/hover/parking_sign.png";
 import rankingHover from "../assets/scenes/hover/ranking_hover.png";
+import gangHover from "../assets/scenes/hover/gang_hover.png";
 
 function Outside() {
 	const navigate = useNavigate();
@@ -71,6 +72,18 @@ function Outside() {
 				/>
 			</div>
 			<p className="outsideMain-rankingTextBox">Ranking</p>
+
+			<div className="outsideMain-gang">
+				<img
+					src={gangHover}
+					alt="gang_hover"
+					width={508}
+					height={415}
+					className="hover-image"
+					onClick={() => navigate("/gang-list")}
+				/>
+			</div>
+			<p className="outsideMain-gangTextBox">Gang</p>
 		</div>
 	);
 }
