@@ -28,4 +28,5 @@ public class DrinkShopController {
         CharacterEntity character = characterService.getCurrentCharacter();
         return ResponseEntity.ok(drinkService.buyDrink(character, drinkId));
     }
+
 }

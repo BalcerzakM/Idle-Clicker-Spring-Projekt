@@ -5,6 +5,7 @@ import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.model.enums.StatName;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.CharacterClassRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
@@ -27,6 +28,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
+    private final ItemMapper itemMapper;
 
     @Transactional(readOnly = true)
     public CharacterEntity getCurrentCharacter() {
@@ -150,9 +152,23 @@ public class CharacterService {
                 stats.get("endurance"),
                 stats.get("luck"),
                 equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack())
+                backpackItemToItemDtos(character.getBackpack()),
+                generateEffectDtos(character.getEffects())
                 );
 
+    }
+
+    private List<EffectDto> generateEffectDtos(Set<EffectEntity> effects) {
+        List<EffectDto> effectDtos = new ArrayList<>();
+
+        for (EffectEntity effect : effects) {
+            effectDtos.add(new EffectDto(
+                itemMapper.toDto(effect.getItem()),
+                effect.getEffectStartTime(),
+                effect.getEffectEndTime()
+            ));
+        }
+        return effectDtos;
     }
 
     //dodane transactional bo nie zapisywalo wczesniej i nie dodawalo do eq

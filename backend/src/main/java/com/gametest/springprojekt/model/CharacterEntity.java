@@ -118,7 +118,7 @@ public class CharacterEntity {
     //dodanie itema do plecaka
     public void addItemToBackpack(ItemEntity item) {
         if (backpack.size() >= MAX_BACKPACK_SLOTS) {
-            throw new BackpackIsAlreadyFullException("Plecak jest pelny!");
+            throw new BackpackIsAlreadyFullException("Plecak jest pełny!");
         }
 
         backpack.add(new BackpackItem(null, this, item));
@@ -161,5 +161,10 @@ public class CharacterEntity {
     public void addAura(int bonusAura) {
         this.aura += bonusAura;
         updateAuraLevel();
+    }
+
+    public void addEffect(EffectEntity effect) {
+        //tutaj walidacje mozna zrobic jakas
+        this.effects.add(effect);
     }
 }
