@@ -6,6 +6,8 @@ import { useCharacter } from "../context/CharacterContext";
 import { useState } from "react";
 import ReportForm from "./ReportForm";
 import InfoButton from "./InfoButton";
+import useAudio from "../audio/useAudio";
+import { createAudioHandlers } from "../utils/AudioHelpers";
 
 function NavBar() {
 	const navigate = useNavigate();
@@ -13,11 +15,18 @@ function NavBar() {
 	const [showReportModal, setShowReportModal] = useState(false);
 	const openReportModal = () => setShowReportModal(true);
 	const closeReportModal = () => setShowReportModal(false);
+	const audio = useAudio();
+	const { playHover, navigateWithClick, playClick } =
+		createAudioHandlers(audio);
 
 	return (
 		<div className="navBar">
 			<div className="navBar-character">
-				<button type="button" onClick={() => navigate("/player")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/player")}
+				>
 					<img
 						src={`/avatars/${character?.avatarPicture}`}
 						alt="Player avatar"
@@ -61,35 +70,65 @@ function NavBar() {
 				</div>
 			</div>
 			<nav className="navBar-navigation">
-				<button type="button" onClick={() => navigate("/")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/")}
+				>
 					Klub
 				</button>
-				<button type="button" onClick={() => navigate("/shop")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/shop")}
+				>
 					Szatnia
 				</button>
-				<button type="button" onClick={() => navigate("/outside")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/outside")}
+				>
 					Palarnia
 				</button>
-				<button type="button" onClick={() => navigate("/ranking")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/ranking")}
+				>
 					Ranking
 				</button>
-				<button type="button" onClick={() => navigate("/security")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/security")}
+				>
 					Ochrona
 				</button>
-				<button type="button" onClick={() => navigate("/toilet")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/toilet")}
+				>
 					Toaleta
 				</button>
-				<button type="button" onClick={() => navigate("/parking")}>
+				<button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/parking")}
+				>
 					Parking
 				</button>
 			</nav>
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">
-					<button type="submit">WYLOGUJ SIĘ</button>
+					<button type="submit" onClick={() => playClick}>
+						WYLOGUJ SIĘ
+					</button>
 				</form>
 			</div>
 			{/* Nowy przycisk zgłoszenia */}
-			<div className="navBar-report">
+			<div className="navBar-report" onClick={() => playClick}>
 				<button
 					type="button"
 					onClick={openReportModal}
@@ -109,6 +148,15 @@ function NavBar() {
 			)}
 
 			<InfoButton />
+
+			<button
+				onClick={() => {
+					playClick;
+					audio.mute(true);
+				}}
+			>
+				Mute🔇
+			</button>
 		</div>
 	);
 }
