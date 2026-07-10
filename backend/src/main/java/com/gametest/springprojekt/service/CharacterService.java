@@ -28,6 +28,7 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
+    private final EffectService effectService;
     private final ItemMapper itemMapper;
 
     @Transactional(readOnly = true)
@@ -42,8 +43,15 @@ public class CharacterService {
         if (characters.isEmpty()) {
             throw new CharacterNotFoundException("Użytkownik nie posiada jeszcze żadnej postaci!");
         }
+
+        CharacterEntity character = user.getCharacters().getFirst();
+
+        //tutaj mozna robic walidacje bo za kazdym razem jest wywolywane
+        vehicleService.validateAndRemoveExpiredVehicle(character);
+        effectService.validateAndRemoveEffects(character);
+
         // na razie na sztywno, z listy pierwsza postać po prostu
-        return user.getCharacters().getFirst();
+        return character;
     }
 
 
@@ -158,7 +166,7 @@ public class CharacterService {
 
     }
 
-    private List<EffectDto> generateEffectDtos(Set<EffectEntity> effects) {
+    private List<EffectDto> generateEffectDtos(List<EffectEntity> effects) {
         List<EffectDto> effectDtos = new ArrayList<>();
 
         for (EffectEntity effect : effects) {

@@ -64,7 +64,7 @@ public class CharacterController {
     }
 
     @PostMapping("/drink")
-    public ResponseEntity<EffectDto> drinkItem(Long backpackItemId) {
+    public ResponseEntity<EffectDto> drinkItem(@RequestBody Long backpackItemId) {
         CharacterEntity character = characterService.getCurrentCharacter();
         EffectDto effectDto = drinkService.handleUseDrink(character, backpackItemId);
         return ResponseEntity.ok(effectDto);

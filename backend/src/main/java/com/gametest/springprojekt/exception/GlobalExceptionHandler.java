@@ -180,4 +180,14 @@ public class GlobalExceptionHandler {
                         "Twoje konto zostało zablokowane!"
                 ));
     }
+
+    @ExceptionHandler(TooManyEffectsException.class)
+    public ResponseEntity<ErrorDto> handleTooManyEffects(TooManyEffectsException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "TOO_MANY_EFFECTS",
+                        "Masz już maksymalną ilość efektów!"
+                ));
+    }
 }

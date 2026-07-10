@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
+import com.gametest.springprojekt.exception.TooManyEffectsException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -15,6 +16,9 @@ import java.util.*;
 public class CharacterEntity {
     @Transient
     private final int MAX_BACKPACK_SLOTS = 10;
+
+    @Transient
+    private final int MAX_EFFECTS = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -87,7 +91,7 @@ public class CharacterEntity {
     private List<BackpackItem> backpack = new ArrayList<>();
 
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<EffectEntity> effects = new HashSet<>();
+    private List<EffectEntity> effects = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
@@ -148,6 +152,18 @@ public class CharacterEntity {
                 totals.merge("luck", item.getTotalLuck(), Integer::sum);
             }
         }
+
+        //statystyki z efektów
+        for (EffectEntity e : effects) {
+            ItemEntity item = e.getItem();
+            if (item != null) {
+                totals.merge("rizz", item.getTotalRizz(), Integer::sum);
+                totals.merge("strength", item.getTotalStrength(), Integer::sum);
+                totals.merge("agility", item.getTotalAgility(), Integer::sum);
+                totals.merge("endurance", item.getTotalEndurance(), Integer::sum);
+                totals.merge("luck", item.getTotalLuck(), Integer::sum);
+            }
+        }
         return totals;
     }// trzeba dodać te stąd
 
@@ -165,6 +181,9 @@ public class CharacterEntity {
 
     public void addEffect(EffectEntity effect) {
         //tutaj walidacje mozna zrobic jakas
+        if (this.effects.size() >= MAX_EFFECTS) {
+            throw new TooManyEffectsException("Przekroczono maksymalną liczbę efektów");
+        }
         this.effects.add(effect);
     }
 }

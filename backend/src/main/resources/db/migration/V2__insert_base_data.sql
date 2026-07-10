@@ -122,7 +122,7 @@ VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 300, 'AGILITY', 0, 
         ('Bóbr', 'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,300, 'STRENGTH', 0, 'item-drink-bubr.png', ''),
         ('Aramena', 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,300, 'ENDURANCE', 0, 'item-drink-aramena.png', ''),
         ('Shot czystej', 'DRINK', 'NONE', 30, 0, 0, 0, 0, 190,300, 'RIZZ', 0, 'item-drink-vodka.png', ''),
-        ('Kamikadze', 'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,300, 'STRENGTH', 0, 'item-drin-kamikaze.png', ''),
+        ('Kamikadze', 'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,300, 'STRENGTH', 0, 'item-drink-kamikaze.png', ''),
         ('Spirytus', 'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,300, 'LUCK', 0, 'item-drink-spirit.png', ''),
         ('Despacito', 'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,300, 'RIZZ', 0, 'item-drink-despacito.png', ''),
         ('Śrubowe Mocne', 'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,300, 'STRENGTH', 0, 'item-drink-club-beer.png', '')

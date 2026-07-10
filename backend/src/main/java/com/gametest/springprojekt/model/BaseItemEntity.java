@@ -65,7 +65,7 @@ public class BaseItemEntity {
     @Column(nullable = false)
     private String imagePath;
 
-    //to do drinkow
+    //#### DRINKI ####
     private Integer durationInSeconds;
 
     @Enumerated(EnumType.STRING)
