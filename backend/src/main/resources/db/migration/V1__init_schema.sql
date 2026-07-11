@@ -40,7 +40,7 @@ CREATE TABLE base_item_entity
     name                VARCHAR(255)                                                                  NOT NULL,
     item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
     slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
-    duration_in_seconds INTEGER,
+    duration_in_seconds INTEGER DEFAULT 0,
     effect_type         ENUM ('RIZZ', 'STRENGTH', 'AGILITY', 'ENDURANCE', 'LUCK', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER'),
     effect_value        INTEGER,
     PRIMARY KEY (id)

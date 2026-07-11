@@ -111,17 +111,22 @@ function DrinkShop() {
                                     </p>
 
                                     <p className="drink-effect">
-                                        +{item.totalRizz > 0 && `${item.totalRizz} do Rizzu ✨`}
-                                        {item.totalStrength > 0 && `${item.totalStrength} do Siły 💪`}
-                                        {item.totalAgility > 0 && `${item.totalAgility} do Zwinności 🏃`}
-                                        {item.totalEndurance > 0 && `${item.totalEndurance} do Wytrzymałości 🛡️`}
-                                        {item.totalLuck > 0 && `${item.totalLuck} do Szczęścia 🍀`}
+                                        +{item.totalRizz > 0 && `${item.totalRizz} do Rizzu✨ `}
+                                        {item.totalStrength > 0 && `${item.totalStrength} do Siły💪 `}
+                                        {item.totalAgility > 0 && `${item.totalAgility} do Zwinności🏃 `}
+                                        {item.totalEndurance > 0 && `${item.totalEndurance} do Wytrzymałości🛡️ `}
+                                        {item.totalLuck > 0 && `${item.totalLuck} do Szczęścia🍀 `}
+
+                                        <span className="drink-duration">
+                                            na {item.durationInSeconds/60} minut
+                                        </span>
                                     </p>
                                 </div>
 
                                 <div className="drink-buy">
+
                                     <div className="drink-price">
-                                        Cena: {item.price} 💰
+                                        {item.price}💰
                                     </div>
 
                                     <button

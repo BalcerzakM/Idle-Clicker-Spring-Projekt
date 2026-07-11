@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
+import com.gametest.springprojekt.exception.EffectAlreadyActiveException;
 import com.gametest.springprojekt.exception.TooManyEffectsException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -179,11 +180,18 @@ public class CharacterEntity {
         updateAuraLevel();
     }
 
-    public void addEffect(EffectEntity effect) {
+    public void addEffect(EffectEntity newEffect) {
         //tutaj walidacje mozna zrobic jakas
         if (this.effects.size() >= MAX_EFFECTS) {
             throw new TooManyEffectsException("Przekroczono maksymalną liczbę efektów");
         }
-        this.effects.add(effect);
+
+        for (EffectEntity effect : effects) {
+            if (effect.getItem().getBaseItem().getId().equals(newEffect.getItem().getBaseItem().getId())) {
+                throw new EffectAlreadyActiveException("Gracz jest już pod wpływem efektu");
+            }
+        }
+
+        this.effects.add(newEffect);
     }
 }

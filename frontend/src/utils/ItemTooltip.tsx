@@ -11,6 +11,7 @@ export interface ItemDto {
     totalLuck: number;
     price: number;
     imagePath: string;
+    durationInSeconds: number;
 }
 
 export function itemTooltip(item: ItemDto) {
@@ -63,6 +64,12 @@ export function itemTooltip(item: ItemDto) {
             {item.totalRizz !== 0 && (
                 <div className="tooltip-stat">
                     ✨ {item.totalRizz}
+                </div>
+            )}
+
+            {item.durationInSeconds !== 0 && (
+                <div className="tooltip-stat">
+                    🕛 {item.durationInSeconds/60} min.
                 </div>
             )}
 

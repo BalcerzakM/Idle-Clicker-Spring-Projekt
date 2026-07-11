@@ -44,7 +44,8 @@ public class DrinkService {
                 calculationService.calculateDrinkValue(baseDrink.getBaseEndurance(), character),
                 calculationService.calculateDrinkValue(baseDrink.getBaseLuck(), character),
                 calculationService.calculateDrinkValue(baseDrink.getBasePrice(), character),
-                baseDrink.getImagePath()
+                baseDrink.getImagePath(),
+                baseDrink.getDurationInSeconds()
             ));
         }
 

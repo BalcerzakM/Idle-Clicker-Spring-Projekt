@@ -111,7 +111,8 @@ public class ItemShopService {
                 item.getTotalEndurance(),
                 item.getTotalLuck(),
                 item.getPrice(),
-                item.getBaseItem().getImagePath()
+                item.getBaseItem().getImagePath(),
+                0
         );
     }
 

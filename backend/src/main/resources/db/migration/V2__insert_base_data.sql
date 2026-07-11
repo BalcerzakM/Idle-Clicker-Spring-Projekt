@@ -118,14 +118,14 @@ INSERT INTO base_item_entity (name,
                               image_path,
                               description
                               )
-VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 300, 'AGILITY', 0, 'item-drink-gajerbomb.png', 'Gajermaister z colą i kostkami lodu.'),
-        ('Bóbr', 'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,300, 'STRENGTH', 0, 'item-drink-bubr.png', ''),
-        ('Aramena', 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,300, 'ENDURANCE', 0, 'item-drink-aramena.png', ''),
-        ('Shot czystej', 'DRINK', 'NONE', 30, 0, 0, 0, 0, 190,300, 'RIZZ', 0, 'item-drink-vodka.png', ''),
-        ('Kamikadze', 'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,300, 'STRENGTH', 0, 'item-drink-kamikaze.png', ''),
-        ('Spirytus', 'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,300, 'LUCK', 0, 'item-drink-spirit.png', ''),
-        ('Despacito', 'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,300, 'RIZZ', 0, 'item-drink-despacito.png', ''),
-        ('Śrubowe Mocne', 'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,300, 'STRENGTH', 0, 'item-drink-club-beer.png', '')
+VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 1200, 'AGILITY', 0, 'item-drink-gajerbomb.png', 'Gajermaister z colą i kostkami lodu.'),
+        ('Bóbr', 'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,1500, 'STRENGTH', 0, 'item-drink-bubr.png', 'Jasne piwo 6% dla prawdziwych koneserów.'),
+        ('Aramena', 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,1800, 'ENDURANCE', 0, 'item-drink-aramena.png', 'Wiśniowy trunek 12% dla zawodowców.'),
+        ('Shot czystej', 'DRINK', 'NONE', 30, 0, 0, 0, 0, 190,900, 'RIZZ', 0, 'item-drink-vodka.png', '50 ml czystej wódki 40%.'),
+        ('Kamikadze', 'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,600, 'STRENGTH', 0, 'item-drink-kamikaze.png', 'Orzeźwiający drink w 50 ml kieliszku.'),
+        ('Spirytus', 'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,1500, 'LUCK', 0, 'item-drink-spirit.png', '95% alkoholu tylko dla profesjonalistów.'),
+        ('Despacito', 'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,1200, 'RIZZ', 0, 'item-drink-despacito.png', 'Lekki soczek 3% o smaku tequili dla amatorów.'),
+        ('Śrubowe Mocne', 'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,2400, 'STRENGTH', 0, 'item-drink-club-beer.png', 'Klubowy specjał, jasne mocne piwo 7%.')
 ;
 
 

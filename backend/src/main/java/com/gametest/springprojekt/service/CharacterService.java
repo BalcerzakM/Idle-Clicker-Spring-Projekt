@@ -257,7 +257,8 @@ public class CharacterService {
                     backpackItem.getItem().getTotalEndurance(),
                     backpackItem.getItem().getTotalLuck(),
                     backpackItem.getItem().getPrice(),
-                    backpackItem.getItem().getBaseItem().getImagePath()
+                    backpackItem.getItem().getBaseItem().getImagePath(),
+                    backpackItem.getItem().getBaseItem().getDurationInSeconds()
             ));
         }
         return itemDtos;
@@ -279,7 +280,8 @@ public class CharacterService {
                     equipmentItem.getItem().getTotalEndurance(),
                     equipmentItem.getItem().getTotalLuck(),
                     equipmentItem.getItem().getPrice(),
-                    equipmentItem.getItem().getBaseItem().getImagePath()
+                    equipmentItem.getItem().getBaseItem().getImagePath(),
+                    equipmentItem.getItem().getBaseItem().getDurationInSeconds()
             ));
         }
         return itemDtos;

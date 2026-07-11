@@ -20,7 +20,8 @@ public class ItemMapper {
                 item.getTotalEndurance(),
                 item.getTotalLuck(),
                 item.getPrice(),
-                item.getBaseItem().getImagePath()
+                item.getBaseItem().getImagePath(),
+                item.getBaseItem().getDurationInSeconds()
         );
     }
 
