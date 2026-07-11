@@ -1,6 +1,8 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.CharacterInBattleDto;
 import com.gametest.springprojekt.dto.CombatDto;
+import com.gametest.springprojekt.dto.GangCombatDto;
 import com.gametest.springprojekt.dto.ItemDto;
 import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
@@ -15,6 +17,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -248,58 +252,56 @@ public class CombatService {
         return combatLog;
     }
 
-    private List<Integer> simulateMixedCombat(CharacterEntity character, CharacterEntity opponent) {
-        Map<String, Integer> characterStats = character.getEquipmentStatsSum();
-        Map<String, Integer> opponentStats = opponent.getEquipmentStatsSum();
+    private static class FighterState {
+        int currentHp;
+        final int strength, agility, luck, rizz, baseRizzDmg;
 
-        int characterHp = characterStats.get("endurance");
-        int characterStrength = characterStats.get("strength");
-        int characterAgility = characterStats.get("agility");
-        int characterLuck = characterStats.get("luck");
-        int characterRizz = characterStats.get("rizz");
+        FighterState(CharacterEntity ch, CalculationService calc) {
+            Map<String, Integer> stats = ch.getEquipmentStatsSum();
+            this.currentHp = stats.get("endurance");
+            this.strength = stats.get("strength");
+            this.agility = stats.get("agility");
+            this.luck = stats.get("luck");
+            this.rizz = stats.get("rizz");
+            this.baseRizzDmg = calc.calculateRizzFightBaseDamageOld(rizz, agility);//janku abyś gnił za te twoje widzimisie
+        }
+    }
 
-        int opponentHp = opponentStats.get("endurance");
-        int opponentStrength = opponentStats.get("strength");
-        int opponentAgility = opponentStats.get("agility");
-        int opponentLuck = opponentStats.get("luck");
-        int opponentRizz = opponentStats.get("rizz");
 
-
-        int baseCharacterDmg = calculationService.calculateRizzFightBaseDamage(characterRizz, characterAgility, opponentAgility);
-        int baseOpponentDmg = calculationService.calculateRizzFightBaseDamage(opponentRizz,opponentAgility, characterAgility);
+    private List<Integer> simulateMixedCombat(FighterState character, FighterState opponent) {
 
         List<Integer> combatLog = new ArrayList<>();
         boolean playersAtack = true;
         int attacktype =0;
         int dmg;
-        while (characterHp > 0 && opponentHp > 0) {
+        while (character.currentHp > 0 && opponent.currentHp > 0) {
             if(playersAtack) {
-                if(calculationService.didDodge(opponentAgility)) {
+                if(calculationService.didDodge(opponent.agility)) {
                     combatLog.add(0);
                 } else {
                     if(attacktype % 2 == 0) {
-                        dmg = calculationService.calculateDamage(characterStrength, characterLuck);
+                        dmg = calculationService.calculateDamage(character.strength, character.luck);
                     }
                     else{
-                        dmg = calculationService.calculateDamage(baseCharacterDmg, characterLuck);
+                        dmg = calculationService.calculateDamage(character.baseRizzDmg, character.luck);
                     }
                     combatLog.add(dmg);
-                    opponentHp -= dmg;
+                    opponent.currentHp -= dmg;
                     attacktype++;
                 }
                 playersAtack = false;
             } else {
-                if(calculationService.didDodge(characterAgility)) {
+                if(calculationService.didDodge(character.agility)) {
                     combatLog.add(0);
                 } else {
                     if(attacktype % 2 == 0) {
-                        dmg = calculationService.calculateDamage(opponentStrength, opponentLuck);
+                        dmg = calculationService.calculateDamage(opponent.strength, opponent.luck);
                     }
                     else{
-                        dmg = calculationService.calculateDamage(baseOpponentDmg, opponentLuck);
+                        dmg = calculationService.calculateDamage(opponent.baseRizzDmg, opponent.luck);
                     }
                     combatLog.add(dmg);
-                    characterHp -= dmg;
+                    character.currentHp -= dmg;
                     attacktype++;
                 }
                 playersAtack = true;
@@ -319,15 +321,16 @@ public class CombatService {
             throw new CannotAttackSelfException("Nie można zaatakować samego siebie.");
         }
 
-        Map<String, Integer> stats = character.getEquipmentStatsSum();
-        int characterHp = stats.get("endurance");
+        FighterState player1 = new FighterState(character, calculationService);
+        FighterState player2 = new FighterState(opponent, calculationService);
 
-        Map<String, Integer> opponentStats = opponent.getEquipmentStatsSum();
-        int opponentHp = opponentStats.get("endurance");
+        int characterHp = player1.currentHp;
+
+        int opponentHp = player2.currentHp;
 
         List<Integer> combatLog;
 
-        combatLog = simulateMixedCombat(character, opponent);
+        combatLog = simulateMixedCombat(player1, player2);
 
 
         String enemyName = opponent.getName();
@@ -363,6 +366,81 @@ public class CombatService {
                 enemyImageFolder,
                 enemyImagePath,
                 null,
+                bonusMoney,
+                bonusAura,
+                rewardItemDto
+        );
+    }
+
+
+    @Transactional
+    public GangCombatDto startGangCombat(List<CharacterEntity> gangA, List<CharacterEntity> gangB){
+        //czy jest miejsce w plecaku
+        for (CharacterEntity ch : gangA) {
+            if (ch.getBackpack().size() >= ch.getMAX_BACKPACK_SLOTS()) {
+                throw new BackpackIsAlreadyFullException("Plecak postaci " + ch.getName() + " jest pełny!");
+            }
+        }
+
+        // Sprawdzenie, czy nie ma wspólnych postaci
+        Set<Long> ids = gangA.stream().map(CharacterEntity::getId).collect(Collectors.toSet());
+        if (gangB.stream().anyMatch(e -> ids.contains(e.getId()))) {
+            throw new CannotAttackSelfException("Nie można walczyć z własną drużyną.");
+        }
+
+        List<CharacterInBattleDto> teamACharacters = new ArrayList<>();
+
+        List<CharacterInBattleDto> teamBCharacters = new ArrayList<>();
+
+        List<Integer> combatLog = new ArrayList<>();
+
+
+        while (gangA.size() > 0 && gangB.size() > 0) {
+
+            CharacterEntity character = gangA.iterator().next();
+            CharacterEntity opponent = gangB.iterator().next();
+
+            FighterState player1 = new FighterState(character, calculationService);
+            FighterState player2 = new FighterState(opponent, calculationService);
+
+            teamACharacters.add(new CharacterInBattleDto(character.getName(), character.getAvatarPicture(),player1.currentHp));
+            teamBCharacters.add(new CharacterInBattleDto(opponent.getName(), opponent.getAvatarPicture(),player2.currentHp));
+
+            combatLog = simulateMixedCombat(player1, player2);
+
+        }
+        String teamAImageFolder= "avatars";
+        String teamBImageFolder = "avatars"; // na razie na sztywno, ale to trzeba zmienić przy walkach PvE
+
+        boolean gangAWon = combatLog.size() % 2 != 0;
+
+        int bonusAura = 0;
+        int bonusMoney = 0;
+        ItemDto rewardItemDto = null;
+
+        if(gangAWon) {
+            bonusAura = 100; //aktualnie na sztywno jako nagroda dziesięciokrotność poziomu pokonanej postaci
+            bonusMoney = 100;
+
+            ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
+
+            if (rewardItem != null) {
+                rewardItemDto = rewardItem.generateItemDto();
+            }
+
+            for (CharacterEntity ch : gangA) {
+                ch.grantQuestReward(bonusAura, bonusMoney, rewardItem);
+            }
+        }
+
+
+        return new GangCombatDto(
+                combatLog,
+                gangAWon,
+                teamAImageFolder,
+                teamBImageFolder,
+                teamACharacters,
+                teamBCharacters,
                 bonusMoney,
                 bonusAura,
                 rewardItemDto

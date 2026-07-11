@@ -64,9 +64,9 @@ public class CalculationService {
     }
 
     //stara wersja
-//    public int calculateRizzFightBaseDamage(int baseRizz, int baseAgility) {
-//        return (int) ((baseRizz + (0.5 * baseAgility)));
-//    }
+    public int calculateRizzFightBaseDamageOld(int baseRizz, int baseAgility) {
+        return (int) ((baseRizz + (0.5 * baseAgility)));
+    }
 
     //wersja z bonusem do dmg dla tego kto mam wieksze agility, wieksza roznica -> wiekszy bonus
     public int calculateRizzFightBaseDamage(int rizz, int agility, int enemyAgility) {
