@@ -106,6 +106,11 @@ public class CharacterEntity {
     @JoinColumn(name = "bouncer_duty_id")
     private BouncerDutyEntity bouncerDuty;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "gang_id")
+    private GangEntity gang;
+
+
     /**
      * Metoda dodająca nagrody do postaci oraz zwalniająca slota activeQuest
      * @param bonusAura

@@ -2,10 +2,7 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.CombatDto;
 import com.gametest.springprojekt.dto.ItemDto;
-import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
-import com.gametest.springprojekt.exception.NoActiveQuestException;
-import com.gametest.springprojekt.exception.QuestNotFoundException;
-import com.gametest.springprojekt.exception.QuestStillActiveException;
+import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import com.gametest.springprojekt.model.enums.QuestType;
@@ -318,6 +315,10 @@ public class CombatService {
     public CombatDto startPlayerCombat(CharacterEntity character, CharacterEntity opponent) {
         if (character.getBackpack().size() >= character.getMAX_BACKPACK_SLOTS()) {
             throw new BackpackIsAlreadyFullException("Twój plecak jest pełny! Zrób w nim miejsce, zanim ruszysz do walki.");
+        }
+
+        if (character == opponent) {
+            throw new CannotAttackSelfException("Nie można zaatakować samego siebie.");
         }
 
         Map<String, Integer> stats = character.getEquipmentStatsSum();
