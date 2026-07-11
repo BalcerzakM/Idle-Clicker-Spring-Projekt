@@ -82,6 +82,7 @@ CREATE TABLE character_entity
     cristals           INTEGER      NOT NULL,
     current_boss       INTEGER      NOT NULL,
     endurance          INTEGER      NOT NULL,
+    gang_id            BIGINT,
     luck               INTEGER      NOT NULL,
     money              INTEGER      NOT NULL,
     rizz               INTEGER      NOT NULL,
@@ -112,6 +113,23 @@ CREATE TABLE equipment_item
     item_id      BIGINT                                                                        NOT NULL,
     slot         ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
     PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE gang_entity
+(
+cristal_bank            INTEGER                                                             NOT NULL DEFAULT 0,
+emblem_picture_path     VARCHAR(255)                                                        NOT NULL,
+gang_name               VARCHAR(255)                                                        NOT NULL,
+gang_description        VARCHAR(255)                                                        NOT NULL,
+leader_id               BIGINT,
+id                      BIGINT                                                              NOT NULL AUTO_INCREMENT,
+money_bank              INTEGER                                                             NOT NULL DEFAULT 0,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE gang_entity_requests
+(
+    gang_entity_id          BIGINT NOT NULL,
+    requests_id             BIGINT NOT NULL,
+    PRIMARY KEY (gang_entity_id, requests_id)
 ) ENGINE = InnoDB;
 CREATE TABLE item_entity
 (
@@ -208,6 +226,8 @@ ALTER TABLE character_entity
     ADD CONSTRAINT ukjx3i4nay0f00ue7s6pak2qxfm UNIQUE (bouncer_duty_id);
 ALTER TABLE character_entity
     ADD CONSTRAINT ukheta67icofutts7yfjm5vebvv UNIQUE (name);
+ALTER TABLE character_entity
+    ADD CONSTRAINT fk_character_gang FOREIGN KEY (gang_id) REFERENCES gang_entity (id);
 ALTER TABLE equipment_item
     ADD CONSTRAINT uk55mno4vattoea0punlvt8g7uc UNIQUE (character_id, slot);
 ALTER TABLE equipment_item
@@ -258,3 +278,9 @@ ALTER TABLE shop_offer_entity
     ADD CONSTRAINT fkfffa897bdo8evtnb5iy317geg FOREIGN KEY (item_id) REFERENCES item_entity (id);
 ALTER TABLE transaction_entity
     ADD CONSTRAINT fkmmsoavuac0clvx8rmstmavy6r FOREIGN KEY (character_id) REFERENCES character_entity (id);
+ALTER TABLE gang_entity
+    ADD CONSTRAINT fk_gang_leader FOREIGN KEY (leader_id) REFERENCES character_entity (id);
+ALTER TABLE gang_entity_requests
+    ADD CONSTRAINT fk_gang_requests_gang FOREIGN KEY (gang_entity_id) REFERENCES gang_entity (id);
+ALTER TABLE gang_entity_requests
+    ADD CONSTRAINT fk_gang_requests_character FOREIGN KEY (requests_id) REFERENCES character_entity (id);

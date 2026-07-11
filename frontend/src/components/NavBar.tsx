@@ -82,8 +82,8 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/toilet")}>
 					Toaleta
 				</button>
-				<button type="button" onClick={() => navigate("/parking")}>
-					Parking
+				<button type="button" onClick={() => navigate("/gang-list")}>
+					Gangi
 				</button>
 			</nav>
 			<div className="navBar-logout">

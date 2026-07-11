@@ -1,7 +1,7 @@
-package com.gametest.springprojekt.model;
+package com.gametest.springprojekt.model.mapper;
 
-import com.gametest.springprojekt.dto.CharacterDto;
 import com.gametest.springprojekt.dto.GangInfoDto;
+import com.gametest.springprojekt.model.GangEntity;
 import org.springframework.stereotype.Component;
 
 @Component

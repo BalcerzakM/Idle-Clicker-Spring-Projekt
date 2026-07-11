@@ -70,7 +70,8 @@ public class CharacterController {
         CharacterEntity character = characterService.getCurrentCharacter();
         EffectDto effectDto = drinkService.handleUseDrink(character, backpackItemId);
         return ResponseEntity.ok(effectDto);
-      
+    }
+
     @GetMapping("/gang")
     public ResponseEntity<?> getGang() {
         CharacterEntity character = characterService.getCurrentCharacter();

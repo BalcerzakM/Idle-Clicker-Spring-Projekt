@@ -197,6 +197,9 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDto(
                         "EFFECT_ALREADY_ACTIVE",
                         "Jesteś już pod wpływem tego efektu!"
+                ));
+    }
+
     @ExceptionHandler(CharacterIsInAGangException.class)
     public ResponseEntity<ErrorDto> handleCharacterAlreadyInGang(CharacterIsInAGangException e) {
         return ResponseEntity

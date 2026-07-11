@@ -60,7 +60,7 @@ function App() {
 							<Route path="/car-dealer" element={<CarDealer />} />
 							<Route path="/ranking" element={<RankingView />} />
 							<Route path="/boss" element={<Boss />} />
-              <Route path="/drink-shop" element={<DrinkShop />} />
+                            <Route path="/drink-shop" element={<DrinkShop />} />
 							<Route path="/gang-list" element={<GangList />} />
 							<Route path="/my-gang" element={<MyGang />} />
 						</Routes>
