@@ -1,13 +1,16 @@
 package com.gametest.springprojekt.controller.api;
 
 import com.gametest.springprojekt.dto.FullGangInfoDto;
+import com.gametest.springprojekt.dto.GangCombatDto;
 import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.service.CharacterService;
+import com.gametest.springprojekt.service.CombatService;
 import com.gametest.springprojekt.service.GangService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -18,6 +21,7 @@ public class GangController {
 
     private final GangService gangService;
     private final CharacterService characterService;
+    private final CombatService combatService;
 
     @PostMapping("/create")
     public String createGang(@RequestParam String name,
@@ -108,6 +112,15 @@ public class GangController {
         CharacterEntity currentCharacter = characterService.getCurrentCharacter();
         gangService.rejectJoinRequest(gangName, characterName, currentCharacter);
         return "Prośba o dołączenie została odrzucona.";
+    }
+
+    @PostMapping("/startBattle")
+    public ResponseEntity<GangCombatDto> startGangBattle(
+            @RequestParam String gangAName,
+            @RequestParam String gangBName
+    ) {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        return ResponseEntity.ok(gangService.startGangCombat(currentCharacter ,gangAName, gangBName));
     }
 
 }

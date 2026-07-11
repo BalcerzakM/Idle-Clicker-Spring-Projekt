@@ -1,6 +1,7 @@
 package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.dto.FullGangInfoDto;
+import com.gametest.springprojekt.dto.GangCombatDto;
 import com.gametest.springprojekt.dto.GangInfoDto;
 import com.gametest.springprojekt.exception.CharacterIsInAGangException;
 import com.gametest.springprojekt.exception.GangAlreadyFullException;
@@ -13,11 +14,14 @@ import com.gametest.springprojekt.model.GangEntity;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.GangRepository;
 import lombok.RequiredArgsConstructor;
+import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,6 +33,7 @@ public class GangService {
     private final int INITIAL_BALANCE = 0;//początkowa wartość jaką gangi mają w skarbcach
     private final GangDtoMapper gangDtoMapper;
     private final CharacterMapper characterMapper;
+    private final CombatService combatService;
 
     @Transactional
     public GangEntity createGang(CharacterEntity character, String name, String description, String emblemPicturePath) {
@@ -234,5 +239,29 @@ public class GangService {
 
         gang.getRequests().remove(character);
         gangRepository.save(gang);
+    }
+
+    private List<CharacterEntity> getGangMembersList(GangEntity gang) {
+        return gang.getMembers().stream()
+                .sorted(Comparator.comparingInt(CharacterEntity::getAuraLvl).reversed())
+                .toList();
+    }
+
+
+    public @Nullable GangCombatDto startGangCombat(CharacterEntity currentCharacter, String gangAName, String gangBName) {
+        GangEntity gang1 = gangRepository.findByGangName(gangAName)
+                .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
+        GangEntity gang2 = gangRepository.findByGangName(gangBName)
+                .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
+
+        List<CharacterEntity> gangA = getGangMembersList(gang1);
+        List<CharacterEntity> gangB = getGangMembersList(gang2);
+
+        if (gang1.getLeader() != currentCharacter && gang2.getLeader() != currentCharacter) {
+            throw new PermissionDeniedException("Tylko lider może zacząć bitwę gangów.");
+        }
+
+
+        return combatService.startGangCombat(gangA, gangB);
     }
 }
