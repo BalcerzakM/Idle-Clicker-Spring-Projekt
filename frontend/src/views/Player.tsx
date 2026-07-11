@@ -153,8 +153,7 @@ function Player() {
 			{hero && (
 				<HeroPanel
 					hero={hero}
-					onSell={() => {}}
-					onEquip={handleEquip}
+					onUseItem={handleEquip}
 					highlightedSlot={highlightedSlot}
 					onHoverSlot={handleHoverSlot}
 				/>

@@ -30,9 +30,10 @@ public class EffectService {
             if (!effect.getEffectEndTime().isAfter(now)) {
                 toRemoveEffects.add(effect);
                 toRemoveItems.add(effect.getItem());
-                character.getEffects().remove(effect);
             }
         }
+
+        character.getEffects().removeAll(toRemoveEffects);
 
         effectRepository.deleteAll(toRemoveEffects);
         itemRepository.deleteAll(toRemoveItems);

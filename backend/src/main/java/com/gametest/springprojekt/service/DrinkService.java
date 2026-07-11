@@ -57,11 +57,13 @@ public class DrinkService {
                 ()-> new ItemNotFoundException("Nie znaleziono napoju o podanym ID")
         );
 
-        if (character.getMoney() < calculationService.calculateDrinkValue(baseDrink.getBasePrice(), character)) {
+        int drinkPrice = calculationService.calculateDrinkValue(baseDrink.getBasePrice(), character);
+
+        if (character.getMoney() < drinkPrice) {
             throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
         }
 
-        character.setMoney(character.getMoney() - baseDrink.getBasePrice());
+        character.setMoney(character.getMoney() - drinkPrice);
 
         ItemEntity drinkItem = generateDrinkItemFromBaseItem(baseDrink, character);
 

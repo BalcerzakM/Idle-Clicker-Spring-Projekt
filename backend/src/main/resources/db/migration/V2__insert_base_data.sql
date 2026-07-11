@@ -118,7 +118,7 @@ INSERT INTO base_item_entity (name,
                               image_path,
                               description
                               )
-VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 300, 'AGILITY', 0, 'item-drink-gajerbomb.png', ''),
+VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 300, 'AGILITY', 0, 'item-drink-gajerbomb.png', 'Gajermaister z colą i kostkami lodu.'),
         ('Bóbr', 'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,300, 'STRENGTH', 0, 'item-drink-bubr.png', ''),
         ('Aramena', 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,300, 'ENDURANCE', 0, 'item-drink-aramena.png', ''),
         ('Shot czystej', 'DRINK', 'NONE', 30, 0, 0, 0, 0, 190,300, 'RIZZ', 0, 'item-drink-vodka.png', ''),

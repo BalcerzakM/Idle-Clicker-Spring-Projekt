@@ -18,15 +18,14 @@ export interface ItemsAndStatsDto {
 
 interface HeroPanelProps {
 	hero: ItemsAndStatsDto;
-	onSell: (backpackItemId: number) => void;
-	onEquip: (backpackItemId: number) => void;
+	onUseItem: (backpackItemId: number) => void;
 	highlightedSlot: string | null;
 	onHoverSlot: (slotType: string | null) => void;
 }
 
 function HeroPanel({
 	hero,
-	onEquip,
+	onUseItem,
 	highlightedSlot,
 	onHoverSlot,
 }: HeroPanelProps) {
@@ -47,7 +46,7 @@ function HeroPanel({
 		e.preventDefault();
 		const backpackItemId = Number(e.dataTransfer.getData("text/plain"));
 		if (isNaN(backpackItemId)) return;
-		onEquip(backpackItemId);
+		onUseItem(backpackItemId);
 	};
 
 	return (

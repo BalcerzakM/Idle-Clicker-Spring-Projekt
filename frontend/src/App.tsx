@@ -14,8 +14,10 @@ import Premium from "./views/Premium";
 import CarDealer from "./views/CarDealer";
 import RankingView from "./views/RankingView";
 import Boss from "./views/Boss";
+import DrinkShop from "./views/DrinkShop";
 import { HelpProvider } from "./context/HelpContext";
 import HelpModal from "./components/HelpModal";
+
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -56,6 +58,7 @@ function App() {
 							<Route path="/car-dealer" element={<CarDealer />} />
 							<Route path="/ranking" element={<RankingView />} />
 							<Route path="/boss" element={<Boss />} />
+                            <Route path="/drink-shop" element={<DrinkShop />} />
 						</Routes>
 						<HelpModal />
 					</div>
