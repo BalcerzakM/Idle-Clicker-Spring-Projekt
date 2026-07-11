@@ -9,6 +9,7 @@ import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.ItemEntity;
 import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
 import jakarta.transaction.Transactional;
@@ -25,6 +26,7 @@ public class ItemTokenService {
     private final BaseItemRepository baseItemRepository;
     private final ItemShopService itemShopService;
     private final ItemRepository itemRepository;
+    private final ItemMapper itemMapper;
     private final SecureRandom random = new SecureRandom();
 
     private final double ITEM_DROP_CHANCE = 0.25;
@@ -53,7 +55,7 @@ public class ItemTokenService {
         character.getBackpack().remove(backpackToken);
         character.addItemToBackpack(item);
 
-        return item.generateItemDto();
+        return itemMapper.toDto(item);
     }
 
     public ItemEntity handleRewardToken(boolean isGuaranteed) {

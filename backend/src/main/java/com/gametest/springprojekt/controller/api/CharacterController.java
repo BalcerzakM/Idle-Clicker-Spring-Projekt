@@ -4,6 +4,7 @@ import com.gametest.springprojekt.dto.*;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.enums.StatName;
 import com.gametest.springprojekt.service.CharacterService;
+import com.gametest.springprojekt.service.DrinkService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CharacterController {
     private final CharacterService characterService;
+    private final DrinkService  drinkService;
 
     //pieniadze, krysztaly, awatar, aura i aura level
     @GetMapping("/shortInfo")
@@ -63,6 +65,12 @@ public class CharacterController {
         return ResponseEntity.ok("Zwiększono statystykę");
     }
 
+    @PostMapping("/drink")
+    public ResponseEntity<EffectDto> drinkItem(@RequestBody Long backpackItemId) {
+        CharacterEntity character = characterService.getCurrentCharacter();
+        EffectDto effectDto = drinkService.handleUseDrink(character, backpackItemId);
+        return ResponseEntity.ok(effectDto);
+      
     @GetMapping("/gang")
     public ResponseEntity<?> getGang() {
         CharacterEntity character = characterService.getCurrentCharacter();

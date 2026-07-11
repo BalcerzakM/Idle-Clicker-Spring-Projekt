@@ -67,6 +67,9 @@ function NavBar() {
 				<button type="button" onClick={() => navigate("/shop")}>
 					Szatnia
 				</button>
+                <button type="button" onClick={() => navigate("/drink-shop")}>
+                    Napoje
+                </button>
 				<button type="button" onClick={() => navigate("/outside")}>
 					Palarnia
 				</button>

@@ -316,8 +316,8 @@ body::before {
 
 .clubMain-toilet {
 	position: absolute;
-	top: 164px;
-	left: 1048px;
+	top: 165px;
+	left: 1049px;
 
 	width: 105px;
 	height: 224px;
@@ -332,6 +332,57 @@ body::before {
 
 .clubMain-toilet:hover .hover-image {
 	display: block;
+}
+
+/*DRINKI*/
+.clubMain-drinksTextBox {
+    display: none;
+
+    font-size: 16px;
+
+    position: absolute;
+    top: 250px;
+    left: 605px;
+
+    width: 82px;
+
+    padding: 1px 6px;
+
+    border: 1px solid var(--neon-blue);
+    border-radius: 20px;
+
+    background: rgba(10, 12, 18, 0.92);
+
+    color: #d2c1af;
+
+    text-shadow: 0 0 3px rgba(255, 255, 255, 0.15);
+
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.35);
+
+    backdrop-filter: blur(2px);
+    text-align: center;
+
+    z-index: 2;
+}
+
+.clubMain-drinks {
+    position: absolute;
+    top: 287px;
+    left: 605px;
+
+    width: 69px;
+    height: 69px;
+
+    z-index: 2;
+}
+
+.clubMain-drinks:hover + .clubMain-drinksTextBox {
+    display: block;
+    opacity: 0.95;
+}
+
+.clubMain-drinks:hover .hover-image {
+    display: block;
 }
 
 /*PALARNIA*/

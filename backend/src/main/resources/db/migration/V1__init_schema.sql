@@ -28,18 +28,21 @@ CREATE TABLE backpack_item
 ) ENGINE = InnoDB;
 CREATE TABLE base_item_entity
 (
-    base_agility   INTEGER                                                                       NOT NULL,
-    base_endurance INTEGER                                                                       NOT NULL,
-    base_luck      INTEGER                                                                       NOT NULL,
-    base_price     INTEGER                                                                       NOT NULL,
-    base_rizz      INTEGER                                                                       NOT NULL,
-    base_strength  INTEGER                                                                       NOT NULL,
-    id             BIGINT                                                                        NOT NULL AUTO_INCREMENT,
-    description    VARCHAR(255),
-    image_path     VARCHAR(255)                                                                  NOT NULL,
-    name           VARCHAR(255)                                                                  NOT NULL,
-    item_type      ENUM ('EQUIPMENT','ITEM_TOKEN')                                               NOT NULL,
-    slot_type      ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
+    base_agility        INTEGER                                                                       NOT NULL,
+    base_endurance      INTEGER                                                                       NOT NULL,
+    base_luck           INTEGER                                                                       NOT NULL,
+    base_price          INTEGER                                                                       NOT NULL,
+    base_rizz           INTEGER                                                                       NOT NULL,
+    base_strength       INTEGER                                                                       NOT NULL,
+    id                  BIGINT                                                                        NOT NULL AUTO_INCREMENT,
+    description         VARCHAR(255),
+    image_path          VARCHAR(255)                                                                  NOT NULL,
+    name                VARCHAR(255)                                                                  NOT NULL,
+    item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
+    slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
+    duration_in_seconds INTEGER DEFAULT 0,
+    effect_type         ENUM ('RIZZ', 'STRENGTH', 'AGILITY', 'ENDURANCE', 'LUCK', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER'),
+    effect_value        INTEGER,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE base_vehicle_entity
@@ -91,6 +94,15 @@ CREATE TABLE character_entity
     user_id            BIGINT       NOT NULL,
     avatar_picture     VARCHAR(255) NOT NULL,
     name               VARCHAR(255) NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE effect_entity
+(
+    character_id   BIGINT              NOT NULL,
+    effect_end_time   DATETIME(6)      NOT NULL,
+    effect_start_time DATETIME(6)      NOT NULL,
+    id             BIGINT              NOT NULL AUTO_INCREMENT,
+    item_id        BIGINT              NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE equipment_item

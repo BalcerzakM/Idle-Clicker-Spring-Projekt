@@ -3,7 +3,6 @@ package com.gametest.springprojekt.exception;
 import com.gametest.springprojekt.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -181,6 +180,23 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(TooManyEffectsException.class)
+    public ResponseEntity<ErrorDto> handleTooManyEffects(TooManyEffectsException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "TOO_MANY_EFFECTS",
+                        "Masz już maksymalną ilość efektów!"
+                ));
+    }
+
+    @ExceptionHandler(EffectAlreadyActiveException.class)
+    public ResponseEntity<ErrorDto> handleEffectAlreadyActive(EffectAlreadyActiveException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "EFFECT_ALREADY_ACTIVE",
+                        "Jesteś już pod wpływem tego efektu!"
     @ExceptionHandler(CharacterIsInAGangException.class)
     public ResponseEntity<ErrorDto> handleCharacterAlreadyInGang(CharacterIsInAGangException e) {
         return ResponseEntity

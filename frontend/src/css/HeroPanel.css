@@ -2,10 +2,10 @@
 .hero-panel {
 	display: flex;
 	flex-direction: column;
-	gap: 16px;
+	gap: 10px;
 	border: 2px solid var(--border-color);
 	border-radius: 12px;
-	padding: 16px;
+	padding: 12px;
 	backdrop-filter: blur(2px);
 	color: var(--text-light);
 }
@@ -142,7 +142,7 @@
 	background: rgba(20, 20, 20, 0.7);
 	border: 2px solid var(--border-color);
 	border-radius: 10px;
-	padding: 12px;
+	padding: 10px;
 }
 
 .inventory h3 {
@@ -187,3 +187,87 @@
 	background: var(--neon-gold);
 	color: black;
 }
+
+.effects {
+    background: rgba(20,20,20,.7);
+
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+
+    padding: 6px;
+
+    height: 130px;
+}
+
+.effects h3 {
+    margin: 0 0 10px;
+
+    color: var(--neon-blue-glow);
+
+    font-family: "Teko", sans-serif;
+    font-size: 24px;
+}
+
+.effects-grid {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+}
+
+.effect-card {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 4px 10px 4px 6px;
+
+    background: rgba(35, 35, 35,.65);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 8px;
+
+    min-height: 48px;
+}
+
+.effect-icon {
+    width: 42px;
+    height: 42px;
+
+    object-fit: contain;
+
+    flex-shrink: 0;
+}
+
+.effect-info {
+    flex: 1;
+}
+
+.effect-name {
+    font-weight: bold;
+    color: var(--text-light);
+
+    font-size: 14px;
+}
+
+.effect-bonus {
+    margin-top: 3px;
+
+    color: var(--neon-gold);
+
+    font-size: 12px;
+}
+
+.effect-timer {
+    width: 52px;
+
+    text-align: right;
+    font-weight: bold;
+    color: var(--neon-blue-glow );
+    font-family: monospace;
+
+    font-size: 15px;
+}
+
+

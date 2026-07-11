@@ -27,4 +27,6 @@ public class ItemDto {
     private int price;
 
     private String imagePath;
+
+    private int durationInSeconds;
 }

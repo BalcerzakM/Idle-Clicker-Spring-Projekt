@@ -5,6 +5,7 @@ import com.gametest.springprojekt.exception.*;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
 import com.gametest.springprojekt.model.enums.StatName;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.CharacterClassRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.UserRepository;
@@ -27,6 +28,8 @@ public class CharacterService {
     private final CharacterRepository characterRepository;
     private final CharacterClassRepository characterClassRepository;
     private final VehicleService vehicleService;
+    private final EffectService effectService;
+    private final ItemMapper itemMapper;
 
     @Transactional(readOnly = true)
     public CharacterEntity getCurrentCharacter() {
@@ -40,8 +43,15 @@ public class CharacterService {
         if (characters.isEmpty()) {
             throw new CharacterNotFoundException("Użytkownik nie posiada jeszcze żadnej postaci!");
         }
+
+        CharacterEntity character = user.getCharacters().getFirst();
+
+        //tutaj mozna robic walidacje bo za kazdym razem jest wywolywane
+        vehicleService.validateAndRemoveExpiredVehicle(character);
+        effectService.validateAndRemoveEffects(character);
+
         // na razie na sztywno, z listy pierwsza postać po prostu
-        return user.getCharacters().getFirst();
+        return character;
     }
 
 
@@ -132,7 +142,8 @@ public class CharacterService {
                 vehicleTimeReduction,
                 vehicleExpiryTime,
                 equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack())
+                backpackItemToItemDtos(character.getBackpack()),
+                generateEffectDtos(character.getEffects())
         );
     }
 
@@ -150,9 +161,23 @@ public class CharacterService {
                 stats.get("endurance"),
                 stats.get("luck"),
                 equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack())
+                backpackItemToItemDtos(character.getBackpack()),
+                generateEffectDtos(character.getEffects())
                 );
 
+    }
+
+    private List<EffectDto> generateEffectDtos(List<EffectEntity> effects) {
+        List<EffectDto> effectDtos = new ArrayList<>();
+
+        for (EffectEntity effect : effects) {
+            effectDtos.add(new EffectDto(
+                itemMapper.toDto(effect.getItem()),
+                effect.getEffectStartTime(),
+                effect.getEffectEndTime()
+            ));
+        }
+        return effectDtos;
     }
 
     //dodane transactional bo nie zapisywalo wczesniej i nie dodawalo do eq
@@ -233,7 +258,8 @@ public class CharacterService {
                     backpackItem.getItem().getTotalEndurance(),
                     backpackItem.getItem().getTotalLuck(),
                     backpackItem.getItem().getPrice(),
-                    backpackItem.getItem().getBaseItem().getImagePath()
+                    backpackItem.getItem().getBaseItem().getImagePath(),
+                    backpackItem.getItem().getBaseItem().getDurationInSeconds()
             ));
         }
         return itemDtos;
@@ -255,7 +281,8 @@ public class CharacterService {
                     equipmentItem.getItem().getTotalEndurance(),
                     equipmentItem.getItem().getTotalLuck(),
                     equipmentItem.getItem().getPrice(),
-                    equipmentItem.getItem().getBaseItem().getImagePath()
+                    equipmentItem.getItem().getBaseItem().getImagePath(),
+                    equipmentItem.getItem().getBaseItem().getDurationInSeconds()
             ));
         }
         return itemDtos;

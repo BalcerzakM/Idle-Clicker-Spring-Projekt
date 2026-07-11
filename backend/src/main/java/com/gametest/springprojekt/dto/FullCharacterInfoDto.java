@@ -28,5 +28,7 @@ public class FullCharacterInfoDto {
 
     private List<ItemDto> backpack;
 
+    private List<EffectDto> effects;
+
 }
 
