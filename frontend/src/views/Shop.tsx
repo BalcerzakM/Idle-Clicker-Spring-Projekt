@@ -20,7 +20,7 @@ function Shop() {
         fetchCharacterData,
         handleUseItem,
         highlightedSlot,
-        handleHoverSlot
+        handleHoverSlot,
     } = useHeroActions();
 
 	// ---------- pobieranie danych ----------

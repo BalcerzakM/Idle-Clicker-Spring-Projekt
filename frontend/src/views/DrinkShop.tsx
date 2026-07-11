@@ -19,7 +19,7 @@ function DrinkShop() {
         fetchCharacterData,
         handleUseItem,
         highlightedSlot,
-        handleHoverSlot
+        handleHoverSlot,
     } = useHeroActions();
 
     const fetchDrinkShopItems = useCallback(async () => {

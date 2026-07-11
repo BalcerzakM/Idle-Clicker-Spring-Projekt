@@ -1,4 +1,4 @@
-import { useState, useCallback} from "react";
+import {useState, useCallback, useEffect} from "react";
 import { useAlert } from "../context/AlertContext";
 import { useCharacter} from "../context/CharacterContext";
 import type { ItemsAndStatsDto} from "../components/HeroPanel";
@@ -106,6 +106,26 @@ export function useHeroActions() {
     const handleHoverSlot = (slotType: string | null) => {
         setHighlightedSlot(slotType);
     };
+
+    const [now, setNow] = useState(Date.now());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(Date.now());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        if (!hero) return;
+
+        if (hero.effects.some(
+            e => new Date(e.effectEndTime).getTime() <= now
+        )) {
+            fetchCharacterData();
+        }
+    }, [hero, now, fetchCharacterData]);
 
     return {
         hero,

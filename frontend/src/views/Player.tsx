@@ -38,6 +38,7 @@ function Player() {
 		try {
 			setLoading(true);
 			const res = await fetch("http://localhost:8080/api/character/fullInfo");
+            console.log("FULL INFO", res);
 			if (!res.ok) {
 				const error = await res.json();
 				showError(error.message || "Nie udało się pobrać danych");
@@ -131,6 +132,26 @@ function Player() {
 	const handleHoverSlot = (slotType: string | null) =>
 		setHighlightedSlot(slotType);
 
+    const [now, setNow] = useState(Date.now());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(Date.now());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    useEffect(() => {
+        if (!hero) return;
+
+        if (hero.effects.some(
+            e => new Date(e.effectEndTime).getTime() <= now
+        )) {
+            fetchPlayerDetails();
+        }
+    }, [hero, now, fetchPlayerDetails]);
+
 	if (loading && !hero) {
 		return <div className="player-loading">Ładowanie...</div>;
 	}
@@ -147,7 +168,7 @@ function Player() {
 		});
 	};
 
-	return (
+    return (
 		<div className="player-container">
 			{/* LEWA STRONA – HeroPanel */}
 			{hero && (

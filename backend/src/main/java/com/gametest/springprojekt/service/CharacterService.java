@@ -142,7 +142,8 @@ public class CharacterService {
                 vehicleTimeReduction,
                 vehicleExpiryTime,
                 equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack())
+                backpackItemToItemDtos(character.getBackpack()),
+                generateEffectDtos(character.getEffects())
         );
     }
 
