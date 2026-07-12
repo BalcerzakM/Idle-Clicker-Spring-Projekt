@@ -11,4 +11,5 @@ public interface GangRepository extends JpaRepository<GangEntity, Long> {
 
     Optional<GangEntity> findByGangName(String gangName);
 
+    boolean existsByGangName(String gangName);
 }

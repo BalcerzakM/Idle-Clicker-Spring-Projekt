@@ -115,12 +115,25 @@ public class GangController {
     }
 
     @PostMapping("/startBattle")
-    public ResponseEntity<GangCombatDto> startGangBattle(
-            @RequestParam String gangAName,
-            @RequestParam String gangBName
+    public ResponseEntity<GangCombatDto> startGangBattle() {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        return ResponseEntity.ok(gangService.startGangCombat(currentCharacter));
+    }
+
+    @PostMapping("/startVote") //głosowanie o walke z danym gangiem
+    public ResponseEntity<?> startVote(
+            @RequestParam String gangName
     ) {
         CharacterEntity currentCharacter = characterService.getCurrentCharacter();
-        return ResponseEntity.ok(gangService.startGangCombat(currentCharacter ,gangAName, gangBName));
+        return ResponseEntity.ok(gangService.startVote(currentCharacter ,gangName));
     }
+
+
+    @PatchMapping("/vote")
+    public ResponseEntity<?> addVote() {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        return ResponseEntity.ok(gangService.addAVote(currentCharacter));
+    }
+
 
 }
