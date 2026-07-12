@@ -21,7 +21,9 @@ public class ItemMapper {
                 item.getTotalLuck(),
                 item.getPrice(),
                 item.getBaseItem().getImagePath(),
-                item.getBaseItem().getDurationInSeconds()
+                item.getBaseItem().getDurationInSeconds(),
+                item.getBaseItem().getEffectType(),
+                item.getBaseItem().getEffectValue()
         );
     }
 

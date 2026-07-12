@@ -259,7 +259,9 @@ public class CharacterService {
                     backpackItem.getItem().getTotalLuck(),
                     backpackItem.getItem().getPrice(),
                     backpackItem.getItem().getBaseItem().getImagePath(),
-                    backpackItem.getItem().getBaseItem().getDurationInSeconds()
+                    backpackItem.getItem().getBaseItem().getDurationInSeconds(),
+                    backpackItem.getItem().getBaseItem().getEffectType(),
+                    backpackItem.getItem().getBaseItem().getEffectValue()
             ));
         }
         return itemDtos;
@@ -282,7 +284,9 @@ public class CharacterService {
                     equipmentItem.getItem().getTotalLuck(),
                     equipmentItem.getItem().getPrice(),
                     equipmentItem.getItem().getBaseItem().getImagePath(),
-                    equipmentItem.getItem().getBaseItem().getDurationInSeconds()
+                    equipmentItem.getItem().getBaseItem().getDurationInSeconds(),
+                    equipmentItem.getItem().getBaseItem().getEffectType(),
+                    equipmentItem.getItem().getBaseItem().getEffectValue()
             ));
         }
         return itemDtos;

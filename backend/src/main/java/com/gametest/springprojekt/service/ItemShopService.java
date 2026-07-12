@@ -112,6 +112,8 @@ public class ItemShopService {
                 item.getTotalLuck(),
                 item.getPrice(),
                 item.getBaseItem().getImagePath(),
+                0,
+                item.getBaseItem().getEffectType(),
                 0
         );
     }

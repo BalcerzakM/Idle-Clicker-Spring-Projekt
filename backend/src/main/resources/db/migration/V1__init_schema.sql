@@ -41,8 +41,8 @@ CREATE TABLE base_item_entity
     item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
     slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
     duration_in_seconds INTEGER DEFAULT 0,
-    effect_type         ENUM ('RIZZ', 'STRENGTH', 'AGILITY', 'ENDURANCE', 'LUCK', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER'),
-    effect_value        INTEGER,
+    effect_type         ENUM ('STAT_BONUS', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER', 'NONE') DEFAULT 'NONE',
+    effect_value        INTEGER DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE base_vehicle_entity

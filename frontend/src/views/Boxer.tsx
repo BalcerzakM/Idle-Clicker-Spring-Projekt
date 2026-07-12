@@ -131,7 +131,7 @@ function Boxer() {
 
             {finalResult && !playing && (
                 <div className="boxer-info-display">
-                    Wygrana: {finalResult.winAmount}
+                    Wygrana: {finalResult.winAmount}💰
                     {finalResult.lucky && (
                         <div className="lucky-hit">
                             LUCKY PUNCH!
