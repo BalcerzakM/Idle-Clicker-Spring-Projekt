@@ -2,10 +2,10 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
 	"/": {
 		title: "Klub",
 		text:
-            `Witaj w klubie Śruba!
-            W grze przemieszczasz się klikając na elementy które poruszają się po najechaniu na nie kursorem, albo klikając wybraną lokację w nawigacji po lewej (nie wszystkie miejsca są w nawigacji!). Aktualnie znajdujesz się w głównym pomieszczeniu klubu. Znajdziesz tu:
+            `Witaj w klubie Śruba! W grze przemieszczasz się klikając na elementy które poruszają się po najechaniu na nie kursorem, albo klikając wybraną lokację w nawigacji po lewej (nie wszystkie miejsca są w nawigacji!). Właśnie znajdujesz się w głównym pomieszczeniu klubu. Znajdziesz tu:
             • Szatniarza, u którego możesz kupić i sprzedać przedmioty oraz wymienić Numerki,
             • Barmana, u którego rozpoczniesz i wykonasz questy za które zyskasz Monety i Aurę,
+            • Napoje obok Barmana, gdzie kupisz sobie coś do picia,
             • wejście do Toalety,
             • wyjście na Palarnię.
 		`,
@@ -117,6 +117,15 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         title: "Zadania Specjalne",
         text:
             `Tutaj możesz podjąć walkę z kolejnym dostępnym bossem. Bossy w przeciwieństwie do przeciwników u Barmana nie skalują się z twoją Aurą, ale za to są silniejsze. Każdego bossa możesz pokonać tylko raz i po wygraniu z jednym dostępny jest kolejny. Wygrane bossami dają lepsze nagrody w postaci większej ilości Monet, Aury oraz gwarantowany Numerek do szatni.
+            `,
+    },
+
+    "/drink-shop": {
+        title: "Napoje",
+        text:
+            `Tutaj możesz nabyć serwowane w Śrubie trunki. Po prawej stronie, tak jak w Szatni, masz dostępną ofertę napojów wraz z bonusami które dają. Po kupieniu, napój pojawi się w twoim Plecaku. Możesz go wtedy użyć przeciągając go na ekwipunek lub awatar by otrzymać jego efekt na określony czas.
+            Stronę karty napojów zmienisz klikajć przycisk na jej dole. Oferta napojów jest stała (bonusy skalują się z twoją Aurą).
+            W jednym momencie możesz mieć maksymalnie 4 aktywne efekty oraz tylko jeden efekt tego samego napoju.
             `,
     },
 
