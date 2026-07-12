@@ -27,6 +27,7 @@ public class CombatService {
     private final QuestRepository questRepository;
     private final CalculationService calculationService;
 
+
     @Transactional
     public CombatDto startCombat(CharacterEntity character) {
 
@@ -271,11 +272,11 @@ public class CombatService {
     private List<Integer> simulateMixedCombat(FighterState character, FighterState opponent) {
 
         List<Integer> combatLog = new ArrayList<>();
-        boolean playersAtack = true;
+        boolean playersAttack = true;
         int attacktype =0;
         int dmg;
         while (character.currentHp > 0 && opponent.currentHp > 0) {
-            if(playersAtack) {
+            if(playersAttack) {
                 if(calculationService.didDodge(opponent.agility)) {
                     combatLog.add(0);
                 } else {
@@ -287,9 +288,8 @@ public class CombatService {
                     }
                     combatLog.add(dmg);
                     opponent.currentHp -= dmg;
-                    attacktype++;
                 }
-                playersAtack = false;
+                playersAttack = false;
             } else {
                 if(calculationService.didDodge(character.agility)) {
                     combatLog.add(0);
@@ -302,9 +302,9 @@ public class CombatService {
                     }
                     combatLog.add(dmg);
                     character.currentHp -= dmg;
-                    attacktype++;
                 }
-                playersAtack = true;
+                attacktype++;
+                playersAttack = true;
             }
         }
         return combatLog;
@@ -365,7 +365,7 @@ public class CombatService {
                 enemyName,
                 enemyImageFolder,
                 enemyImagePath,
-                null,
+                "MIXED_FIGHT",
                 bonusMoney,
                 bonusAura,
                 rewardItemDto
@@ -394,32 +394,55 @@ public class CombatService {
 
         List<Integer> combatLog = new ArrayList<>();
 
+        //Indeksy aktualnie walczących
+        int indexA = 0;
+        int indexB = 0;
 
-        while (gangA.size() > 0 && gangB.size() > 0) {
+        //Stany bojowe inicjowane przy starcie
+        FighterState fighterA = null;
+        FighterState fighterB = null;
 
-            CharacterEntity character = gangA.iterator().next();
-            CharacterEntity opponent = gangB.iterator().next();
+        while (indexA < gangA.size() && indexB < gangB.size()) {
 
-            FighterState player1 = new FighterState(character, calculationService);
-            FighterState player2 = new FighterState(opponent, calculationService);
+            //Jeśli nie ma jeszcze aktywnego zawodnika (początek lub poprzedni przegrał)
+            if (fighterA == null || fighterA.currentHp <= 0) {
+                CharacterEntity nextA = gangA.get(indexA);
+                fighterA = new FighterState(nextA, calculationService);
 
-            teamACharacters.add(new CharacterInBattleDto(character.getName(), character.getAvatarPicture(),player1.currentHp));
-            teamBCharacters.add(new CharacterInBattleDto(opponent.getName(), opponent.getAvatarPicture(),player2.currentHp));
+                teamACharacters.add(new CharacterInBattleDto(nextA.getName(), nextA.getAvatarPicture(), fighterA.currentHp));//dodanie do dto dla frontendu
+            }
 
-            combatLog = simulateMixedCombat(player1, player2);
+            if (fighterB == null || fighterB.currentHp <= 0) {
+                CharacterEntity nextB = gangB.get(indexB);
+                fighterB = new FighterState(nextB, calculationService);
+                teamBCharacters.add(new CharacterInBattleDto(nextB.getName(), nextB.getAvatarPicture(), fighterB.currentHp));
+            }
 
+            //walka danej pary
+            List<Integer> roundLog = simulateMixedCombat(fighterA, fighterB);
+            combatLog.addAll(roundLog);
+
+            //Sprawdzamy, kto przegrał i przesuwamy indeks jego drużyny
+            if (fighterA.currentHp <= 0) {
+                indexA++;//nastepny z a
+                fighterA = null; // wymuszamy stworzzenie nowego fighterState
+            } else {
+                indexB++;
+                fighterB = null;
+            }
         }
+
         String teamAImageFolder= "avatars";
         String teamBImageFolder = "avatars"; // na razie na sztywno, ale to trzeba zmienić przy walkach PvE
 
-        boolean gangAWon = combatLog.size() % 2 != 0;
+        boolean gangAWon = indexA < gangA.size();//jeśli gang A nie wyczerpał listy to znaczy ze wygrał
 
         int bonusAura = 0;
         int bonusMoney = 0;
         ItemDto rewardItemDto = null;
 
         if(gangAWon) {
-            bonusAura = 100; //aktualnie na sztywno jako nagroda dziesięciokrotność poziomu pokonanej postaci
+            bonusAura = 100; //trzeba pomyśleć o nagrodach imo kryształ i numerek oprócz siana i aury
             bonusMoney = 100;
 
             ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
@@ -446,8 +469,5 @@ public class CombatService {
                 rewardItemDto
         );
     }
-
-
-
 
 }

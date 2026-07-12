@@ -50,14 +50,14 @@ public class DataLoader implements CommandLineRunner {
             character.setAvatarPicture("avatar1.png");
             character.setAuraLvl(faker.number().numberBetween(1,200));
 
-            character.setAura(1);
-            character.setMoney(1);
-            character.setCristals(1);
-            character.setRizz(1);
-            character.setStrength(1);
-            character.setAgility(1);
-            character.setEndurance(1);
-            character.setLuck(1);
+            character.setAura(faker.number().numberBetween(1,200));
+            character.setMoney(faker.number().numberBetween(1,200));
+            character.setCristals(faker.number().numberBetween(1,200));
+            character.setRizz(faker.number().numberBetween(1,200));
+            character.setStrength(faker.number().numberBetween(1,200));
+            character.setAgility(faker.number().numberBetween(1,200));
+            character.setEndurance(faker.number().numberBetween(1,200));
+            character.setLuck(faker.number().numberBetween(1,200));
 
             character.setCurrentBoss(1);
 

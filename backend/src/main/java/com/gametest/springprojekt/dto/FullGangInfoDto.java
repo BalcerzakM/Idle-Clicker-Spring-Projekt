@@ -22,4 +22,6 @@ public class FullGangInfoDto {
     private Set<String> requests;
     private int moneyBank;
     private int cristalBank;
+    private String gangToAttackName;
+    private int votes;
 }
