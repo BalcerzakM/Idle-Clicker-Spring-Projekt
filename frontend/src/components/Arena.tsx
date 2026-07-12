@@ -16,7 +16,7 @@ interface CombatDto {
 	enemyName: string;
 	enemyImageFolder: string;
 	enemyImagePath: string;
-	questType: string;
+	questType: string; // teraz może być "MIXED_FIGHT"
 	moneyReward: number;
 	auraReward: number;
 	itemReward: ItemDto | null;
@@ -28,6 +28,47 @@ interface ArenaProps {
 }
 
 type AnimationState = "idle" | "playerAttack" | "enemyAttack";
+type ProjectileType = "fist" | "rizz";
+
+const fistVariants: Variants = {
+	idle: { x: 0, opacity: 0, scaleX: 1, scale: 1 },
+	playerAttack: {
+		x: [0, 280, 280],
+		scale: [1, 2, 2],
+		opacity: [0, 1, 0],
+		scaleX: [1, 1, 1],
+		transition: { duration: 0.6, ease: "easeInOut" },
+	},
+	enemyAttack: {
+		x: [0, -280, -280],
+		scale: [1, 2, 2],
+		opacity: [0, 1, 0],
+		scaleX: [-1, -1, -1],
+		transition: { duration: 0.6, ease: "easeInOut" },
+	},
+};
+
+const rizzVariants: Variants = {
+	idle: { x: 0, y: 0, opacity: 0, scaleX: 1, scale: 1, rotate: 0 },
+	playerAttack: {
+		x: [0, 180, 280],
+		y: [0, -40, 0],
+		rotate: [0, 15, -10, 0],
+		scale: [0.5, 1.8, 3],
+		opacity: [0, 1, 0],
+		scaleX: [-1, -1, -1],
+		transition: { duration: 0.9, ease: "easeOut" },
+	},
+	enemyAttack: {
+		x: [0, -180, -280],
+		y: [0, -40, 0],
+		rotate: [0, -15, 10, 0],
+		scale: [0.5, 1.8, 3],
+		opacity: [0, 1, 0],
+		scaleX: [1, 1, 1],
+		transition: { duration: 0.9, ease: "easeOut" },
+	},
+};
 
 function Arena({ combatData, onClose }: ArenaProps) {
 	const { character } = useCharacter();
@@ -45,58 +86,33 @@ function Arena({ combatData, onClose }: ArenaProps) {
 	const maxPlayerHp = combatData.playerHp;
 	const maxEnemyHp = combatData.enemyHp;
 
-	const isRizzFight = combatData.questType === "RIZZ_FIGHT";
+	// --- KLUCZOWE: ustalamy typ najbliższego ataku na podstawie questType i indeksu ---
+	const isMixedFight = combatData.questType === "MIXED_FIGHT";
+	const isRizzOnly = combatData.questType === "RIZZ_FIGHT";
 
-	const fistVariants: Variants = {
-		idle: { x: 0, opacity: 0, scaleX: 1, scale: 1 },
-		playerAttack: {
-			x: [0, 280, 280],
-			scale: [1, 2, 2],
-			opacity: [0, 1, 0],
-			scaleX: [1, 1, 1],
-			transition: { duration: 0.6, ease: "easeInOut" },
-		},
-		enemyAttack: {
-			x: [0, -280, -280],
-			scale: [1, 2, 2],
-			opacity: [0, 1, 0],
-			scaleX: [-1, -1, -1],
-			transition: { duration: 0.6, ease: "easeInOut" },
-		},
-	};
+	// Obliczamy, jaki typ pocisku zostanie użyty w kroku currentStep
+	let projectileForThisStep: ProjectileType = "fist";
+	if (isRizzOnly) {
+		projectileForThisStep = "rizz";
+	} else if (isMixedFight) {
+		const pairIndex = Math.floor(currentStep / 2); // 0,0,1,1,2,2...
+		projectileForThisStep = pairIndex % 2 === 0 ? "fist" : "rizz";
+	}
 
-	const rizzVariants: Variants = {
-		idle: { x: 0, y: 0, opacity: 0, scaleX: 1, scale: 1, rotate: 0 },
-		playerAttack: {
-			x: [0, 180, 280],
-			y: [0, -40, 0],
-			rotate: [0, 15, -10, 0],
-			scale: [0.5, 1.8, 3],
-			opacity: [0, 1, 0],
-			scaleX: [-1, -1, -1],
-			transition: { duration: 0.9, ease: "easeOut" },
-		},
-		enemyAttack: {
-			x: [0, -180, -280],
-			y: [0, -40, 0],
-			rotate: [0, -15, 10, 0],
-			scale: [0.5, 1.8, 3],
-			opacity: [0, 1, 0],
-			scaleX: [1, 1, 1],
-			transition: { duration: 0.9, ease: "easeOut" },
-		},
-	};
+	// Wybieramy warianty i obrazek w zależności od typu
+	const activeVariants =
+		projectileForThisStep === "fist" ? fistVariants : rizzVariants;
+	const activeProjectile = projectileForThisStep === "fist" ? Fist : Kiss;
 
-	const activeVariants = isRizzFight ? rizzVariants : fistVariants;
-	const activeProjectile = isRizzFight ? Kiss : Fist;
-
+	// Animacja i logika kroków
 	useEffect(() => {
 		if (currentStep >= combatData.combatLog.length) {
 			setIsFinished(true);
 			return;
 		}
 
-		const timerDelay = isRizzFight ? 1100 : 800;
+		// Delay zależny od rodzaju animacji
+		const timerDelay = projectileForThisStep === "rizz" ? 1100 : 800;
 
 		const timer = setTimeout(() => {
 			const isPlayerTurn = currentStep % 2 === 0;
@@ -104,7 +120,7 @@ function Arena({ combatData, onClose }: ArenaProps) {
 		}, timerDelay);
 
 		return () => clearTimeout(timer);
-	}, [currentStep, combatData.combatLog.length]);
+	}, [currentStep, combatData.combatLog.length, projectileForThisStep]);
 
 	const handleAttackComplete = (variant: any) => {
 		if (variant === "idle") return;
@@ -123,6 +139,7 @@ function Arena({ combatData, onClose }: ArenaProps) {
 		setCurrentStep((prev) => prev + 1);
 		setTimeout(() => setCurrentDamageText(null), 500);
 	};
+
 	const playerHpPercent = Math.max(0, (currentPlayerHp / maxPlayerHp) * 100);
 	const enemyHpPercent = Math.max(0, (currentEnemyHp / maxEnemyHp) * 100);
 
@@ -146,6 +163,7 @@ function Arena({ combatData, onClose }: ArenaProps) {
 						HP: {currentPlayerHp} / {maxPlayerHp}
 					</p>
 				</div>
+
 				<div className="arena-center">
 					{currentDamageText !== null && (
 						<motion.div
@@ -158,9 +176,11 @@ function Arena({ combatData, onClose }: ArenaProps) {
 						</motion.div>
 					)}
 
+					{/* KLUCZOWE: dynamiczny key oraz zmienne src/variants */}
 					<motion.img
+						key={currentStep}
 						src={activeProjectile}
-						alt="Pocisk"
+						alt={projectileForThisStep === "fist" ? "Pięść" : "Buziak"}
 						className="flying-fist"
 						variants={activeVariants}
 						initial="idle"
@@ -168,6 +188,7 @@ function Arena({ combatData, onClose }: ArenaProps) {
 						onAnimationComplete={handleAttackComplete}
 					/>
 				</div>
+
 				<div className="character-box">
 					<h3>{combatData.enemyName}</h3>
 					<img

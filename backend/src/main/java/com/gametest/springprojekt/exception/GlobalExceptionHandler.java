@@ -59,6 +59,26 @@ public class GlobalExceptionHandler {
                 ));
     }
 
+    @ExceptionHandler(InsufficientVotesException.class)
+    public ResponseEntity<ErrorDto> handleInsufficientVotes(InsufficientVotesException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "INSUFFICIENT_VOTES",
+                        "Oddano za mało głosów!"
+                ));
+    }
+
+    @ExceptionHandler(VotingAlreadyActiveException.class)
+    public ResponseEntity<ErrorDto> handleVotingAlreadyAcitve(VotingAlreadyActiveException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "VOTING_ALREADY_ACTIVE",
+                        "Trwa aktywne głosowanie."
+                ));
+    }
+
     @ExceptionHandler(InvalidInputValueException.class)
     public ResponseEntity<ErrorDto> handleInvalidInputValue(InvalidInputValueException e) {
         return ResponseEntity

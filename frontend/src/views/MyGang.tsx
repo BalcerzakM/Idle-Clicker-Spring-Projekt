@@ -21,6 +21,8 @@ interface FullGangInfoDto {
 	requests: string[];
 	moneyBank: number;
 	cristalBank: number;
+	gangToAttackName: string | null;
+	votes: number;
 }
 
 const MyGang = () => {
@@ -34,7 +36,7 @@ const MyGang = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const [currentCharName, setCurrentCharName] = useState<string>("");
 	const [depositMoneyAmount, setDepositMoneyAmount] = useState<number>(0);
-	const [depositCristalAmount, setDepositCristalAmount] = useState<number>(0);
+	// const [depositCristalAmount, setDepositCristalAmount] = useState<number>(0); // do wpłacania kryształów w przyszłości
 	const [depositing, setDepositing] = useState<"money" | "cristals" | null>(
 		null,
 	);
@@ -42,6 +44,8 @@ const MyGang = () => {
 		null,
 	);
 	const [removingMember, setRemovingMember] = useState<string | null>(null);
+	const [newMemberName, setNewMemberName] = useState("");
+	const [voteProcessing, setVoteProcessing] = useState(false);
 
 	const gangName = searchParams.get("name") || gangInfo?.gangName || "";
 
@@ -116,7 +120,7 @@ const MyGang = () => {
 			setDepositMoneyAmount(0);
 			refreshCharacter();
 			fetchGangInfo();
-			showInfo("Wpłacono pieniądze!"); // zamień na showSuccess jeśli masz
+			showInfo("Wpłacono pieniądze!");
 		} catch (err: any) {
 			showError(err.message);
 		} finally {
@@ -125,37 +129,36 @@ const MyGang = () => {
 	};
 
 	// ----- WPŁATA KRYSZTAŁÓW -----
-	const handleDepositCristals = async () => {
-		if (depositCristalAmount <= 0) {
-			showError("Podaj ilość większą od 0");
-			return;
-		}
-		try {
-			setDepositing("cristals");
-			const res = await fetch(
-				`http://localhost:8080/api/gang/${encodeURIComponent(gangName)}/depositCristals?amount=${depositCristalAmount}`,
-				{ method: "PUT", credentials: "include" },
-			);
-			if (!res.ok) {
-				const error = await res.json();
-				throw new Error(error.message || "Błąd wpłaty");
-			}
-			setDepositCristalAmount(0);
-			refreshCharacter();
-			fetchGangInfo();
-			showInfo("Wpłacono kryształy!");
-		} catch (err: any) {
-			showError(err.message);
-		} finally {
-			setDepositing(null);
-		}
-	};
+	// const handleDepositCristals = async () => {
+	// 	if (depositCristalAmount <= 0) {
+	// 		showError("Podaj ilość większą od 0");
+	// 		return;
+	// 	}
+	// 	try {
+	// 		setDepositing("cristals");
+	// 		const res = await fetch(
+	// 			`http://localhost:8080/api/gang/${encodeURIComponent(gangName)}/depositCristals?amount=${depositCristalAmount}`,
+	// 			{ method: "PUT", credentials: "include" },
+	// 		);
+	// 		if (!res.ok) {
+	// 			const error = await res.json();
+	// 			throw new Error(error.message || "Błąd wpłaty");
+	// 		}
+	// 		setDepositCristalAmount(0);
+	// 		refreshCharacter();
+	// 		fetchGangInfo();
+	// 		showInfo("Wpłacono kryształy!");
+	// 	} catch (err: any) {
+	// 		showError(err.message);
+	// 	} finally {
+	// 		setDepositing(null);
+	// 	}
+	// };
 
 	// ----- AKCEPTACJA PROŚBY -----
 	const handleAcceptRequest = async (charName: string) => {
 		try {
 			setProcessingRequest(charName);
-			// UWAGA: Ten endpoint trzeba dodać w backendzie
 			const res = await fetch(
 				`http://localhost:8080/api/gang/${encodeURIComponent(gangName)}/acceptRequest?characterName=${encodeURIComponent(charName)}`,
 				{ method: "POST", credentials: "include" },
@@ -176,7 +179,6 @@ const MyGang = () => {
 	const handleRejectRequest = async (charName: string) => {
 		try {
 			setProcessingRequest(charName);
-			// UWAGA: Ten endpoint trzeba dodać w backendzie
 			const res = await fetch(
 				`http://localhost:8080/api/gang/${encodeURIComponent(gangName)}/rejectRequest?characterName=${encodeURIComponent(charName)}`,
 				{ method: "POST", credentials: "include" },
@@ -234,7 +236,6 @@ const MyGang = () => {
 	};
 
 	// ----- DODAWANIE CZŁONKA (LIDER) -----
-	const [newMemberName, setNewMemberName] = useState("");
 	const handleAddMember = async () => {
 		if (!newMemberName.trim()) return;
 		try {
@@ -252,6 +253,49 @@ const MyGang = () => {
 			showError(err.message);
 		}
 	};
+
+	// ----- ODDANIE GŁOSU -----
+	const handleVote = async () => {
+		try {
+			setVoteProcessing(true);
+			const res = await fetch("http://localhost:8080/api/gang/vote", {
+				method: "PATCH",
+				credentials: "include",
+			});
+			if (!res.ok) {
+				const error = await res.json();
+				throw new Error(error.message || "Błąd oddania głosu");
+			}
+			fetchGangInfo();
+		} catch (err: any) {
+			showError(err.message);
+		} finally {
+			setVoteProcessing(false);
+		}
+	};
+
+	// ----- ROZPOCZĘCIE BITWY -----
+	const handleStartBattle = async () => {
+		try {
+			const res = await fetch("http://localhost:8080/api/gang/startBattle", {
+				method: "POST",
+				credentials: "include",
+			});
+			if (!res.ok) {
+				const error = await res.json();
+				throw new Error(error.message || "Nie udało się rozpocząć walki");
+			}
+			showInfo("Walka rozpoczęta!");
+			// Ewentualnie: nawiguj do widoku bitwy
+			fetchGangInfo();
+		} catch (err: any) {
+			showError(err.message);
+		}
+	};
+
+	// Obliczanie wymaganej liczby głosów (połowa zaokrąglona w górę)
+	const requiredVotes = gangInfo ? Math.ceil(gangInfo.membersCount / 2) : 0;
+	const voteReached = gangInfo ? gangInfo.votes >= requiredVotes : false;
 
 	// ----- RENDER -----
 	if (loading) {
@@ -367,7 +411,7 @@ const MyGang = () => {
 					)}
 				</div>
 
-				{/* ----- PRAWA KOLUMNA: SKARBCE + PROŚBY ----- */}
+				{/* ----- PRAWA KOLUMNA: SKARBCE + PROŚBY + GŁOSOWANIE ----- */}
 				<div className="gang-my-right">
 					{/* ----- SKARBIEC ----- */}
 					<div className="gang-my-section gang-my-treasury">
@@ -398,7 +442,7 @@ const MyGang = () => {
 									</button>
 								</div>
 							</div>
-							<div className="gang-treasury-item">
+							{/* <div className="gang-treasury-item">
 								<span className="gang-treasury-label">💎 KRYSZTAŁY</span>
 								<span className="gang-treasury-value">
 									{gangInfo.cristalBank.toLocaleString()} szt.
@@ -422,7 +466,7 @@ const MyGang = () => {
 										{depositing === "cristals" ? "..." : "WPŁAĆ"}
 									</button>
 								</div>
-							</div>
+							</div> */}
 						</div>
 					</div>
 
@@ -456,6 +500,66 @@ const MyGang = () => {
 										)}
 									</div>
 								))}
+							</div>
+						)}
+					</div>
+
+					{/* ----- GŁOSOWANIE O WALKĘ ----- */}
+					<div className="gang-my-section gang-my-voting">
+						<h3 className="gang-section-title">⚔️ GŁOSOWANIE O WALKĘ</h3>
+
+						{/* Jeśli trwa aktywne głosowanie */}
+						{gangInfo.gangToAttackName ? (
+							<div className="gang-vote-active">
+								<p className="gang-vote-target">
+									🎯 Cel: <strong>{gangInfo.gangToAttackName}</strong>
+								</p>
+								<div className="gang-vote-counter">
+									<span className="gang-vote-count">
+										🗳️ Głosy: {gangInfo.votes} / {requiredVotes}
+									</span>
+									<div className="gang-vote-bar">
+										<div
+											className="gang-vote-bar-fill"
+											style={{
+												width: `${Math.min(
+													(gangInfo.votes / requiredVotes) * 100,
+													100,
+												)}%`,
+											}}
+										></div>
+									</div>
+								</div>
+
+								{voteReached ? (
+									<div className="gang-vote-actions">
+										<span className="gang-vote-success">
+											✅ Wymagana liczba głosów osiągnięta!
+										</span>
+										{isLeader && (
+											<button
+												className="gang-action-btn gang-action-btn--attack"
+												onClick={handleStartBattle}
+											>
+												⚔️ ZAATAKUJ
+											</button>
+										)}
+									</div>
+								) : (
+									<div className="gang-vote-actions">
+										<button
+											className="gang-action-btn gang-action-btn--join"
+											onClick={handleVote}
+											disabled={voteProcessing}
+										>
+											{voteProcessing ? "..." : "🗳️ ZAGŁOSUJ"}
+										</button>
+									</div>
+								)}
+							</div>
+						) : (
+							<div className="gang-no-vote">
+								<p className="gang-no-requests">Brak aktywnego głosowania</p>
 							</div>
 						)}
 					</div>
