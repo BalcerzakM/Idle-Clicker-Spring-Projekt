@@ -118,6 +118,36 @@ const GangList = () => {
 		}
 	};
 
+	const handleAttackGang = async (gangName: string) => {
+		try {
+			setJoiningGang(gangName);
+
+			const params = new URLSearchParams({
+				gangName,
+			});
+
+			const res = await fetch(
+				`http://localhost:8080/api/gang/startVote?${params.toString()}`,
+				{
+					method: "POST",
+					credentials: "include",
+				},
+			);
+
+			if (!res.ok) {
+				const error = await res.json();
+				throw new Error(error.message || "Nie udało się rozpocząć głosowania");
+			}
+
+			const message = await res.text();
+			showInfo(message);
+		} catch (err: any) {
+			showError(err.message);
+		} finally {
+			setJoiningGang(null);
+		}
+	};
+
 	// ----- PAGINACJA -----
 	const goToPreviousPage = () => {
 		if (page > 0) setPage(page - 1);
@@ -228,6 +258,14 @@ const GangList = () => {
 													}
 												>
 													ZARZĄDZAJ
+												</button>
+											) : myGangName ? (
+												<button
+													className="gang-action-btn gang-action-btn--attack"
+													onClick={() => handleAttackGang(gang.gangName)}
+													disabled={joiningGang === gang.gangName}
+												>
+													{joiningGang === gang.gangName ? "..." : "ZAATAKUJ"}
 												</button>
 											) : (
 												<button
