@@ -133,6 +133,17 @@
     color: var(--neon-gold);
 }
 
+.drink-price-premium {
+    color: var(--neon-blue-glow)
+}
+
+.drink-price-premium img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 0;
+}
+
 .drink-shop-buy-btn {
     width: 90px;
     height: 36px;

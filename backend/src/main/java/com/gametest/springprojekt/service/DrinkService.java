@@ -47,7 +47,8 @@ public class DrinkService {
                 baseDrink.getImagePath(),
                 baseDrink.getDurationInSeconds(),
                 baseDrink.getEffectType(),
-                baseDrink.getEffectValue()
+                baseDrink.getEffectValue(),
+                baseDrink.isPremium()
             ));
         }
 
@@ -62,11 +63,19 @@ public class DrinkService {
 
         int drinkPrice = calculationService.calculateDrinkValue(baseDrink.getBasePrice(), character);
 
-        if (character.getMoney() < drinkPrice) {
-            throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
-        }
+        if (baseDrink.isPremium()) {
+            if (character.getCristals() < drinkPrice) {
+                throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
+            }
 
-        character.setMoney(character.getMoney() - drinkPrice);
+            character.setCristals(character.getCristals() - drinkPrice);
+        } else {
+            if (character.getMoney() < drinkPrice) {
+                throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
+            }
+
+            character.setMoney(character.getMoney() - drinkPrice);
+        }
 
         ItemEntity drinkItem = generateDrinkItemFromBaseItem(baseDrink, character);
 

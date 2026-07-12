@@ -14,6 +14,7 @@ export interface ItemDto {
     durationInSeconds: number;
     effectType: string;
     effectValue: number;
+    premium: boolean;
 }
 
 export function itemTooltip(item: ItemDto) {

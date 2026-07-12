@@ -112,9 +112,10 @@ public class ItemShopService {
                 item.getTotalLuck(),
                 item.getPrice(),
                 item.getBaseItem().getImagePath(),
-                0,
+                item.getBaseItem().getDurationInSeconds(),
                 item.getBaseItem().getEffectType(),
-                0
+                item.getBaseItem().getEffectValue(),
+                item.getBaseItem().isPremium()
         );
     }
 

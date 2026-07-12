@@ -93,6 +93,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
             `Tutaj możesz uzyskać walutę premium klubu Śruba - Kryształ. Kryształy pozwalają na:
             • skracanie czasu trwania questów poprzez wynajem pojazdów,
             • odświeżanie oferty sklepu,
+            • kupowanie specjalnych napojów,
             • zwiększanie statystyk w panelu postaci.
             `,
     },
@@ -124,7 +125,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         title: "Napoje",
         text:
             `Tutaj możesz nabyć serwowane w Śrubie trunki. Po prawej stronie, tak jak w Szatni, masz dostępną ofertę napojów wraz z bonusami które dają. Po kupieniu, napój pojawi się w twoim Plecaku. Możesz go wtedy użyć przeciągając go na ekwipunek lub awatar by otrzymać jego efekt na określony czas.
-            Stronę karty napojów zmienisz klikajć przycisk na jej dole. Oferta napojów jest stała (bonusy skalują się z twoją Aurą).
+            Stronę karty napojów zmienisz klikając przycisk "ODWRÓĆ KARTĘ" na jej dole. Oferta napojów jest stała (bonusy skalują się z twoją Aurą).
             W jednym momencie możesz mieć maksymalnie 4 aktywne efekty oraz tylko jeden efekt tego samego napoju.
             `,
     },

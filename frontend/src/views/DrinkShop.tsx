@@ -6,6 +6,7 @@ import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 import {useAlert} from "../context/AlertContext.tsx";
 import {useHeroActions} from "../utils/UseHeroActions.tsx";
+import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 
 function DrinkShop() {
     const { showError } = useAlert();
@@ -135,7 +136,16 @@ function DrinkShop() {
                                 <div className="drink-buy">
 
                                     <div className="drink-price">
-                                        {item.price}💰
+                                        {item.premium ? (
+                                            <span className="drink-price-premium">
+                                                {item.price}
+                                                <img
+                                                    src={PremiumCurrencyImg}
+                                                    alt="Premium currency"
+                                                />
+                                            </span>
+                                        ) : `${item.price}💰`}
+
                                     </div>
 
                                     <button
@@ -150,7 +160,7 @@ function DrinkShop() {
                         ))}
                         <div className="drink-pagination">
                             <button onClick={() => setPage((p) => (p + 1)%2)}>
-                                DRUGA STRONA
+                                ODWRÓĆ KARTĘ
                             </button>
                         </div>
                     </div>

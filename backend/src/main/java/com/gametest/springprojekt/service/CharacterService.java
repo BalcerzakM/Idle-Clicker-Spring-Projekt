@@ -261,7 +261,8 @@ public class CharacterService {
                     backpackItem.getItem().getBaseItem().getImagePath(),
                     backpackItem.getItem().getBaseItem().getDurationInSeconds(),
                     backpackItem.getItem().getBaseItem().getEffectType(),
-                    backpackItem.getItem().getBaseItem().getEffectValue()
+                    backpackItem.getItem().getBaseItem().getEffectValue(),
+                    backpackItem.getItem().getBaseItem().isPremium()
             ));
         }
         return itemDtos;
@@ -286,7 +287,8 @@ public class CharacterService {
                     equipmentItem.getItem().getBaseItem().getImagePath(),
                     equipmentItem.getItem().getBaseItem().getDurationInSeconds(),
                     equipmentItem.getItem().getBaseItem().getEffectType(),
-                    equipmentItem.getItem().getBaseItem().getEffectValue()
+                    equipmentItem.getItem().getBaseItem().getEffectValue(),
+                    equipmentItem.getItem().getBaseItem().isPremium()
             ));
         }
         return itemDtos;

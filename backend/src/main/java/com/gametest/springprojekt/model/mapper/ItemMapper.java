@@ -23,7 +23,8 @@ public class ItemMapper {
                 item.getBaseItem().getImagePath(),
                 item.getBaseItem().getDurationInSeconds(),
                 item.getBaseItem().getEffectType(),
-                item.getBaseItem().getEffectValue()
+                item.getBaseItem().getEffectValue(),
+                item.getBaseItem().isPremium()
         );
     }
 

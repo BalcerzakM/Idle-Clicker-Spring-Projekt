@@ -38,6 +38,7 @@ CREATE TABLE base_item_entity
     description         VARCHAR(255),
     image_path          VARCHAR(255)                                                                  NOT NULL,
     name                VARCHAR(255)                                                                  NOT NULL,
+    is_premium          BOOLEAN                                                                       NOT NULL DEFAULT FALSE,
     item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
     slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
     duration_in_seconds INTEGER DEFAULT 0,

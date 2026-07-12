@@ -32,4 +32,6 @@ public class ItemDto {
     private int durationInSeconds;
     private EffectType effectType;
     private int effectValue;
+
+    private boolean isPremium;
 }
