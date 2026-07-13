@@ -1,8 +1,10 @@
 package com.gametest.springprojekt.service;
 
+import com.gametest.springprojekt.dto.EffectDto;
 import com.gametest.springprojekt.model.CharacterEntity;
 import com.gametest.springprojekt.model.EffectEntity;
 import com.gametest.springprojekt.model.ItemEntity;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.EffectRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +20,7 @@ import java.util.List;
 public class EffectService {
     private final EffectRepository effectRepository;
     private final ItemRepository itemRepository;
+    private final ItemMapper itemMapper;
 
     @Transactional
     public void validateAndRemoveEffects(CharacterEntity character) {
@@ -37,5 +40,24 @@ public class EffectService {
 
         effectRepository.deleteAll(toRemoveEffects);
         itemRepository.deleteAll(toRemoveItems);
+    }
+
+    public EffectEntity createEffect(CharacterEntity character, ItemEntity drinkItem) {
+        Instant startTime = Instant.now();
+        return new EffectEntity(
+                null,
+                character,
+                drinkItem,
+                startTime,
+                startTime.plusSeconds(drinkItem.getBaseItem().getDurationInSeconds())
+        );
+    }
+
+    public EffectDto generateEffectDto(EffectEntity effect) {
+        return new EffectDto(
+                itemMapper.toDto(effect.getItem()),
+                effect.getEffectStartTime(),
+                effect.getEffectEndTime()
+        );
     }
 }

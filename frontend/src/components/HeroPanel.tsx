@@ -185,11 +185,13 @@ function HeroPanel({
                                 </div>
 
                                 <div className="effect-bonus">
-                                    +{effect.item.totalRizz > 0 && `${effect.item.totalRizz}✨ `}
-                                    {effect.item.totalStrength > 0 && `${effect.item.totalStrength}💪 `}
-                                    {effect.item.totalAgility > 0 && `${effect.item.totalAgility}🏃 `}
-                                    {effect.item.totalEndurance > 0 && `${effect.item.totalEndurance}🛡️ `}
-                                    {effect.item.totalLuck > 0 && `${effect.item.totalLuck}🍀 `}
+                                    {effect.item.totalRizz > 0 && `+${effect.item.totalRizz}✨ `}
+                                    {effect.item.totalStrength > 0 && `+${effect.item.totalStrength}💪 `}
+                                    {effect.item.totalAgility > 0 && `+${effect.item.totalAgility}🏃 `}
+                                    {effect.item.totalEndurance > 0 && `+${effect.item.totalEndurance}🛡️ `}
+                                    {effect.item.totalLuck > 0 && `+${effect.item.totalLuck}🍀 `}
+                                    {effect.item.effectType === "AURA_MULTIPLIER" && `Aura x${effect.item.effectValue} `}
+                                    {effect.item.effectType === "MONEY_MULTIPLIER" && `Monety x${effect.item.effectValue} `}
                                 </div>
                             </div>
 

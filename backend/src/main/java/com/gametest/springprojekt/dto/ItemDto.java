@@ -1,5 +1,6 @@
 package com.gametest.springprojekt.dto;
 
+import com.gametest.springprojekt.model.enums.EffectType;
 import com.gametest.springprojekt.model.enums.ItemType;
 import com.gametest.springprojekt.model.enums.SlotType;
 import lombok.AllArgsConstructor;
@@ -29,4 +30,8 @@ public class ItemDto {
     private String imagePath;
 
     private int durationInSeconds;
+    private EffectType effectType;
+    private int effectValue;
+
+    private boolean isPremium;
 }

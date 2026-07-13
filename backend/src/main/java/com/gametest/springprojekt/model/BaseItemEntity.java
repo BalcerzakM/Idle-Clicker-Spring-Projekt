@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 //ta klasa reprezentuje podstawowy, niewyskalowany jeszcze item
@@ -66,10 +67,20 @@ public class BaseItemEntity {
     private String imagePath;
 
     //#### DRINKI ####
+    @PositiveOrZero
+    @Column(nullable = false)
     private Integer durationInSeconds;
 
+    @NotNull
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     EffectType effectType;
 
+    @PositiveOrZero
+    @Column(nullable = false)
     private Integer effectValue;
+
+    @NotNull
+    @Column(nullable = false)
+    private boolean isPremium;
 }

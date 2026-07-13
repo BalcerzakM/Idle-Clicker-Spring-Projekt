@@ -141,8 +141,8 @@ public class CharacterService {
                 vehicleImagePath,
                 vehicleTimeReduction,
                 vehicleExpiryTime,
-                equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack()),
+                itemMapper.equipmentItemsToItemDtos(character.getEquipment()),
+                itemMapper.backpackItemsToItemDtos(character.getBackpack()),
                 generateEffectDtos(character.getEffects())
         );
     }
@@ -160,8 +160,8 @@ public class CharacterService {
                 stats.get("agility"),
                 stats.get("endurance"),
                 stats.get("luck"),
-                equipmentItemToItemDtos(character.getEquipment()),
-                backpackItemToItemDtos(character.getBackpack()),
+                itemMapper.equipmentItemsToItemDtos(character.getEquipment()),
+                itemMapper.backpackItemsToItemDtos(character.getBackpack()),
                 generateEffectDtos(character.getEffects())
                 );
 
@@ -241,53 +241,6 @@ public class CharacterService {
             character.getBackpack().add(newBackpackItem);
         }
     }
-
-    private List<ItemDto> backpackItemToItemDtos(List<BackpackItem> backpackItems) {
-        List<ItemDto> itemDtos = new ArrayList<>();
-
-        for(BackpackItem backpackItem : backpackItems) {
-            itemDtos.add(new ItemDto(
-                    backpackItem.getId(),
-                    backpackItem.getItem().getBaseItem().getName(),
-                    backpackItem.getItem().getBaseItem().getDescription(),
-                    backpackItem.getItem().getBaseItem().getItemType(),
-                    backpackItem.getItem().getBaseItem().getSlotType(),
-                    backpackItem.getItem().getTotalRizz(),
-                    backpackItem.getItem().getTotalStrength(),
-                    backpackItem.getItem().getTotalAgility(),
-                    backpackItem.getItem().getTotalEndurance(),
-                    backpackItem.getItem().getTotalLuck(),
-                    backpackItem.getItem().getPrice(),
-                    backpackItem.getItem().getBaseItem().getImagePath(),
-                    backpackItem.getItem().getBaseItem().getDurationInSeconds()
-            ));
-        }
-        return itemDtos;
-    }
-
-    private List<ItemDto> equipmentItemToItemDtos(List<EquipmentItem> equipmentItems) {
-        List<ItemDto> itemDtos = new ArrayList<>();
-
-        for(EquipmentItem equipmentItem : equipmentItems) {
-            itemDtos.add(new ItemDto(
-                    equipmentItem.getId(),
-                    equipmentItem.getItem().getBaseItem().getName(),
-                    equipmentItem.getItem().getBaseItem().getDescription(),
-                    equipmentItem.getItem().getBaseItem().getItemType(),
-                    equipmentItem.getItem().getBaseItem().getSlotType(),
-                    equipmentItem.getItem().getTotalRizz(),
-                    equipmentItem.getItem().getTotalStrength(),
-                    equipmentItem.getItem().getTotalAgility(),
-                    equipmentItem.getItem().getTotalEndurance(),
-                    equipmentItem.getItem().getTotalLuck(),
-                    equipmentItem.getItem().getPrice(),
-                    equipmentItem.getItem().getBaseItem().getImagePath(),
-                    equipmentItem.getItem().getBaseItem().getDurationInSeconds()
-            ));
-        }
-        return itemDtos;
-    }
-
 
     @Transactional
     public void incrementStat(CharacterEntity character, StatName stat, int amount) {

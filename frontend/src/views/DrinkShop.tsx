@@ -6,6 +6,7 @@ import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 import {useAlert} from "../context/AlertContext.tsx";
 import {useHeroActions} from "../utils/UseHeroActions.tsx";
+import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 
 function DrinkShop() {
     const { showError } = useAlert();
@@ -13,6 +14,8 @@ function DrinkShop() {
     const [loading, setLoading] = useState<boolean>(true);
     const [buyingId, setBuyingId] = useState<number | null>(null);
     const { refreshCharacter } = useCharacter();
+    const [page, setPage] = useState(0);
+    const ITEMS_PER_PAGE = 8;
 
     const {
         hero,
@@ -70,6 +73,11 @@ function DrinkShop() {
         }
     };
 
+    const visibleItems = items.slice(
+        page * ITEMS_PER_PAGE,
+        (page + 1) * ITEMS_PER_PAGE
+    );
+
     if (loading && !hero) {
         return <div className="shop-loading">Ładowanie...</div>;
     }
@@ -86,11 +94,11 @@ function DrinkShop() {
             )}
 
             <div className="drink-shop-panel">
-                {items.length === 0 ? (
+                {visibleItems.length === 0 ? (
                     <p className="drink-shop-empty">Brak dostępnych ofert.</p>
                 ) : (
                     <div className="drink-shop-list">
-                        {items.map((item) => (
+                        {visibleItems.map((item) => (
                             <div
                                 key={item.id}
                                 className="drink-card"
@@ -111,11 +119,13 @@ function DrinkShop() {
                                     </p>
 
                                     <p className="drink-effect">
-                                        +{item.totalRizz > 0 && `${item.totalRizz} do Rizzu✨ `}
-                                        {item.totalStrength > 0 && `${item.totalStrength} do Siły💪 `}
-                                        {item.totalAgility > 0 && `${item.totalAgility} do Zwinności🏃 `}
-                                        {item.totalEndurance > 0 && `${item.totalEndurance} do Wytrzymałości🛡️ `}
-                                        {item.totalLuck > 0 && `${item.totalLuck} do Szczęścia🍀 `}
+                                        {item.totalRizz > 0 && `+${item.totalRizz} do Rizzu✨ `}
+                                        {item.totalStrength > 0 && `+${item.totalStrength} do Siły💪 `}
+                                        {item.totalAgility > 0 && `+${item.totalAgility} do Zwinności🏃 `}
+                                        {item.totalEndurance > 0 && `+${item.totalEndurance} do Wytrzymałości🛡️ `}
+                                        {item.totalLuck > 0 && `+${item.totalLuck} do Szczęścia🍀 `}
+                                        {item.effectType === "AURA_MULTIPLIER" && `Aura x${item.effectValue} `}
+                                        {item.effectType === "MONEY_MULTIPLIER" && `Monety x${item.effectValue} `}
 
                                         <span className="drink-duration">
                                             na {item.durationInSeconds/60} minut
@@ -126,7 +136,16 @@ function DrinkShop() {
                                 <div className="drink-buy">
 
                                     <div className="drink-price">
-                                        {item.price}💰
+                                        {item.premium ? (
+                                            <span className="drink-price-premium">
+                                                {item.price}
+                                                <img
+                                                    src={PremiumCurrencyImg}
+                                                    alt="Premium currency"
+                                                />
+                                            </span>
+                                        ) : `${item.price}💰`}
+
                                     </div>
 
                                     <button
@@ -139,6 +158,11 @@ function DrinkShop() {
                                 </div>
                             </div>
                         ))}
+                        <div className="drink-pagination">
+                            <button onClick={() => setPage((p) => (p + 1)%2)}>
+                                ODWRÓĆ KARTĘ
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>

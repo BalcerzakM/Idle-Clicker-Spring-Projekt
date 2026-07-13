@@ -6,6 +6,7 @@ import com.gametest.springprojekt.exception.ItemNotFoundException;
 import com.gametest.springprojekt.exception.NotEnoughAvailableBaseItemsException;
 import com.gametest.springprojekt.model.*;
 import com.gametest.springprojekt.model.enums.SlotType;
+import com.gametest.springprojekt.model.mapper.ItemMapper;
 import com.gametest.springprojekt.repository.BaseItemRepository;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.ItemRepository;
@@ -31,6 +32,7 @@ public class ItemShopService {
     private final CalculationService calculationService;
 
     private final int NUMBER_OF_SHOP_ITEMS = 4;
+    private final ItemMapper itemMapper;
 
     //sciaga dzisiejsza oferte z bazy danych
     @Transactional
@@ -46,7 +48,7 @@ public class ItemShopService {
         List<ItemDto> itemDtos = new ArrayList<>();
 
         for (ShopOfferEntity offerEntity : offers) {
-            itemDtos.add(generateShopItemDto(offerEntity));
+            itemDtos.add(itemMapper.shopOfferToItemDto(offerEntity));
         }
 
         return itemDtos;
@@ -64,7 +66,7 @@ public class ItemShopService {
             throw new InsufficientMoneyException("Gracz ma za malo pieniedzy!");
         }
 
-        ItemDto itemDto = generateShopItemDto(shopOffer);
+        ItemDto itemDto = itemMapper.shopOfferToItemDto(shopOffer);
 
         character.setMoney(character.getMoney() - shopOffer.getItem().getPrice());
 
@@ -96,25 +98,7 @@ public class ItemShopService {
         character.getBackpack().remove(backpackItem);
     }
 
-    //generuje dto na podstawie oferty sciagnietej z bazy
-    public ItemDto generateShopItemDto(ShopOfferEntity shopOfferEntity) {
-        ItemEntity item = shopOfferEntity.getItem();
-        return new ItemDto(
-                shopOfferEntity.getId(),
-                item.getBaseItem().getName(),
-                item.getBaseItem().getDescription(),
-                item.getBaseItem().getItemType(),
-                item.getBaseItem().getSlotType(),
-                item.getTotalRizz(),
-                item.getTotalStrength(),
-                item.getTotalAgility(),
-                item.getTotalEndurance(),
-                item.getTotalLuck(),
-                item.getPrice(),
-                item.getBaseItem().getImagePath(),
-                0
-        );
-    }
+
 
     //o podanej godzinie odswieza oferte dla kazdego charactera w bazie
     @Scheduled(cron = "0 0 6 * * *")

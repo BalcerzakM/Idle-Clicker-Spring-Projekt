@@ -2,12 +2,15 @@ package com.gametest.springprojekt.service;
 
 import com.gametest.springprojekt.model.BaseItemEntity;
 import com.gametest.springprojekt.model.CharacterEntity;
+import com.gametest.springprojekt.model.EffectEntity;
 import com.gametest.springprojekt.model.QuestEntity;
+import com.gametest.springprojekt.model.enums.EffectType;
 import com.gametest.springprojekt.model.enums.QuestTier;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class CalculationService {
@@ -17,7 +20,22 @@ public class CalculationService {
         ######################## NAGRODY ZA QUESTY ########################
     */
     public int calculateQuestMoneyReward(CharacterEntity character, QuestEntity quest) {
-        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl()*2;
+        //sprawdzanie wzmacniajacego efektu
+        int rewardModifier = 1;
+        if (!character.getEffects().isEmpty()) {
+            List<EffectEntity> activeEffects = character.getEffects().stream()
+                    .filter(e -> e.getItem().getBaseItem().getEffectType().equals(EffectType.MONEY_MULTIPLIER))
+                    .toList();
+
+            for (EffectEntity effect : activeEffects) {
+                int effectValue = effect.getItem().getBaseItem().getEffectValue();
+                if (effectValue > 1) {
+                    rewardModifier = rewardModifier * effectValue;
+                }
+            }
+        }
+
+        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2 * rewardModifier;
         if (quest.getQuestTier() == QuestTier.BOSS) {
             moneyReward *= character.getCurrentBoss();
         }
@@ -25,7 +43,22 @@ public class CalculationService {
     }
 
     public int calculateQuestAuraReward(CharacterEntity character, QuestEntity quest) {
-        int auraReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl()*2;
+        //sprawdzanie wzmacniajacego efektu
+        int rewardModifier = 1;
+        if (!character.getEffects().isEmpty()) {
+            List<EffectEntity> activeEffects = character.getEffects().stream()
+                    .filter(e -> e.getItem().getBaseItem().getEffectType().equals(EffectType.AURA_MULTIPLIER))
+                    .toList();
+
+            for (EffectEntity effect : activeEffects) {
+                int effectValue = effect.getItem().getBaseItem().getEffectValue();
+                if (effectValue > 1) {
+                    rewardModifier = rewardModifier * effectValue;
+                }
+            }
+        }
+
+        int auraReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2  * rewardModifier;
         if (quest.getQuestTier() == QuestTier.BOSS) {
             auraReward *= character.getCurrentBoss();
         }
@@ -97,7 +130,6 @@ public class CalculationService {
     }
 
     //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
-    //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
     public int calculateDamage(int baseDamage, int luck) {
         if (baseDamage <= 0) baseDamage = 1;
 
@@ -114,7 +146,7 @@ public class CalculationService {
     private boolean didCrit(int luck) {
         final int ROLL_MAX = 10_000;
 
-        final double MAX_CRIT_CHANCE = 0.90; //max 75% szansy na unik
+        final double MAX_CRIT_CHANCE = 0.90; //max 90% szansy na unik
         final double LUCK_SCALE = 1000.0;
 
         luck = Math.max(luck, 0);

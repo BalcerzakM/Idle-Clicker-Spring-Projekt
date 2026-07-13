@@ -116,16 +116,26 @@ INSERT INTO base_item_entity (name,
                               effect_type,
                               effect_value,
                               image_path,
+                              is_premium,
                               description
-                              )
-VALUES  ('Gajerbomba', 'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 1200, 'AGILITY', 0, 'item-drink-gajerbomb.png', 'Gajermaister z colą i kostkami lodu.'),
-        ('Bóbr', 'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,1500, 'STRENGTH', 0, 'item-drink-bubr.png', 'Jasne piwo 6% dla prawdziwych koneserów.'),
-        ('Aramena', 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,1800, 'ENDURANCE', 0, 'item-drink-aramena.png', 'Wiśniowy trunek 12% dla zawodowców.'),
-        ('Shot czystej', 'DRINK', 'NONE', 30, 0, 0, 0, 0, 190,900, 'RIZZ', 0, 'item-drink-vodka.png', '50 ml czystej wódki 40%.'),
-        ('Kamikadze', 'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,600, 'STRENGTH', 0, 'item-drink-kamikaze.png', 'Orzeźwiający drink w 50 ml kieliszku.'),
-        ('Spirytus', 'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,1500, 'LUCK', 0, 'item-drink-spirit.png', '95% alkoholu tylko dla profesjonalistów.'),
-        ('Despacito', 'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,1200, 'RIZZ', 0, 'item-drink-despacito.png', 'Lekki soczek 3% o smaku tequili dla amatorów.'),
-        ('Śrubowe Mocne', 'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,2400, 'STRENGTH', 0, 'item-drink-club-beer.png', 'Klubowy specjał, jasne mocne piwo 7%.')
+)
+VALUES  ('Gajerbomba',          'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 1200, 'STAT_BONUS', 0, 'item-drink-gajerbomb.png', FALSE, 'Gajermaister z colą i kostkami lodu.'),
+        ('Bóbr',                    'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,1500,  'STAT_BONUS', 0, 'item-drink-bubr.png',FALSE, 'Jasne piwo 6% dla prawdziwych koneserów.'),
+        ('Aramena',                 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,1800,  'STAT_BONUS', 0, 'item-drink-aramena.png',FALSE, 'Wiśniowy trunek 12% dla zawodowców.'),
+        ('Shot czystej',            'DRINK', 'NONE', 25, 0, 0, 0, 0, 140,900,   'STAT_BONUS', 0, 'item-drink-vodka.png', FALSE,'50 ml czystej wódki 40%.'),
+        ('Kamikadze',               'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,600,   'STAT_BONUS', 0, 'item-drink-kamikaze.png',FALSE, 'Orzeźwiający drink w 50 ml kieliszku.'),
+        ('Spirytus',                'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,1500,  'STAT_BONUS', 0, 'item-drink-spirit.png',FALSE, '95% alkoholu tylko dla profesjonalistów.'),
+        ('Despacito',               'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,1200,  'STAT_BONUS', 0, 'item-drink-despacito.png',FALSE, 'Lekki soczek 3% o smaku tequili dla amatorów.'),
+        ('Śrubowe Mocne',           'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,2400,  'STAT_BONUS', 0, 'item-drink-club-beer.png',FALSE, 'Klubowy specjał, jasne mocne piwo 7%.'),
+
+        ('Modżajto',                'DRINK', 'NONE', 0, 0, 65, 0, 0, 220,1080,  'STAT_BONUS', 0, 'item-drink-mojihto.png',FALSE, 'Orzeźwiający klasyk z limonką i miętą'),
+        ('Cola pinada',             'DRINK', 'NONE', 30, 0, 0, 0, 0, 250,1260,  'STAT_BONUS', 0, 'item-drink-cola-pinada.png',FALSE, 'Egzotyczny drink o kokosowo-ananasowym smaku.'),
+        ('Walk on the beach',       'DRINK', 'NONE', 40, 0, 0, 0, 0, 280,1500,  'STAT_BONUS', 0, 'item-drink-walk-beach.png',FALSE, ''),
+        ('Krwawy Marian',           'DRINK', 'NONE', 0, 35, 0, 0, 0, 240,1500,  'STAT_BONUS', 0, 'item-drink-bloody-marian.png',FALSE, ''),
+        ('Short Island Hot Coffee', 'DRINK', 'NONE', 0, 0, 0, 45, 0, 230,1500,  'STAT_BONUS', 0, 'item-drink-short-island.png',FALSE, ''),
+        ('Vino tinto',              'DRINK', 'NONE', 0, 0, 0, 0, 50, 200,1200,  'STAT_BONUS', 0, 'item-drink-vino-tinto.png',FALSE, 'Specjał z hiszpanskiej półki.'),
+        ('Czech Zero',              'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'MONEY_MULTIPLIER', 2, 'item-drink-czech-zero.png', TRUE,'Rześki jasny lager bez alkoholu.'),
+        ('Woda niegazowana',        'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'AURA_MULTIPLIER', 2, 'item-drink-water.png', TRUE, 'Zwykła woda w plastikowej butelce. Kaucyjnej.')
 ;
 
 

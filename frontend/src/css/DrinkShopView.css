@@ -111,6 +111,7 @@
     margin-top: 3px;
     font-size: 12px;
     color: var(--neon-gold);
+    font-weight: bold;
 }
 
 .drink-duration {
@@ -131,6 +132,17 @@
     font-size: 17px;
     font-weight: bold;
     color: var(--neon-gold);
+}
+
+.drink-price-premium {
+    color: var(--neon-blue-glow)
+}
+
+.drink-price-premium img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 0;
 }
 
 .drink-shop-buy-btn {
@@ -163,5 +175,40 @@
 .drink-shop-buy-btn:disabled {
     opacity: .5;
     cursor: not-allowed;
+}
+
+.drink-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
+.drink-pagination button {
+    width: 150px;
+    height: 45px;
+
+    border: 1px solid var(--neon-gold);
+    border-radius: 6px;
+    padding: 2px 0;
+
+    font-size: 12px;
+    font-weight: 500;
+    text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+
+    cursor: pointer;
+
+    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+    color: var(--neon-gold);
+
+    transition: all 0.2s;
+}
+
+.drink-pagination button:hover {
+    background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+    color: #ffd29c;
+    border-color: #ffc285;
+    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
 }
 

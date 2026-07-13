@@ -114,7 +114,12 @@ public class QuestService {
         }
         ActiveQuestEntity aq = character.getActiveQuest();
 
-        ActiveQuestDto activeQuest = new ActiveQuestDto(aq.getTitle(),aq.getStartTime(), aq.getEndTime() , aq.getImagePath() );
+        ActiveQuestDto activeQuest = new ActiveQuestDto(
+                aq.getTitle(),
+                aq.getStartTime(),
+                aq.getEndTime(),
+                aq.getImagePath()
+        );
 
         return activeQuest;
     }
