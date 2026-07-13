@@ -119,11 +119,13 @@ CREATE TABLE gang_entity
 (
 cristal_bank            INTEGER                                                             NOT NULL DEFAULT 0,
 emblem_picture_path     VARCHAR(255)                                                        NOT NULL,
-gang_name               VARCHAR(255)                                                        NOT NULL,
 gang_description        VARCHAR(255)                                                        NOT NULL,
+gang_name               VARCHAR(255)                                                        NOT NULL,
+gang_to_attack          VARCHAR(255),
 leader_id               BIGINT,
 id                      BIGINT                                                              NOT NULL AUTO_INCREMENT,
 money_bank              INTEGER                                                             NOT NULL DEFAULT 0,
+votes                   INTEGER,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE gang_entity_requests

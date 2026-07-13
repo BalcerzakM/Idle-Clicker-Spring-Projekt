@@ -450,7 +450,7 @@ public class CombatService {
             ItemEntity rewardItem = itemTokenService.handleRewardToken(false);
 
             if (rewardItem != null) {
-                rewardItemDto = rewardItem.generateItemDto();
+                rewardItemDto = itemMapper.toDto(rewardItem);
             }
 
             for (CharacterEntity ch : gangA) {
