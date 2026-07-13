@@ -18,6 +18,15 @@ function NavBar() {
 	const audio = useAudio();
 	const { playHover, navigateWithClick, playClick } =
 		createAudioHandlers(audio);
+	const [muted, setMuted] = useState(false);
+	const [volume, setVolume] = useState(1);
+
+	const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = Number(e.target.value);
+
+		setVolume(value);
+		audio.setMasterVolume(value);
+	};
 
 	return (
 		<div className="navBar">
@@ -122,13 +131,13 @@ function NavBar() {
 			</nav>
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">
-					<button type="submit" onClick={() => playClick}>
+					<button type="submit" onClick={() => playClick()}>
 						WYLOGUJ SIĘ
 					</button>
 				</form>
 			</div>
 			{/* Nowy przycisk zgłoszenia */}
-			<div className="navBar-report" onClick={() => playClick}>
+			<div className="navBar-report" onClick={() => playClick()}>
 				<button
 					type="button"
 					onClick={openReportModal}
@@ -151,12 +160,25 @@ function NavBar() {
 
 			<button
 				onClick={() => {
-					playClick;
-					audio.mute(true);
+					playClick();
+
+					const newMuted = audio.toggleMute();
+					setMuted(newMuted);
 				}}
 			>
-				Mute🔇
+				{muted ? "Unmute🔊" : "Mute🔇"}
 			</button>
+
+			<div className="volume-control">
+				<input
+					type="range"
+					min="0"
+					max="1"
+					step="0.01"
+					value={volume}
+					onChange={handleVolumeChange}
+				/>
+			</div>
 		</div>
 	);
 }

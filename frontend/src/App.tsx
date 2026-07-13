@@ -19,6 +19,8 @@ import HelpModal from "./components/HelpModal";
 import GangList from "./views/GangList";
 import MyGang from "./views/MyGang";
 import { AudioProvider } from "./audio/AudioProvider";
+import { useLocation } from "react-router-dom";
+import useAudio from "./audio/useAudio";
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -38,6 +40,23 @@ function App() {
 		window.addEventListener("resize", scaleGame);
 		return () => window.removeEventListener("resize", scaleGame);
 	}, []);
+
+	const audio = useAudio();
+	const location = useLocation();
+
+	useEffect(() => {
+		audio.playMusic("menu");
+	}, []);
+
+	useEffect(() => {
+		const cleanMusicViews = ["/", "/barman", "/shop"];
+
+		const clean = cleanMusicViews.includes(location.pathname);
+
+		audio.setMusicVolume(clean ? 1 : 0.4, 700);
+
+		audio.setMusicMuffled(!clean, 700);
+	}, [location.pathname]);
 
 	return (
 		<AudioProvider>

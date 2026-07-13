@@ -3,7 +3,6 @@ import barmanHover from "../assets/scenes/hover/barman_hover.png";
 import szatniarzHover from "../assets/scenes/hover/szatniarz_hover.png";
 import outsideHover from "../assets/scenes/hover/outside_hover.png";
 import toiletHover from "../assets/scenes/hover/toilet_hover.png";
-import { useEffect } from "react";
 import useAudio from "../audio/useAudio";
 import { createAudioHandlers } from "../utils/AudioHelpers";
 
@@ -11,13 +10,6 @@ function ClubMain() {
 	const navigate = useNavigate();
 	const audio = useAudio();
 	const { playHover, navigateWithClick } = createAudioHandlers(audio);
-	useEffect(() => {
-		audio.playMusic("menu");
-
-		return () => {
-			audio.stopMusic();
-		};
-	}, []);
 
 	return (
 		<div className="clubMain">
