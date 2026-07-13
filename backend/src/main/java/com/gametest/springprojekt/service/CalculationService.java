@@ -130,7 +130,6 @@ public class CalculationService {
     }
 
     //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
-    //moze jakis pierwiastek na tego kryta zeby mogl byc 100% ale wolno lecial
     public int calculateDamage(int baseDamage, int luck) {
         if (baseDamage <= 0) baseDamage = 1;
 
@@ -147,7 +146,7 @@ public class CalculationService {
     private boolean didCrit(int luck) {
         final int ROLL_MAX = 10_000;
 
-        final double MAX_CRIT_CHANCE = 0.90; //max 75% szansy na unik
+        final double MAX_CRIT_CHANCE = 0.90; //max 90% szansy na unik
         final double LUCK_SCALE = 1000.0;
 
         luck = Math.max(luck, 0);

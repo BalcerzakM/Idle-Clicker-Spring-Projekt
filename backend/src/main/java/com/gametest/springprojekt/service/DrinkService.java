@@ -23,8 +23,8 @@ import java.util.List;
 public class DrinkService {
     private final BaseItemRepository baseItemRepository;
     private final CalculationService calculationService;
+    private final EffectService effectService;
     private final ItemMapper itemMapper;
-
 
     public List<ItemDto> getDrinkOffers(CharacterEntity character) {
         List<BaseItemEntity> baseDrinks = baseItemRepository.findByItemType(ItemType.DRINK);
@@ -32,24 +32,7 @@ public class DrinkService {
         List<ItemDto> itemDtos = new ArrayList<>();
 
         for (BaseItemEntity baseDrink : baseDrinks) {
-            itemDtos.add(new ItemDto(
-                baseDrink.getId(),
-                baseDrink.getName(),
-                baseDrink.getDescription(),
-                baseDrink.getItemType(),
-                baseDrink.getSlotType(),
-                calculationService.calculateDrinkValue(baseDrink.getBaseRizz(), character),
-                calculationService.calculateDrinkValue(baseDrink.getBaseStrength(), character),
-                calculationService.calculateDrinkValue(baseDrink.getBaseAgility(), character),
-                calculationService.calculateDrinkValue(baseDrink.getBaseEndurance(), character),
-                calculationService.calculateDrinkValue(baseDrink.getBaseLuck(), character),
-                calculationService.calculateDrinkValue(baseDrink.getBasePrice(), character),
-                baseDrink.getImagePath(),
-                baseDrink.getDurationInSeconds(),
-                baseDrink.getEffectType(),
-                baseDrink.getEffectValue(),
-                baseDrink.isPremium()
-            ));
+            itemDtos.add(itemMapper.baseDrinkToItemDto(baseDrink, character));
         }
 
         return itemDtos;
@@ -113,33 +96,12 @@ public class DrinkService {
              throw new InvalidItemTypeException("Nieprawidłowy typ przedmiotu");
          }
 
-         EffectEntity effect = createEffect(character, itemFromBackpack);
+         EffectEntity effect = effectService.createEffect(character, itemFromBackpack);
 
          character.addEffect(effect);
 
          character.getBackpack().remove(backpackItem);
 
-         return generateEffectDto(effect);
+         return effectService.generateEffectDto(effect);
     }
-
-    private EffectEntity createEffect(CharacterEntity character, ItemEntity drinkItem) {
-        Instant startTime = Instant.now();
-        return new EffectEntity(
-         null,
-            character,
-            drinkItem,
-            startTime,
-            startTime.plusSeconds(drinkItem.getBaseItem().getDurationInSeconds())
-        );
-    }
-
-    private EffectDto generateEffectDto(EffectEntity effect) {
-        return new EffectDto(
-                itemMapper.toDto(effect.getItem()),
-                effect.getEffectStartTime(),
-                effect.getEffectEndTime()
-        );
-    }
-
-
 }
