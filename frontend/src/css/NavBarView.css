@@ -259,7 +259,7 @@
 }
 
 /* Przycisk zgłoszenia w navbarze */
-.navBar-report {
+.navBar-settings {
 	position: absolute;
 	/* justify-content: center;
 	align-items: center;
@@ -267,7 +267,7 @@
 	left: 296px;
 	bottom: 5px;
 }
-.navBar-report button {
+.navBar-settings button {
 	background: none;
 	border: none;
 	font-size: 30px;
@@ -278,7 +278,7 @@
 		opacity 0.2s;
 	opacity: 0.5;
 }
-.navBar-report button:hover {
+.navBar-settings button:hover {
 	transform: scale(1.1);
 	opacity: 1;
 }

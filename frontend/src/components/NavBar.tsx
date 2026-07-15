@@ -4,7 +4,7 @@ import "../css/NavBarView.css";
 import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
 import { useState } from "react";
-import ReportForm from "./ReportForm";
+import SettingsModal from "./SettingsModal";
 import InfoButton from "./InfoButton";
 import useAudio from "../audio/useAudio";
 import { createAudioHandlers } from "../utils/AudioHelpers";
@@ -12,9 +12,7 @@ import { createAudioHandlers } from "../utils/AudioHelpers";
 function NavBar() {
 	const navigate = useNavigate();
 	const { character } = useCharacter();
-	const [showReportModal, setShowReportModal] = useState(false);
-	const openReportModal = () => setShowReportModal(true);
-	const closeReportModal = () => setShowReportModal(false);
+
 	const audio = useAudio();
 	const { playHover, navigateWithClick, playClick } =
 		createAudioHandlers(audio);
@@ -27,6 +25,11 @@ function NavBar() {
 		setVolume(value);
 		audio.setMasterVolume(value);
 	};
+
+	const [showSettingsModal, setShowSettingsModal] = useState(false);
+
+	const openSettingsModal = () => setShowSettingsModal(true);
+	const closeSettingsModal = () => setShowSettingsModal(false);
 
 	return (
 		<div className="navBar">
@@ -136,49 +139,36 @@ function NavBar() {
 					</button>
 				</form>
 			</div>
-			{/* Nowy przycisk zgłoszenia */}
-			<div className="navBar-report" onClick={() => playClick()}>
+			{/* Nowy przycisk ustawień */}
+			<div className="navBar-settings">
 				<button
 					type="button"
-					onClick={openReportModal}
-					title="Zgłoś Usterkę"
-					className="reportButton"
+					className="settingsButton"
+					onClick={() => {
+						playClick();
+						openSettingsModal();
+					}}
 				>
-					⚠️
+					⚙️
 				</button>
 			</div>
-			{/* Modal z formularzem */}
-			{showReportModal && (
-				<div className="modal-overlay" onClick={closeReportModal}>
-					<div className="modal-content" onClick={(e) => e.stopPropagation()}>
-						<ReportForm onClose={closeReportModal} />
-					</div>
-				</div>
+			{/* Modal z ustawieniami */}
+			{showSettingsModal && (
+				<SettingsModal
+					onClose={closeSettingsModal}
+					muted={muted}
+					volume={volume}
+					onToggleMute={() => {
+						playClick();
+
+						const newMuted = audio.toggleMute();
+						setMuted(newMuted);
+					}}
+					onVolumeChange={handleVolumeChange}
+				/>
 			)}
 
 			<InfoButton />
-
-			<button
-				onClick={() => {
-					playClick();
-
-					const newMuted = audio.toggleMute();
-					setMuted(newMuted);
-				}}
-			>
-				{muted ? "Unmute🔊" : "Mute🔇"}
-			</button>
-
-			<div className="volume-control">
-				<input
-					type="range"
-					min="0"
-					max="1"
-					step="0.01"
-					value={volume}
-					onChange={handleVolumeChange}
-				/>
-			</div>
 		</div>
 	);
 }
