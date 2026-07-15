@@ -3,7 +3,6 @@ package com.gametest.springprojekt.exception;
 import com.gametest.springprojekt.dto.ErrorDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -57,6 +56,26 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDto(
                         "INSUFFICIENT_MONEY",
                         "Masz za mało pieniędzy!"
+                ));
+    }
+
+    @ExceptionHandler(InsufficientVotesException.class)
+    public ResponseEntity<ErrorDto> handleInsufficientVotes(InsufficientVotesException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "INSUFFICIENT_VOTES",
+                        "Oddano za mało głosów!"
+                ));
+    }
+
+    @ExceptionHandler(VotingAlreadyActiveException.class)
+    public ResponseEntity<ErrorDto> handleVotingAlreadyAcitve(VotingAlreadyActiveException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "VOTING_ALREADY_ACTIVE",
+                        "Trwa aktywne głosowanie."
                 ));
     }
 
@@ -178,6 +197,26 @@ public class GlobalExceptionHandler {
                 .body(new ErrorDto(
                         "USER_IS_BANNED",
                         "Twoje konto zostało zablokowane!"
+                ));
+    }
+
+    @ExceptionHandler(TooManyEffectsException.class)
+    public ResponseEntity<ErrorDto> handleTooManyEffects(TooManyEffectsException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "TOO_MANY_EFFECTS",
+                        "Masz już maksymalną ilość efektów!"
+                ));
+    }
+
+    @ExceptionHandler(EffectAlreadyActiveException.class)
+    public ResponseEntity<ErrorDto> handleEffectAlreadyActive(EffectAlreadyActiveException e) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new ErrorDto(
+                        "EFFECT_ALREADY_ACTIVE",
+                        "Jesteś już pod wpływem tego efektu!"
                 ));
     }
 

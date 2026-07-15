@@ -1,6 +1,5 @@
 package com.gametest.springprojekt.model;
 
-import com.gametest.springprojekt.dto.ItemDto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -20,6 +19,7 @@ public class ItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    //nazwy pol chyba do zmiany np z total na bonus
     @PositiveOrZero
     @Column(nullable = false)
     private int totalRizz;
@@ -49,22 +49,23 @@ public class ItemEntity {
     @JoinColumn(name = "base_item_id", nullable = false)
     private BaseItemEntity baseItem;
 
-    public ItemDto generateItemDto() {
-        return new ItemDto(
-                id,
-                this.getBaseItem().getName(),
-                this.getBaseItem().getDescription(),
-                this.getBaseItem().getItemType(),
-                this.getBaseItem().getSlotType(),
-                totalRizz,
-                totalStrength,
-                totalAgility,
-                totalEndurance,
-                totalLuck,
-                price,
-                this.getBaseItem().getImagePath()
-        );
-    }
+    //przeniesione do ItemMapper
+//    public ItemDto generateItemDto() {
+//        return new ItemDto(
+//                id,
+//                this.getBaseItem().getName(),
+//                this.getBaseItem().getDescription(),
+//                this.getBaseItem().getItemType(),
+//                this.getBaseItem().getSlotType(),
+//                totalRizz,
+//                totalStrength,
+//                totalAgility,
+//                totalEndurance,
+//                totalLuck,
+//                price,
+//                this.getBaseItem().getImagePath()
+//        );
+//    }
 
     public void decreaseItemPrice() {
         this.setPrice((int) Math.round(this.getPrice()* ITEM_PRICE_DECREASE));

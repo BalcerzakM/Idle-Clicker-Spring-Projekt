@@ -103,6 +103,15 @@ function NavBar() {
 				>
 					Palarnia
 				</button>
+        
+        <button
+					type="button"
+					onMouseEnter={playHover}
+					onClick={() => navigateWithClick(navigate, "/drink-shop")}
+				>
+					Bar
+				</button>
+          
 				<button
 					type="button"
 					onMouseEnter={playHover}
@@ -127,9 +136,9 @@ function NavBar() {
 				<button
 					type="button"
 					onMouseEnter={playHover}
-					onClick={() => navigateWithClick(navigate, "/parking")}
+					onClick={() => navigateWithClick(navigate, "/gang-list")}
 				>
-					Parking
+					Gangi
 				</button>
 			</nav>
 			<div className="navBar-logout">

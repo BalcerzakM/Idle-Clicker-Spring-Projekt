@@ -1,6 +1,13 @@
 import "../css/HeroPanel.css";
 import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
+import {useEffect, useState} from "react";
+
+export interface EffectDto {
+    item: ItemDto;
+    effectStartTime: string;
+    effectEndTime: string;
+}
 
 export interface ItemsAndStatsDto {
 	name: string;
@@ -12,21 +19,22 @@ export interface ItemsAndStatsDto {
 	totalAgility: number;
 	totalEndurance: number;
 	totalLuck: number;
+
 	backpack: ItemDto[];
 	equipment: ItemDto[];
+    effects: EffectDto[];
 }
 
 interface HeroPanelProps {
 	hero: ItemsAndStatsDto;
-	onSell: (backpackItemId: number) => void;
-	onEquip: (backpackItemId: number) => void;
+	onUseItem: (backpackItemId: number) => void;
 	highlightedSlot: string | null;
 	onHoverSlot: (slotType: string | null) => void;
 }
 
 function HeroPanel({
 	hero,
-	onEquip,
+	onUseItem,
 	highlightedSlot,
 	onHoverSlot,
 }: HeroPanelProps) {
@@ -47,8 +55,29 @@ function HeroPanel({
 		e.preventDefault();
 		const backpackItemId = Number(e.dataTransfer.getData("text/plain"));
 		if (isNaN(backpackItemId)) return;
-		onEquip(backpackItemId);
+		onUseItem(backpackItemId);
 	};
+
+    const [now, setNow] = useState(Date.now());
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNow(Date.now());
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    const formatRemainingTime = (endTime: string) => {
+        const diff = new Date(endTime).getTime() - now;
+
+        if (diff <= 0) return "0:00";
+
+        const minutes = Math.floor(diff / 60000);
+        const seconds = Math.floor((diff % 60000) / 1000);
+
+        return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+    }
 
 	return (
 		<div className="hero-panel">
@@ -116,7 +145,7 @@ function HeroPanel({
 			<div className="inventory">
 				<h3>Plecak</h3>
 				<div id="inventory-grid">
-					{hero.backpack.map((item) => (
+					{(hero.backpack ?? []).map((item) => (
 						<div
 							key={item.id}
 							className="slot backpack-slot"
@@ -140,6 +169,39 @@ function HeroPanel({
 					)}
 				</div>
 			</div>
+
+            <div className="effects">
+                <div className="effects-grid">
+                    {(hero.effects ?? []).map(effect => (
+                        <div key={effect.item.id} className="effect-card">
+                            <img
+                                src={`/items/${effect.item.imagePath}`}
+                                alt={effect.item.itemName}
+                                className="effect-icon"
+                            />
+                            <div className="effect-info">
+                                <div className="effect-name">
+                                    {effect.item.itemName}
+                                </div>
+
+                                <div className="effect-bonus">
+                                    {effect.item.totalRizz > 0 && `+${effect.item.totalRizz}✨ `}
+                                    {effect.item.totalStrength > 0 && `+${effect.item.totalStrength}💪 `}
+                                    {effect.item.totalAgility > 0 && `+${effect.item.totalAgility}🏃 `}
+                                    {effect.item.totalEndurance > 0 && `+${effect.item.totalEndurance}🛡️ `}
+                                    {effect.item.totalLuck > 0 && `+${effect.item.totalLuck}🍀 `}
+                                    {effect.item.effectType === "AURA_MULTIPLIER" && `Aura x${effect.item.effectValue} `}
+                                    {effect.item.effectType === "MONEY_MULTIPLIER" && `Monety x${effect.item.effectValue} `}
+                                </div>
+                            </div>
+
+                            <div className="effect-timer">
+                                {formatRemainingTime(effect.effectEndTime)}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </div>
 		</div>
 	);
 }

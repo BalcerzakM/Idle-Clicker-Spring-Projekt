@@ -5,6 +5,7 @@ import outsideHover from "../assets/scenes/hover/outside_hover.png";
 import toiletHover from "../assets/scenes/hover/toilet_hover.png";
 import useAudio from "../audio/useAudio";
 import { createAudioHandlers } from "../utils/AudioHelpers";
+import drinksHover from "../assets/scenes/hover/drinks_hover.png";
 
 function ClubMain() {
 	const navigate = useNavigate();
@@ -70,6 +71,18 @@ function ClubMain() {
 				/>
 			</div>
 			<p className="clubMain-toiletTextBox">Toaleta</p>
+
+            <div className="clubMain-drinks">
+                <img
+                    src={drinksHover}
+                    alt="drinks_hover"
+                    width={69}
+                    height={69}
+                    className="hover-image"
+                    onClick={() => navigate("/drink-shop")}
+                />
+            </div>
+            <p className="clubMain-drinksTextBox">Napoje</p>
 		</div>
 	);
 }

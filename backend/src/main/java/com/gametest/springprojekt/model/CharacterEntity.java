@@ -1,6 +1,8 @@
 package com.gametest.springprojekt.model;
 
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
+import com.gametest.springprojekt.exception.EffectAlreadyActiveException;
+import com.gametest.springprojekt.exception.TooManyEffectsException;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -15,6 +17,9 @@ import java.util.*;
 public class CharacterEntity {
     @Transient
     private final int MAX_BACKPACK_SLOTS = 10;
+
+    @Transient
+    private final int MAX_EFFECTS = 4;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,6 +91,9 @@ public class CharacterEntity {
     @OneToMany(mappedBy = "player", cascade = CascadeType.ALL,  orphanRemoval = true)
     private List<BackpackItem> backpack = new ArrayList<>();
 
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<EffectEntity> effects = new ArrayList<>();
+
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "active_quest_id")
     private ActiveQuestEntity activeQuest;
@@ -120,7 +128,7 @@ public class CharacterEntity {
     //dodanie itema do plecaka
     public void addItemToBackpack(ItemEntity item) {
         if (backpack.size() >= MAX_BACKPACK_SLOTS) {
-            throw new BackpackIsAlreadyFullException("Plecak jest pelny!");
+            throw new BackpackIsAlreadyFullException("Plecak jest pełny!");
         }
 
         backpack.add(new BackpackItem(null, this, item));
@@ -150,6 +158,18 @@ public class CharacterEntity {
                 totals.merge("luck", item.getTotalLuck(), Integer::sum);
             }
         }
+
+        //statystyki z efektów
+        for (EffectEntity e : effects) {
+            ItemEntity item = e.getItem();
+            if (item != null) {
+                totals.merge("rizz", item.getTotalRizz(), Integer::sum);
+                totals.merge("strength", item.getTotalStrength(), Integer::sum);
+                totals.merge("agility", item.getTotalAgility(), Integer::sum);
+                totals.merge("endurance", item.getTotalEndurance(), Integer::sum);
+                totals.merge("luck", item.getTotalLuck(), Integer::sum);
+            }
+        }
         return totals;
     }// trzeba dodać te stąd
 
@@ -163,5 +183,20 @@ public class CharacterEntity {
     public void addAura(int bonusAura) {
         this.aura += bonusAura;
         updateAuraLevel();
+    }
+
+    public void addEffect(EffectEntity newEffect) {
+        //tutaj walidacje mozna zrobic jakas
+        if (this.effects.size() >= MAX_EFFECTS) {
+            throw new TooManyEffectsException("Przekroczono maksymalną liczbę efektów");
+        }
+
+        for (EffectEntity effect : effects) {
+            if (effect.getItem().getBaseItem().getId().equals(newEffect.getItem().getBaseItem().getId())) {
+                throw new EffectAlreadyActiveException("Gracz jest już pod wpływem efektu");
+            }
+        }
+
+        this.effects.add(newEffect);
     }
 }

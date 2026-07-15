@@ -52,5 +52,12 @@ public class GangEntity {
     @ManyToMany
     private Set<CharacterEntity> requests; //prosby o dołączenie
 
+
+    private String gangToAttack;
+
+    @PositiveOrZero
+    private int votes;
+
+
  //kiedyś można dodać chat
 }

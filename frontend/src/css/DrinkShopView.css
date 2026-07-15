@@ -1,0 +1,214 @@
+/* ShopView.css */
+:root {
+    --bg-body: #070709;
+    --bg-main: #111116;
+    --bg-dark: #0b0b0f;
+    --bg-panel: #16131a;
+    --border-color: #1e1a22;
+    --border-glow: #2b2233;
+    --neon-blue: #4da3ff;
+    --neon-blue-glow: #82c4ff;
+    --neon-orange: #ff9a3c;
+    --neon-gold: #d89b52;
+    --neon-pink: #b04cff;
+    --neon-red: #7a1d2d;
+    --text-light: #b7a38f;
+    --text-muted: #7b6d62;
+    --text-hover: #e0c7ae;
+    --hover-dark: #1c1117;
+    --hover-light: #24161f;
+}
+
+/* Kontener główny */
+.shop-hero-container {
+    position: relative;
+    width: 80%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    color: var(--text-light);
+    background-color: #0b0b0f;
+    border: 2px solid #1f1a24;
+    box-shadow:
+            inset 0 0 40px rgba(0, 0, 0, 0.6),
+            inset 0 0 80px rgba(122, 29, 45, 0.08);
+}
+
+.drink-shop-panel {
+    background: url("../assets/scenes/club_drinks.png") center/cover no-repeat;
+    height: 850px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.drink-shop-list {
+    background: url("../assets/scenes/other/drinks_card.png") center/cover no-repeat;
+
+    position: relative;
+
+    height: 100%;
+    width: 100%;
+
+    padding: 110px 40px 0 65px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.drink-card {
+    display: flex;
+    align-items: center;
+
+    padding: 6px 6px;
+
+    background: rgba(20,20,20,.45);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 10px;
+
+    transition: .2s;
+}
+
+.drink-card:hover {
+    background: rgba(20,20,20,.75);
+    border-color: var(--neon-blue-glow);;
+}
+
+.drink-image {
+    width: 48px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.drink-image img {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+}
+
+.drink-info {
+    flex: 1;
+}
+
+.drink-info h3 {
+    margin: 0;
+    font-size: 16px;
+    color: #f0d7b6;
+}
+
+.drink-description {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #bcae9e;
+}
+
+.drink-effect {
+    margin-top: 3px;
+    font-size: 12px;
+    color: var(--neon-gold);
+    font-weight: bold;
+}
+
+.drink-duration {
+    color: white;
+}
+
+.drink-buy {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    gap: 4px;
+
+    margin-left: 20px;
+}
+
+.drink-price {
+    font-size: 17px;
+    font-weight: bold;
+    color: var(--neon-gold);
+}
+
+.drink-price-premium {
+    color: var(--neon-blue-glow)
+}
+
+.drink-price-premium img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-top: 0;
+}
+
+.drink-shop-buy-btn {
+    width: 90px;
+    height: 36px;
+
+    border: 1px solid var(--neon-gold);
+    border-radius: 6px;
+    padding: 2px 0;
+
+    font-size: 12px;
+    font-weight: 500;
+    text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+
+    cursor: pointer;
+
+    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+    color: var(--neon-gold);
+
+    transition: all 0.2s;
+}
+
+.drink-shop-buy-btn:hover:not(:disabled) {
+    background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+    color: #ffd29c;
+    border-color: #ffc285;
+    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
+}
+
+.drink-shop-buy-btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+.drink-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    margin-top: 10px;
+}
+
+.drink-pagination button {
+    width: 150px;
+    height: 45px;
+
+    border: 1px solid var(--neon-gold);
+    border-radius: 6px;
+    padding: 2px 0;
+
+    font-size: 12px;
+    font-weight: 500;
+    text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+
+    cursor: pointer;
+
+    background: linear-gradient(180deg, #18121a 0%, #0f0c12 100%);
+    color: var(--neon-gold);
+
+    transition: all 0.2s;
+}
+
+.drink-pagination button:hover {
+    background: linear-gradient(180deg, #24141d 0%, #161019 100%);
+    color: #ffd29c;
+    border-color: #ffc285;
+    box-shadow: 0 0 12px rgba(255, 154, 60, 0.25);
+}
+

@@ -28,18 +28,22 @@ CREATE TABLE backpack_item
 ) ENGINE = InnoDB;
 CREATE TABLE base_item_entity
 (
-    base_agility   INTEGER                                                                       NOT NULL,
-    base_endurance INTEGER                                                                       NOT NULL,
-    base_luck      INTEGER                                                                       NOT NULL,
-    base_price     INTEGER                                                                       NOT NULL,
-    base_rizz      INTEGER                                                                       NOT NULL,
-    base_strength  INTEGER                                                                       NOT NULL,
-    id             BIGINT                                                                        NOT NULL AUTO_INCREMENT,
-    description    VARCHAR(255),
-    image_path     VARCHAR(255)                                                                  NOT NULL,
-    name           VARCHAR(255)                                                                  NOT NULL,
-    item_type      ENUM ('EQUIPMENT','ITEM_TOKEN')                                               NOT NULL,
-    slot_type      ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
+    base_agility        INTEGER                                                                       NOT NULL,
+    base_endurance      INTEGER                                                                       NOT NULL,
+    base_luck           INTEGER                                                                       NOT NULL,
+    base_price          INTEGER                                                                       NOT NULL,
+    base_rizz           INTEGER                                                                       NOT NULL,
+    base_strength       INTEGER                                                                       NOT NULL,
+    id                  BIGINT                                                                        NOT NULL AUTO_INCREMENT,
+    description         VARCHAR(255),
+    image_path          VARCHAR(255)                                                                  NOT NULL,
+    name                VARCHAR(255)                                                                  NOT NULL,
+    is_premium          BOOLEAN                                                                       NOT NULL DEFAULT FALSE,
+    item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
+    slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
+    duration_in_seconds INTEGER DEFAULT 0,
+    effect_type         ENUM ('STAT_BONUS', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER', 'NONE') DEFAULT 'NONE',
+    effect_value        INTEGER DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 CREATE TABLE base_vehicle_entity
@@ -79,6 +83,7 @@ CREATE TABLE character_entity
     cristals           INTEGER      NOT NULL,
     current_boss       INTEGER      NOT NULL,
     endurance          INTEGER      NOT NULL,
+    gang_id            BIGINT,
     luck               INTEGER      NOT NULL,
     money              INTEGER      NOT NULL,
     rizz               INTEGER      NOT NULL,
@@ -93,6 +98,15 @@ CREATE TABLE character_entity
     name               VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
+CREATE TABLE effect_entity
+(
+    character_id   BIGINT              NOT NULL,
+    effect_end_time   DATETIME(6)      NOT NULL,
+    effect_start_time DATETIME(6)      NOT NULL,
+    id             BIGINT              NOT NULL AUTO_INCREMENT,
+    item_id        BIGINT              NOT NULL,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
 CREATE TABLE equipment_item
 (
     character_id BIGINT                                                                        NOT NULL,
@@ -100,6 +114,25 @@ CREATE TABLE equipment_item
     item_id      BIGINT                                                                        NOT NULL,
     slot         ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
     PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE gang_entity
+(
+cristal_bank            INTEGER                                                             NOT NULL DEFAULT 0,
+emblem_picture_path     VARCHAR(255)                                                        NOT NULL,
+gang_description        VARCHAR(255)                                                        NOT NULL,
+gang_name               VARCHAR(255)                                                        NOT NULL,
+gang_to_attack          VARCHAR(255),
+leader_id               BIGINT,
+id                      BIGINT                                                              NOT NULL AUTO_INCREMENT,
+money_bank              INTEGER                                                             NOT NULL DEFAULT 0,
+votes                   INTEGER,
+    PRIMARY KEY (id)
+) ENGINE = InnoDB;
+CREATE TABLE gang_entity_requests
+(
+    gang_entity_id          BIGINT NOT NULL,
+    requests_id             BIGINT NOT NULL,
+    PRIMARY KEY (gang_entity_id, requests_id)
 ) ENGINE = InnoDB;
 CREATE TABLE item_entity
 (
@@ -196,6 +229,8 @@ ALTER TABLE character_entity
     ADD CONSTRAINT ukjx3i4nay0f00ue7s6pak2qxfm UNIQUE (bouncer_duty_id);
 ALTER TABLE character_entity
     ADD CONSTRAINT ukheta67icofutts7yfjm5vebvv UNIQUE (name);
+ALTER TABLE character_entity
+    ADD CONSTRAINT fk_character_gang FOREIGN KEY (gang_id) REFERENCES gang_entity (id);
 ALTER TABLE equipment_item
     ADD CONSTRAINT uk55mno4vattoea0punlvt8g7uc UNIQUE (character_id, slot);
 ALTER TABLE equipment_item
@@ -246,3 +281,9 @@ ALTER TABLE shop_offer_entity
     ADD CONSTRAINT fkfffa897bdo8evtnb5iy317geg FOREIGN KEY (item_id) REFERENCES item_entity (id);
 ALTER TABLE transaction_entity
     ADD CONSTRAINT fkmmsoavuac0clvx8rmstmavy6r FOREIGN KEY (character_id) REFERENCES character_entity (id);
+ALTER TABLE gang_entity
+    ADD CONSTRAINT fk_gang_leader FOREIGN KEY (leader_id) REFERENCES character_entity (id);
+ALTER TABLE gang_entity_requests
+    ADD CONSTRAINT fk_gang_requests_gang FOREIGN KEY (gang_entity_id) REFERENCES gang_entity (id);
+ALTER TABLE gang_entity_requests
+    ADD CONSTRAINT fk_gang_requests_character FOREIGN KEY (requests_id) REFERENCES character_entity (id);

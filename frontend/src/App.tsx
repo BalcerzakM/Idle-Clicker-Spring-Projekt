@@ -14,6 +14,7 @@ import Premium from "./views/Premium";
 import CarDealer from "./views/CarDealer";
 import RankingView from "./views/RankingView";
 import Boss from "./views/Boss";
+import DrinkShop from "./views/DrinkShop";
 import { HelpProvider } from "./context/HelpContext";
 import HelpModal from "./components/HelpModal";
 import GangList from "./views/GangList";
@@ -21,6 +22,7 @@ import MyGang from "./views/MyGang";
 import { AudioProvider } from "./audio/AudioProvider";
 import { useLocation } from "react-router-dom";
 import useAudio from "./audio/useAudio";
+
 
 function App() {
 	const gameRef = useRef<HTMLDivElement | null>(null); // referencja do kontenera #root
@@ -79,6 +81,7 @@ function App() {
 								<Route path="/car-dealer" element={<CarDealer />} />
 								<Route path="/ranking" element={<RankingView />} />
 								<Route path="/boss" element={<Boss />} />
+                <Route path="/drink-shop" element={<DrinkShop />} />
 								<Route path="/gang-list" element={<GangList />} />
 								<Route path="/my-gang" element={<MyGang />} />
 							</Routes>

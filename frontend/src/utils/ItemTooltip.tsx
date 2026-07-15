@@ -11,6 +11,10 @@ export interface ItemDto {
     totalLuck: number;
     price: number;
     imagePath: string;
+    durationInSeconds: number;
+    effectType: string;
+    effectValue: number;
+    premium: boolean;
 }
 
 export function itemTooltip(item: ItemDto) {
@@ -63,6 +67,24 @@ export function itemTooltip(item: ItemDto) {
             {item.totalRizz !== 0 && (
                 <div className="tooltip-stat">
                     ✨ {item.totalRizz}
+                </div>
+            )}
+
+            {item.durationInSeconds !== 0 && (
+                <div className="tooltip-stat">
+                    🕛 {item.durationInSeconds/60} min.
+                </div>
+            )}
+
+            {item.effectType === "AURA_MULTIPLIER" && (
+                <div className="tooltip-stat">
+                    Aura x{item.effectValue}
+                </div>
+            )}
+
+            {item.effectType === "MONEY_MULTIPLIER" && (
+                <div className="tooltip-stat">
+                    Monety x{item.effectValue}
                 </div>
             )}
 

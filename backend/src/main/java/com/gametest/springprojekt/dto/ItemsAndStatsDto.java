@@ -28,4 +28,6 @@ public class ItemsAndStatsDto {
 
     private List<ItemDto> backpack;
 
+    private List<EffectDto> effects;
+
 }
