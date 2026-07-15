@@ -3,32 +3,44 @@ import barmanHover from "../assets/scenes/hover/barman_hover.png";
 import szatniarzHover from "../assets/scenes/hover/szatniarz_hover.png";
 import outsideHover from "../assets/scenes/hover/outside_hover.png";
 import toiletHover from "../assets/scenes/hover/toilet_hover.png";
+import useAudio from "../audio/useAudio";
+import { createAudioHandlers } from "../utils/AudioHelpers";
 import drinksHover from "../assets/scenes/hover/drinks_hover.png";
 
 function ClubMain() {
 	const navigate = useNavigate();
+	const audio = useAudio();
+	const { playHover, navigateWithClick } = createAudioHandlers(audio);
+
 	return (
 		<div className="clubMain">
-			<div className="clubMain-barman">
+			<div
+				className="clubMain-barman"
+				onMouseEnter={playHover}
+				onClick={() => navigateWithClick(navigate, "/barman")}
+			>
 				<img
 					src={barmanHover}
 					alt="barman_hover"
 					width={141}
 					height={152}
 					className="hover-image"
-					onClick={() => navigate("/barman")}
+					// onClick={() => navigate("/barman")}
 				/>
 			</div>
 			<p className="clubMain-barmanTextBox">Barman</p>
 
-			<div className="clubMain-szatniarz">
+			<div
+				className="clubMain-szatniarz"
+				onMouseEnter={playHover}
+				onClick={() => navigateWithClick(navigate, "/shop")}
+			>
 				<img
 					src={szatniarzHover}
 					alt="szatniarz_hover"
 					width={149}
 					height={269}
 					className="hover-image"
-					onClick={() => navigate("/shop")}
 				/>
 			</div>
 			<p className="clubMain-szatniarzTextBox">Szatniarz</p>
@@ -45,14 +57,17 @@ function ClubMain() {
 			</div>
 			<p className="clubMain-outsideTextBox">Palarnia</p>
 
-			<div className="clubMain-toilet">
+			<div
+				className="clubMain-toilet"
+				onMouseEnter={playHover}
+				onClick={() => navigateWithClick(navigate, "/toilet")}
+			>
 				<img
 					src={toiletHover}
 					alt="toilet_hover"
 					width={108}
 					height={217}
 					className="hover-image"
-					onClick={() => navigate("/toilet")}
 				/>
 			</div>
 			<p className="clubMain-toiletTextBox">Toaleta</p>
