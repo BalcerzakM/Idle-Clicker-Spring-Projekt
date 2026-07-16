@@ -2,11 +2,13 @@ package com.gametest.springprojekt.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class GangCombatDto {
     private List<Integer> combatLog;
     private boolean teamAWon;

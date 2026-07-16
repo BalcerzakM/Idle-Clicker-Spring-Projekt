@@ -268,6 +268,7 @@ public class GangService {
         GangCombatDto result = combatService.startGangCombat(gangA, gangB);
 
         gang1.setGangToAttack(null);
+        gang1.setLastCombat(result);// do oglądania walki
         gangRepository.save(gang1);
 
         return result;
