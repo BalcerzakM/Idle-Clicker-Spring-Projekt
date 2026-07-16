@@ -262,6 +262,8 @@ public class GangService {
             throw new InsufficientVotesException("Oddano za mało głosów");
         }
 
+        gang1.setLastCombat(null);
+
         List<CharacterEntity> gangA = getGangMembersList(gang1);
         List<CharacterEntity> gangB = getGangMembersList(gang2);
 
@@ -312,4 +314,19 @@ public class GangService {
     }
 
 
+    @Transactional(readOnly = true)
+    public @Nullable GangCombatDto watchLastGangCombat(CharacterEntity character) {
+        GangEntity gang = character.getGang();
+
+        if (gang == null) {
+            throw new PermissionDeniedException("Nie Należysz do żadnego gangu.");
+        }
+
+        if (gang.getLastCombat() == null) {
+            throw new NoActiveQuestException("Nie odbyła się żadna wojna z udziałem twojego gangu.");
+        }
+
+        return gang.getLastCombat();
+
+    }
 }
