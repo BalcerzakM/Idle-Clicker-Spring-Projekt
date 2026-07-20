@@ -14,7 +14,8 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
     "/shop": {
         title: "Szatnia",
         text:
-            `Tutaj możesz kupić i wyekwipować swoje przedmioty. W oknie sklepu, które znajduje się po prawej stronie po najecheniu kursorem na jeden z czterech przedmiotów pokażą się jego statystyki oraz statystyki aktualnie założonego w tym slocie przedmiotu. Przedmiot kupisz klikając "Kup". Jego miejsce w sklepie uzupełni nowa oferta. Za 1 Kryształ możesz odświeżyć ofertę sklepową klikając przycisk u góry okna sklepu. Oferta resetuje się też codziennie około godz. 6:00. 
+            `Tutaj możesz kupić i wyekwipować swoje przedmioty. W oknie sklepu, które znajduje się po prawej stronie, po najecheniu kursorem na jeden z czterech przedmiotów pokażą się jego statystyki oraz statystyki aktualnie założonego w tym slocie przedmiotu. 
+            Wybrany przedmiot kupisz klikając "Kup". Jego miejsce w sklepie uzupełni nowa oferta. Za 1 Kryształ możesz odświeżyć ofertę sklepową klikając przycisk u góry okna sklepu. Oferta resetuje się też codziennie około godz. 6:00. 
             Przedmiot można sprzedać przeciągając go z plecaka na okno sklepu. W podobny sposób można wymieniać numerki do szatni - po przeciągnięciu numerku na okno sklepu otrzymasz przedmiot.
             Przedmiot można wyekwipować przeciągając go z plecaka na postać lub slot nad plecakiem.
             `,
@@ -34,8 +35,14 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         title: "Postać",
         text:
             `Tutaj możesz zarządzać swoim ekwipunkiem, statystykami i pojazdami.
-            Po lewej stronie pokazane są twój plecak oraz wyposażone przez ciebie przedmioty. Najeżdżając na nie pokażą ci się ich statystyki. Przedmiot możesz założyć przeciągając go z plecaka na postać lub sloty wyżej.
-            Po prawej stronie pokazane są twoje statystyki, które możesz dodatkowo zwiększać za pomocą Kryształów (1 Kryształ = 1 pkt. statystyki). Poniżej pokazany pokazany jest aktualnie posiadany Pojazd wraz z terminem jego wynajmu. Pojazdy możesz wynajmować na Parkingu.
+            Po lewej stronie pokazane są twój plecak, wyposażone przez ciebie przedmioty. Najeżdżając na nie pokażą ci się ich statystyki. Przedmiot możesz założyć przeciągając go z plecaka na postać lub sloty wyżej. Niżej pokazane są aktywne efekty, które możesz dostać po użyciu napoju kupionego na Barze.
+            Po prawej stronie pokazane są twoje statystyki, które możesz dodatkowo zwiększać za pomocą Kryształów (1 Kryształ = 1 pkt. statystyki). Każda statystyka odpowiada za coś innego:
+            • Rizz, inaczej charyzma, odpowiada za siłę twojego ataku w walce typu Rizz Fight,
+            • Siła odpowiada za siłę ataku w walce typu Strength Fight oraz daje niewielki bonus do wyniku na Boxerze,
+            • Zwinność w walce na Rizz daje bonus do ataku dla postaci z większą jej wartością (większa różnica w Zwinności to większy bonus), natomiast w walce na Siłę zwiększa szansę na unik,
+            • Wytrzymałość to liczba punktów życia postaci,
+            • Szczęście zwiększa szansę trafienie krytyczne (podwojenie obrażeń) oraz daje większą szansę na "Lucky Punch" w Boxerze.
+            Niżej pokazany pokazany jest aktualnie posiadany Pojazd wraz z terminem jego wynajmu. Pojazdy możesz wynajmować na Parkingu.
             `,
     },
 
@@ -47,7 +54,8 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
             • minigrę Boxer, w której możesz pomnożyć swoje pieniądze (nawet przez zero!),
             • przejście na Parking,
             • Ochroniarza, u którego w wolnym czasie możesz dorobić sobie na bramkach,
-            • Ranking, na którym możesz sprawdzić postęp innych graczy i zawalczyć z nimi.
+            • Ranking, na którym możesz sprawdzić postęp innych graczy i zawalczyć z nimi,
+            • Gang, po kliknięciu którego pokaże ci się lista Gangów.
             `,
 	},
 
@@ -56,7 +64,7 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         text:
             `Boxer to minigra w której możesz powiększyć lub pomniejszyć swoją fortunę. Po kliknięciu na migający wyświetlacz poniżej możesz wpisać kwotę za którą chcesz zagrać. Następnie wykonaj cios klikając gruchę po prawej stronie. Po chwili na głównym wyświetlaczu zostanie pokazany wynik twojego ciosu.
             W zależności od niego kwota będzie pomnożona przez odpowiedni mnożnik - niski wynik może pomniejszyć lub nawet wyzerować kwotę, a wyższy może ją powiększyć (nawet kilkukrotnie).
-            Na wynik wpływ mają też niektóre statystyki: szczęście zwiększa szansę na "Lucky Punch", który daje gwarantowany dobry wynik, a siła daje niewielki bonus do wyniku.
+            Na wynik wpływ mają też niektóre statystyki: Szczęście zwiększa szansę na "Lucky Punch", który daje gwarantowany dobry wynik, a Siła daje niewielki bonus do wyniku.
             `,
 	},
 
@@ -122,12 +130,24 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
     },
 
     "/drink-shop": {
-        title: "Napoje",
+        title: "Bar",
         text:
             `Tutaj możesz nabyć serwowane w Śrubie trunki. Po prawej stronie, tak jak w Szatni, masz dostępną ofertę napojów wraz z bonusami które dają. Po kupieniu, napój pojawi się w twoim Plecaku. Możesz go wtedy użyć przeciągając go na ekwipunek lub awatar by otrzymać jego efekt na określony czas.
             Stronę karty napojów zmienisz klikając przycisk "ODWRÓĆ KARTĘ" na jej dole. Oferta napojów jest stała (bonusy skalują się z twoją Aurą).
             W jednym momencie możesz mieć maksymalnie 4 aktywne efekty oraz tylko jeden efekt tego samego napoju.
             `,
+    },
+
+    "/gang-list": {
+        title: "Lista Gangów",
+        text:
+            `nwm wymysl cos maciek`,
+    },
+
+    "/my-gang": {
+        title: "Gang",
+        text:
+            `nwm wymysl cos maciek v2`,
     },
 
 

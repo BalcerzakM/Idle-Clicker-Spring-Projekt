@@ -82,7 +82,7 @@ function ClubMain() {
                     onClick={() => navigate("/drink-shop")}
                 />
             </div>
-            <p className="clubMain-drinksTextBox">Napoje</p>
+            <p className="clubMain-drinksTextBox">Bar</p>
 		</div>
 	);
 }

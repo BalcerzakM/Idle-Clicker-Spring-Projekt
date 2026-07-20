@@ -760,7 +760,7 @@ body::before {
     left: 460px;
     top: 210px;
 
-    width: 715px;
+    width: 740px;
 }
 
 .help-text-wrapper {
@@ -770,6 +770,10 @@ body::before {
     width: 100%;
     text-align: justify;
     color: black;
+
+    height: 300px;
+    overflow-y: auto;
+    padding-right: 10px;
 }
 
 .help-text-wrapper h2 {
@@ -791,8 +795,8 @@ body::before {
 	position: relative;
     color: #7a1d2d;
 
-	top: 0;
-	left: 370px;
+	top: 3px;
+	left: 363px;
 
 	border: none;
 	background: none;

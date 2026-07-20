@@ -10,8 +10,8 @@ export default function InfoButton() {
 		<button
 			className="info-button"
 			onClick={() => {
-				openHelp;
-				playClick;
+				openHelp();
+				playClick();
 			}}
 		>
 			ℹ️
