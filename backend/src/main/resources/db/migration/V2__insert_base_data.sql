@@ -157,7 +157,9 @@ VALUES ('Gruba', 3, 6, 1, 43, 1, 'opponent_gruba.png'),
 
 
        ('Andrzej Miękkowski', 50, 0, 5, 500, 5, 'boss_andrzej.png'),
-       ('Borys Piotrenko', 0, 80, 10, 1000, 30, 'boss_piotrenko.png');
+       ('Borys Piotrenko', 0, 80, 10, 1000, 30, 'boss_piotrenko.png'),
+       ('Maciej Kabanos', 300, 0, 400, 3500, 100, 'boss_kabanos.png'),
+       ('Janusz Szutkowski', 0, 800, 200, 10000, 1200, 'boss_szutkowski.png');
 
 
 
@@ -211,7 +213,13 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
         'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Andrzej Miękkowski'), ''),
        ('Psychol z polibudy',
         'Zwany także niekiedy "Bestią z Pieprzniczek", czyli miejscowości z której pochodzi. Absolutny szaleniec i zwyrol, ktoś musi się nim zająć. Zrobisz to?',
-        'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Borys Piotrenko'), '');
+        'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Borys Piotrenko'), ''),
+       ('Król parkietu',
+        'Ten świr praktycznie non-stop jest w klubie, więc musi mieć sporą wiedzę jakie osoby się tu pojawiają. Jedyny sposób na zdobycie tych informacji to wzięcie go w obroty na parkiecie. Jesteś gotowy?',
+        'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Maciej Kabanos'), ''),
+       ('Szef Mafii Czopkowskiej',
+        'Poszukiwany przez Interpol, CIA i wiele innych służb. Skrajnie niebezpieczny, nawet nie chcesz wiedzieć jakich zbrodni się dopuścił. Dostaliśmy cynk, że może przebywać gdzieś w tym klubie. Dasz radę?',
+        'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Janusz Szutkowski'), '');
 
 INSERT INTO character_class_entity (class_name,
                                     base_endurance,
