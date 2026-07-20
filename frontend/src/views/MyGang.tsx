@@ -13,9 +13,9 @@ interface CharacterDto {
 }
 
 interface CharacterInBattleDto {
-	name: string;
-	avatarPicture: string;
-	maxHp: number;
+	characterName: string;
+	imagePath: string;
+	hp: number;
 }
 
 interface FullGangInfoDto {
