@@ -64,7 +64,7 @@ public class GangService {
         GangEntity gang = gangRepository.findByGangName(gangName)
                 .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
 
-        if (gang.getLeader()!=leader) {
+        if (!gang.getLeader().getId().equals(leader.getId())) {
             throw new PermissionDeniedException("Tylko lider może dodać członka");
         }
 
