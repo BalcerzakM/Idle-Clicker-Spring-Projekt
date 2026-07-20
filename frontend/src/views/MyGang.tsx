@@ -3,12 +3,19 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import "../css/GangView.css";
 import { useAlert } from "../context/AlertContext.tsx";
 import { useCharacter } from "../context/CharacterContext";
+import GangArena from "../components/GangArena";
 
 // ----- INTERFACES -----
 interface CharacterDto {
 	name: string;
 	characterClass?: string;
 	auraLvl?: number;
+}
+
+interface CharacterInBattleDto {
+	characterName: string;
+	imagePath: string;
+	hp: number;
 }
 
 interface FullGangInfoDto {
@@ -23,6 +30,18 @@ interface FullGangInfoDto {
 	cristalBank: number;
 	gangToAttackName: string | null;
 	votes: number;
+}
+
+export interface GangCombatDto {
+	combatLog: number[];
+	teamAWon: boolean;
+	teamAImageFolder: string;
+	teamBImageFolder: string;
+	teamACharacters: CharacterInBattleDto[]; // 👈 zmienione
+	teamBCharacters: CharacterInBattleDto[]; // 👈 zmienione
+	moneyReward: number;
+	auraReward: number;
+	itemReward: any | null;
 }
 
 const MyGang = () => {
@@ -46,6 +65,9 @@ const MyGang = () => {
 	const [removingMember, setRemovingMember] = useState<string | null>(null);
 	const [newMemberName, setNewMemberName] = useState("");
 	const [voteProcessing, setVoteProcessing] = useState(false);
+
+	const [gangCombat, setGangCombat] = useState<GangCombatDto | null>(null);
+	const [watchingCombat, setWatchingCombat] = useState(false);
 
 	const gangName = searchParams.get("name") || gangInfo?.gangName || "";
 
@@ -127,6 +149,29 @@ const MyGang = () => {
 			setDepositing(null);
 		}
 	};
+
+	//pobranie powtórki bitwy gangów
+	const fetchGangCombat = useCallback(async () => {
+		if (!gangName) return;
+		try {
+			const res = await fetch("http://localhost:8080/api/gang/watch", {
+				credentials: "include",
+			});
+			if (res.ok) {
+				const data: GangCombatDto = await res.json();
+				setGangCombat(data);
+			} else {
+				// Jeśli nie ma żadnej walki (404), ustawiamy null
+				setGangCombat(null);
+			}
+		} catch {
+			setGangCombat(null);
+		}
+	}, [gangName]);
+
+	useEffect(() => {
+		fetchGangCombat();
+	}, [fetchGangCombat]);
 
 	// ----- WPŁATA KRYSZTAŁÓW -----
 	// const handleDepositCristals = async () => {
@@ -322,6 +367,19 @@ const MyGang = () => {
 					</button>
 				</div>
 			</div>
+		);
+	}
+
+	if (watchingCombat && gangCombat) {
+		return (
+			<GangArena
+				combatData={gangCombat}
+				onClose={() => {
+					setWatchingCombat(false);
+					refreshCharacter();
+					fetchGangInfo();
+				}}
+			/>
 		);
 	}
 
@@ -561,6 +619,22 @@ const MyGang = () => {
 							<div className="gang-no-vote">
 								<p className="gang-no-requests">Brak aktywnego głosowania</p>
 							</div>
+						)}
+					</div>
+					<div className="gang-my-section gang-my-last-war">
+						<h3 className="gang-section-title">⚔️ OSTATNIA WOJNA GANGU</h3>
+						{gangCombat ? (
+							<div className="gang-last-war-info">
+								<p>Dostępna jest powtórka ostatniej walki!</p>
+								<button
+									className="gang-action-btn gang-action-btn--watch"
+									onClick={() => setWatchingCombat(true)}
+								>
+									🎥 OBEJRZYJ WALKĘ
+								</button>
+							</div>
+						) : (
+							<p className="gang-no-requests">Brak nagranych walk</p>
 						)}
 					</div>
 				</div>

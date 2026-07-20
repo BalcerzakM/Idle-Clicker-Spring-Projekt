@@ -1,5 +1,7 @@
 package com.gametest.springprojekt.model;
 
+import com.gametest.springprojekt.dto.GangCombatDto;
+import com.gametest.springprojekt.model.mapper.GangCombatDtoJsonConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -58,6 +60,10 @@ public class GangEntity {
     @PositiveOrZero
     private int votes;
 
+    @Convert(converter = GangCombatDtoJsonConverter.class)
+    @Column(columnDefinition = "json")
+    private GangCombatDto lastCombat;// przechowujemy ostatnią walke jako json
 
- //kiedyś można dodać chat
+
+    //kiedyś można dodać chat
 }

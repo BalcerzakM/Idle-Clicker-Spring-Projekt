@@ -135,5 +135,10 @@ public class GangController {
         return ResponseEntity.ok(gangService.addAVote(currentCharacter));
     }
 
+    @GetMapping("/watch")
+    public ResponseEntity<GangCombatDto> watchGangBattle() {
+        CharacterEntity currentCharacter = characterService.getCurrentCharacter();
+        return ResponseEntity.ok(gangService.watchLastGangCombat(currentCharacter));
+    }
 
 }

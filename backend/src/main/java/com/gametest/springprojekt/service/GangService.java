@@ -262,12 +262,15 @@ public class GangService {
             throw new InsufficientVotesException("Oddano za mało głosów");
         }
 
+        gang1.setLastCombat(null);
+
         List<CharacterEntity> gangA = getGangMembersList(gang1);
         List<CharacterEntity> gangB = getGangMembersList(gang2);
 
         GangCombatDto result = combatService.startGangCombat(gangA, gangB);
 
         gang1.setGangToAttack(null);
+        gang1.setLastCombat(result);// do oglądania walki
         gangRepository.save(gang1);
 
         return result;
@@ -311,4 +314,19 @@ public class GangService {
     }
 
 
+    @Transactional(readOnly = true)
+    public @Nullable GangCombatDto watchLastGangCombat(CharacterEntity character) {
+        GangEntity gang = character.getGang();
+
+        if (gang == null) {
+            throw new PermissionDeniedException("Nie Należysz do żadnego gangu.");
+        }
+
+        if (gang.getLastCombat() == null) {
+            throw new NoActiveQuestException("Nie odbyła się żadna wojna z udziałem twojego gangu.");
+        }
+
+        return gang.getLastCombat();
+
+    }
 }
