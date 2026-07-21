@@ -1,3 +1,4 @@
+-- ######################### EQUIPMENT I NUMERKI #########################
 INSERT INTO base_item_entity (name,
                               item_type,
                               slot_type,
@@ -9,6 +10,9 @@ INSERT INTO base_item_entity (name,
                               base_price,
                               image_path,
                               description)
+
+    -- ######################### EQUIPMENT #########################
+        -- ######################### GLOWA #########################
 VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-hat.png', 'Ma znajomy zapach.'),
        ('Słomiany kapelusz', 'EQUIPMENT', 'HEAD', 4, 0, 10, 8, 1, 40, 'item-straw-hat.png', ''),
        ('Różowe okulary', 'EQUIPMENT', 'HEAD', 8, 4, 3, 8, 8, 52, 'item-pink-sunglasses.png', ''),
@@ -20,6 +24,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Czapka bucket', 'EQUIPMENT', 'HEAD', 5, 0, 4, 10, 2, 35, 'item-bucket-hat.png', ''),
        ('Okulary z wąsami', 'EQUIPMENT', 'HEAD', 11, 0, 0, 9, 10, 40, 'item-glasses-with-moustache.png','+1000 do nierozpoznawalności'),
 
+       -- ######################### SZYJA #########################
        ('Karta do akademika', 'EQUIPMENT', 'NECK', 4, 4, 0, 10, 0, 35, 'item-dormitory-card.png','Na odwrocie ma napisane "Pokój 509/1".'),
        ('Szalik Gajelonii', 'EQUIPMENT', 'NECK', 3, 8, 3, 6, 0, 40, 'item-sport-scarf.png','Lepiej nie pojawiać się z nim w złym mieście.'),
        ('Wisiorek z krucyfiksem', 'EQUIPMENT', 'NECK', 4, 4, 3, 5, 1, 40, 'item-crucifix-necklace.png', ''),
@@ -31,6 +36,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Krawat', 'EQUIPMENT', 'NECK', 6, 3, 2, 5, 0, 45, 'item-tie.png', ''),
        ('Czerwona muszka', 'EQUIPMENT', 'NECK', 8, 0, 3, 8, 3, 52, 'item-bowtie.png','Po założeniu masz ochotę na herbatę z olbrzymią ilością cukru.'),
 
+       -- ######################### GORA CIALA #########################
        ('Biała marynarka', 'EQUIPMENT', 'UPPER_BODY', 8, 4, 3, 14, 1, 48, 'item-white-suit.png', ''),
        ('Hawajska koszula', 'EQUIPMENT', 'UPPER_BODY', 7, 4, 5, 10, 1, 45, 'item-hawaiian-shirt.png', ''),
        ('Czarna suknia', 'EQUIPMENT', 'UPPER_BODY', 9, 0, 5, 12, 1, 44, 'item-black-dress.png', ''),
@@ -42,6 +48,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Żonobijka', 'EQUIPMENT', 'UPPER_BODY', 8, 16, 3, 9, 0, 55, 'item-sleeveless-shirt.png', ''),
        ('Sztywna koszulka', 'EQUIPMENT', 'UPPER_BODY', 6, 13, 5, 14, 0, 40, 'item-rigid-tshirt.png', ''),
 
+       -- ######################### DOL CIALA #########################
        ('Stare Jeansy', 'EQUIPMENT', 'LOWER_BODY', 4, 0, 2, 12, 0, 38, 'item-old-jeans.png', ''),
        ('Spodnie od garniaka', 'EQUIPMENT', 'LOWER_BODY', 7, 4, 4, 9, 1, 45, 'item-white-suit-pants.png', ''),
        ('Czarna spódniczka', 'EQUIPMENT', 'LOWER_BODY', 10, 0, 8, 10, 1, 47, 'item-black-skirt.png', ''),
@@ -53,6 +60,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Spódnica baletnicy', 'EQUIPMENT', 'LOWER_BODY', 8, 4, 15, 6, 0, 48, 'item-ballerina-skirt.png', ''),
        ('Dresy Abibasa', 'EQUIPMENT', 'LOWER_BODY', 4, 7, 5, 13, 0, 50, 'item-sweatpants.png', ''),
 
+       -- ######################### STOPY #########################
        ('Wysokie buty', 'EQUIPMENT', 'FEET', 7, 7, 0, 11, 0, 44, 'item-high-soled-shoes.png', '+10 cm do wzrostu.'),
        ('Kalosze', 'EQUIPMENT', 'FEET', 3, 9, 1, 13, 0, 43, 'item-rain-boots.png', ''),
        ('Stare trampki', 'EQUIPMENT', 'FEET', 2, 6, 5, 8, 0, 32, 'item-old-sneakers.png','Powinny jeszcze wytrzymać z 10 lat.'),
@@ -63,6 +71,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Łyżwy', 'EQUIPMENT', 'FEET', 4, 4, 10, 11, 11, 55, 'item-skates.png', ''),
        ('Japonki', 'EQUIPMENT', 'FEET', 5, 2, 8, 7, 5, 43, 'item-flip-flops.png', ''),
 
+       -- ######################### NADGARSTEK #########################
        ('Złota branzoletka', 'EQUIPMENT', 'WRIST', 5, 6, 0, 5, 2, 40, 'item-golden-bracelet.png', ''),
        ('Sikor', 'EQUIPMENT', 'WRIST', 8, 0, 0, 3, 3, 40, 'item-leather-watch.png', ''),
        ('Branzoletka przyjaźni', 'EQUIPMENT', 'WRIST', 5, 7, 0, 7, 1, 45, 'item-friendship-bracelet.png', ''),
@@ -76,6 +85,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Opaska fluorescencyjna', 'EQUIPMENT', 'WRIST', 6, 0, 7, 0, 3, 35, 'item-fluorescent-wristband.png', ''),
        ('Cukierkowy zegarek', 'EQUIPMENT', 'WRIST', 8, 5, 0, 0, 5, 45, 'item-candy-watch.png','Pilnuj, żeby nikt ci go nie zjadł.'),
 
+       -- ######################### EMBLEM #########################
        ('Zapalniczka', 'EQUIPMENT', 'EMBLEM', 7, 5, 3, 0, 3, 45, 'item-lighter.png', 'Ledwo działa, ale fajnie wygląda.'),
        ('Paczka szlugów', 'EQUIPMENT', 'EMBLEM', 10, 7, 0, 0, 4, 50, 'item-cigarettes.png', 'Z ruską banderolą.'),
        ('Tani vape', 'EQUIPMENT', 'EMBLEM', 6, 7, 0, 0, 2, 40, 'item-cheap-vape.png', 'Skasowany jakiemuś uczniowi podstawówki.'),
@@ -88,7 +98,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Alkomat', 'EQUIPMENT', 'EMBLEM', 5, 5, 7, 0, 5, 40, 'item-alkomat.png', ''),
        ('Konsola', 'EQUIPMENT', 'EMBLEM', 6, 7, 0, 0, 10, 55, 'item-console.png', ''),
 
-
+        -- ######################### NUMERKI DO SZATNI #########################
        ('Numerek do szatni 03', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-03.png', 'Wymień go u szatniarza.'),
        ('Numerek do szatni 12', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-12.png', 'Wymień go u szatniarza.'),
        ('Numerek do szatni 13', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 1, 0, 'item-token-13.png', 'Wymień go u szatniarza.'),
@@ -103,6 +113,7 @@ VALUES ('Zimowa czapka', 'EQUIPMENT', 'HEAD', 6, 3, 0, 9, 5, 40, 'item-winter-ha
        ('Numerek do szatni 420', 'ITEM_TOKEN', 'NONE', 0, 0, 0, 0, 7, 0, 'item-token-420.png', 'Wymień go u szatniarza.')
 ;
 
+-- ######################### DRINKI #########################
 INSERT INTO base_item_entity (name,
                               item_type,
                               slot_type,
@@ -119,26 +130,27 @@ INSERT INTO base_item_entity (name,
                               is_premium,
                               description
 )
+    -- ######################### 1 STRONA #########################
 VALUES  ('Gajerbomba',          'DRINK', 'NONE', 0, 0, 30, 0, 0, 120, 1200, 'STAT_BONUS', 0, 'item-drink-gajerbomb.png', FALSE, 'Gajermaister z colą i kostkami lodu.'),
         ('Bóbr',                    'DRINK', 'NONE', 0, 30, 0, 0, 0, 170,1500,  'STAT_BONUS', 0, 'item-drink-bubr.png',FALSE, 'Jasne piwo 6% dla prawdziwych koneserów.'),
         ('Aramena',                 'DRINK', 'NONE', 0, 0, 0, 35, 0, 160,1800,  'STAT_BONUS', 0, 'item-drink-aramena.png',FALSE, 'Wiśniowy trunek 12% dla zawodowców.'),
-        ('Shot czystej',            'DRINK', 'NONE', 25, 0, 0, 0, 0, 140,900,   'STAT_BONUS', 0, 'item-drink-vodka.png', FALSE,'50 ml czystej wódki 40%.'),
-        ('Kamikadze',               'DRINK', 'NONE', 0, 40, 0, 0, 0, 220,600,   'STAT_BONUS', 0, 'item-drink-kamikaze.png',FALSE, 'Orzeźwiający drink w 50 ml kieliszku.'),
+        ('Shot czystej',            'DRINK', 'NONE', 35, 0, 0, 0, 0, 140,900,   'STAT_BONUS', 0, 'item-drink-vodka.png', FALSE,'50 ml czystej wódki 40%.'),
+        ('Kamikadze',               'DRINK', 'NONE', 0, 0, 70, 0, 0, 200,600,   'STAT_BONUS', 0, 'item-drink-kamikaze.png',FALSE, 'Orzeźwiający drink w 50 ml kieliszku.'),
         ('Spirytus',                'DRINK', 'NONE', 0, 0, 0, 0, 40, 150,1500,  'STAT_BONUS', 0, 'item-drink-spirit.png',FALSE, '95% alkoholu tylko dla profesjonalistów.'),
         ('Despacito',               'DRINK', 'NONE', 20, 0, 0, 0, 0, 130,1200,  'STAT_BONUS', 0, 'item-drink-despacito.png',FALSE, 'Lekki soczek 3% o smaku tequili dla amatorów.'),
         ('Śrubowe Mocne',           'DRINK', 'NONE', 0, 20, 0, 0, 0, 100,2400,  'STAT_BONUS', 0, 'item-drink-club-beer.png',FALSE, 'Klubowy specjał, jasne mocne piwo 7%.'),
-
+    -- ######################### 2 STRONA #########################
         ('Modżajto',                'DRINK', 'NONE', 0, 0, 65, 0, 0, 220,1080,  'STAT_BONUS', 0, 'item-drink-mojihto.png',FALSE, 'Orzeźwiający klasyk z limonką i miętą'),
-        ('Cola pinada',             'DRINK', 'NONE', 30, 0, 0, 0, 0, 250,1260,  'STAT_BONUS', 0, 'item-drink-cola-pinada.png',FALSE, 'Egzotyczny drink o kokosowo-ananasowym smaku.'),
-        ('Walk on the beach',       'DRINK', 'NONE', 40, 0, 0, 0, 0, 280,1500,  'STAT_BONUS', 0, 'item-drink-walk-beach.png',FALSE, ''),
-        ('Krwawy Marian',           'DRINK', 'NONE', 0, 35, 0, 0, 0, 240,1500,  'STAT_BONUS', 0, 'item-drink-bloody-marian.png',FALSE, ''),
+        ('Cola pinada',             'DRINK', 'NONE', 0, 0, 0, 0, 55, 250,1260,  'STAT_BONUS', 0, 'item-drink-cola-pinada.png',FALSE, 'Egzotyczny drink o kokosowo-ananasowym smaku.'),
+        ('Walk on the beach',       'DRINK', 'NONE', 0, 0, 0, 0, 0, 280,1500,  'RIZZ_MULTIPLIER', 50, 'item-drink-walk-beach.png',FALSE, ''),
+        ('Krwawy Marian',           'DRINK', 'NONE', 0, 0, 0, 0, 0, 240,1500,  'STRENGTH_MULTIPLIER', 75, 'item-drink-bloody-marian.png',FALSE, ''),
         ('Short Island Hot Coffee', 'DRINK', 'NONE', 0, 0, 0, 45, 0, 230,1500,  'STAT_BONUS', 0, 'item-drink-short-island.png',FALSE, ''),
-        ('Vino tinto',              'DRINK', 'NONE', 0, 0, 0, 0, 50, 200,1200,  'STAT_BONUS', 0, 'item-drink-vino-tinto.png',FALSE, 'Specjał z hiszpanskiej półki.'),
-        ('Czech Zero',              'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'MONEY_MULTIPLIER', 2, 'item-drink-czech-zero.png', TRUE,'Rześki jasny lager bez alkoholu.'),
-        ('Woda niegazowana',        'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'AURA_MULTIPLIER', 2, 'item-drink-water.png', TRUE, 'Zwykła woda w plastikowej butelce. Kaucyjnej.')
+        ('Vino tinto',              'DRINK', 'NONE', 0, 0, 0, 0, 0, 200,1200,  'LUCK_MULTIPLIER', 100, 'item-drink-vino-tinto.png',FALSE, 'Specjał z hiszpanskiej półki.'),
+        ('Czech Zero',              'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'MONEY_MULTIPLIER', 100, 'item-drink-czech-zero.png', TRUE,'Rześki jasny lager bez alkoholu.'),
+        ('Woda niegazowana',        'DRINK', 'NONE', 0, 0, 0, 0, 0, 25,2700,    'AURA_MULTIPLIER', 100, 'item-drink-water.png', TRUE, 'Zwykła woda w plastikowej butelce. Kaucyjnej.')
 ;
 
-
+-- ######################### OPONENCI #########################
     INSERT INTO opponent_entity (name,
                              base_rizz,
                              base_strength,
@@ -155,20 +167,21 @@ VALUES ('Gruba', 3, 6, 1, 43, 1, 'opponent_gruba.png'),
        ('DJ', 10, 7, 5, 41, 4, 'opponent_dj.png'),
        ('Barmanka', 8, 6, 6, 33, 4, 'opponent_bartender.png'),
 
-
+        -- ######################### BOSSY #########################
        ('Andrzej Miękkowski', 50, 0, 5, 500, 5, 'boss_andrzej.png'),
        ('Borys Piotrenko', 0, 80, 10, 1000, 30, 'boss_piotrenko.png'),
        ('Maciej Kabanos', 300, 0, 400, 3500, 100, 'boss_kabanos.png'),
        ('Janusz Szutkowski', 0, 800, 200, 10000, 1200, 'boss_szutkowski.png');
+-- JAK COS TO TE PNG KABANOSA JEST TYMCZASOWE BO CZAT JEST UPO I JUZ MI SIE NIECHCE ZMIENIAC
 
-
-
+-- ######################### QUESTY #########################
 INSERT INTO quest_entity (title,
                           description,
                           quest_tier,
                           quest_type,
                           opponent_id,
                           image_path)
+    -- ######################### LATWE QUESTY #########################
 VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zrizzować grubą.', 'EASY', 'RIZZ_FIGHT', 1,
         'rizz_quest1.png'),
        ('Wyjaśnij Hiszpana', 'Wkurza mnie już ten Erazmus, pokaż mu gdzie jego miejsce!', 'EASY', 'STRENGTH_FIGHT', 3,
@@ -184,6 +197,7 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
        ('Zajmij barmankę', 'Mam do ciebie sprawę. Weź na parkiet barmankę żeby ją czymś zająć, odwdzięczę się!', 'EASY',
         'RIZZ_FIGHT', 8, 'rizz_quest8.png'),
 
+    -- ######################### SREDNIE QUESTY #########################
        ('Erazmus z Hiszpanii', 'Jakiś nowy Erazmus jest dzisiaj w klubie. Dam ci dychę jak uda ci się go wyrwać!',
         'MEDIUM', 'RIZZ_FIGHT', 3, 'rizz_quest2.png'),
        ('Gruba ma problem', 'Ktoś zapytał się czy gruba pije i teraz trzeba ją ogarnąć. Załatw to!', 'MEDIUM',
@@ -197,6 +211,7 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
        ('Poderwij DJ-a', 'Weź tego DJ-a na parkiet, to może chociaż przez chwilę poleci coś normalnego.', 'MEDIUM',
         'RIZZ_FIGHT', 7, 'rizz_quest10.png'),
 
+    -- ######################### TRUDNE QUESTY #########################
        ('Pijany ochroniarz', 'Jeden z ochroniarzy chyba trochę za dużo wypił i zaczyna odwalać. Pójdziesz go ogarnąć?',
         'HARD', 'STRENGTH_FIGHT', 4, 'fight_quest4.png'),
        ('Poderwij blondynę', 'Widzisz tą blondynę przy stole? Stawiam moją dniówkę, że jej nie poderwiesz.', 'HARD',
@@ -207,7 +222,7 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
        ('Wywalić dresiarza', 'Ten dresiarz rzuca się do wszystkich, wyrzuć go z lokalu', 'HARD', 'STRENGTH_FIGHT', 2,
         'fight_quest2.png'),
 
-
+    -- ######################### BOSS QUESTY #########################
        ('Członek samorządu',
         'Studenci wydziału pracują nad pewnym niebezpiecznym dla rządu projektem. Trzeba go jakoś przekabacić, by im go uwalił i pozbyć się ich z uczelni. Dasz radę to zrobić?',
         'BOSS', 'RIZZ_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Andrzej Miękkowski'), ''),
@@ -221,6 +236,7 @@ VALUES ('Rizzowanie grubej', 'Wydajesz się być zdesperowany. Spróbuj może zr
         'Poszukiwany przez Interpol, CIA i wiele innych służb. Skrajnie niebezpieczny, nawet nie chcesz wiedzieć jakich zbrodni się dopuścił. Dostaliśmy cynk, że może przebywać gdzieś w tym klubie. Dasz radę?',
         'BOSS', 'STRENGTH_FIGHT', (SELECT id FROM opponent_entity WHERE name = 'Janusz Szutkowski'), '');
 
+-- ######################### KLASY POSTACI #########################
 INSERT INTO character_class_entity (class_name,
                                     base_endurance,
                                     base_rizz,
@@ -232,6 +248,7 @@ VALUES ('Nerd', 40, 5, 5, 7, 33, 300),
        ('Erasmus', 45, 13, 7, 10, 5, 250),
        ('Dres', 50, 8, 12, 10, 1, 200);
 
+-- ######################### POJAZDY #########################
 INSERT INTO base_vehicle_entity (name,
                                  image_path,
                                  price,
@@ -243,5 +260,6 @@ VALUES ('Rower składak', 'bicycle.png', 5, 10),
        ('Bwm f67', 'bwm_f67.png', 100, 60),
        ('Traktor USRUS', 'tractor.png', 200, 90);
 
+-- ######################### ADMIN #########################
 INSERT INTO user_entity(email, username, password, role)
 VALUES ('admin@admin.pl', 'admin', '$2a$10$Tan2ga6Pji.v1tk3GP5p4O2dnDIAj7vitFJGGjPNrKy4q/DXg6aaW', 'ADMIN');

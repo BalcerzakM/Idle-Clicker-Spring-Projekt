@@ -20,22 +20,11 @@ public class CalculationService {
         ######################## NAGRODY ZA QUESTY ########################
     */
     public int calculateQuestMoneyReward(CharacterEntity character, QuestEntity quest) {
+        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2;
+
         //sprawdzanie wzmacniajacego efektu
-        int rewardModifier = 1;
-        if (!character.getEffects().isEmpty()) {
-            List<EffectEntity> activeEffects = character.getEffects().stream()
-                    .filter(e -> e.getItem().getBaseItem().getEffectType().equals(EffectType.MONEY_MULTIPLIER))
-                    .toList();
+        moneyReward = moneyReward + calculateDrinkMultipliedValue(moneyReward, character, EffectType.MONEY_MULTIPLIER);
 
-            for (EffectEntity effect : activeEffects) {
-                int effectValue = effect.getItem().getBaseItem().getEffectValue();
-                if (effectValue > 1) {
-                    rewardModifier = rewardModifier * effectValue;
-                }
-            }
-        }
-
-        int moneyReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2 * rewardModifier;
         if (quest.getQuestTier() == QuestTier.BOSS) {
             moneyReward *= character.getCurrentBoss();
         }
@@ -43,22 +32,11 @@ public class CalculationService {
     }
 
     public int calculateQuestAuraReward(CharacterEntity character, QuestEntity quest) {
+        int auraReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2;
+
         //sprawdzanie wzmacniajacego efektu
-        int rewardModifier = 1;
-        if (!character.getEffects().isEmpty()) {
-            List<EffectEntity> activeEffects = character.getEffects().stream()
-                    .filter(e -> e.getItem().getBaseItem().getEffectType().equals(EffectType.AURA_MULTIPLIER))
-                    .toList();
+        auraReward = auraReward + calculateDrinkMultipliedValue(auraReward, character, EffectType.AURA_MULTIPLIER);
 
-            for (EffectEntity effect : activeEffects) {
-                int effectValue = effect.getItem().getBaseItem().getEffectValue();
-                if (effectValue > 1) {
-                    rewardModifier = rewardModifier * effectValue;
-                }
-            }
-        }
-
-        int auraReward = quest.getQuestTier().getMultiplier() * character.getAuraLvl() * 2  * rewardModifier;
         if (quest.getQuestTier() == QuestTier.BOSS) {
             auraReward *= character.getCurrentBoss();
         }
@@ -198,5 +176,25 @@ public class CalculationService {
 
     public int calculateDrinkValue(int statValue, CharacterEntity character) {
         return statValue * character.getAuraLvl();
+    }
+
+    public int calculateDrinkMultipliedValue(int multipliedValue, CharacterEntity character, EffectType effectType) {
+        double multiplier = 0;
+        if (!character.getEffects().isEmpty()) {
+            List<EffectEntity> activeEffects = character.getEffects().stream()
+                    .filter(e -> e.getItem().getBaseItem().getEffectType().equals(effectType))
+                    .toList();
+
+            for (EffectEntity effect : activeEffects) {
+                int effectValue = effect.getItem().getBaseItem().getEffectValue();
+                if (effectValue > 0) {
+                    multiplier += effectValue;
+                }
+            }
+        }
+
+        multipliedValue = (int) Math.floor(multipliedValue * multiplier/100);
+
+        return multipliedValue;
     }
 }

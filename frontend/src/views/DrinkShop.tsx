@@ -124,8 +124,11 @@ function DrinkShop() {
                                         {item.totalAgility > 0 && `+${item.totalAgility} do Zwinności🏃 `}
                                         {item.totalEndurance > 0 && `+${item.totalEndurance} do Wytrzymałości🛡️ `}
                                         {item.totalLuck > 0 && `+${item.totalLuck} do Szczęścia🍀 `}
-                                        {item.effectType === "AURA_MULTIPLIER" && `Aura x${item.effectValue} `}
-                                        {item.effectType === "MONEY_MULTIPLIER" && `Monety x${item.effectValue} `}
+                                        {item.effectType === "AURA_MULTIPLIER" && `+${item.effectValue}% do Aury `}
+                                        {item.effectType === "MONEY_MULTIPLIER" && `+${item.effectValue}% do Monet `}
+                                        {item.effectType === "RIZZ_MULTIPLIER" && `+${item.effectValue}% do Rizzu✨ `}
+                                        {item.effectType === "STRENGTH_MULTIPLIER" && `+${item.effectValue}% do Siły💪 `}
+                                        {item.effectType === "LUCK_MULTIPLIER" && `+${item.effectValue}% do Szczęścia🍀 `}
 
                                         <span className="drink-duration">
                                             na {item.durationInSeconds/60} minut

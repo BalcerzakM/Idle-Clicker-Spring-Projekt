@@ -42,7 +42,7 @@ CREATE TABLE base_item_entity
     item_type           ENUM ('EQUIPMENT','ITEM_TOKEN', 'DRINK')                                      NOT NULL,
     slot_type           ENUM ('EMBLEM','FEET','HEAD','LOWER_BODY','NECK','NONE','UPPER_BODY','WRIST') NOT NULL,
     duration_in_seconds INTEGER DEFAULT 0,
-    effect_type         ENUM ('STAT_BONUS', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER', 'NONE') DEFAULT 'NONE',
+    effect_type         ENUM ('STAT_BONUS', 'AURA_MULTIPLIER', 'MONEY_MULTIPLIER', 'RIZZ_MULTIPLIER', 'STRENGTH_MULTIPLIER', 'LUCK_MULTIPLIER', 'NONE') DEFAULT 'NONE',
     effect_value        INTEGER DEFAULT 0,
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
@@ -214,76 +214,160 @@ CREATE TABLE user_entity
     PRIMARY KEY (id)
 ) ENGINE = InnoDB;
 ALTER TABLE backpack_item
-    ADD CONSTRAINT uklsnddfmp8upx8vkv1snfh0a2r UNIQUE (item_id);
+    ADD CONSTRAINT uk_backpack_item_item_id UNIQUE (item_id);
+
 ALTER TABLE base_item_entity
-    ADD CONSTRAINT ukc5779hv4tgqwir145qsrdbnjo UNIQUE (name);
+    ADD CONSTRAINT uk_base_item_entity_name UNIQUE (name);
+
 ALTER TABLE base_vehicle_entity
-    ADD CONSTRAINT ukkkrahlhw2olrsoi02q5blnuhp UNIQUE (name);
+    ADD CONSTRAINT uk_base_vehicle_entity_name UNIQUE (name);
+
 ALTER TABLE character_class_entity
-    ADD CONSTRAINT ukisjrcjqucvxes6n0pue7cywmh UNIQUE (class_name);
+    ADD CONSTRAINT uk_character_class_entity_class_name UNIQUE (class_name);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT ukyko7noskna2ili8vk3e0ombq UNIQUE (active_quest_id);
+    ADD CONSTRAINT uk_character_entity_active_quest_id UNIQUE (active_quest_id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT ukp58e3os649et88jejco39ktqf UNIQUE (active_vehicle_id);
+    ADD CONSTRAINT uk_character_entity_active_vehicle_id UNIQUE (active_vehicle_id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT ukjx3i4nay0f00ue7s6pak2qxfm UNIQUE (bouncer_duty_id);
+    ADD CONSTRAINT uk_character_entity_bouncer_duty_id UNIQUE (bouncer_duty_id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT ukheta67icofutts7yfjm5vebvv UNIQUE (name);
+    ADD CONSTRAINT uk_character_entity_name UNIQUE (name);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fk_character_gang FOREIGN KEY (gang_id) REFERENCES gang_entity (id);
+    ADD CONSTRAINT fk_character_entity_gang
+        FOREIGN KEY (gang_id)
+            REFERENCES gang_entity (id);
+
 ALTER TABLE equipment_item
-    ADD CONSTRAINT uk55mno4vattoea0punlvt8g7uc UNIQUE (character_id, slot);
+    ADD CONSTRAINT uk_equipment_item_character_id_slot
+        UNIQUE (character_id, slot);
+
 ALTER TABLE equipment_item
-    ADD CONSTRAINT ukp8j9tkx5eiptbrx84abhhn5v8 UNIQUE (item_id);
+    ADD CONSTRAINT uk_equipment_item_item_id
+        UNIQUE (item_id);
+
 ALTER TABLE opponent_entity
-    ADD CONSTRAINT ukteektgyhlupyxibgqew61w54e UNIQUE (name);
+    ADD CONSTRAINT uk_opponent_entity_name UNIQUE (name);
+
 ALTER TABLE shop_offer_entity
-    ADD CONSTRAINT uksqwwsthmkeuwjudlgvhic1atd UNIQUE (item_id);
+    ADD CONSTRAINT uk_shop_offer_entity_item_id UNIQUE (item_id);
+
 ALTER TABLE user_entity
-    ADD CONSTRAINT uk4xad1enskw4j1t2866f7sodrx UNIQUE (email);
+    ADD CONSTRAINT uk_user_entity_email UNIQUE (email);
+
 ALTER TABLE user_entity
-    ADD CONSTRAINT uk2jsk4eakd0rmvybo409wgwxuw UNIQUE (username);
+    ADD CONSTRAINT uk_user_entity_username UNIQUE (username);
+
 ALTER TABLE active_quest_entity
-    ADD CONSTRAINT fk71svi1v1dry0jekjdoqme4xyo FOREIGN KEY (opponent_id) REFERENCES opponent_entity (id);
+    ADD CONSTRAINT fk_active_quest_entity_opponent
+        FOREIGN KEY (opponent_id)
+            REFERENCES opponent_entity (id);
+
 ALTER TABLE active_vehicle_entity
-    ADD CONSTRAINT fk6f6uce2nj9e39ra9wkwe26md FOREIGN KEY (base_vehicle_id) REFERENCES base_vehicle_entity (id);
+    ADD CONSTRAINT fk_active_vehicle_entity_base_vehicle
+        FOREIGN KEY (base_vehicle_id)
+            REFERENCES base_vehicle_entity (id);
+
 ALTER TABLE backpack_item
-    ADD CONSTRAINT fk5toi1aujoouxec6hid2qwc1wx FOREIGN KEY (item_id) REFERENCES item_entity (id);
+    ADD CONSTRAINT fk_backpack_item_item
+        FOREIGN KEY (item_id)
+            REFERENCES item_entity (id);
+
 ALTER TABLE backpack_item
-    ADD CONSTRAINT fkiaeegd901buycrfx50ql1u8rc FOREIGN KEY (character_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_backpack_item_character
+        FOREIGN KEY (character_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fk4wolqf8shj0e6qr4q8g9996rx FOREIGN KEY (active_quest_id) REFERENCES active_quest_entity (id);
+    ADD CONSTRAINT fk_character_entity_active_quest
+        FOREIGN KEY (active_quest_id)
+            REFERENCES active_quest_entity (id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fkainfyry5jqipc1epxdd3olnv0 FOREIGN KEY (active_vehicle_id) REFERENCES active_vehicle_entity (id);
+    ADD CONSTRAINT fk_character_entity_active_vehicle
+        FOREIGN KEY (active_vehicle_id)
+            REFERENCES active_vehicle_entity (id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fkrhpo3pccewd738omdrw6bgfwc FOREIGN KEY (bouncer_duty_id) REFERENCES bouncer_duty_entity (id);
+    ADD CONSTRAINT fk_character_entity_bouncer_duty
+        FOREIGN KEY (bouncer_duty_id)
+            REFERENCES bouncer_duty_entity (id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fkt3sjwa1i8kfqgbxi7tim4wxhc FOREIGN KEY (character_class_id) REFERENCES character_class_entity (id);
+    ADD CONSTRAINT fk_character_entity_character_class
+        FOREIGN KEY (character_class_id)
+            REFERENCES character_class_entity (id);
+
 ALTER TABLE character_entity
-    ADD CONSTRAINT fk67arbvwqttkf55kybokn3fvgx FOREIGN KEY (user_id) REFERENCES user_entity (id);
+    ADD CONSTRAINT fk_character_entity_user
+        FOREIGN KEY (user_id)
+            REFERENCES user_entity (id);
+
 ALTER TABLE equipment_item
-    ADD CONSTRAINT fk6dr2um3h2hbveun47astn10p2 FOREIGN KEY (item_id) REFERENCES item_entity (id);
+    ADD CONSTRAINT fk_equipment_item_item
+        FOREIGN KEY (item_id)
+            REFERENCES item_entity (id);
+
 ALTER TABLE equipment_item
-    ADD CONSTRAINT fk44k8s4drbmy38x4ulhhnr1ps5 FOREIGN KEY (character_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_equipment_item_character
+        FOREIGN KEY (character_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE item_entity
-    ADD CONSTRAINT fkre9sqek7y3q3vklt27kn5cwap FOREIGN KEY (base_item_id) REFERENCES base_item_entity (id);
+    ADD CONSTRAINT fk_item_entity_base_item
+        FOREIGN KEY (base_item_id)
+            REFERENCES base_item_entity (id);
+
 ALTER TABLE quest_entity
-    ADD CONSTRAINT fkcomjuy4exx9m0x60fenegwm2d FOREIGN KEY (opponent_id) REFERENCES opponent_entity (id);
+    ADD CONSTRAINT fk_quest_entity_opponent
+        FOREIGN KEY (opponent_id)
+            REFERENCES opponent_entity (id);
+
 ALTER TABLE quest_offer_entity
-    ADD CONSTRAINT fk7r1ht67f2jfvs8ofeehw6jqkv FOREIGN KEY (character_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_quest_offer_entity_character
+        FOREIGN KEY (character_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE quest_offer_entity
-    ADD CONSTRAINT fkkxclqn5ukh7wefdcmgx9rpwd8 FOREIGN KEY (quest_id) REFERENCES quest_entity (id);
+    ADD CONSTRAINT fk_quest_offer_entity_quest
+        FOREIGN KEY (quest_id)
+            REFERENCES quest_entity (id);
+
 ALTER TABLE report_entity
-    ADD CONSTRAINT fki3gqs7c17bvk71lq7v1df2lrc FOREIGN KEY (user_id) REFERENCES user_entity (id);
+    ADD CONSTRAINT fk_report_entity_user
+        FOREIGN KEY (user_id)
+            REFERENCES user_entity (id);
+
 ALTER TABLE shop_offer_entity
-    ADD CONSTRAINT fkig2kd0ilvm6dvsns208ekcy84 FOREIGN KEY (character_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_shop_offer_entity_character
+        FOREIGN KEY (character_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE shop_offer_entity
-    ADD CONSTRAINT fkfffa897bdo8evtnb5iy317geg FOREIGN KEY (item_id) REFERENCES item_entity (id);
+    ADD CONSTRAINT fk_shop_offer_entity_item
+        FOREIGN KEY (item_id)
+            REFERENCES item_entity (id);
+
 ALTER TABLE transaction_entity
-    ADD CONSTRAINT fkmmsoavuac0clvx8rmstmavy6r FOREIGN KEY (character_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_transaction_entity_character
+        FOREIGN KEY (character_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE gang_entity
-    ADD CONSTRAINT fk_gang_leader FOREIGN KEY (leader_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_gang_entity_leader
+        FOREIGN KEY (leader_id)
+            REFERENCES character_entity (id);
+
 ALTER TABLE gang_entity_requests
-    ADD CONSTRAINT fk_gang_requests_gang FOREIGN KEY (gang_entity_id) REFERENCES gang_entity (id);
+    ADD CONSTRAINT fk_gang_entity_requests_gang
+        FOREIGN KEY (gang_entity_id)
+            REFERENCES gang_entity (id);
+
 ALTER TABLE gang_entity_requests
-    ADD CONSTRAINT fk_gang_requests_character FOREIGN KEY (requests_id) REFERENCES character_entity (id);
+    ADD CONSTRAINT fk_gang_entity_requests_character
+        FOREIGN KEY (requests_id)
+            REFERENCES character_entity (id);
