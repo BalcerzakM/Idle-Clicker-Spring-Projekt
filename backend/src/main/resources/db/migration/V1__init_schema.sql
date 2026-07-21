@@ -123,6 +123,7 @@ gang_description        VARCHAR(255)                                            
 gang_name               VARCHAR(255)                                                        NOT NULL,
 gang_to_attack          VARCHAR(255),
 leader_id               BIGINT,
+last_combat             JSON,
 id                      BIGINT                                                              NOT NULL AUTO_INCREMENT,
 money_bank              INTEGER                                                             NOT NULL DEFAULT 0,
 votes                   INTEGER,
