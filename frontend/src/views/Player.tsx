@@ -5,6 +5,7 @@ import type { ItemsAndStatsDto } from "../components/HeroPanel";
 import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import { useAlert } from "../context/AlertContext";
 import { useCharacter } from "../context/CharacterContext";
+import {useHeroActions} from "../utils/UseHeroActions.tsx";
 
 export type FullCharacterInfoDto = ItemsAndStatsDto & {
 	vehicleName: string | null;
@@ -31,7 +32,14 @@ function Player() {
 
 	const [hero, setHero] = useState<FullCharacterInfoDto | null>(null);
 	const [loading, setLoading] = useState(true);
-	const [highlightedSlot, setHighlightedSlot] = useState<string | null>(null);
+
+    const {
+        hero: heroItems,
+        fetchCharacterData,
+        handleUseItem,
+        highlightedSlot,
+        handleHoverSlot,
+    } = useHeroActions();
 
 	/** Pobranie rozszerzonych danych postaci */
 	const fetchPlayerDetails = useCallback(async () => {
@@ -55,7 +63,8 @@ function Player() {
 
 	useEffect(() => {
 		fetchPlayerDetails();
-	}, [fetchPlayerDetails]);
+        fetchCharacterData();
+	}, [fetchPlayerDetails, fetchCharacterData]);
 
 	/** Zwiększenie statystyki (PATCH) */
 	const handleIncrement = async (statName: string) => {
@@ -78,31 +87,31 @@ function Player() {
 	};
 
 	/** Equip (drag & drop) */
-	const handleEquip = async (backpackItemId: number) => {
-		if (!hero) return;
-		const item = hero.backpack.find((i) => i.id === backpackItemId);
-		if (!item) return;
-
-		const equippedId =
-			hero.equipment.find((e) => e.slotType === item.slotType)?.id ?? null;
-
-		try {
-			const res = await fetch("http://localhost:8080/api/character/equip", {
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ equipmentItemId: equippedId, backpackItemId }),
-			});
-			if (!res.ok) {
-				const error = await res.json();
-				showError(error.message || "Nie udało się założyć przedmiotu");
-				return;
-			}
-			await fetchPlayerDetails();
-		} catch (err) {
-			console.error(err);
-			showError("Brak połączenia z serwerem");
-		}
-	};
+	// const handleEquip = async (backpackItemId: number) => {
+	// 	if (!hero) return;
+	// 	const item = hero.backpack.find((i) => i.id === backpackItemId);
+	// 	if (!item) return;
+    //
+	// 	const equippedId =
+	// 		hero.equipment.find((e) => e.slotType === item.slotType)?.id ?? null;
+    //
+	// 	try {
+	// 		const res = await fetch("http://localhost:8080/api/character/equip", {
+	// 			method: "POST",
+	// 			headers: { "Content-Type": "application/json" },
+	// 			body: JSON.stringify({ equipmentItemId: equippedId, backpackItemId }),
+	// 		});
+	// 		if (!res.ok) {
+	// 			const error = await res.json();
+	// 			showError(error.message || "Nie udało się założyć przedmiotu");
+	// 			return;
+	// 		}
+	// 		await fetchPlayerDetails();
+	// 	} catch (err) {
+	// 		console.error(err);
+	// 		showError("Brak połączenia z serwerem");
+	// 	}
+	// };
 
 	const handleCancelVehicle = async () => {
 		if (
@@ -129,8 +138,8 @@ function Player() {
 		}
 	};
 
-	const handleHoverSlot = (slotType: string | null) =>
-		setHighlightedSlot(slotType);
+	// const handleHoverSlot = (slotType: string | null) =>
+	// 	setHighlightedSlot(slotType);
 
     const [now, setNow] = useState(Date.now());
 
@@ -171,10 +180,15 @@ function Player() {
     return (
 		<div className="player-container">
 			{/* LEWA STRONA – HeroPanel */}
-			{hero && (
+			{heroItems && (
 				<HeroPanel
-					hero={hero}
-					onUseItem={handleEquip}
+					hero={heroItems}
+					onUseItem={async (itemId) => {
+                        await handleUseItem(itemId);
+                        await fetchCharacterData();
+                        await fetchPlayerDetails();
+                        await refreshCharacter();
+                    }}
 					highlightedSlot={highlightedSlot}
 					onHoverSlot={handleHoverSlot}
 				/>

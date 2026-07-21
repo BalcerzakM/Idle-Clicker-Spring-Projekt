@@ -78,13 +78,31 @@ export function itemTooltip(item: ItemDto) {
 
             {item.effectType === "AURA_MULTIPLIER" && (
                 <div className="tooltip-stat">
-                    Aura x{item.effectValue}
+                    Aura +{item.effectValue}%
                 </div>
             )}
 
             {item.effectType === "MONEY_MULTIPLIER" && (
                 <div className="tooltip-stat">
-                    Monety x{item.effectValue}
+                    Monety +{item.effectValue}%
+                </div>
+            )}
+
+            {item.effectType === "RIZZ_MULTIPLIER" && (
+                <div className="tooltip-stat">
+                    ✨ +{item.effectValue}%
+                </div>
+            )}
+
+            {item.effectType === "STRENGTH_MULTIPLIER" && (
+                <div className="tooltip-stat">
+                    💪 +{item.effectValue}%
+                </div>
+            )}
+
+            {item.effectType === "LUCK_MULTIPLIER" && (
+                <div className="tooltip-stat">
+                    🍀 +{item.effectValue}%
                 </div>
             )}
 

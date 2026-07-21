@@ -50,7 +50,9 @@ public class BoxerService {
 
         character.setMoney(character.getMoney() - bet);
 
-        BoxerResultDto result = calculateResult(character.getLuck(), bet, character.getStrength());
+        Map<String, Integer> stats = character.getEquipmentStatsSum();
+
+        BoxerResultDto result = calculateResult(stats.get("luck"), bet, stats.get("strength"));
 
         int winAmount = result.getWinAmount();
         character.setMoney(character.getMoney() + winAmount);

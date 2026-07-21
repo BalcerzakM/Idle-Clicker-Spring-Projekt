@@ -190,8 +190,11 @@ function HeroPanel({
                                     {effect.item.totalAgility > 0 && `+${effect.item.totalAgility}🏃 `}
                                     {effect.item.totalEndurance > 0 && `+${effect.item.totalEndurance}🛡️ `}
                                     {effect.item.totalLuck > 0 && `+${effect.item.totalLuck}🍀 `}
-                                    {effect.item.effectType === "AURA_MULTIPLIER" && `Aura x${effect.item.effectValue} `}
-                                    {effect.item.effectType === "MONEY_MULTIPLIER" && `Monety x${effect.item.effectValue} `}
+                                    {effect.item.effectType === "AURA_MULTIPLIER" && `Aura +${effect.item.effectValue}% `}
+                                    {effect.item.effectType === "MONEY_MULTIPLIER" && `Monety +${effect.item.effectValue}% `}
+                                    {effect.item.effectType === "RIZZ_MULTIPLIER" && `+${effect.item.effectValue}% ✨`}
+                                    {effect.item.effectType === "STRENGTH_MULTIPLIER" && `+${effect.item.effectValue}% 💪`}
+                                    {effect.item.effectType === "LUCK_MULTIPLIER" && `+${effect.item.effectValue}% 🍀`}
                                 </div>
                             </div>
 

@@ -3,6 +3,7 @@ package com.gametest.springprojekt.model;
 import com.gametest.springprojekt.exception.BackpackIsAlreadyFullException;
 import com.gametest.springprojekt.exception.EffectAlreadyActiveException;
 import com.gametest.springprojekt.exception.TooManyEffectsException;
+import com.gametest.springprojekt.model.enums.EffectType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.*;
@@ -139,7 +140,7 @@ public class CharacterEntity {
         equipment.add(new EquipmentItem(null, item.getBaseItem().getSlotType(), item, this));
     }
 
-
+    //bedzie trzeba kiedys sprzatnac/odchudzic/rozbic bo troche duzo tutaj tego jest
     public Map<String, Integer> getEquipmentStatsSum() {
         Map<String, Integer> totals = new HashMap<>();
         totals.put("rizz", this.rizz);
@@ -169,9 +170,20 @@ public class CharacterEntity {
                 totals.merge("endurance", item.getTotalEndurance(), Integer::sum);
                 totals.merge("luck", item.getTotalLuck(), Integer::sum);
             }
+            //efekty procentowe
+            BaseItemEntity baseItem = item.getBaseItem();
+            switch (baseItem.getEffectType()) {
+                case EffectType.RIZZ_MULTIPLIER ->  totals.merge("rizz", effectMultipliedBonus(totals.get("rizz"), baseItem.getEffectValue()), Integer::sum);
+                case EffectType.STRENGTH_MULTIPLIER ->  totals.merge("strength", effectMultipliedBonus(totals.get("strength"), baseItem.getEffectValue()), Integer::sum);
+                case EffectType.LUCK_MULTIPLIER ->  totals.merge("luck", effectMultipliedBonus(totals.get("luck"), baseItem.getEffectValue()), Integer::sum);
+            }
         }
         return totals;
     }// trzeba dodać te stąd
+
+    private int effectMultipliedBonus(int statsValue, int effectValue) {
+        return (int) Math.floor(statsValue * ((double) effectValue/100));
+    }
 
     private void updateAuraLevel() {
         int aura = this.getAura();
