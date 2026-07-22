@@ -12,10 +12,10 @@ class AudioManager {
 	private musicSourceGain?: GainNode;
 
 	private muted = false;
-	private effectsVolume = 1; // 0 – 1
+	private effectsVolume = 0.5; // 0 – 1
 
 	// Nowe pola dla muzyki
-	private userMusicVolume = 1; // preferencja użytkownika (suwak)
+	private userMusicVolume = 0.5; // preferencja użytkownika (suwak)
 	private musicMultiplier = 1; // mnożnik zależny od widoku (np. 1 lub 0.4)
 	private musicVolume = 1; // wynikowa głośność = userMusicVolume * musicMultiplier
 
@@ -33,7 +33,7 @@ class AudioManager {
 		this.applyMusicVolume(); // ustawia początkową głośność muzyki (z wczytaną preferencją)
 	}
 
-	// --- Filtr (bez zmian) ---
+	// --- Filtr ---
 	private createMusicFilter() {
 		const ctx = Howler.ctx;
 		if (!ctx || this.musicFilter) return;
@@ -63,7 +63,7 @@ class AudioManager {
 		}
 	}
 
-	// --- Efekty dźwiękowe (bez zmian) ---
+	// --- Efekty dźwiękowe  ---
 	play(sound: SoundName) {
 		this.soundMap[sound]?.play();
 	}
@@ -167,7 +167,7 @@ class AudioManager {
 		return this.muted;
 	}
 
-	// --- localStorage (zmodyfikowane) ---
+	// --- localStorage ---
 	private loadSettings() {
 		try {
 			const saved = localStorage.getItem("audioSettings");

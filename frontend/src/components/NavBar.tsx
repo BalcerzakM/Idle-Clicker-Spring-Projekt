@@ -3,11 +3,12 @@ import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import "../css/NavBarView.css";
 import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SettingsModal from "./SettingsModal";
 import InfoButton from "./InfoButton";
 import useAudio from "../audio/useAudio";
 import { createAudioHandlers } from "../utils/AudioHelpers";
+import { useHelp } from "../context/HelpContext";
 
 function NavBar() {
 	const navigate = useNavigate();
@@ -15,8 +16,9 @@ function NavBar() {
 	const audio = useAudio();
 	const { playHover, navigateWithClick, playClick } =
 		createAudioHandlers(audio);
+	const { openHelp } = useHelp(); // Pobranie funkcji otwierającej pomoc
 
-	// Stan z preferencjami użytkownika
+	// Stany preferencji audio
 	const [musicVolume, setMusicVolume] = useState(audio.getUserMusicVolume());
 	const [effectsVolume, setEffectsVolume] = useState(audio.getEffectsVolume());
 	const [muted, setMuted] = useState(audio.isMuted());
@@ -41,9 +43,20 @@ function NavBar() {
 		setMuted(newMuted);
 	};
 
+	// Stan modalu ustawień
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const openSettingsModal = () => setShowSettingsModal(true);
 	const closeSettingsModal = () => setShowSettingsModal(false);
+
+	// Automatyczne otwarcie pomocy przy pierwszej wizycie
+	useEffect(() => {
+		const helpShown = localStorage.getItem("helpShownOnce");
+		if (!helpShown) {
+			openHelp(); // Bez dźwięku – to tylko pierwsze automatyczne wyświetlenie
+			localStorage.setItem("helpShownOnce", "true");
+		}
+	}, []);
+
 	return (
 		<div className="navBar">
 			<div className="navBar-character">
@@ -93,6 +106,7 @@ function NavBar() {
 					</div>
 				</div>
 			</div>
+
 			<nav className="navBar-navigation">
 				<button
 					type="button"
@@ -151,6 +165,7 @@ function NavBar() {
 					Gangi
 				</button>
 			</nav>
+
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">
 					<button type="submit" onClick={() => playClick()}>
@@ -158,7 +173,7 @@ function NavBar() {
 					</button>
 				</form>
 			</div>
-			{/* Przycisk ustawień */}
+
 			<div className="navBar-settings">
 				<button
 					type="button"
@@ -176,7 +191,7 @@ function NavBar() {
 				<SettingsModal
 					onClose={closeSettingsModal}
 					muted={muted}
-					musicVolume={musicVolume} // preferencja użytkownika
+					musicVolume={musicVolume}
 					effectsVolume={effectsVolume}
 					onToggleMute={handleToggleMute}
 					onMusicVolumeChange={handleMusicVolumeChange}

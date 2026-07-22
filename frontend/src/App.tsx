@@ -46,10 +46,9 @@ function AppContent() {
 	}, []);
 
 	useEffect(() => {
-		const cleanMusicViews = ["/", "/barman", "/shop"];
+		const cleanMusicViews = ["/", "/barman", "/shop", "/drink-shop"];
 		const clean = cleanMusicViews.includes(location.pathname);
-		// ❌ Stare: audio.setMusicVolume(clean ? 1 : 0.4, 700);
-		// ✅ Nowe:
+
 		audio.setMusicMultiplier(clean ? 1 : 0.4);
 		audio.setMusicMuffled(!clean, 700);
 	}, [location.pathname, audio]);
