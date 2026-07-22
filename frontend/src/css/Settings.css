@@ -1,87 +1,108 @@
 /* ===== TŁO MODALA ===== */
-
 .modal-overlay {
 	position: fixed;
 	inset: 0;
 	background: rgba(0, 0, 0, 0.72);
 	backdrop-filter: blur(6px);
-
 	display: flex;
 	justify-content: center;
 	align-items: center;
-
 	z-index: 9999;
 	animation: modalFade 0.25s ease;
 }
 
-/* ===== OKNO ===== */
+/* Dla raportu – nieco ciemniejsze tło i wyższy z-index */
+.modal-overlay--report {
+	z-index: 10000;
+	background: rgba(4, 4, 6, 0.85);
+	backdrop-filter: blur(8px);
+}
 
+/* ===== OKNO ===== */
 .modal-content {
 	width: 460px;
-	max-width: 90vw;
-
+	max-width: 90%;
 	background: linear-gradient(180deg, #17131b 0%, #0d0b11 100%);
 	border: 2px solid #2d2437;
 	border-radius: 14px;
-
 	box-shadow:
 		inset 0 0 40px rgba(0, 0, 0, 0.7),
 		inset 0 0 20px rgba(216, 155, 82, 0.08),
 		0 0 30px rgba(0, 0, 0, 0.75);
-
 	padding: 32px;
-
 	display: flex;
 	flex-direction: column;
 	gap: 22px;
-
 	animation: modalOpen 0.25s ease;
 }
 
-/* ===== TYTUŁ ===== */
+/* Większe okno dla formularza zgłoszenia */
+.modal-content--report {
+	width: 80%;
+	max-width: 900px;
+	height: 85%;
+	padding: 0; /* padding będzie wewnątrz ReportForm */
+	overflow-y: auto;
+}
 
-.modal-content h2 {
+/* ===== NAGŁÓWEK MODALA ===== */
+.modal-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.modal-header h2 {
 	margin: 0;
-	text-align: center;
-
+	text-align: left;
 	font-family: "Teko", sans-serif;
 	font-size: 38px;
 	letter-spacing: 3px;
-
 	color: var(--neon-gold, #d89b52);
-
 	text-shadow: 0 0 8px rgba(216, 155, 82, 0.55);
 }
 
-/* ===== BUTTONY ===== */
+/* Przycisk ✕ z animacją obrotu */
+.modal-close-icon {
+	background: none;
+	border: none;
+	color: var(--text-muted, #7b6d62);
+	font-size: 1.6rem;
+	cursor: pointer;
+	padding: 4px 10px;
+	border-radius: 8px;
+	line-height: 1;
+	transition:
+		color 0.2s,
+		transform 0.2s,
+		background 0.2s;
+}
 
+.modal-close-icon:hover {
+	color: #fff;
+	background: rgba(255, 255, 255, 0.08);
+	transform: rotate(90deg);
+}
+
+/* ===== PRZYCISKI ===== */
 .modal-content button {
 	background: linear-gradient(180deg, #1a1622 0%, #120f16 100%);
-
 	border: 1px solid var(--neon-gold, #d89b52);
 	border-radius: 40px;
-
 	padding: 12px 20px;
-
 	font-size: 17px;
 	font-weight: bold;
 	letter-spacing: 1px;
 	text-transform: uppercase;
-
 	color: var(--neon-gold, #d89b52);
-
 	cursor: pointer;
-
 	transition: 0.25s;
 }
 
 .modal-content button:hover {
 	background: linear-gradient(180deg, #261b2d 0%, #19131f 100%);
-
 	color: #ffd39a;
-
 	transform: translateY(-2px);
-
 	box-shadow: 0 0 15px rgba(216, 155, 82, 0.35);
 }
 
@@ -89,71 +110,21 @@
 	transform: scale(0.97);
 }
 
-/* ===== VOLUME ===== */
-
-.volume-control {
-	display: flex;
-	align-items: center;
-	justify-content: center;
+/* Specjalny przycisk "Zgłoś usterkę" */
+.report-btn {
+	border-color: #b94444 !important;
+	color: #ff8b8b !important;
 }
 
-.volume-control input[type="range"] {
-	width: 100%;
-
-	appearance: none;
-
-	height: 6px;
-	border-radius: 20px;
-
-	background: #25202c;
-
-	outline: none;
+.report-btn:hover {
+	background: rgba(185, 68, 68, 0.18) !important;
+	box-shadow: 0 0 14px rgba(185, 68, 68, 0.35) !important;
 }
 
-/* Track */
-
-.volume-control input[type="range"]::-webkit-slider-runnable-track {
-	height: 6px;
-	border-radius: 20px;
-
-	background: linear-gradient(90deg, #d89b52, #ffbf73);
+/* Przycisk "Zamknij" (ostatni) */
+.modal-close-btn {
+	margin-top: 8px;
 }
-
-/* Thumb */
-
-.volume-control input[type="range"]::-webkit-slider-thumb {
-	appearance: none;
-
-	width: 18px;
-	height: 18px;
-
-	margin-top: -6px;
-
-	border-radius: 50%;
-
-	background: var(--neon-gold, #d89b52);
-	border: 2px solid #201a28;
-
-	box-shadow: 0 0 10px rgba(216, 155, 82, 0.7);
-
-	cursor: pointer;
-}
-
-.volume-control input[type="range"]::-moz-range-thumb {
-	width: 18px;
-	height: 18px;
-
-	border: none;
-	border-radius: 50%;
-
-	background: var(--neon-gold, #d89b52);
-
-	box-shadow: 0 0 10px rgba(216, 155, 82, 0.7);
-
-	cursor: pointer;
-}
-
-/* ===== OSTATNI BUTTON ===== */
 
 .modal-content button:last-child {
 	border-color: #555;
@@ -165,8 +136,74 @@
 	color: white;
 }
 
-/* ===== ANIMACJE ===== */
+/* ===== SUWAK GŁOŚNOŚCI (odświeżony) ===== */
+.volume-control-wrapper {
+	margin: 6px 0 10px;
+}
 
+.volume-label {
+	text-align: center;
+	font-size: 20px;
+	color: var(--text-light, #b7a38f);
+	margin-bottom: 12px;
+}
+
+.volume-label span {
+	color: var(--neon-gold, #d89b52);
+	font-weight: bold;
+	font-size: 28px;
+	margin-left: 4px;
+	text-shadow: 0 0 6px rgba(216, 155, 82, 0.6);
+}
+
+.volume-slider {
+	width: 100%;
+	-webkit-appearance: none;
+	appearance: none;
+	height: 10px;
+	background: linear-gradient(90deg, #1e1a22, #2b2233);
+	border-radius: 5px;
+	outline: none;
+	border: 1px solid var(--border-color, #1e1a22);
+	margin: 8px 0;
+}
+
+.volume-slider::-webkit-slider-thumb {
+	-webkit-appearance: none;
+	appearance: none;
+	width: 24px;
+	height: 24px;
+	background: var(--neon-gold, #d89b52);
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 14px var(--neon-gold);
+	transition: 0.2s;
+	border: 1px solid #fff2d8;
+}
+
+.volume-slider::-webkit-slider-thumb:hover {
+	transform: scale(1.15);
+	box-shadow: 0 0 20px var(--neon-gold);
+}
+
+.volume-slider::-moz-range-thumb {
+	width: 24px;
+	height: 24px;
+	background: var(--neon-gold, #d89b52);
+	border: 1px solid #fff2d8;
+	border-radius: 50%;
+	cursor: pointer;
+	box-shadow: 0 0 14px var(--neon-gold);
+}
+
+.volume-limits {
+	display: flex;
+	justify-content: space-between;
+	color: var(--text-muted, #7b6d62);
+	font-size: 14px;
+}
+
+/* ===== ANIMACJE ===== */
 @keyframes modalFade {
 	from {
 		opacity: 0;
@@ -181,23 +218,8 @@
 		transform: translateY(-20px) scale(0.96);
 		opacity: 0;
 	}
-
 	to {
 		transform: translateY(0) scale(1);
 		opacity: 1;
 	}
-}
-
-.report-btn {
-	border-color: #b94444 !important;
-	color: #ff8b8b !important;
-}
-
-.report-btn:hover {
-	background: rgba(185, 68, 68, 0.18) !important;
-	box-shadow: 0 0 14px rgba(185, 68, 68, 0.35) !important;
-}
-
-.modal-close-btn {
-	margin-top: 8px;
 }

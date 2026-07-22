@@ -12,25 +12,38 @@ import { createAudioHandlers } from "../utils/AudioHelpers";
 function NavBar() {
 	const navigate = useNavigate();
 	const { character } = useCharacter();
-
 	const audio = useAudio();
 	const { playHover, navigateWithClick, playClick } =
 		createAudioHandlers(audio);
-	const [muted, setMuted] = useState(false);
-	const [volume, setVolume] = useState(1);
 
-	const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = Number(e.target.value);
+	// Stan z preferencjami użytkownika
+	const [musicVolume, setMusicVolume] = useState(audio.getUserMusicVolume());
+	const [effectsVolume, setEffectsVolume] = useState(audio.getEffectsVolume());
+	const [muted, setMuted] = useState(audio.isMuted());
 
-		setVolume(value);
-		audio.setMasterVolume(value);
+	const handleMusicVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = parseFloat(e.target.value);
+		audio.setUserMusicVolume(value);
+		setMusicVolume(value);
+	};
+
+	const handleEffectsVolumeChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const value = parseFloat(e.target.value);
+		audio.setEffectsVolume(value);
+		setEffectsVolume(value);
+	};
+
+	const handleToggleMute = () => {
+		playClick();
+		const newMuted = audio.toggleMute();
+		setMuted(newMuted);
 	};
 
 	const [showSettingsModal, setShowSettingsModal] = useState(false);
-
 	const openSettingsModal = () => setShowSettingsModal(true);
 	const closeSettingsModal = () => setShowSettingsModal(false);
-
 	return (
 		<div className="navBar">
 			<div className="navBar-character">
@@ -64,7 +77,6 @@ function NavBar() {
 						<b>{character?.characterClass ?? "-"}</b>, aura lvl{" "}
 						<b>{character?.auraLevel ?? "-"}</b>
 					</p>
-
 					<div className="auraBar-wrapper">
 						<div className="auraBar">
 							<div
@@ -103,15 +115,13 @@ function NavBar() {
 				>
 					Palarnia
 				</button>
-        
-        <button
+				<button
 					type="button"
 					onMouseEnter={playHover}
 					onClick={() => navigateWithClick(navigate, "/drink-shop")}
 				>
 					Bar
 				</button>
-          
 				<button
 					type="button"
 					onMouseEnter={playHover}
@@ -148,7 +158,7 @@ function NavBar() {
 					</button>
 				</form>
 			</div>
-			{/* Nowy przycisk ustawień */}
+			{/* Przycisk ustawień */}
 			<div className="navBar-settings">
 				<button
 					type="button"
@@ -161,19 +171,16 @@ function NavBar() {
 					⚙️
 				</button>
 			</div>
-			{/* Modal z ustawieniami */}
+
 			{showSettingsModal && (
 				<SettingsModal
 					onClose={closeSettingsModal}
 					muted={muted}
-					volume={volume}
-					onToggleMute={() => {
-						playClick();
-
-						const newMuted = audio.toggleMute();
-						setMuted(newMuted);
-					}}
-					onVolumeChange={handleVolumeChange}
+					musicVolume={musicVolume} // preferencja użytkownika
+					effectsVolume={effectsVolume}
+					onToggleMute={handleToggleMute}
+					onMusicVolumeChange={handleMusicVolumeChange}
+					onEffectsVolumeChange={handleEffectsVolumeChange}
 				/>
 			)}
 
