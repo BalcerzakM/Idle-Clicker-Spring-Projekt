@@ -1,28 +1,58 @@
-/* ReportForm.css */
-
+/* Kontener – teraz wypełnia całe okno modalne */
 .report-form-container {
-	/* background: var(--bg-panel); */
+	width: 100%;
+	height: 100%;
+	padding: 32px;
 	background: linear-gradient(180deg, #15131a 0%, #0d0d12 100%);
-	border: 1px solid var(--border-color);
-	border-radius: 8px;
-	padding: 28px 24px;
-	margin: 20px auto;
-	box-shadow: 0 0 18px rgba(43, 34, 51, 0.6); /* --border-glow z alfą */
+	border-radius: inherit; /* dopasowanie do zaokrąglenia modala */
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.report-form-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 20px;
 }
 
 .report-form-title {
 	color: var(--neon-gold);
-	text-align: center;
-	margin: 0 0 24px 0;
-	font-size: 1.5rem;
-	letter-spacing: 1px;
-	text-shadow: 0 0 4px rgba(216, 155, 82, 0.7);
+	font-size: 2rem;
+	letter-spacing: 2px;
+	text-shadow: 0 0 6px rgba(216, 155, 82, 0.7);
+	margin: 0;
+	font-family: "Teko", sans-serif;
+}
+
+.close-button {
+	background: none;
+	border: none;
+	font-size: 1.8rem;
+	cursor: pointer;
+	color: var(--text-muted, #aaa);
+	padding: 0 8px;
+	transition:
+		color 0.2s,
+		transform 0.2s,
+		background 0.2s;
+	border-radius: 8px;
+	line-height: 1;
+}
+
+.close-button:hover {
+	color: #ff5555;
+	background: rgba(255, 85, 85, 0.1);
+	transform: rotate(90deg);
 }
 
 .report-form {
+	flex: 1;
 	display: flex;
 	flex-direction: column;
 	gap: 16px;
+	min-height: 0; /* ważne dla flex z textarea */
 }
 
 .report-input,
@@ -48,12 +78,13 @@
 }
 
 .report-textarea {
-	min-height: 130px;
+	flex: 1; /* zajmuje dostępną przestrzeń */
+	min-height: 250px;
 	resize: vertical;
 }
 
 .report-submit-btn {
-	padding: 12px;
+	padding: 14px;
 	background: var(--neon-orange);
 	border: none;
 	border-radius: 6px;
@@ -67,37 +98,10 @@
 }
 
 .report-submit-btn:hover:not(:disabled) {
-	box-shadow: 0 0 14px var(--neon-orange);
+	box-shadow: 0 0 18px var(--neon-orange);
 }
 
 .report-submit-btn:disabled {
 	opacity: 0.65;
 	cursor: not-allowed;
-}
-
-/* Komunikaty błędów/sukcesów będą obsługiwane przez AlertContext,
-   więc nie potrzebujemy dodatkowych klas */
-
-.report-form-header {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 20px;
-}
-
-.close-button {
-	background: none;
-	border: none;
-	font-size: 1.5rem;
-	cursor: pointer;
-	color: #aaa;
-	transition:
-		color 0.2s,
-		transform 0.1s;
-	padding: 0 8px;
-}
-
-.close-button:hover {
-	color: #ff5555;
-	transform: scale(1.1);
 }

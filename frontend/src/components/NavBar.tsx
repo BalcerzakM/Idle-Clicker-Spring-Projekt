@@ -3,33 +3,59 @@ import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 import "../css/NavBarView.css";
 import { useNavigate } from "react-router-dom";
 import { useCharacter } from "../context/CharacterContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SettingsModal from "./SettingsModal";
 import InfoButton from "./InfoButton";
 import useAudio from "../audio/useAudio";
 import { createAudioHandlers } from "../utils/AudioHelpers";
+import { useHelp } from "../context/HelpContext";
 
 function NavBar() {
 	const navigate = useNavigate();
 	const { character } = useCharacter();
-
 	const audio = useAudio();
 	const { playHover, navigateWithClick, playClick } =
 		createAudioHandlers(audio);
-	const [muted, setMuted] = useState(false);
-	const [volume, setVolume] = useState(1);
+	const { openHelp } = useHelp(); // Pobranie funkcji otwierającej pomoc
 
-	const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const value = Number(e.target.value);
+	// Stany preferencji audio
+	const [musicVolume, setMusicVolume] = useState(audio.getUserMusicVolume());
+	const [effectsVolume, setEffectsVolume] = useState(audio.getEffectsVolume());
+	const [muted, setMuted] = useState(audio.isMuted());
 
-		setVolume(value);
-		audio.setMasterVolume(value);
+	const handleMusicVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const value = parseFloat(e.target.value);
+		audio.setUserMusicVolume(value);
+		setMusicVolume(value);
 	};
 
-	const [showSettingsModal, setShowSettingsModal] = useState(false);
+	const handleEffectsVolumeChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const value = parseFloat(e.target.value);
+		audio.setEffectsVolume(value);
+		setEffectsVolume(value);
+	};
 
+	const handleToggleMute = () => {
+		playClick();
+		const newMuted = audio.toggleMute();
+		setMuted(newMuted);
+	};
+
+	// Stan modalu ustawień
+	const [showSettingsModal, setShowSettingsModal] = useState(false);
 	const openSettingsModal = () => setShowSettingsModal(true);
 	const closeSettingsModal = () => setShowSettingsModal(false);
+
+	// Automatyczne otwarcie pomocy przy pierwszej wizycie
+	useEffect(() => {
+		const helpShown = localStorage.getItem("helpShownOnce");
+		if (!helpShown) {
+			openHelp(); // Bez dźwięku – to tylko pierwsze automatyczne wyświetlenie
+			localStorage.setItem("helpShownOnce", "true");
+		}
+	}, []);
 
 	return (
 		<div className="navBar">
@@ -64,7 +90,6 @@ function NavBar() {
 						<b>{character?.characterClass ?? "-"}</b>, aura lvl{" "}
 						<b>{character?.auraLevel ?? "-"}</b>
 					</p>
-
 					<div className="auraBar-wrapper">
 						<div className="auraBar">
 							<div
@@ -81,6 +106,7 @@ function NavBar() {
 					</div>
 				</div>
 			</div>
+
 			<nav className="navBar-navigation">
 				<button
 					type="button"
@@ -103,15 +129,13 @@ function NavBar() {
 				>
 					Palarnia
 				</button>
-        
-        <button
+				<button
 					type="button"
 					onMouseEnter={playHover}
 					onClick={() => navigateWithClick(navigate, "/drink-shop")}
 				>
 					Bar
 				</button>
-          
 				<button
 					type="button"
 					onMouseEnter={playHover}
@@ -141,6 +165,7 @@ function NavBar() {
 					Gangi
 				</button>
 			</nav>
+
 			<div className="navBar-logout">
 				<form action="/logout" method="POST">
 					<button type="submit" onClick={() => playClick()}>
@@ -148,7 +173,7 @@ function NavBar() {
 					</button>
 				</form>
 			</div>
-			{/* Nowy przycisk ustawień */}
+
 			<div className="navBar-settings">
 				<button
 					type="button"
@@ -161,19 +186,16 @@ function NavBar() {
 					⚙️
 				</button>
 			</div>
-			{/* Modal z ustawieniami */}
+
 			{showSettingsModal && (
 				<SettingsModal
 					onClose={closeSettingsModal}
 					muted={muted}
-					volume={volume}
-					onToggleMute={() => {
-						playClick();
-
-						const newMuted = audio.toggleMute();
-						setMuted(newMuted);
-					}}
-					onVolumeChange={handleVolumeChange}
+					musicVolume={musicVolume}
+					effectsVolume={effectsVolume}
+					onToggleMute={handleToggleMute}
+					onMusicVolumeChange={handleMusicVolumeChange}
+					onEffectsVolumeChange={handleEffectsVolumeChange}
 				/>
 			)}
 
