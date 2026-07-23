@@ -60,8 +60,8 @@ public class GangController {
     @PutMapping("/{gangName}/depositMoney")
     public String depositMoney(@PathVariable String gangName,
                                @RequestParam int amount) {
-
-        gangService.depositMoney(gangName, amount);
+        CharacterEntity character = characterService.getCurrentCharacter();
+        gangService.depositMoney(character,gangName, amount);
 
         return "Wpłacono pieniądze.";
     }

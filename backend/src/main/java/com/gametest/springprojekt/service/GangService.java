@@ -10,6 +10,7 @@ import com.gametest.springprojekt.model.GangEntity;
 import com.gametest.springprojekt.model.mapper.CharacterMapper;
 import com.gametest.springprojekt.repository.CharacterRepository;
 import com.gametest.springprojekt.repository.GangRepository;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,8 @@ public class GangService {
     private final CharacterRepository characterRepository;
     private final GangRepository gangRepository;
     private final int INITIAL_BALANCE = 0;//początkowa wartość jaką gangi mają w skarbcach
+    private final int CREATE_COST = 5;//ile kryształów za założenie gangu
+    private static final @PositiveOrZero int BATTLE_START_FEE = 300;// opłata za zaczęcie wojny gangów
     private final GangDtoMapper gangDtoMapper;
     private final CharacterMapper characterMapper;
     private final CombatService combatService;
@@ -42,6 +45,10 @@ public class GangService {
             throw new GangNameTakenException("Gang o tej nazwie już istnieje!");
         }
 
+        if (character.getCristals() <CREATE_COST){
+            throw new InsufficientMoneyException("Nie masz wystarczająco kryształu");
+        }
+
         GangEntity gang = new GangEntity();
         gang.setGangName(name);
         gang.setGangDescription(description);
@@ -51,9 +58,11 @@ public class GangService {
         gang.setMoneyBank(INITIAL_BALANCE);
         gang.setLeader(character);
 
+        character.setCristals(character.getCristals() - CREATE_COST);
         character.setGang(gang);
 
         gangRepository.save(gang);
+        characterRepository.save(character);
         return gang;
     }
 
@@ -135,7 +144,7 @@ public class GangService {
     }
 
     @Transactional
-    public void depositMoney(String gangName, int amount) {
+    public void depositMoney(CharacterEntity character,String gangName, int amount) {
 
         if (amount <= 0) {
             throw new IllegalArgumentException("Kwota musi być dodatnia.");
@@ -144,8 +153,14 @@ public class GangService {
         GangEntity gang = gangRepository.findByGangName(gangName)
                 .orElseThrow(() -> new RuntimeException("Gang nie istnieje"));
 
+        if(character.getMoney() < amount) {
+            throw new InsufficientMoneyException("Gracz ma za mało pieniędzy!");
+        }
+
+        character.setMoney(character.getMoney() - amount);
         gang.setMoneyBank(gang.getMoneyBank() + amount);
 
+        characterRepository.save(character);
         gangRepository.save(gang);
     }
 
@@ -262,6 +277,10 @@ public class GangService {
             throw new InsufficientVotesException("Oddano za mało głosów");
         }
 
+        if(gang1.getMoneyBank() < BATTLE_START_FEE){
+            throw new InsufficientMoneyException("W skarbcu gangu jest za mało pieniędzy!");
+        }
+
         gang1.setLastCombat(null);
 
         List<CharacterEntity> gangA = getGangMembersList(gang1);
@@ -270,6 +289,7 @@ public class GangService {
         GangCombatDto result = combatService.startGangCombat(gangA, gangB);
 
         gang1.setGangToAttack(null);
+        gang1.setMoneyBank(gang1.getMoneyBank()-BATTLE_START_FEE);
         gang1.setLastCombat(result);// do oglądania walki
         gangRepository.save(gang1);
 
