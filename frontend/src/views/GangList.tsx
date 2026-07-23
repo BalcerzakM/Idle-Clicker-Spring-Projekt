@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "../css/GangView.css";
 import { useAlert } from "../context/AlertContext.tsx";
 import { useCharacter } from "../context/CharacterContext";
+import PremiumCurrencyImg from "../assets/other/currency_premium.png";
 
 // ----- INTERFACES -----
 interface GangInfoDto {
@@ -502,7 +503,22 @@ const GangList = () => {
 									className="gang-modal-btn gang-modal-btn--confirm"
 									disabled={creating}
 								>
-									{creating ? "Tworzenie..." : "✨ Utwórz gang"}
+									{creating ? (
+										"Tworzenie..."
+									) : (
+										<>
+											Utwórz gang (koszt:{" "}
+											<span className="gang-cost-create">
+												3
+												<img
+													src={PremiumCurrencyImg}
+													alt="Premium currency"
+													className="Premium-currency-icon"
+												/>
+											</span>
+											)
+										</>
+									)}
 								</button>
 							</div>
 						</form>

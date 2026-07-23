@@ -1096,3 +1096,24 @@
 	cursor: not-allowed;
 	pointer-events: none;
 }
+
+.currencyImg-icon {
+	width: 20px;
+	height: 20px;
+}
+.Premium-currency-icon {
+	width: 25px;
+	height: 25px;
+}
+
+.gang-cost {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 250px;
+}
+
+.gang-cost1 {
+	display: flex;
+	align-items: center;
+}
