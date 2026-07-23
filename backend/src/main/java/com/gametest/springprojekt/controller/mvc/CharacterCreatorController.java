@@ -25,12 +25,14 @@ public class CharacterCreatorController {
     private final CharacterService characterService;
     private final CharacterClassRepository characterClassRepository;
 
+    @ModelAttribute("availableClasses")
+    public List<CharacterClassEntity> availableClasses() {
+        return characterClassRepository.findAll();
+    }
+
     @GetMapping
     public String characterCreator(Model model) {
         model.addAttribute("characterCreatorDto", new CharacterCreatorDto());
-
-        List<CharacterClassEntity> availableClasses = characterClassRepository.findAll();
-        model.addAttribute("availableClasses", availableClasses);
 
         return "character-creator";
     }
@@ -47,7 +49,9 @@ public class CharacterCreatorController {
 
         try {
             String username = authentication.getName();
+
             characterService.createAndAssignCharacter(dto, username);
+
             return "redirect:/";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
