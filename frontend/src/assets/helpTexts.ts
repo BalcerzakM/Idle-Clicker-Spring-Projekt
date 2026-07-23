@@ -2,7 +2,11 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
 	"/": {
 		title: "Klub",
 		text:
-            `Witaj w klubie Śruba! W grze przemieszczasz się klikając na elementy które poruszają się po najechaniu na nie kursorem, albo klikając wybraną lokację w nawigacji po lewej (nie wszystkie miejsca są w nawigacji!). Właśnie znajdujesz się w głównym pomieszczeniu klubu. Znajdziesz tu:
+            `Witaj w klubie Śruba! 
+            W grze przemieszczasz się klikając na elementy które poruszają się po najechaniu na nie kursorem, albo klikając wybraną lokację w nawigacji po lewej (nie wszystkie miejsca są w nawigacji!).
+            W każdym miejscu w grze możesz kliknąć w lewym dolnym rogu ikonkę ℹ️, która otworzy ci okno z podpowiedziami do tego, gdzie obecnie jesteś. To okno możesz zamknąć klikając ❌.
+            Na początek najlepiej porozglądaj się co gdzie jest klikając ruchome elementy w klubie i sprawdzając ℹ️ w różnych miejscach.
+            Właśnie znajdujesz się w głównym pomieszczeniu klubu. Znajdziesz tu:
             • Szatniarza, u którego możesz kupić i sprzedać przedmioty oraz wymienić Numerki,
             • Barmana, u którego rozpoczniesz i wykonasz questy za które zyskasz Monety i Aurę,
             • Napoje obok Barmana, gdzie kupisz sobie coś do picia,
