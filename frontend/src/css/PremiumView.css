@@ -20,8 +20,8 @@
 	width: 520px;
 	padding: 20px;
 
-	left: 570px;
-	top: 190px;
+	left: 590px;
+	top: 130px;
 }
 
 .premium-header {
@@ -53,7 +53,7 @@
 .premium-card {
 	width: 150px;
 	height: 210px;
-	padding: 10px;
+	padding: 8px;
 
 	display: flex;
 	flex-direction: column;
@@ -83,8 +83,8 @@
 }
 
 .premium-package-img {
-	width: 90px;
-	height: 90px;
+	width: 80px;
+	height: 80px;
 	object-fit: contain;
 
 	transition:
@@ -101,7 +101,7 @@
 
 .premium-crystals {
 	font-family: "Teko", sans-serif;
-	font-size: 24px;
+	font-size: 20px;
 	letter-spacing: 1px;
 	margin: 2px 0;
 

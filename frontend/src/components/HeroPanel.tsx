@@ -2,6 +2,7 @@ import "../css/HeroPanel.css";
 import "../css/TooltipView.css";
 import { itemTooltip, type ItemDto } from "../utils/ItemTooltip";
 import {useEffect, useState} from "react";
+import {slotTypeLabels} from "../utils/enumLables.tsx";
 
 export interface EffectDto {
     item: ItemDto;
@@ -135,7 +136,7 @@ function HeroPanel({
 									<span className="tooltip">{itemTooltip(item)}</span>
 								</>
 							) : (
-								<span className="slot-placeholder">{slotType}</span>
+								<span className="slot-placeholder">{slotTypeLabels[slotType].toUpperCase()}</span>
 							)}
 						</div>
 					);

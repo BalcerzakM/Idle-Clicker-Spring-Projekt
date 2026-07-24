@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import Arena from "../components/Arena";
 import { useAlert } from "../context/AlertContext";
 import { useCharacter } from "../context/CharacterContext";
+import {questTypeLabels} from "../utils/enumLables.tsx";
 
 interface SpecialQuestDto {
 	questTitle: string;
@@ -198,7 +199,7 @@ function Boss() {
 							<p className="boss-description">{bossQuest.questDescription}</p>
 
 							<p className="boss-type">
-								Typ walki: <span>{bossQuest.questType}</span>
+								Typ walki: <span>{questTypeLabels[bossQuest.questType].toUpperCase()}</span>
 							</p>
 							<button
 								className="boss-fight-btn"

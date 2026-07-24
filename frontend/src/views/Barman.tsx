@@ -3,6 +3,7 @@ import "../css/QuestView.css";
 import { useAlert } from "../context/AlertContext.tsx";
 import { useCharacter } from "../context/CharacterContext";
 import Arena from "../components/Arena.tsx";
+import {questTierLabels, questTypeLabels} from "../utils/enumLables.tsx";
 
 // ----- typy -----
 interface QuestDto {
@@ -298,8 +299,8 @@ function Barman() {
 							className={`quest-card quest-card--${quest.questTier.toLowerCase()}`}
 						>
 							<div className="quest-card-header">
-								<span className="quest-tier-badge">{quest.questTier}</span>
-								<span className="quest-type">{quest.questType}</span>
+								<span className="quest-tier-badge">{questTierLabels[quest.questTier].toUpperCase()}</span>
+								<span className="quest-type">{questTypeLabels[quest.questType].toUpperCase()}</span>
 							</div>
 							<h3 className="quest-title">{quest.questTitle}</h3>
 							<p className="quest-description">{quest.questDescription}</p>

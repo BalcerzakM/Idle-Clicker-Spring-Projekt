@@ -29,8 +29,8 @@ export const helpTexts: Record<string, { title: string; text: string }> = {
         title: "Barman",
         text:
             `U Barmana możesz przyjmować i wykonywać questy. Questy dzielą się na dwa główny typy:
-            • Rizz Fight - polega na testowaniu swojej charyzmy, walczysz z przeciwnikiem na Rizz, a Zwinność daje bonus do ataku dla postaci u której ma wyższą wartość,
-            • Strength Fight - fizyczna walka która oparta jest na  Sile, a Zwinność zwiększa szansę na unik.
+            • Walka na Rizz - polega na testowaniu swojej charyzmy, walczysz z przeciwnikiem na Rizz, a Zwinność daje bonus do ataku dla postaci u której ma wyższą wartość,
+            • Walka na Siłę - fizyczna walka która oparta jest na  Sile, a Zwinność zwiększa szansę na unik.
             Po wybraniu questa musisz odczekać czas, który rośnie wraz twoją Aurą. W tym czasie możesz zająć się czymś innym. Pojazdy skracają czas czekania. Po zakończeniu odliczania można rozpocząć automatyczną walkę z przeciwnikiem. Po wygranej walce otrzymasz Monety i Aurę. Możesz też otrzymać Numerek do szatni, który wymienisz w Szatni na przedmiot.
             `,
     },

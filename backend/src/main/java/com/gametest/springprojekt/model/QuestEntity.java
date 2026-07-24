@@ -5,13 +5,10 @@ import com.gametest.springprojekt.model.enums.QuestType;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.util.Random;
-
-@Data
+@Getter
+@Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,12 +42,4 @@ public class QuestEntity {
     @NotNull
     @Column(nullable = false)
     private String imagePath;
-
-//    public int calculateMoneyReward(CharacterEntity character) {
-//        return this.getQuestTier().getMultiplier() * character.getAuraLvl(); // tu wszędzie trzeba dodać walidacje, czy nie jest zerem
-//    }
-//    public int calculateAuraReward(CharacterEntity character) {
-//        return this.getQuestTier().getMultiplier() * character.getAuraLvl();
-//    }
-
 }

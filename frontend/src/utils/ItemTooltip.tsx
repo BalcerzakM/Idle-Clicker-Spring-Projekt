@@ -1,3 +1,5 @@
+import {slotTypeLabels, itemTypeLabels} from "./enumLables.tsx";
+
 export interface ItemDto {
     id: number;
     itemName: string;
@@ -25,12 +27,12 @@ export function itemTooltip(item: ItemDto) {
             </div>
 
             <div className="tooltip-type">
-                {item.itemType}
+                Typ: {itemTypeLabels[item.itemType]}
             </div>
 
             {item.slotType !== "NONE" && (
                 <div className="tooltip-slot">
-                    {item.slotType}
+                    Slot: {slotTypeLabels[item.slotType]}
                 </div>
             )}
 

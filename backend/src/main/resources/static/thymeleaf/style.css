@@ -360,7 +360,7 @@ fieldset {
     box-shadow: 0 0 20px rgba(216, 155, 82, 0.3);
     border-radius: 12px;
     padding: 15px;
-    width: 200px;
+    width: 265px;
     z-index: 100;
     transition: all 0.3s ease;
     pointer-events: none;
