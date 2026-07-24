@@ -306,3 +306,12 @@
 	border-radius: 12px;
 	box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
 }
+
+.playerAvatar {
+    transition: all 0.2s;
+}
+
+.playerAvatar:hover {
+    border: 1px solid var(--neon-blue);
+    box-shadow: 0 0 12px rgba(77, 163, 255, 0.2);
+}

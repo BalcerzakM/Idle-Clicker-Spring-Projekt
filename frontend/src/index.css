@@ -781,7 +781,7 @@ body::before {
 .help-text-wrapper {
     font-family: "Times New Roman";
     position: relative;
-    line-height: 30px;
+    line-height: 28px;
     width: 100%;
     text-align: justify;
     color: black;
