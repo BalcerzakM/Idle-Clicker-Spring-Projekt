@@ -186,8 +186,14 @@ public class CharacterEntity {
     }
 
     private void updateAuraLevel() {
+        int currentAuraLevel = this.getAuraLvl();
         int aura = this.getAura();
         int auraLevel = 1 + (int) Math.sqrt(aura / 100.0);
+
+        //co sie dzieje w momencie level up
+        if (currentAuraLevel < auraLevel) {
+            this.setEndurance(this.getEndurance() + this.getCharacterClass().getBaseEndurance());
+        }
 
         this.setAuraLvl(auraLevel);
     }
