@@ -86,7 +86,7 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 			return createInitialState(action.payload);
 
 		case "APPLY_DAMAGE": {
-			if (state.isTransitioning) return state; // blokada podczas przejścia
+			if (state.isTransitioning) return state;
 
 			const { damage, combatData } = action;
 			let {
@@ -99,6 +99,7 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 				currentLogIdx,
 			} = state;
 
+			// zadaj obrażenia
 			if (attackerIsTeamA) {
 				hpB = Math.max(0, hpB - damage);
 			} else {
@@ -108,9 +109,14 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 			const defenderDied =
 				(attackerIsTeamA && hpB <= 0) || (!attackerIsTeamA && hpA <= 0);
 
+			// zawsze zwiększamy licznik logów, przełączamy atakującego i krok
+			const nextCurrentLogIdx = currentLogIdx + 1;
+			const nextAttackerIsTeamA = !attackerIsTeamA;
+			const nextStepInPair = stepInPair + 1;
+
 			if (defenderDied) {
-				// Rozpoczynamy przejście – zapamiętujemy, kogo wstawić
 				let pendingNextChar: BattleState["pendingNextChar"] = null;
+
 				if (attackerIsTeamA) {
 					const nextIdxB = indexB + 1;
 					if (nextIdxB < combatData.teamBCharacters.length) {
@@ -122,7 +128,16 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 							nextMaxHp: nextChar.hp,
 						};
 					} else {
-						return { ...state, isFinished: true };
+						// brak kolejnych postaci -> koniec
+						return {
+							...state,
+							hpA,
+							hpB,
+							currentLogIdx: nextCurrentLogIdx,
+							attackerIsTeamA: nextAttackerIsTeamA,
+							stepInPair: nextStepInPair,
+							isFinished: true,
+						};
 					}
 				} else {
 					const nextIdxA = indexA + 1;
@@ -135,7 +150,15 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 							nextMaxHp: nextChar.hp,
 						};
 					} else {
-						return { ...state, isFinished: true };
+						return {
+							...state,
+							hpA,
+							hpB,
+							currentLogIdx: nextCurrentLogIdx,
+							attackerIsTeamA: nextAttackerIsTeamA,
+							stepInPair: nextStepInPair,
+							isFinished: true,
+						};
 					}
 				}
 
@@ -143,20 +166,21 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 					...state,
 					hpA,
 					hpB,
-					currentLogIdx: currentLogIdx + 1,
+					currentLogIdx: nextCurrentLogIdx,
+					attackerIsTeamA: nextAttackerIsTeamA,
+					stepInPair: nextStepInPair,
 					isTransitioning: true,
 					pendingNextChar,
-					// nie resetujemy stepInPair ani attackerIsTeamA jeszcze
 				};
 			} else {
-				// normalna zmiana strony
+				// normalny przypadek – brak śmierci
 				return {
 					...state,
 					hpA,
 					hpB,
-					currentLogIdx: currentLogIdx + 1,
-					attackerIsTeamA: !attackerIsTeamA,
-					stepInPair: stepInPair + 1,
+					currentLogIdx: nextCurrentLogIdx,
+					attackerIsTeamA: nextAttackerIsTeamA,
+					stepInPair: nextStepInPair,
 				};
 			}
 		}
@@ -256,9 +280,10 @@ function GangArena({ combatData, onClose }: GangArenaProps) {
 		}
 	}, [state.isTransitioning, state.isFinished]);
 
-	// Typ pocisku
+	// Typ pocisku – globalny licznik ataków (currentLogIdx) niezależny od wejść nowych postaci
+	// Wzór: x / 2 % 2 == 0 -> pięść, inaczej buziak (fist, fist, kiss, kiss, ...)
 	const projectileType: ProjectileType =
-		Math.floor(state.stepInPair / 2) % 2 === 0 ? "fist" : "rizz";
+		Math.floor(state.currentLogIdx / 2) % 2 === 0 ? "fist" : "rizz";
 	const activeVariants =
 		projectileType === "fist" ? fistVariants : rizzVariants;
 	const activeProjectile = projectileType === "fist" ? Fist : Kiss;
