@@ -12,7 +12,7 @@ public class CharacterDto { //dto do wyświetlania rankingu, aby nie wyświetla�
 
     private String characterClass;
 
-//    private String gangName;
+    private String gangName;
 
     private int auraLvl;
 
