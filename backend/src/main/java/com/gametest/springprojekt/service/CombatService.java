@@ -271,41 +271,45 @@ public class CombatService {
     }
 
 
-    private List<Integer> simulateMixedCombat(FighterState character, FighterState opponent) {
+    private List<Integer> simulateMixedCombat(FighterState character, FighterState opponent,boolean playersAttack,int attacktype ) {
 
         List<Integer> combatLog = new ArrayList<>();
-        boolean playersAttack = true;
-        int attacktype =0;
         int dmg;
         while (character.currentHp > 0 && opponent.currentHp > 0) {
             if(playersAttack) {
                 if(calculationService.didDodge(opponent.agility)) {
                     combatLog.add(0);
                 } else {
-                    if(attacktype % 2 == 0) {
+                    if(attacktype /2 % 2 == 0) {
                         dmg = calculationService.calculateDamage(character.strength, character.luck);
                     }
                     else{
                         dmg = calculationService.calculateDamage(character.baseRizzDmg, character.luck);
+
                     }
                     combatLog.add(dmg);
+                    attacktype++;
                     opponent.currentHp -= dmg;
                 }
                 playersAttack = false;
             } else {
                 if(calculationService.didDodge(character.agility)) {
                     combatLog.add(0);
+
+                    attacktype++;
                 } else {
-                    if(attacktype % 2 == 0) {
+                    if(attacktype /2 % 2 == 0) {
                         dmg = calculationService.calculateDamage(opponent.strength, opponent.luck);
+
                     }
                     else{
                         dmg = calculationService.calculateDamage(opponent.baseRizzDmg, opponent.luck);
+
                     }
                     combatLog.add(dmg);
+                    attacktype++;
                     character.currentHp -= dmg;
                 }
-                attacktype++;
                 playersAttack = true;
             }
         }
@@ -332,7 +336,7 @@ public class CombatService {
 
         List<Integer> combatLog;
 
-        combatLog = simulateMixedCombat(player1, player2);
+        combatLog = simulateMixedCombat(player1, player2, true,0);
 
 
         String enemyName = opponent.getName();
@@ -404,24 +408,29 @@ public class CombatService {
         FighterState fighterA = null;
         FighterState fighterB = null;
 
+        boolean playersFromAAttack = true;// true = zaczyna gracz z druzyna A false= kolej gracza z drużyny b
+
         while (indexA < gangA.size() && indexB < gangB.size()) {
 
             //Jeśli nie ma jeszcze aktywnego zawodnika (początek lub poprzedni przegrał)
-            if (fighterA == null || fighterA.currentHp <= 0) {
-                CharacterEntity nextA = gangA.get(indexA);
-                fighterA = new FighterState(nextA, calculationService);
-
-                teamACharacters.add(new CharacterInBattleDto(nextA.getName(), nextA.getAvatarPicture(), fighterA.currentHp));//dodanie do dto dla frontendu
-            }
-
             if (fighterB == null || fighterB.currentHp <= 0) {
                 CharacterEntity nextB = gangB.get(indexB);
                 fighterB = new FighterState(nextB, calculationService);
                 teamBCharacters.add(new CharacterInBattleDto(nextB.getName(), nextB.getAvatarPicture(), fighterB.currentHp));
+
+                playersFromAAttack = false;
+            }
+
+            if (fighterA == null || fighterA.currentHp <= 0) {
+                CharacterEntity nextA = gangA.get(indexA);
+                fighterA = new FighterState(nextA, calculationService);
+                teamACharacters.add(new CharacterInBattleDto(nextA.getName(), nextA.getAvatarPicture(), fighterA.currentHp));//dodanie do dto dla frontendu
+
+                playersFromAAttack= true;
             }
 
             //walka danej pary
-            List<Integer> roundLog = simulateMixedCombat(fighterA, fighterB);
+            List<Integer> roundLog = simulateMixedCombat(fighterA, fighterB,playersFromAAttack, combatLog.size());
             combatLog.addAll(roundLog);
 
             //Sprawdzamy, kto przegrał i przesuwamy indeks jego drużyny

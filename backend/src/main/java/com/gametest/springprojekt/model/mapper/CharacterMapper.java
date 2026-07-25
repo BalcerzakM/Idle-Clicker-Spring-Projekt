@@ -12,8 +12,9 @@ public class CharacterMapper {
         dto.setName(character.getName());
         dto.setCharacterClass(character.getCharacterClass().getClassName());
         dto.setAuraLvl(character.getAuraLvl());
-//        dto.setGangName(character.getGang().getGangName());
-
+        if (character.getGang() != null) {
+            dto.setGangName(character.getGang().getGangName());
+        }
         return dto;
     }
 }
