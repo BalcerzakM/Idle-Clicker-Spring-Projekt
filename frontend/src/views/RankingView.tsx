@@ -8,6 +8,7 @@ import { useCharacter } from "../context/CharacterContext";
 interface CharacterDto {
 	name: string;
 	characterClass: string;
+	gangName?: string | null; // dodane
 	auraLvl: number;
 }
 
@@ -15,16 +16,15 @@ interface PageResponse<T> {
 	content: T[];
 	totalPages: number;
 	totalElements: number;
-	number: number; // bieżący numer strony (0-index)
+	number: number;
 	size: number;
 }
+
 export interface RankingPlayerDto {
 	characterName: string;
 	avatarPicture: string;
 	eqItemsPicrures: Record<string, string>;
-
 	auraLvl: number;
-
 	totalRizz: number;
 	totalStrength: number;
 	totalAgility: number;
@@ -36,11 +36,9 @@ const RankingView = () => {
 	const { showError } = useAlert();
 	const { refreshCharacter } = useCharacter();
 
-	// Stan rankingu
 	const [ranking, setRanking] = useState<CharacterDto[]>([]);
 	const [loading, setLoading] = useState<boolean>(false);
 
-	// Stany paginacji
 	const [page, setPage] = useState<number>(0);
 	const [pageSize] = useState<number>(10);
 	const [totalPages, setTotalPages] = useState<number>(0);
@@ -50,7 +48,6 @@ const RankingView = () => {
 	const [searchedPlayer, setSearchedPlayer] = useState("");
 
 	const [expandedPlayer, setExpandedPlayer] = useState<string | null>(null);
-
 	const [playerDetails, setPlayerDetails] = useState<
 		Record<string, RankingPlayerDto>
 	>({});
@@ -198,7 +195,6 @@ const RankingView = () => {
 		"EMBLEM",
 	];
 
-	// Pobieranie danych z backendu
 	const fetchRanking = useCallback(async () => {
 		setLoading(true);
 		try {
@@ -234,7 +230,6 @@ const RankingView = () => {
 		}
 	}, [page, pageSize, showError]);
 
-	// Ponowne ładowanie przy zmianie strony lub rozmiaru strony
 	useEffect(() => {
 		fetchRanking();
 	}, [fetchRanking]);
@@ -266,7 +261,6 @@ const RankingView = () => {
 
 				setSearchedPlayer(debouncedSearch);
 				setPage(data.page ?? 0);
-				console.log("strona:", data.page);
 			} catch (err) {
 				console.error(err);
 			}
@@ -275,7 +269,6 @@ const RankingView = () => {
 		findPlayer();
 	}, [debouncedSearch, pageSize]);
 
-	// Zmiana strony
 	const goToPreviousPage = () => {
 		if (page > 0) setPage(page - 1);
 	};
@@ -284,7 +277,6 @@ const RankingView = () => {
 		if (page + 1 < totalPages) setPage(page + 1);
 	};
 
-	// Pomocnicza funkcja do wyświetlania medalu dla top3
 	const getRankMedal = (rank: number) => {
 		if (rank === 1) return "🥇";
 		if (rank === 2) return "🥈";
@@ -292,7 +284,6 @@ const RankingView = () => {
 		return null;
 	};
 
-	// Obliczanie globalnego indeksu w rankingu
 	const getGlobalRank = (index: number) => page * pageSize + index;
 
 	useEffect(() => {
@@ -317,6 +308,7 @@ const RankingView = () => {
 			/>
 		);
 	}
+
 	return (
 		<div className="ranking-container">
 			{loading && (
@@ -351,6 +343,7 @@ const RankingView = () => {
 							<div className="rank-col">#</div>
 							<div className="name-col">NAZWA</div>
 							<div className="class-col">KLASA</div>
+							<div className="gang-col">GANG</div> {/* nowa kolumna */}
 							<div className="aura-col">POZIOM AURY ✨</div>
 						</div>
 
@@ -388,6 +381,11 @@ const RankingView = () => {
 												<span className="character-class-badge">
 													{character.characterClass}
 												</span>
+											</div>
+
+											{/* NOWA KOMÓRKA GANGU */}
+											<div className="gang-col">
+												{character.gangName || "—"}
 											</div>
 
 											<div className="aura-col">
@@ -466,7 +464,6 @@ const RankingView = () => {
 						</div>
 					</div>
 
-					{/* Paginacja */}
 					<div className="ranking-pagination">
 						<div className="pagination-info">
 							Pokazuje {ranking.length} z {totalElements} postaci &nbsp; (strona{" "}

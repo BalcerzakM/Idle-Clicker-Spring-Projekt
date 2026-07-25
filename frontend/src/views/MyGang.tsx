@@ -4,6 +4,7 @@ import "../css/GangView.css";
 import { useAlert } from "../context/AlertContext.tsx";
 import { useCharacter } from "../context/CharacterContext";
 import GangArena from "../components/GangArena";
+import StandardCurrencyImg from "../assets/other/currency_standard.png";
 
 // ----- INTERFACES -----
 interface CharacterDto {
@@ -478,7 +479,14 @@ const MyGang = () => {
 							<div className="gang-treasury-item">
 								<span className="gang-treasury-label">💵 PIENIĄDZE</span>
 								<span className="gang-treasury-value">
-									{gangInfo.moneyBank.toLocaleString()} PLN
+									<span className="gang-cost1">
+										{gangInfo.moneyBank.toLocaleString()}{" "}
+										<img
+											src={StandardCurrencyImg}
+											alt="Standard currency"
+											className="currencyImg-icon"
+										/>
+									</span>
 								</span>
 								<div className="gang-deposit">
 									<input
@@ -599,7 +607,16 @@ const MyGang = () => {
 												className="gang-action-btn gang-action-btn--attack"
 												onClick={handleStartBattle}
 											>
-												⚔️ ZAATAKUJ
+												⚔️ ZAATAKUJ (koszt:{" "}
+												<span className="gang-cost">
+													300
+													<img
+														src={StandardCurrencyImg}
+														alt="Standard currency"
+														className="currencyImg-icon"
+													/>{" "}
+													)
+												</span>
 											</button>
 										)}
 									</div>
