@@ -17,18 +17,24 @@ public class PremiumShopController {
     private final PremiumShopService premiumShopService;
     private final CharacterService characterService;
 
-
-
     @GetMapping
     public List<PremiumOfferDto> getPremiumOffers() {
         return premiumShopService.getPremiumOffers();
     }
 
-    @PostMapping("/buyCristals")
+    @PostMapping("/buy-cristals")
     public ResponseEntity<PremiumOfferDto> buyCristals(@RequestBody String packageCode) {
         CharacterEntity character = characterService.getCurrentCharacter();
 
         PremiumOfferDto premiumOfferDto = premiumShopService.buyPackage(packageCode.trim().replace("\"", ""), character);
         return ResponseEntity.ok(premiumOfferDto);
+    }
+
+    @PostMapping("/ad-reward")
+    public ResponseEntity<?> adReward() {
+        CharacterEntity character = characterService.getCurrentCharacter();
+
+        premiumShopService.addAdReward(character);
+        return ResponseEntity.ok().build();
     }
 }

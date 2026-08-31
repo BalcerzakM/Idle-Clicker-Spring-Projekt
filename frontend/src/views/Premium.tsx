@@ -31,6 +31,7 @@ function Premium() {
 
     const [offers, setOffers] = useState<PremiumOfferDto[]>([]);
     const [loading, setLoading] = useState(true);
+    const [waiting, setWaiting] = useState(false);
     const [buyingCode, setBuyingCode] = useState<string | null>(null);
 
     const fetchOffers = useCallback(async () => {
@@ -63,7 +64,7 @@ function Premium() {
         try {
             setBuyingCode(packageCode);
 
-            const res = await fetch("http://localhost:8080/api/premium/buyCristals", {
+            const res = await fetch("http://localhost:8080/api/premium/buy-cristals", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(packageCode),
@@ -84,6 +85,34 @@ function Premium() {
             setBuyingCode(null);
         }
     };
+
+    const handleWatchAdd = async () => {
+        setWaiting(true);
+        await new Promise(resolve => setTimeout(resolve, 5000));
+
+        try {
+
+            const res = await fetch("http://localhost:8080/api/premium/ad-reward", {
+                method: "POST"
+            });
+
+            if (!res.ok) {
+                showError("Nie udało się przyznać nagrody");
+                setWaiting(false);
+                return;
+            }
+
+            await refreshCharacter();
+
+            showInfo("Przyznano nagrodę!");
+            setWaiting(false);
+
+        } catch (err) {
+            console.error(err);
+            showError("Brak połączenia z serwerem");
+            setWaiting(false);
+        }
+    }
 
     const formatPrice = (priceInGrosze: number) =>
         `${(priceInGrosze / 100).toFixed(2)} zł`;
@@ -119,13 +148,32 @@ function Premium() {
                             <button
                                 className="premium-buy-btn"
                                 onClick={() => handleBuy(offer.packageCode)}
-                                disabled={buyingCode === offer.packageCode}
+                                disabled={buyingCode === offer.packageCode || waiting}
                             >
                                 {buyingCode === offer.packageCode ? "Kupowanie..." : "Kup"}
                             </button>
                         </div>
                     ))}
+                    <div className="premium-ad-card">
+                        <div className="premium-ad-card-text">
+                            <p>Obejrzyj reklamę by otrzymać </p>
+
+                            <div className="premium-ad-crystals">
+                                3 kryształy
+                            </div>
+                        </div>
+
+                        <button
+                            className="premium-watch-btn"
+                            onClick={handleWatchAdd}
+                            disabled={waiting}
+                        >
+                            Obejrzyj
+                        </button>
+                    </div>
                 </div>
+
+
             </div>
         </div>
     );
