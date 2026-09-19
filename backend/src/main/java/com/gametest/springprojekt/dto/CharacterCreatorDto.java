@@ -9,7 +9,7 @@ import lombok.Data;
 public class CharacterCreatorDto {
 
     @NotBlank(message = "To pole nie może być puste")
-    @Size(min=4, max=20, message = "Login musi zawierać od 4 do 20 znaków")
+    @Size(min=5, max=20, message = "Nazwa postaci musi zawierać od 5 do 20 znaków!")
     private String name;
 
     @NotNull(message = "Musisz wybrać klasę postaci")
