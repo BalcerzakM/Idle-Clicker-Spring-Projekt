@@ -20,6 +20,7 @@ import java.util.Random;
 public class PremiumShopService {
     private final TransactionRepository transactionRepository;
     private final Random random = new Random();
+    private final int CRISTAL_AD_REWARD = 3;
 
     public List<PremiumOfferDto> getPremiumOffers() {
         List<PremiumOfferDto> premiumOffers = new ArrayList<>();
@@ -65,6 +66,11 @@ public class PremiumShopService {
                 LocalDateTime.now()
                 );
         transactionRepository.save(transactionEntity);
+    }
+
+    @Transactional
+    public void addAdReward(CharacterEntity character) {
+        character.setCristals(character.getCristals() + CRISTAL_AD_REWARD);
     }
 }
 
